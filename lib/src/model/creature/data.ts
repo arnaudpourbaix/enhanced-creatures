@@ -23,7 +23,7 @@ import { Movement } from "./movement";
 
 /**
  * The strength a creature's 2e entry gives (or implies), kept next to its 3e/5e `strength`;
- * GLOBAL_CONFIG.strengthEdition picks which plays (see strength-edition.service.ts and
+ * PLAYER_CONFIG.strengthEdition picks which plays (see strength-edition.service.ts and
  * docs/superpowers/specs/2026-11-07-strength-2e-design.md).
  */
 export interface Strength2e {
@@ -122,7 +122,7 @@ export interface CreatureData {
    */
   xpAbilities?: XpAbility[];
   /**
-   * The 2e strength, played instead of `strength` when GLOBAL_CONFIG.strengthEdition is "2e".
+   * The 2e strength, played instead of `strength` when PLAYER_CONFIG.strengthEdition is "2e".
    * Never written to CRE files (not a CREATURE_DATA_FIELDS entry): resolved in checkData.
    */
   strength2e?: Strength2e;

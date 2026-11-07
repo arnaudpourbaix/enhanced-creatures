@@ -1,6 +1,6 @@
 import childProcess from "child_process";
 import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from "vitest";
-import { GLOBAL_CONFIG } from "../../../config/generate";
+import { BUILD_CONFIG } from "../../../config/build-config";
 import changelogService from "../doc/changelog.service";
 import logService from "../log.service";
 import mainService from "../main.service";
@@ -83,8 +83,8 @@ describe("ReleaseService", () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
-    GLOBAL_CONFIG.enableRandomTargetOrder = false;
-    GLOBAL_CONFIG.enableSecondaryTypes = false;
+    BUILD_CONFIG.enableRandomTargetOrder = false;
+    BUILD_CONFIG.enableSecondaryTypes = false;
   });
 
   it("runs the full flow for a fresh release", async () => {
@@ -151,8 +151,8 @@ describe("ReleaseService", () => {
     );
     // generateAll() isn't re-entrant: the in-process run only happens once, before the commit
     expect(generateAll).toHaveBeenCalledTimes(1);
-    expect(GLOBAL_CONFIG.enableRandomTargetOrder).toBe(false);
-    expect(GLOBAL_CONFIG.enableSecondaryTypes).toBe(false);
+    expect(BUILD_CONFIG.enableRandomTargetOrder).toBe(false);
+    expect(BUILD_CONFIG.enableSecondaryTypes).toBe(false);
   });
 
   it("restores the mod working tree after the zip is built", async () => {

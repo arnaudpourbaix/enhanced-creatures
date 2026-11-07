@@ -1,4 +1,4 @@
-import { GLOBAL_CONFIG } from "../../../config/generate";
+import { BUILD_CONFIG } from "../../../config/build-config";
 import {
   DEFAULT_STATUS_ORDER,
   TARGET_LISTS,
@@ -62,7 +62,7 @@ class TargetService {
   } {
     try {
       const result = this.getList(target as TargetListName);
-      if (randomOrder && GLOBAL_CONFIG.enableRandomTargetOrder) {
+      if (randomOrder && BUILD_CONFIG.enableRandomTargetOrder) {
         result.targets = utils.shuffleArray(result.targets);
       }
       if (limit) result.targets = result.targets.slice(0, limit);

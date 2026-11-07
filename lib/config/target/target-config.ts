@@ -3,7 +3,7 @@ import { GRAB_DEFAULT_CONFIG } from "../../src/model/creature/grab";
 import { ClassIdentifier } from "../../src/model/ids/class";
 import { TargetStatus } from "../../src/model/script/target";
 import { Triggers } from "../../src/model/script/triggers";
-import { GLOBAL_CONFIG } from "../generate";
+import { PLAYER_CONFIG } from "../player-config";
 import { TargetListName, TargetStatusName } from "./target-name";
 
 const Token = "$obj";
@@ -158,7 +158,7 @@ const ABLE_TRIGGERS: Triggers.Trigger[] = [
 
 /**
  * No able enemy is in melee range of the creature: none of its 3 nearest enemies is both within
- * bafConstants.meleeRange and able (enemies are sorted by distance, so farther ones aren't either).
+ * PLAYER_CONFIG.meleeRange and able (enemies are sorted by distance, so farther ones aren't either).
  */
 const NOT_ENGAGED: Triggers.Trigger[] = ["", "Second", "Third"].map((rank) => {
   const enemy = `${rank}NearestEnemyOf(${ScriptTarget.myself})`;
@@ -166,7 +166,7 @@ const NOT_ENGAGED: Triggers.Trigger[] = ["", "Second", "Third"].map((rank) => {
     name: "Or",
     // Built by hand: this module loads before triggerFactory (import cycle).
     triggers: [
-      { name: "Range", params: [enemy, GLOBAL_CONFIG.bafConstants.meleeRange], negation: true },
+      { name: "Range", params: [enemy, PLAYER_CONFIG.meleeRange], negation: true },
       ...ABLE_TRIGGERS.map(
         (t) =>
           ({

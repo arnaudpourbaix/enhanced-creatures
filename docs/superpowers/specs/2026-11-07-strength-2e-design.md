@@ -42,7 +42,7 @@ strength2e?: Strength2e;
 ## Setting
 
 ```ts
-GLOBAL_CONFIG.strengthEdition: "3e+" | "2e" // default "3e+": nothing changes
+PLAYER_CONFIG.strengthEdition: "3e+" | "2e" // default "3e+": nothing changes
 ```
 
 - `"3e+"`: today's values everywhere. `strength2e` is only data (and documentation).

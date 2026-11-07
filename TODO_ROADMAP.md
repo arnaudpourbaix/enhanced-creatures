@@ -145,7 +145,7 @@ and 3e+ on purpose. Since then (user):
 Done (2026-11-07, [spec](docs/superpowers/specs/2026-11-07-strength-2e-design.md)): every 2e
 strength found is recorded as `strength2e` (ogres, minotaur, vampire ages, death knight, and
 "no bonus" for the skeleton warrior, juju zombie and monster skeleton), and
-`GLOBAL_CONFIG.strengthEdition` (`"3e+"` by default, `"2e"`) picks which plays; the dashboard
+`PLAYER_CONFIG.strengthEdition` (`"3e+"` by default, `"2e"`) picks which plays; the dashboard
 Overview lists them.
 
 Still to do:

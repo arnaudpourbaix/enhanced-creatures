@@ -1,4 +1,4 @@
-import type { StrengthEdition } from "../../config/generate";
+import type { StrengthEdition } from "../../config/player-config";
 import type { CreatureData, Strength2e } from "../model/creature/data";
 
 /** What a 2e "no strength bonus" plays: 2e's 8-15 all give +0/+0, and monsters fight like fighters */

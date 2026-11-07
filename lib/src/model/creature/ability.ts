@@ -21,7 +21,7 @@ export interface BaseCreatureAbility {
    * The spell's SpellKeyword(s) (e.g. SPELLS.Wizard.Horror.keywords) - ability.service.ts
    * auto-appends the matching trigger.factory.spellChecks() triggers to every target list, so a
    * preset never needs its own `...triggerFactory.spellChecks(...)` call (see
-   * SPELL_CHECK_CONFIG_KEYWORDS for how a keyword maps to a toggleable GLOBAL_CONFIG.spellChecks
+   * SPELL_CHECK_CONFIG_KEYWORDS for how a keyword maps to a toggleable PLAYER_CONFIG.spellChecks
    * category).
    */
   keywords?: SpellKeyword[];
@@ -39,7 +39,7 @@ export interface BaseCreatureAbility {
   level?: number | null;
   /**
    * The saving throws negating the spell (see SpellSaves) - ability.service.ts auto-appends
-   * TriggerFactory.saveChecks() to every target list, gated by GLOBAL_CONFIG.spellChecks.stats.
+   * TriggerFactory.saveChecks() to every target list, gated by PLAYER_CONFIG.spellChecks.stats.
    * Derived from the effects of a spell created with addSpell; falls back to its preset's SPELLS
    * entry otherwise. An empty list means no save check, and no fallback either.
    */
@@ -79,7 +79,7 @@ export interface BaseCreatureAbility {
   requireVocal: boolean;
   /**
    * Is a real spell (not an innate ability): can't be cast once spellcasting is disabled (see
-   * GLOBAL_CONFIG.bafConstants.disableSpellcasting). Defaults to whether it casts a wizard/priest
+   * BAF_CONSTANTS.disableSpellcasting). Defaults to whether it casts a wizard/priest
    * spell (see StatementBuilderService.isSpellcasting).
    */
   spellcasting?: boolean;

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import path from "path";
-import { GLOBAL_CONFIG } from "../../../config/generate";
+import { BUILD_CONFIG } from "../../../config/build-config";
 import { CR, TAB } from "../../model/constants";
 import { Creature } from "../../model/creature/creature";
 import { GeneratedGroup } from "../../model/creature/creature-group";
@@ -103,7 +103,7 @@ class WeiduGroupService extends AbstractWeiduService {
   generateFinalCode(group: Pick<GeneratedGroup, "spells" | "creatures">, folder: string) {
     const lines: CodeLine[] = [];
     if (
-      GLOBAL_CONFIG.enableSecondaryTypes &&
+      BUILD_CONFIG.enableSecondaryTypes &&
       (group.spells.some((s) => typeof s.secondaryType === "string") ||
         group.creatures.some((c) => c.spells.some((s) => typeof s.secondaryType === "string")))
     ) {

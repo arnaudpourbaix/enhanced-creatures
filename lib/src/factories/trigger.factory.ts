@@ -1,5 +1,6 @@
 import { SpellStateValue } from "../../config/common";
-import { GLOBAL_CONFIG } from "../../config/generate";
+import { PLAYER_CONFIG } from "../../config/player-config";
+import { BAF_CONSTANTS } from "../../config/constants";
 import { SpellKeyword } from "../../config/spells/keyword";
 import {
   SPELL_CHECK_GATE_KEYWORDS,
@@ -202,7 +203,7 @@ class TriggerFactory {
   globalRoundTimerExpired(): Triggers.Trigger {
     return {
       name: "GlobalTimerNotExpired",
-      params: [GLOBAL_CONFIG.bafConstants.roundTimer, "LOCALS"],
+      params: [BAF_CONSTANTS.roundTimer, "LOCALS"],
       negation: true,
     };
   }
@@ -406,7 +407,7 @@ class TriggerFactory {
       },
       { name: "See", params: [ScriptTarget.token] },
     ];
-    if (GLOBAL_CONFIG.weaponCheck) {
+    if (PLAYER_CONFIG.weaponCheck) {
       results.push(
         { name: "WeaponEffectiveVs", params: [ScriptTarget.token, "MAINHAND"] },
         { name: "WeaponCanDamage", params: [ScriptTarget.token, "MAINHAND"] },
@@ -497,7 +498,7 @@ class TriggerFactory {
   /**
    * Triggers testing whether the target is protected against the given causes (e.g.
    * SPELLS.Wizard.Horror.keywords), skipping any keyword whose SpellCheckConfig category (see
-   * SPELL_CHECK_CONFIG_KEYWORDS) is disabled via GLOBAL_CONFIG.spellChecks. A keyword with no
+   * SPELL_CHECK_CONFIG_KEYWORDS) is disabled via PLAYER_CONFIG.spellChecks. A keyword with no
    * assigned category is never filtered out - it's unaffected by every toggle.
    *
    * Gate keywords (SPELL_CHECK_GATE_KEYWORDS) must all pass. Effect keywords only need one to
@@ -508,7 +509,7 @@ class TriggerFactory {
   spellChecks(keywords: SpellKeyword[] = []): Triggers.Trigger[] {
     const enabled = keywords.filter((keyword) => {
       const category = keywordCheckCategory(keyword);
-      return category === undefined || GLOBAL_CONFIG.spellChecks[category];
+      return category === undefined || PLAYER_CONFIG.spellChecks[category];
     });
     const gates = enabled
       .filter((keyword) => SPELL_CHECK_GATE_KEYWORDS.has(keyword))
@@ -529,13 +530,13 @@ class TriggerFactory {
    * Triggers skipping a target unlikely to fail the spell's saving throws: a target only escapes
    * the spell by saving against all its effects, and it escapes an effect when any of its save
    * types is too good. A save is good enough to keep the target when it's above the save's bonus
-   * plus 1 per 5% of GLOBAL_CONFIG.saveCheckMinFailChance (a d20): at 0%, the target only needs to
+   * plus 1 per 5% of PLAYER_CONFIG.saveCheckMinFailChance (a d20): at 0%, the target only needs to
    * be able to fail, like SCS (save above 0 without a bonus). Empty when
-   * GLOBAL_CONFIG.spellChecks.stats is off.
+   * PLAYER_CONFIG.spellChecks.stats is off.
    */
   saveChecks(saves: SpellSaves = []): Triggers.Trigger[] {
-    if (!GLOBAL_CONFIG.spellChecks.stats) return [];
-    const margin = Math.round(GLOBAL_CONFIG.saveCheckMinFailChance / 5);
+    if (!PLAYER_CONFIG.spellChecks.stats) return [];
+    const margin = Math.round(PLAYER_CONFIG.saveCheckMinFailChance / 5);
     return this.anyOf(
       saves
         .map(({ types, bonus }) => ({

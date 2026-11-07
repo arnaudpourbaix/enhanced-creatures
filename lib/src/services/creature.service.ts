@@ -1,7 +1,8 @@
 import figureSet from "figures";
 import { SPELLS } from "../../config/spells/spell-database";
 import { getAllSpells } from "../model/spell-item/spell-reference";
-import { GLOBAL_CONFIG } from "../../config/generate";
+import { PLAYER_CONFIG } from "../../config/player-config";
+import { TPA_CONSTANTS } from "../../config/constants";
 import { CreatureAbility } from "../model/creature/ability";
 import { CreatureAdjustment } from "../model/creature/adjustment";
 import { CreatureFile, Game, gamesOverlap } from "../model/creature/game";
@@ -68,12 +69,11 @@ const CSV_CHECK_META: Record<
 };
 
 const GENERIC_SCRIPTS_REMOVED = new Set(
-  [
-    ...GLOBAL_CONFIG.tpaConstants.genericScriptsToRemove,
-    ...GLOBAL_CONFIG.tpaConstants.genericScriptsToKeep,
-  ].map((s) => s.toUpperCase()),
+  [...TPA_CONSTANTS.genericScriptsToRemove, ...TPA_CONSTANTS.genericScriptsToKeep].map((s) =>
+    s.toUpperCase(),
+  ),
 );
-const GENERIC_SCRIPTS_REMOVED_RX = GLOBAL_CONFIG.tpaConstants.genericScriptsToRemoveRx;
+const GENERIC_SCRIPTS_REMOVED_RX = TPA_CONSTANTS.genericScriptsToRemoveRx;
 
 class CreatureService {
   check(creature: Creature) {
@@ -119,7 +119,7 @@ class CreatureService {
     strengthEditionService.apply({
       data,
       parent: p.isAdjustment ? p.creature.data : undefined,
-      edition: GLOBAL_CONFIG.strengthEdition,
+      edition: PLAYER_CONFIG.strengthEdition,
     });
   }
 

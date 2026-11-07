@@ -1,5 +1,5 @@
 import figureSet from "figures";
-import { GLOBAL_CONFIG } from "../../config/generate";
+import { PLAYER_CONFIG } from "../../config/player-config";
 import { Creature } from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
 import { ConstitutionTable } from "../model/game-data/constitution";
@@ -45,7 +45,7 @@ class HitPointService {
       p.data.class ?? p.parent?.class ?? "NO_CLASS",
     );
     const hpPerLevel =
-      GLOBAL_CONFIG.constitutionAffectHitPoint &&
+      PLAYER_CONFIG.constitutionAffectHitPoint &&
       !isPlayerClass &&
       !creatureTypeHooksService.hasNoConstitutionHp(p.creature)
         ? constitutionHp.warriorHp

@@ -1,5 +1,5 @@
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
-import { GLOBAL_CONFIG } from "../../config/generate";
+import { BUILD_CONFIG } from "../../config/build-config";
 import { SPELLS } from "../../config/spells/spell-database";
 import {
   EffectFlagsEnum,
@@ -419,7 +419,7 @@ describe("createSpellbook", () => {
   const s = SPELLS.Priest;
 
   afterEach(() => {
-    GLOBAL_CONFIG.randomizeSpellbookAdditionals = false;
+    BUILD_CONFIG.randomizeSpellbookAdditionals = false;
   });
 
   it("throws when the spellbook is not defined", () => {
@@ -508,15 +508,15 @@ describe("createSpellbook", () => {
     expect(level1.reduce((sum, m) => sum + (m.memorizedCount ?? 0), 0)).toBe(13);
   });
 
-  it("shuffles additionnals when GLOBAL_CONFIG.randomizeSpellbookAdditionals is enabled", () => {
-    GLOBAL_CONFIG.randomizeSpellbookAdditionals = true;
+  it("shuffles additionnals when BUILD_CONFIG.randomizeSpellbookAdditionals is enabled", () => {
+    BUILD_CONFIG.randomizeSpellbookAdditionals = true;
     const shuffleSpy = vi.spyOn(utils, "shuffleArray");
     spellService.createSpellbook({ name: "UndeadCleric", casterLevel: 9, type: "cleric" });
     expect(shuffleSpy).toHaveBeenCalled();
     shuffleSpy.mockRestore();
   });
 
-  it("does not shuffle additionnals when GLOBAL_CONFIG.randomizeSpellbookAdditionals is disabled", () => {
+  it("does not shuffle additionnals when BUILD_CONFIG.randomizeSpellbookAdditionals is disabled", () => {
     const shuffleSpy = vi.spyOn(utils, "shuffleArray");
     spellService.createSpellbook({ name: "UndeadCleric", casterLevel: 9, type: "cleric" });
     expect(shuffleSpy).not.toHaveBeenCalled();

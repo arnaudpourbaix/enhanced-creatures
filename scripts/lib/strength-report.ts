@@ -1,4 +1,4 @@
-import { GLOBAL_CONFIG } from "../../lib/config/generate";
+import { PLAYER_CONFIG } from "../../lib/config/player-config";
 import { MonsterEnum } from "../../lib/creatures/monster";
 import type { Creature } from "../../lib/src/model/creature/creature";
 import type { CreatureData } from "../../lib/src/model/creature/data";
@@ -75,7 +75,7 @@ export function renderStrengthCard(rows: StrengthRow[]): string {
   return `<section class="card">
 <h2>2e strength (${rows.length})</h2>
 <p class="muted">Strengths taken from 2e entries, kept next to the 3e/5e ones. Playing now:
-strengthEdition: <code>${escapeHtml(GLOBAL_CONFIG.strengthEdition)}</code>. To-hit is the 2e
+strengthEdition: <code>${escapeHtml(PLAYER_CONFIG.strengthEdition)}</code>. To-hit is the 2e
 correction applied through THAC0 in 2e mode.</p>
 <div class="table-wrap"><table class="counts"><thead><tr>
 <th data-sort="monster">Monster</th><th>Scope</th><th class="num">Plays</th><th class="num">2e</th>

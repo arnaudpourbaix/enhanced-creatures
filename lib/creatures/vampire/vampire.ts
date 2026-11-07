@@ -7,7 +7,7 @@
  */
 import { Strength2e } from "../../src/model/creature/data";
 import { AT_WILL, SPELL_STATES } from "../../config/common";
-import { GLOBAL_CONFIG } from "../../config/generate";
+import { PLAYER_CONFIG } from "../../config/player-config";
 import { CHARM_TARGET_LISTS } from "../../config/presets/charm-presets";
 import { SpellKeyword } from "../../config/spells/keyword";
 import { SPELLS } from "../../config/spells/spell-database";
@@ -1150,7 +1150,7 @@ function sunlightEscape(age: VampireAge): PartialCustomCode[] {
 }
 
 /** The vampire's melee reach */
-const REACH = GLOBAL_CONFIG.bafConstants.meleeRange;
+const REACH = PLAYER_CONFIG.meleeRange;
 
 /** An enemy (ScriptTarget.token) the vampire's level drain works on */
 const DRAINABLE = triggerFactory.spellChecks(["levelDrain"]);
@@ -1263,7 +1263,7 @@ function batDive(bat: Spell): { takeOff: RawCreatureAbility; flight: PartialCust
         ...DRAINABLE,
         {
           name: "Range",
-          params: [ScriptTarget.token, GLOBAL_CONFIG.bafConstants.preferRange],
+          params: [ScriptTarget.token, PLAYER_CONFIG.preferRange],
           negation: true,
         },
       ],

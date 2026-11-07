@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { GLOBAL_CONFIG } from "../../../config/generate";
+import { BUILD_CONFIG } from "../../../config/build-config";
 import { JEWEL_SLOTS } from "../../model/creature/item";
 import spellComboService from "../spell-combo.service";
 // builds the combo SPLs (see SpellComboService.useSpellBuilder), and loads the presets they need
@@ -31,14 +31,14 @@ describe("generateImmunityStates", () => {
     (weiduCoreService as unknown as { lines: { code: string }[] }).lines.map((l) => l.code);
 
   beforeEach(() => {
-    GLOBAL_CONFIG.enableImmunityStates = true;
+    BUILD_CONFIG.enableImmunityStates = true;
   });
   afterEach(() => {
-    GLOBAL_CONFIG.enableImmunityStates = false;
+    BUILD_CONFIG.enableImmunityStates = false;
   });
 
   it("emits nothing outside a release build (it slows installation)", () => {
-    GLOBAL_CONFIG.enableImmunityStates = false;
+    BUILD_CONFIG.enableImmunityStates = false;
     const before = codes().length;
     weiduCoreService.generateImmunityStates();
     expect(codes()).toHaveLength(before);

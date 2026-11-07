@@ -1,5 +1,6 @@
 import { SPELL_STATES } from "../../../config/common";
-import { GLOBAL_CONFIG } from "../../../config/generate";
+import { BUILD_CONFIG } from "../../../config/build-config";
+import { MOD_FILES } from "../../../config/constants";
 import { CHECKED_IMMUNITY_STATES, IMMUNITY_STATES } from "../../../config/immunity-config";
 import { COMMON_PROJECTILES } from "../../../spells/projectiles";
 import { CR, TAB } from "../../model/constants";
@@ -17,7 +18,7 @@ class WeiduCoreService extends AbstractWeiduService {
 
   writeFile(): void {
     const content = this.lines.map((l) => `${TAB.repeat(l.tab)}${l.code}`).join(CR);
-    utils.writeFile(GLOBAL_CONFIG.files.coreMonsters, content);
+    utils.writeFile(MOD_FILES.coreMonsters, content);
   }
 
   generateSpellStates() {
@@ -41,7 +42,7 @@ class WeiduCoreService extends AbstractWeiduService {
    * This mod's own files (ja*) already set theirs.
    */
   generateImmunityStates() {
-    if (!GLOBAL_CONFIG.enableImmunityStates) return;
+    if (!BUILD_CONFIG.enableImmunityStates) return;
     const opcodes = [...new Set(CHECKED_IMMUNITY_STATES.map(({ opcode }) => opcode))];
     const add = (code: string, tab: number) => {
       this.add(this.lines, code, tab);

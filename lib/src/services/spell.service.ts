@@ -1,4 +1,4 @@
-import { GLOBAL_CONFIG } from "../../config/generate";
+import { BUILD_CONFIG } from "../../config/build-config";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../config/spells/spell-database";
 import {
@@ -432,7 +432,7 @@ class SpellService {
 
   private pickSpellsForLevel(spells: SpellBookSpells, slots: number): MemorizedSpell[] {
     if (slots <= 0) return [];
-    const additionnals = GLOBAL_CONFIG.randomizeSpellbookAdditionals
+    const additionnals = BUILD_CONFIG.randomizeSpellbookAdditionals
       ? utils.shuffleArray(spells.additionnals)
       : spells.additionnals;
     const picks = [...spells.base, ...additionnals].slice(0, slots);

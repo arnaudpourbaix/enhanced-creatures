@@ -1,4 +1,4 @@
-import { GLOBAL_CONFIG } from "../../../config/generate";
+import { TPA_CONSTANTS } from "../../../config/constants";
 import {
   MOD_LAYER_ORDER,
   resolveWeiduCheck,
@@ -773,8 +773,8 @@ class WeiduCreatureService extends AbstractWeiduService {
     // weidu-creature.service.test.ts's audit note), so this condition is always true - kept
     // as documentation of intent rather than simplified away.
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (p.removeScripts.length || GLOBAL_CONFIG.tpaConstants.genericScriptsToRemove) {
-      const scripts = [...p.removeScripts, ...GLOBAL_CONFIG.tpaConstants.genericScriptsToRemove];
+    if (p.removeScripts.length || TPA_CONSTANTS.genericScriptsToRemove) {
+      const scripts = [...p.removeScripts, ...TPA_CONSTANTS.genericScriptsToRemove];
       this.add(p.lines, `CLEAR_ARRAY skipFiles`, p.tab);
       this.add(p.lines, `CLEAR_ARRAY removeScripts`, p.tab);
       this.add(p.lines, `CLEAR_ARRAY files`, p.tab);
@@ -782,10 +782,8 @@ class WeiduCreatureService extends AbstractWeiduService {
       removeScripts = " removeScripts";
     }
     let removeScriptsRegexp = "";
-    if (GLOBAL_CONFIG.tpaConstants.genericScriptsToRemoveRx.length) {
-      const pattern = GLOBAL_CONFIG.tpaConstants.genericScriptsToRemoveRx
-        .map((rx) => rx.source)
-        .join("\\|");
+    if (TPA_CONSTANTS.genericScriptsToRemoveRx.length) {
+      const pattern = TPA_CONSTANTS.genericScriptsToRemoveRx.map((rx) => rx.source).join("\\|");
       removeScriptsRegexp = ` removeScriptsRegexp="^${pattern}$"`;
     }
     if (p.skipFiles.length && !p.files.length) {

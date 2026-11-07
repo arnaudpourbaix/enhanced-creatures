@@ -1,6 +1,6 @@
 import { ScriptTarget } from "../../model/constants";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { GLOBAL_CONFIG } from "../../../config/generate";
+import { BUILD_CONFIG } from "../../../config/build-config";
 import { TargetListName } from "../../../config/target-name";
 import { Creature } from "../../model/creature/creature";
 import { TargetList } from "../../model/script/target";
@@ -138,7 +138,7 @@ describe("getTargetFromAbility", () => {
 
   describe("randomOrder", () => {
     afterEach(() => {
-      GLOBAL_CONFIG.enableRandomTargetOrder = false;
+      BUILD_CONFIG.enableRandomTargetOrder = false;
       vi.restoreAllMocks();
     });
 
@@ -157,14 +157,14 @@ describe("getTargetFromAbility", () => {
     });
 
     it("does not shuffle when randomOrder is falsy, even if enableRandomTargetOrder is enabled", () => {
-      GLOBAL_CONFIG.enableRandomTargetOrder = true;
+      BUILD_CONFIG.enableRandomTargetOrder = true;
       const shuffleSpy = vi.spyOn(utils, "shuffleArray");
       targetService.getTargetFromAbility("Players", undefined, false);
       expect(shuffleSpy).not.toHaveBeenCalled();
     });
 
     it("shuffles the resolved list when both enableRandomTargetOrder and randomOrder are true", () => {
-      GLOBAL_CONFIG.enableRandomTargetOrder = true;
+      BUILD_CONFIG.enableRandomTargetOrder = true;
       const shuffleSpy = vi.spyOn(utils, "shuffleArray");
       const result = targetService.getTargetFromAbility("Players", undefined, true);
       expect(shuffleSpy).toHaveBeenCalledWith([
@@ -189,7 +189,7 @@ describe("getTargetFromAbility", () => {
     });
 
     it("shuffles before applying limit", () => {
-      GLOBAL_CONFIG.enableRandomTargetOrder = true;
+      BUILD_CONFIG.enableRandomTargetOrder = true;
       vi.spyOn(utils, "shuffleArray").mockReturnValue([
         "Player6",
         "Player5",

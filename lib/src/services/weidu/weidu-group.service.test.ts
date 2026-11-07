@@ -4,7 +4,7 @@ import * as path from "path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { EntryEnum } from "../../../creatures/entry";
 import { KinEnum } from "../../../creatures/kin";
-import { GLOBAL_CONFIG } from "../../../config/generate";
+import { BUILD_CONFIG } from "../../../config/build-config";
 import { Creature } from "../../model/creature/creature";
 import { GeneratedGroup } from "../../model/creature/creature-group";
 import { Spell } from "../../model/spell-item/spell-item";
@@ -37,7 +37,7 @@ describe("generateFinalCode", () => {
   afterEach(() => {
     State.modFolder = originalModFolder;
     fs.rmSync(tempDir, { recursive: true, force: true });
-    GLOBAL_CONFIG.enableSecondaryTypes = false;
+    BUILD_CONFIG.enableSecondaryTypes = false;
   });
 
   function setupTempFolder(): string {
@@ -57,7 +57,7 @@ describe("generateFinalCode", () => {
   });
 
   it("emits integrate_sectypes when enableIntegrateSectypes is enabled and a group spell has a secondary type", () => {
-    GLOBAL_CONFIG.enableSecondaryTypes = true;
+    BUILD_CONFIG.enableSecondaryTypes = true;
     const file = setupTempFolder();
     weiduGroupService.generateFinalCode(fakeGroup({ spellHasSecondaryType: true }), ANKHEG);
     const content = fs.readFileSync(file, "utf-8");
@@ -65,7 +65,7 @@ describe("generateFinalCode", () => {
   });
 
   it("emits integrate_sectypes when enableIntegrateSectypes is enabled and a creature spell has a secondary type", () => {
-    GLOBAL_CONFIG.enableSecondaryTypes = true;
+    BUILD_CONFIG.enableSecondaryTypes = true;
     const file = setupTempFolder();
     weiduGroupService.generateFinalCode(fakeGroup({ creatureSpellHasSecondaryType: true }), ANKHEG);
     const content = fs.readFileSync(file, "utf-8");
@@ -73,7 +73,7 @@ describe("generateFinalCode", () => {
   });
 
   it("does not emit integrate_sectypes when enabled but no spell has a secondary type", () => {
-    GLOBAL_CONFIG.enableSecondaryTypes = true;
+    BUILD_CONFIG.enableSecondaryTypes = true;
     const file = setupTempFolder();
     weiduGroupService.generateFinalCode(fakeGroup({}), ANKHEG);
     const content = fs.readFileSync(file, "utf-8");

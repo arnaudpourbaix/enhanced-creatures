@@ -1,6 +1,7 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { CLOUDS } from "../../../config/clouds";
-import { GLOBAL_CONFIG } from "../../../config/generate";
+import { PLAYER_CONFIG } from "../../../config/player-config";
+import { BAF_CONSTANTS } from "../../../config/constants";
 import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { POTIONS } from "../../../config/potion";
 import { SPELLS } from "../../../config/spells/spell-database";
@@ -184,7 +185,7 @@ describe("dialog (private)", () => {
     expect(statements[0].triggers).toEqual([
       {
         name: "Global",
-        params: [GLOBAL_CONFIG.bafConstants.dialog, "LOCALS", 0],
+        params: [BAF_CONSTANTS.dialog, "LOCALS", 0],
         negation: false,
       },
       { name: "Name", params: ["ja#drow", "Myself"] },
@@ -236,7 +237,7 @@ describe("avoidClouds (private)", () => {
   };
 
   afterEach(() => {
-    GLOBAL_CONFIG.avoidClouds = true;
+    PLAYER_CONFIG.avoidClouds = true;
   });
 
   it("runs away from each cloud, then stays put while seeing no enemy", () => {
@@ -260,7 +261,7 @@ describe("avoidClouds (private)", () => {
 
   it("adds nothing for a creature immune to clouds, or when disabled", () => {
     expect(comments(fakeCreature({ data: { immunities: ["cloudSpells"] } }))).toEqual([]);
-    GLOBAL_CONFIG.avoidClouds = false;
+    PLAYER_CONFIG.avoidClouds = false;
     expect(comments(fakeCreature())).toEqual([]);
   });
 });
@@ -303,36 +304,36 @@ describe("init (private)", () => {
     expect(statements[0].responses[0].actions).toEqual([
       {
         name: "SetGlobal",
-        params: [GLOBAL_CONFIG.bafConstants.combatStarted, "LOCALS", 0],
+        params: [BAF_CONSTANTS.combatStarted, "LOCALS", 0],
       },
       {
         name: "SetGlobal",
-        params: [GLOBAL_CONFIG.bafConstants.precastLongDurationSpells, "LOCALS", 0],
+        params: [BAF_CONSTANTS.precastLongDurationSpells, "LOCALS", 0],
       },
       {
         name: "SetGlobal",
-        params: [GLOBAL_CONFIG.bafConstants.precastMidDurationSpells, "LOCALS", 0],
+        params: [BAF_CONSTANTS.precastMidDurationSpells, "LOCALS", 0],
       },
       {
         name: "SetGlobalTimer",
-        params: [GLOBAL_CONFIG.bafConstants.restTimer, "LOCALS", 2400],
+        params: [BAF_CONSTANTS.restTimer, "LOCALS", 2400],
       },
       {
         name: "SetGlobal",
-        params: [GLOBAL_CONFIG.bafConstants.initGlobal, "LOCALS", 1],
+        params: [BAF_CONSTANTS.initGlobal, "LOCALS", 1],
       },
     ]);
   });
 });
 
 describe("disableSpellcasting (private)", () => {
-  const areas = GLOBAL_CONFIG.disableSpellcastingAreas;
+  const areas = PLAYER_CONFIG.disableSpellcastingAreas;
   const withAreas = (value: string[], fn: () => void) => {
-    GLOBAL_CONFIG.disableSpellcastingAreas = value;
+    PLAYER_CONFIG.disableSpellcastingAreas = value;
     try {
       fn();
     } finally {
-      GLOBAL_CONFIG.disableSpellcastingAreas = areas;
+      PLAYER_CONFIG.disableSpellcastingAreas = areas;
     }
   };
 
@@ -360,7 +361,7 @@ describe("disableSpellcasting (private)", () => {
       expect(statements[0].triggers).toEqual([
         {
           name: "Global",
-          params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
+          params: [BAF_CONSTANTS.disableSpellcasting, "LOCALS", 0],
           negation: false,
         },
         {
@@ -374,7 +375,7 @@ describe("disableSpellcasting (private)", () => {
       expect(statements[0].responses[0].actions).toEqual([
         {
           name: "SetGlobal",
-          params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 1],
+          params: [BAF_CONSTANTS.disableSpellcasting, "LOCALS", 1],
         },
       ]);
     });
@@ -395,7 +396,7 @@ describe("rest (private)", () => {
     expect(statements[0].responses[0].actions).toEqual([
       {
         name: "SetGlobal",
-        params: [GLOBAL_CONFIG.bafConstants.initGlobal, "LOCALS", 0],
+        params: [BAF_CONSTANTS.initGlobal, "LOCALS", 0],
       },
       { name: "Rest" },
     ]);
@@ -439,7 +440,7 @@ describe("turnHostile (private)", () => {
         { name: "TookDamage" },
         {
           name: "Heard",
-          params: ["EVILCUTOFF.0.GNOLL", GLOBAL_CONFIG.bafConstants.monsterShoutId],
+          params: ["EVILCUTOFF.0.GNOLL", BAF_CONSTANTS.monsterShoutId],
         },
       ],
     });
@@ -483,11 +484,11 @@ describe("shouts (private)", () => {
     expect(statements).toHaveLength(3);
     expect(statements[0].responses[0].actions[0]).toEqual({
       name: "Shout",
-      params: [GLOBAL_CONFIG.bafConstants.monsterShoutId],
+      params: [BAF_CONSTANTS.monsterShoutId],
     });
     expect(statements[1].triggers).toContainEqual({
       name: "Heard",
-      params: ["EVILCUTOFF.0.GNOLL", GLOBAL_CONFIG.bafConstants.monsterShoutId],
+      params: ["EVILCUTOFF.0.GNOLL", BAF_CONSTANTS.monsterShoutId],
     });
   });
 
@@ -496,11 +497,11 @@ describe("shouts (private)", () => {
     service.shouts({ statements, creature: fakeCreature(), options: options(true) });
     expect(statements[0].responses[0].actions[0]).toEqual({
       name: "Shout",
-      params: [GLOBAL_CONFIG.bafConstants.summonerShoutId],
+      params: [BAF_CONSTANTS.summonerShoutId],
     });
     expect(statements[1].triggers).toContainEqual({
       name: "Heard",
-      params: ["LastSummonerOf", GLOBAL_CONFIG.bafConstants.summonerShoutId],
+      params: ["LastSummonerOf", BAF_CONSTANTS.summonerShoutId],
     });
   });
 });
@@ -858,7 +859,7 @@ describe("attackTargetWithStatuses (private)", () => {
   describe("preferred statuses (preferWithin)", () => {
     const preferRange = {
       name: "Range",
-      params: ["LastSeenBy", GLOBAL_CONFIG.bafConstants.preferRange],
+      params: ["LastSeenBy", PLAYER_CONFIG.preferRange],
     };
     const attackStatement = (melee: boolean, status: TargetStatusName) => {
       const statements: Statements = [];
@@ -890,7 +891,7 @@ describe("attackTargetWithStatuses (private)", () => {
           triggers: expect.arrayContaining([
             {
               name: "Range",
-              params: ["NearestEnemyOf(Myself)", GLOBAL_CONFIG.bafConstants.meleeRange],
+              params: ["NearestEnemyOf(Myself)", PLAYER_CONFIG.meleeRange],
               negation: true,
             },
             { name: "CheckStatGT", params: ["NearestEnemyOf(Myself)", 0, "HELD"], negation: false },
@@ -1039,12 +1040,12 @@ describe("precastLongDurationSpells / precastMidDurationSpells (private)", () =>
     expect(statements[4].comment).toBeUndefined();
     expect(statements[0].triggers).toContainEqual({
       name: "Global",
-      params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
+      params: [BAF_CONSTANTS.disableSpellcasting, "LOCALS", 0],
       negation: false,
     });
     expect(statements[4].triggers).not.toContainEqual(
       expect.objectContaining({
-        params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
+        params: [BAF_CONSTANTS.disableSpellcasting, "LOCALS", 0],
       }),
     );
   });
@@ -1057,15 +1058,15 @@ describe("precastLongDurationSpells / precastMidDurationSpells (private)", () =>
     expect(statements).toEqual([]);
   });
 
-  it("is a no-op while GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells is disabled", () => {
-    expect(GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells).toBe(false);
+  it("is a no-op while PLAYER_CONFIG.spellcasterPrecastMidDurationSpells is disabled", () => {
+    expect(PLAYER_CONFIG.spellcasterPrecastMidDurationSpells).toBe(false);
     const statements: Statements = [];
     service.precastMidDurationSpells({ statements, options: options() });
     expect(statements).toEqual([]);
   });
 
-  it("precasts mid-duration spells once GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells is enabled", () => {
-    GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells = true;
+  it("precasts mid-duration spells once PLAYER_CONFIG.spellcasterPrecastMidDurationSpells is enabled", () => {
+    PLAYER_CONFIG.spellcasterPrecastMidDurationSpells = true;
     try {
       const statements: Statements = [];
       // Blur (SPWI201) is "mid" duration - needs to be memorized for precastSpells to emit
@@ -1074,7 +1075,7 @@ describe("precastLongDurationSpells / precastMidDurationSpells (private)", () =>
       service.precastMidDurationSpells({ statements, creature, options: options() });
       expect(statements.length).toBeGreaterThan(0);
     } finally {
-      GLOBAL_CONFIG.spellcasterPrecastMidDurationSpells = false;
+      PLAYER_CONFIG.spellcasterPrecastMidDurationSpells = false;
     }
   });
 });
@@ -1089,8 +1090,8 @@ describe("precastContingencies (private)", () => {
   const precast = (file: string): Statements[number] => ({
     comment: 'Precast contingency "TestStoneskinOnHit"',
     triggers: [
-      triggerFactory.global(GLOBAL_CONFIG.bafConstants.initGlobal, 0),
-      triggerFactory.global(GLOBAL_CONFIG.bafConstants.disableSpellcasting, 0),
+      triggerFactory.global(BAF_CONSTANTS.initGlobal, 0),
+      triggerFactory.global(BAF_CONSTANTS.disableSpellcasting, 0),
       { name: "HaveSpellRES", params: [file] },
     ],
     responses: [
@@ -1186,7 +1187,7 @@ describe("creatureSelfAbility (private)", () => {
     expect(statements).toHaveLength(1);
     expect(statements[0].triggers).toContainEqual({
       name: "GlobalTimerNotExpired",
-      params: [GLOBAL_CONFIG.bafConstants.roundTimer, "LOCALS"],
+      params: [BAF_CONSTANTS.roundTimer, "LOCALS"],
       negation: true,
     });
   });
@@ -1268,7 +1269,7 @@ describe("creatureSelfAbility (private)", () => {
   ])("disable spellcasting check for %s", (_, overrides, expected) => {
     const disableCheck = {
       name: "Global",
-      params: [GLOBAL_CONFIG.bafConstants.disableSpellcasting, "LOCALS", 0],
+      params: [BAF_CONSTANTS.disableSpellcasting, "LOCALS", 0],
       negation: false,
     };
     const statements: Statements = [];
@@ -1345,7 +1346,7 @@ describe("creatureTargetAbility (private)", () => {
     );
     expect(withTimer[0].triggers).toContainEqual({
       name: "GlobalTimerNotExpired",
-      params: [GLOBAL_CONFIG.bafConstants.roundTimer, "LOCALS"],
+      params: [BAF_CONSTANTS.roundTimer, "LOCALS"],
       negation: true,
     });
 
@@ -1461,12 +1462,8 @@ describe("parseAbilities / creatureAbilities (private)", () => {
     it("doubles the target passes, the first one requiring another enemy near the target", () => {
       const statements = run({ keywords: ["area"] });
       expect(statements).toHaveLength(12);
-      expect(statements[0].triggers).toContainEqual(
-        enemyNear(GLOBAL_CONFIG.bafConstants.areaRange),
-      );
-      expect(statements[6].triggers).not.toContainEqual(
-        enemyNear(GLOBAL_CONFIG.bafConstants.areaRange),
-      );
+      expect(statements[0].triggers).toContainEqual(enemyNear(PLAYER_CONFIG.areaRange));
+      expect(statements[6].triggers).not.toContainEqual(enemyNear(PLAYER_CONFIG.areaRange));
     });
 
     it("uses the allies check radius when there is one", () => {
@@ -1515,7 +1512,7 @@ describe("coveredAbilities (private)", () => {
     const hold = statements[2];
     expect(hold.triggers).toContainEqual({
       name: "GlobalTimerNotExpired",
-      params: [GLOBAL_CONFIG.bafConstants.roundTimer, "LOCALS"],
+      params: [BAF_CONSTANTS.roundTimer, "LOCALS"],
       negation: false,
     });
     expect(JSON.stringify(hold.responses)).toContain("NoAction");

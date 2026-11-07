@@ -1,4 +1,4 @@
-import { GLOBAL_CONFIG } from "../../config/generate";
+import { BAF_CONSTANTS } from "../../config/constants";
 import { Counts } from "../../config/target/target-config";
 import { AlliesCheck } from "../model/creature/ability";
 import { ScriptTarget } from "../model/constants";
@@ -31,7 +31,7 @@ class ActionFactory {
   setGlobalRoundTimer(): Actions.Action {
     return {
       name: "SetGlobalTimer",
-      params: [GLOBAL_CONFIG.bafConstants.roundTimer, "LOCALS", 6],
+      params: [BAF_CONSTANTS.roundTimer, "LOCALS", 6],
     };
   }
 

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { GLOBAL_CONFIG } from "../../config/generate";
+import { PLAYER_CONFIG } from "../../config/player-config";
 import { SPELL_CHECK_TRIGGERS } from "../../config/spells/spell-check";
 import { allySafe, defaultAllySafe } from "../../config/target/ally-safe";
 import { ScriptTarget } from "../model/constants";
@@ -114,7 +114,7 @@ describe("validAttackTarget", () => {
   });
 
   it("adds main hand weapon checks when weaponCheck is enabled", () => {
-    GLOBAL_CONFIG.weaponCheck = true;
+    PLAYER_CONFIG.weaponCheck = true;
     const results = triggerFactory.validAttackTarget({ isTargetPlayer: true });
     expect(results).toContainEqual({
       name: "WeaponEffectiveVs",
@@ -127,9 +127,9 @@ describe("validAttackTarget", () => {
   });
 
   it("adds no weapon checks when weaponCheck is disabled", () => {
-    GLOBAL_CONFIG.weaponCheck = false;
+    PLAYER_CONFIG.weaponCheck = false;
     const results = triggerFactory.validAttackTarget({ isTargetPlayer: true });
-    GLOBAL_CONFIG.weaponCheck = true;
+    PLAYER_CONFIG.weaponCheck = true;
     expect(
       results.some((t) => t.name === "WeaponEffectiveVs" || t.name === "WeaponCanDamage"),
     ).toBe(false);
@@ -138,8 +138,8 @@ describe("validAttackTarget", () => {
 
 describe("spellChecks", () => {
   afterEach(() => {
-    GLOBAL_CONFIG.spellChecks.spellProtections = true;
-    GLOBAL_CONFIG.spellChecks.stats = true;
+    PLAYER_CONFIG.spellChecks.spellProtections = true;
+    PLAYER_CONFIG.spellChecks.stats = true;
   });
 
   it("defaults to an empty list", () => {
@@ -178,18 +178,18 @@ describe("spellChecks", () => {
   });
 
   it("drops a keyword whose category (stats) is disabled, keeping others", () => {
-    GLOBAL_CONFIG.spellChecks.stats = false;
+    PLAYER_CONFIG.spellChecks.stats = false;
     expect(triggerFactory.spellChecks(["acid", "charm"])).toEqual([...SPELL_CHECK_TRIGGERS.charm]);
   });
 
   it("drops a keyword whose category (spellProtections) is disabled, keeping others", () => {
-    GLOBAL_CONFIG.spellChecks.spellProtections = false;
+    PLAYER_CONFIG.spellChecks.spellProtections = false;
     expect(triggerFactory.spellChecks(["acid", "charm"])).toEqual([...SPELL_CHECK_TRIGGERS.acid]);
   });
 
   it("leaves an uncategorized keyword unaffected by either toggle", () => {
-    GLOBAL_CONFIG.spellChecks.spellProtections = false;
-    GLOBAL_CONFIG.spellChecks.stats = false;
+    PLAYER_CONFIG.spellChecks.spellProtections = false;
+    PLAYER_CONFIG.spellChecks.stats = false;
     expect(triggerFactory.spellChecks(["blind"])).toEqual([...SPELL_CHECK_TRIGGERS.blind]);
   });
 });
@@ -199,8 +199,8 @@ describe("saveChecks", () => {
     triggerFactory.checkStatGT(threshold, stat);
 
   afterEach(() => {
-    GLOBAL_CONFIG.spellChecks.stats = true;
-    GLOBAL_CONFIG.saveCheckMinFailChance = 0;
+    PLAYER_CONFIG.spellChecks.stats = true;
+    PLAYER_CONFIG.saveCheckMinFailChance = 0;
   });
 
   it("defaults to an empty list", () => {
@@ -221,7 +221,7 @@ describe("saveChecks", () => {
   });
 
   it("raises the threshold by 1 per 5% of the minimum fail chance", () => {
-    GLOBAL_CONFIG.saveCheckMinFailChance = 25;
+    PLAYER_CONFIG.saveCheckMinFailChance = 25;
     // the save of 0 above, which fails 25% of the time, is still kept
     expect(triggerFactory.saveChecks([{ types: [SaveTypeEnum.Spell], bonus: -6 }])).toEqual([
       save("SAVEVSSPELL", -1),
@@ -248,7 +248,7 @@ describe("saveChecks", () => {
   });
 
   it("checks nothing when stats checks are disabled", () => {
-    GLOBAL_CONFIG.spellChecks.stats = false;
+    PLAYER_CONFIG.spellChecks.stats = false;
     expect(triggerFactory.saveChecks([{ types: [SaveTypeEnum.Spell] }])).toEqual([]);
   });
 });

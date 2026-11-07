@@ -1,6 +1,6 @@
 import deepmerge from "deepmerge";
 import { ABILITY_PRESETS } from "../../../config/ability-presets";
-import { GLOBAL_CONFIG } from "../../../config/generate";
+import { PLAYER_CONFIG } from "../../../config/player-config";
 import { resourcePlaceholderToken } from "../../../config/mods";
 import { SpellKeyword } from "../../../config/spells/keyword";
 import { suppressedSpellLevelChecks } from "../../../config/spells/spell-check";
@@ -69,7 +69,7 @@ class AbilityService {
   ): TargetList[] | undefined {
     if (!targets) return targets;
     const sharedChecks = triggerFactory.spellChecks(keywords);
-    if (typeof level === "number" && GLOBAL_CONFIG.spellChecks.spellProtections) {
+    if (typeof level === "number" && PLAYER_CONFIG.spellChecks.spellProtections) {
       sharedChecks.push(...triggerFactory.spellLevelChecks(level, keywords));
     }
     if (!suppressedSpellLevelChecks(keywords ?? []).has("immuneToSpellLevel")) {
@@ -113,7 +113,7 @@ class AbilityService {
   /**
    * Drops any TargetList that's a full structural duplicate of an earlier one in the same array.
    * A fallback cascade's tiers can end up identical once a tier-only toggleable check (see
-   * TargetList.keywords) is disabled by GLOBAL_CONFIG - trying the exact same filter twice can
+   * TargetList.keywords) is disabled by PLAYER_CONFIG - trying the exact same filter twice can
    * never produce a different result, so the later duplicate is pure waste in the generated output.
    */
   private dedupeTargetLists(targets: TargetList[]): TargetList[] {

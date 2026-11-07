@@ -30,7 +30,7 @@ export interface SpellCheckConfig {
 /**
  * Groups each SpellKeyword under the single SpellCheckConfig property that governs whether its
  * SPELL_CHECK_TRIGGERS entry runs (see TriggerFactory.spellChecks) - disabling that property in
- * GLOBAL_CONFIG.spellChecks drops every keyword listed here for it. Each keyword appears in at most
+ * PLAYER_CONFIG.spellChecks drops every keyword listed here for it. Each keyword appears in at most
  * one list, classified by what its trigger actually tests rather than by trigger name: a scripting
  * -state stat that merely tracks a granted spell/item duration (e.g. CLERIC_FREE_ACTION,
  * WIZARD_RESIST_FEAR) counts as spellProtections, while an innate elemental/energy resistance stat

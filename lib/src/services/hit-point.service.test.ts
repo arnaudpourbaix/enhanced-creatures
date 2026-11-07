@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { GLOBAL_CONFIG } from "../../config/generate";
+import { PLAYER_CONFIG } from "../../config/player-config";
 import { MonsterEnum } from "../../creatures/monster";
 import { Creature } from "../model/creature/creature";
 import { CreatureData } from "../model/creature/data";
@@ -21,16 +21,16 @@ function fakeCreature(
 }
 
 describe("hitPointService.getHitPoints", () => {
-  const configured = GLOBAL_CONFIG.constitutionAffectHitPoint;
+  const configured = PLAYER_CONFIG.constitutionAffectHitPoint;
   beforeEach(() => {
-    GLOBAL_CONFIG.constitutionAffectHitPoint = true;
+    PLAYER_CONFIG.constitutionAffectHitPoint = true;
   });
   afterEach(() => {
-    GLOBAL_CONFIG.constitutionAffectHitPoint = configured;
+    PLAYER_CONFIG.constitutionAffectHitPoint = configured;
   });
 
   it("adds no constitution bonus when constitutionAffectHitPoint is off", () => {
-    GLOBAL_CONFIG.constitutionAffectHitPoint = false;
+    PLAYER_CONFIG.constitutionAffectHitPoint = false;
     const value = hitPointService.getHitPoints({
       data: { level1: { pnpValue: 5, value: 5, type: "none" }, constitution: 18 },
       creature: fakeCreature(),
@@ -208,14 +208,14 @@ describe("hitPointService.getDisplayHitPointBonus", () => {
   });
 
   it("returns the bonus even when constitutionAffectHitPoint is off (the engine always applies it)", () => {
-    const configured = GLOBAL_CONFIG.constitutionAffectHitPoint;
-    GLOBAL_CONFIG.constitutionAffectHitPoint = false;
+    const configured = PLAYER_CONFIG.constitutionAffectHitPoint;
+    PLAYER_CONFIG.constitutionAffectHitPoint = false;
     const value = hitPointService.getDisplayHitPointBonus({
       class: "FIGHTER",
       constitution: 18,
       level: 5,
     });
-    GLOBAL_CONFIG.constitutionAffectHitPoint = configured;
+    PLAYER_CONFIG.constitutionAffectHitPoint = configured;
     expect(value).toBe(20); // 5 * 4 (con 18 -> warriorHp 4)
   });
 

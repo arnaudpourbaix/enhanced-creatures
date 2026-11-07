@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { program } from "commander";
 import * as path from "path";
-import { GLOBAL_CONFIG } from "../config/generate";
+import { BUILD_CONFIG } from "../config/build-config";
 import copyService, { CopyFilter, CopyTargets } from "./services/copy.service";
 import logService from "./services/log.service";
 import mainService from "./services/main.service";
@@ -19,9 +19,9 @@ program
   .action(async (opts: { releaseBuild?: boolean }) => {
     try {
       if (opts.releaseBuild) {
-        GLOBAL_CONFIG.enableRandomTargetOrder = true;
-        GLOBAL_CONFIG.enableSecondaryTypes = true;
-        GLOBAL_CONFIG.enableImmunityStates = true;
+        BUILD_CONFIG.enableRandomTargetOrder = true;
+        BUILD_CONFIG.enableSecondaryTypes = true;
+        BUILD_CONFIG.enableImmunityStates = true;
       }
       await runGenerate();
     } catch (e: unknown) {

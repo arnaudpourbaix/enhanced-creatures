@@ -21,7 +21,7 @@ import { ABILITY_PRESETS } from "../../config/ability-presets";
 import { SPELLS } from "../../config/spells/spell-database";
 import { KITS } from "../../config/kit-ability";
 import { SpellCombo } from "../model/spell-item/spell-combo";
-import { GLOBAL_CONFIG } from "../../config/generate";
+import { PLAYER_CONFIG } from "../../config/player-config";
 
 interface CreatureServicePrivate {
   transformAttackPerRound(data?: Partial<CreatureData>): void;
@@ -324,11 +324,11 @@ describe("checkData - attacks per round across adjustments", () => {
 
 describe("checkData - 2e strength", () => {
   afterEach(() => {
-    GLOBAL_CONFIG.strengthEdition = "3e+";
+    PLAYER_CONFIG.strengthEdition = "3e+";
   });
 
   it("plays the 2e strength and corrects the auto-generated THAC0", () => {
-    GLOBAL_CONFIG.strengthEdition = "2e";
+    PLAYER_CONFIG.strengthEdition = "2e";
     const creature = {
       data: {
         movement: new Movement(9),
@@ -352,7 +352,7 @@ describe("checkData - 2e strength", () => {
   });
 
   it("corrects an adjustment's own generated THAC0 once, with the creature's to-hit", () => {
-    GLOBAL_CONFIG.strengthEdition = "2e";
+    PLAYER_CONFIG.strengthEdition = "2e";
     const creature = {
       data: {
         movement: new Movement(9),

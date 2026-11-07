@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ABILITY_PRESETS } from "../../../config/ability-presets";
 import { PRESET_NAMES } from "../../../config/common";
-import { GLOBAL_CONFIG } from "../../../config/generate";
+import { PLAYER_CONFIG } from "../../../config/player-config";
 import { SPELL_CHECK_TRIGGERS } from "../../../config/spells/spell-check";
 import { SPELLS } from "../../../config/spells/spell-database";
 import { RawCreatureAbility } from "../../model/creature/ability";
@@ -621,7 +621,7 @@ describe("applyPreset - recast timer from SPELLS", () => {
 
 describe("getAbilities - auto spellChecks via ability.keywords", () => {
   afterEach(() => {
-    GLOBAL_CONFIG.spellChecks.stats = true;
+    PLAYER_CONFIG.spellChecks.stats = true;
   });
 
   it("appends the keyword's SPELL_CHECK_TRIGGERS to every target list", () => {
@@ -655,8 +655,8 @@ describe("getAbilities - auto spellChecks via ability.keywords", () => {
     expect(ability.targets).toEqual([{ name: "Players" }]);
   });
 
-  it("respects GLOBAL_CONFIG.spellChecks - a disabled category drops the auto-appended trigger", () => {
-    GLOBAL_CONFIG.spellChecks.stats = false;
+  it("respects PLAYER_CONFIG.spellChecks - a disabled category drops the auto-appended trigger", () => {
+    PLAYER_CONFIG.spellChecks.stats = false;
     ABILITY_PRESETS.push({
       preset: "JA#TEST_KEYWORDS_DISABLED_PRESET",
       ability: {
@@ -679,7 +679,7 @@ describe("getAbilities - auto spellChecks via ability.keywords", () => {
 
 describe("getAbilities - auto spellChecks via TargetList.keywords", () => {
   afterEach(() => {
-    GLOBAL_CONFIG.spellChecks.races = true;
+    PLAYER_CONFIG.spellChecks.races = true;
   });
 
   it("appends a target list's own keyword checks in addition to the ability's shared ones", () => {
@@ -710,8 +710,8 @@ describe("getAbilities - auto spellChecks via TargetList.keywords", () => {
     expect(ability.targets).toEqual([{ name: "Players", triggers: [...SPELL_CHECK_TRIGGERS.elf] }]);
   });
 
-  it("respects GLOBAL_CONFIG.spellChecks.races - disabling it drops a target list's own race-driven check", () => {
-    GLOBAL_CONFIG.spellChecks.races = false;
+  it("respects PLAYER_CONFIG.spellChecks.races - disabling it drops a target list's own race-driven check", () => {
+    PLAYER_CONFIG.spellChecks.races = false;
     const [ability] = abilityService.getAbilities([
       { name: DEFAULT_ABILITY_NAME, targets: [{ name: "Players", keywords: ["elf"] }] },
     ]);
@@ -719,7 +719,7 @@ describe("getAbilities - auto spellChecks via TargetList.keywords", () => {
   });
 
   it("dedupes target lists that become identical once a tier-only check is disabled", () => {
-    GLOBAL_CONFIG.spellChecks.races = false;
+    PLAYER_CONFIG.spellChecks.races = false;
     const [ability] = abilityService.getAbilities([
       {
         name: DEFAULT_ABILITY_NAME,
@@ -734,7 +734,7 @@ describe("getAbilities - auto spellChecks via TargetList.keywords", () => {
     expect(ability.targets).toEqual([{ name: "PCsFighters" }, { name: "PCs" }]);
   });
 
-  it("keeps tiers distinct when re-enabling GLOBAL_CONFIG.spellChecks.races makes them differ again", () => {
+  it("keeps tiers distinct when re-enabling PLAYER_CONFIG.spellChecks.races makes them differ again", () => {
     const [ability] = abilityService.getAbilities([
       {
         name: DEFAULT_ABILITY_NAME,
@@ -791,7 +791,7 @@ describe("getAbilities - minRange from alliesCheck", () => {
 
 describe("getAbilities - auto ImmuneToSpellLevel via ability.level", () => {
   afterEach(() => {
-    GLOBAL_CONFIG.spellChecks.spellProtections = true;
+    PLAYER_CONFIG.spellChecks.spellProtections = true;
   });
 
   it("appends ImmuneToSpellLevel to every target list when the ability has a level", () => {
@@ -828,8 +828,8 @@ describe("getAbilities - auto ImmuneToSpellLevel via ability.level", () => {
     expect(ability.targets).toEqual([{ name: "Players" }]);
   });
 
-  it("respects GLOBAL_CONFIG.spellChecks.spellProtections - disabling it drops the check", () => {
-    GLOBAL_CONFIG.spellChecks.spellProtections = false;
+  it("respects PLAYER_CONFIG.spellChecks.spellProtections - disabling it drops the check", () => {
+    PLAYER_CONFIG.spellChecks.spellProtections = false;
     ABILITY_PRESETS.push({
       preset: "JA#TEST_LEVEL_DISABLED_PRESET",
       ability: {

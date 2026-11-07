@@ -22,12 +22,12 @@ export type TargetStatusName =
   | "Grabbed"
   | "Held"
   | "HeldAndNotPoisoned"
-  | "HeldNearby" // held within bafConstants.preferRange, while no able enemy engages the creature
+  | "HeldNearby" // held within PLAYER_CONFIG.preferRange, while no able enemy engages the creature
   | "NoCheck"
   | "PanicConfused" // panic, confused, feebleminded
   | "Sleep"
   | "Slowed"
   | "Stunned"
-  | "StunnedNearby" // stunned within bafConstants.preferRange, while no able enemy engages the creature
-  | "Unprotected" // able, without mirror images nor stoneskin, within bafConstants.preferRange
-  | "Wounded"; // able, below 25% hit points, within bafConstants.preferRange
+  | "StunnedNearby" // stunned within PLAYER_CONFIG.preferRange, while no able enemy engages the creature
+  | "Unprotected" // able, without mirror images nor stoneskin, within PLAYER_CONFIG.preferRange
+  | "Wounded"; // able, below 25% hit points, within PLAYER_CONFIG.preferRange
