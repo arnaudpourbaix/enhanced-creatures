@@ -156,6 +156,14 @@ describe("experience report", () => {
     expect(dropRow).toContain(">-50%<");
   });
 
+  it("explains every status in a legend", () => {
+    const html = renderExperienceTab(buildExperienceReport([]));
+    const legend = html.split('class="xp-legend"')[1].split("</dl>")[0];
+    for (const label of ["formula", "drop", "as base", "book", "zero"]) {
+      expect(legend).toContain(`<dt>${label}</dt>`);
+    }
+  });
+
   it("renders the sections and escapes data", () => {
     const html = renderExperienceTab(report);
     expect(html).toContain("All files");

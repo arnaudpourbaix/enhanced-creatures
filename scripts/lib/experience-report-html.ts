@@ -16,6 +16,24 @@ const STATUS_LABELS: Record<ExperienceStatus, string> = {
   zero: "zero",
 };
 
+/** What each status means, for the tab's legend. */
+const STATUS_HELP: Record<ExperienceStatus, string> = {
+  formula: "an adjustment scored by the 2e DMG formula: Hit Dice plus the Table 32 abilities",
+  drop: "the formula gives less than the in-game XP, so the in-game XP is kept (to review)",
+  asBase: "the adjustment changes nothing the formula reads, so it takes its base creature's XP",
+  book:
+    "a file with no adjustment: the base creature's own XP (its Monstrous Manual value, " +
+    "else its in-game XP)",
+  zero: "worth no XP: a summon, an explicit xpv 0 or 0 in game",
+};
+
+function legend(): string {
+  const items = STATUSES.map(
+    (s) => `<dt>${STATUS_LABELS[s]}</dt><dd>${escapeHtml(STATUS_HELP[s])}</dd>`,
+  ).join("");
+  return `<details class="xp-legend-box" open><summary>Statuses</summary><dl class="xp-legend">${items}</dl></details>`;
+}
+
 function signed(n: number): string {
   return n > 0 ? `+${n}` : `${n}`;
 }
@@ -131,6 +149,7 @@ so All files is for reference: the changes, drops and conflicts are what to revi
 <button type="button" class="stat bad" data-xp-view="conflicts"><b>${d.conflicts.length}</b><span class="muted">base XP conflicts</span></button>
 <button type="button" class="stat" data-xp-view="all"><b>${d.rows.length}</b><span class="muted">files</span></button>
 </div>
+${legend()}
 <div class="xp-nav">
 <div class="xp-views" role="tablist">
 <button type="button" role="tab" data-xp-view="changed">XP changed <span class="count">${d.changed}</span></button>
@@ -194,6 +213,11 @@ td.breakdown { white-space: normal; min-width: 560px; font-size: 13px; line-heig
 .xp-views button[aria-selected="true"] { background: var(--bg); color: var(--text);
   box-shadow: 0 0 0 1px var(--border); }
 .xp-views .count { margin-left: 4px; font-size: 12px; color: var(--muted); }
+.xp-legend-box { margin: 12px 0 0; font-size: 13px; }
+.xp-legend-box summary { cursor: pointer; color: var(--muted); }
+.xp-legend { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 8px 0 0; }
+.xp-legend dt { font-weight: 600; }
+.xp-legend dd { margin: 0; color: var(--muted); }
 #tab-experience .summary button.stat { font: inherit; text-align: left; cursor: pointer; }
 #xp-search { min-width: 220px; padding: 5px 8px; border: 1px solid var(--border);
   border-radius: 6px; background: var(--surface); color: var(--text); font: inherit; }
