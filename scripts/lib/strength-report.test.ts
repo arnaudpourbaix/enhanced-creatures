@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
+import { PLAYER_CONFIG } from "../../lib/config/player-config";
 import type { Creature } from "../../lib/src/model/creature/creature";
 import { buildStrengthReport, renderStrengthCard } from "./strength-report";
 
@@ -38,7 +39,13 @@ describe("strength report", () => {
     expect(rows[0].monster).toBe(rows[1].monster);
   });
 
+  const edition = PLAYER_CONFIG.strengthEdition;
+  afterEach(() => {
+    PLAYER_CONFIG.strengthEdition = edition;
+  });
+
   it("says which edition plays and escapes the source", () => {
+    PLAYER_CONFIG.strengthEdition = "3e+";
     const html = renderStrengthCard(rows);
     expect(html).toContain(`strengthEdition: <code>3e+</code>`);
     expect(html).toContain("MM &lt;ogre&gt;");

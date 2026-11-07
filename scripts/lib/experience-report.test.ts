@@ -90,7 +90,7 @@ describe("experience report", () => {
     expect(changed).toContain('data-file="CH.cre"');
     expect(changed).not.toContain('data-file="SAME.cre"');
     const views = [...html.matchAll(/role="tab" data-xp-view="(\w+)"/g)].map((m) => m[1]);
-    expect(views).toEqual(["changed", "drops", "conflicts", "all"]);
+    expect(views).toEqual(["changed", "drops", "conflicts", "all", "proposals"]);
     expect(EXPERIENCE_SCRIPT).toContain('"changed"');
   });
 

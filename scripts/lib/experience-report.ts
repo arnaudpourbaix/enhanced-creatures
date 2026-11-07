@@ -5,6 +5,7 @@ import {
   ExperienceStatus,
 } from "../../lib/src/services/experience/experience.service";
 import { ExperienceScore } from "../../lib/src/services/experience/experience-table";
+import { buildProposals, Proposals } from "./experience-proposals";
 
 // Collects the XP decided for every built creature (creature.experience, one row per file scope)
 // for the dashboard's Experience tab (rendering in experience-report-html.ts).
@@ -22,6 +23,8 @@ export interface ExperienceConflictRow {
 }
 
 export interface ExperienceReportData {
+  /** The base creatures' XP side by side, threat included (experience-proposals.ts) */
+  proposals: Proposals;
   rows: ExperienceReportRow[];
   drops: ExperienceReportRow[];
   conflicts: ExperienceConflictRow[];
@@ -61,5 +64,13 @@ export function buildExperienceReport(creatures: Creature[]): ExperienceReportDa
       r.difference !== undefined &&
       r.difference !== 0,
   );
-  return { rows, drops, conflicts, counts, changedRows, changed: changedRows.length };
+  return {
+    rows,
+    drops,
+    conflicts,
+    counts,
+    changedRows,
+    changed: changedRows.length,
+    proposals: buildProposals(creatures),
+  };
 }

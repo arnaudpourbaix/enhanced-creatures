@@ -12,6 +12,7 @@
     "copy": "ts-node lib/src/index.ts copy",
     "release": "ts-node lib/src/index.ts release",
     "dashboard": "ts-node scripts/dashboard.ts",
+    "fit-threat": "ts-node scripts/fit-threat.ts",
     "build": "tsc -p .",
     "test": "vitest run --coverage",
     "test:watch": "vitest",

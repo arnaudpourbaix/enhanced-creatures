@@ -12,3 +12,4 @@ paths.local.json
 .claude/worktrees/
 ~$creatures.xlsx
 dashboard.log
+fit-threat.log

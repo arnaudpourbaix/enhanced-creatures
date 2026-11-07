@@ -1,6 +1,7 @@
 import { ExperienceStatus } from "../../lib/src/services/experience/experience.service";
 import { ExperienceReportData, ExperienceReportRow } from "./experience-report";
 import { escapeHtml } from "./stats-report-html";
+import { PROPOSALS_STYLE, renderProposals } from "./experience-proposals";
 
 // HTML rendering for the dashboard's Experience tab (data from scripts/lib/experience-report.ts):
 // the adjustments whose XP changed, the drops to review, the base XP conflicts and every file's XP
@@ -156,6 +157,7 @@ ${legend()}
 <button type="button" role="tab" data-xp-view="drops">XP drops to review <span class="count">${d.drops.length}</span></button>
 <button type="button" role="tab" data-xp-view="conflicts">Base XP conflicts <span class="count">${d.conflicts.length}</span></button>
 <button type="button" role="tab" data-xp-view="all">All files <span class="count">${d.rows.length}</span></button>
+<button type="button" role="tab" data-xp-view="proposals">XP proposals <span class="count">${d.proposals.rows.length}</span></button>
 </div>
 <input type="search" id="xp-search" placeholder="Filter by monster or file">
 <label class="xp-status-filter">Status <select id="xp-status">${options}</select></label>
@@ -187,6 +189,7 @@ ${GAP_HEADER}<th>Breakdown</th>
 <h2>All files (${d.rows.length})</h2>
 ${fileTable("xp-all", d.rows)}
 </section>
+${renderProposals(d.proposals)}
 </div>`;
 }
 
@@ -201,9 +204,11 @@ td.breakdown { white-space: normal; min-width: 560px; font-size: 13px; line-heig
 #tab-experience[data-xp-active="changed"] [data-xp-panel="changed"],
 #tab-experience[data-xp-active="all"] [data-xp-panel="all"],
 #tab-experience[data-xp-active="drops"] [data-xp-panel="drops"],
-#tab-experience[data-xp-active="conflicts"] [data-xp-panel="conflicts"] { display: block; }
+#tab-experience[data-xp-active="conflicts"] [data-xp-panel="conflicts"],
+#tab-experience[data-xp-active="proposals"] [data-xp-panel="proposals"] { display: block; }
 #tab-experience[data-xp-active="drops"] .xp-status-filter,
-#tab-experience[data-xp-active="conflicts"] .xp-status-filter { display: none; }
+#tab-experience[data-xp-active="conflicts"] .xp-status-filter,
+#tab-experience[data-xp-active="proposals"] .xp-status-filter { display: none; }${PROPOSALS_STYLE}
 .xp-nav { position: sticky; top: var(--header-h); z-index: 5; display: flex; flex-wrap: wrap;
   align-items: center; gap: 8px 16px; margin: 16px 0; padding: 8px 0; background: var(--bg); }
 .xp-views { display: flex; gap: 4px; padding: 3px; border: 1px solid var(--border);
@@ -231,7 +236,7 @@ export const EXPERIENCE_SCRIPT = `
 const xpTab = document.getElementById("tab-experience");
 const xpSearch = document.getElementById("xp-search");
 const xpStatus = document.getElementById("xp-status");
-const XP_VIEWS = ["changed", "drops", "conflicts", "all"];
+const XP_VIEWS = ["changed", "drops", "conflicts", "all", "proposals"];
 function showXpView(view) {
   if (!XP_VIEWS.includes(view)) view = "changed";
   xpTab.dataset.xpActive = view;
