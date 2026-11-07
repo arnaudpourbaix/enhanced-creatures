@@ -14,10 +14,10 @@ import { ExperienceScore, scoreExperience } from "./experience-table";
 
 /**
  * How a file scope's XP is decided: `zero` (summon, xpv 0 or worth 0 in game), `book` (no
- * adjustment, the creature's own XP), `unchanged` (its adjustments change nothing the formula
- * reads), `formula` (the 2e DMG score) or `drop` (the score is below the in-game XP, kept).
+ * adjustment, the creature's own XP), `asBase` (its adjustments change nothing the formula
+ * reads: the base creature's XP), `formula` (the 2e DMG score) or `drop` (the score is below the in-game XP, kept).
  */
-export type ExperienceStatus = "zero" | "book" | "unchanged" | "formula" | "drop";
+export type ExperienceStatus = "zero" | "book" | "asBase" | "formula" | "drop";
 
 export interface ExperienceRow {
   file: string;
@@ -46,7 +46,7 @@ interface XpScope {
 
 const GAMES: Game[] = ["bg1", "bg2"];
 
-const UNCHANGED_REASON = "adjustment changes nothing the formula reads";
+const AS_BASE_REASON = "adjustment changes nothing the formula reads: base creature XP";
 
 class ExperienceService {
   /** Entries `apply` appended, never read as the creature's own adjustments. */
@@ -164,10 +164,10 @@ class ExperienceService {
     if (matching.some((a) => a.data.xpv === 0)) return row("zero", "xpv 0", 0);
     if (inGameXp === 0) return row("zero", "0 in game", 0);
     if (!matching.length) return row("book", "no adjustment", bookXp);
-    // Unchanged never lowers the in-game XP: below it, the row is a drop like any other.
+    // As base never lowers the in-game XP: below it, the row is a drop like any other.
     const lowersInGame = inGameXp !== undefined && bookXp < inGameXp;
     if (score.total === base.total && this.sameAbilities(score, base) && !lowersInGame) {
-      return row("unchanged", UNCHANGED_REASON, bookXp);
+      return row("asBase", AS_BASE_REASON, bookXp);
     }
     if (inGameXp === undefined || score.xp >= inGameXp) {
       return row("formula", score.breakdown, score.xp);

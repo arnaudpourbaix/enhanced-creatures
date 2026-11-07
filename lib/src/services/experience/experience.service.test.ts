@@ -114,7 +114,7 @@ describe("experienceService.evaluate", () => {
     ]);
   });
 
-  it("marks a script-only adjustment unchanged and appends nothing", () => {
+  it("marks a script-only adjustment as base and appends nothing", () => {
     mockRows(row(100));
     const creature = fakeCreature({
       xpv: 120,
@@ -123,15 +123,15 @@ describe("experienceService.evaluate", () => {
     experienceService.apply(creature);
     expect(creature.experience).toEqual([
       expect.objectContaining({
-        status: "unchanged",
-        reason: "adjustment changes nothing the formula reads",
+        status: "asBase",
+        reason: "adjustment changes nothing the formula reads: base creature XP",
         newXp: 120,
       }),
     ]);
     expect(appended(creature, 1)).toEqual([]);
   });
 
-  it("turns an unchanged row into a drop when the book XP is below the in-game XP", () => {
+  it("turns an as-base row into a drop when the book XP is below the in-game XP", () => {
     mockRows(row(91000));
     const creature = fakeCreature({
       xpv: 21000,
@@ -147,7 +147,7 @@ describe("experienceService.evaluate", () => {
     ]);
   });
 
-  it("keeps an unchanged row when the book XP is at least the in-game XP", () => {
+  it("keeps an as-base row when the book XP is at least the in-game XP", () => {
     mockRows(row(120));
     const creature = fakeCreature({
       xpv: 120,
@@ -155,7 +155,7 @@ describe("experienceService.evaluate", () => {
     });
     experienceService.apply(creature);
     expect(creature.experience).toEqual([
-      expect.objectContaining({ status: "unchanged", newXp: 120 }),
+      expect.objectContaining({ status: "asBase", newXp: 120 }),
     ]);
     expect(appended(creature, 1)).toEqual([]);
   });

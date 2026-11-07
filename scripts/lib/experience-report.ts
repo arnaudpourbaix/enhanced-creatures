@@ -27,6 +27,7 @@ export interface ExperienceReportData {
   conflicts: ExperienceConflictRow[];
   counts: Record<ExperienceStatus, number>;
   /** Files whose XP changed: every non-zero row whose difference is not 0, whatever its status. */
+  changedRows: ExperienceReportRow[];
   changed: number;
 }
 
@@ -36,7 +37,7 @@ export function buildExperienceReport(creatures: Creature[]): ExperienceReportDa
   const counts: Record<ExperienceStatus, number> = {
     zero: 0,
     book: 0,
-    unchanged: 0,
+    asBase: 0,
     formula: 0,
     drop: 0,
   };
@@ -51,8 +52,8 @@ export function buildExperienceReport(creatures: Creature[]): ExperienceReportDa
     if (creature.baseExperience) conflicts.push({ monster, ...creature.baseExperience });
   }
   const drops = rows.filter((r) => r.status === "drop");
-  const changed = rows.filter(
+  const changedRows = rows.filter(
     (r) => r.status !== "zero" && r.difference !== undefined && r.difference !== 0,
-  ).length;
-  return { rows, drops, conflicts, counts, changed };
+  );
+  return { rows, drops, conflicts, counts, changedRows, changed: changedRows.length };
 }

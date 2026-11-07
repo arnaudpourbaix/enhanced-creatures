@@ -3,7 +3,7 @@ import type { Creature } from "../../lib/src/model/creature/creature";
 import { ExperienceRow } from "../../lib/src/services/experience/experience.service";
 import { ExperienceScore } from "../../lib/src/services/experience/experience-table";
 import { buildExperienceReport } from "./experience-report";
-import { gapPercent, renderExperienceTab } from "./experience-report-html";
+import { EXPERIENCE_SCRIPT, gapPercent, renderExperienceTab } from "./experience-report-html";
 
 function score(xp: number, breakdown = "HD 9 -> 975"): ExperienceScore {
   return {
@@ -46,7 +46,7 @@ describe("experience report", () => {
   const report = buildExperienceReport(creatures);
 
   it("counts every status", () => {
-    expect(report.counts).toEqual({ zero: 1, book: 1, unchanged: 0, formula: 2, drop: 1 });
+    expect(report.counts).toEqual({ zero: 1, book: 1, asBase: 0, formula: 2, drop: 1 });
     expect(report.rows).toHaveLength(5);
   });
 
@@ -66,13 +66,31 @@ describe("experience report", () => {
     const mixed = buildExperienceReport([
       fake(1, [
         row({ file: "A.cre", status: "book", inGameXp: 650, newXp: 120 }),
-        row({ file: "B.cre", status: "unchanged", inGameXp: 100, newXp: 120 }),
+        row({ file: "B.cre", status: "asBase", inGameXp: 100, newXp: 120 }),
         row({ file: "C.cre", status: "drop", inGameXp: 2000, newXp: 2000 }),
         row({ file: "D.cre", status: "zero", inGameXp: 650, newXp: 0 }),
         row({ file: "E.cre", status: "formula", newXp: 420 }),
       ]),
     ]);
     expect(mixed.changed).toBe(2);
+    expect(mixed.changedRows.map((r) => r.file)).toEqual(["A.cre", "B.cre"]);
+  });
+
+  it("opens on the changed files, all files last", () => {
+    const html = renderExperienceTab(
+      buildExperienceReport([
+        fake(1, [
+          row({ file: "CH.cre", status: "formula", inGameXp: 100, newXp: 200 }),
+          row({ file: "SAME.cre", status: "book", inGameXp: 100, newXp: 100 }),
+        ]),
+      ]),
+    );
+    const changed = html.split('data-xp-panel="changed"')[1].split("</section>")[0];
+    expect(changed).toContain('data-file="CH.cre"');
+    expect(changed).not.toContain('data-file="SAME.cre"');
+    const views = [...html.matchAll(/role="tab" data-xp-view="(\w+)"/g)].map((m) => m[1]);
+    expect(views).toEqual(["changed", "drops", "conflicts", "all"]);
+    expect(EXPERIENCE_SCRIPT).toContain('"changed"');
   });
 
   it("shows short reasons under the status and no breakdown for zero files", () => {
@@ -81,7 +99,7 @@ describe("experience report", () => {
         fake(1, [
           row({ file: "Z.cre", status: "zero", reason: "summon", score: score(0, "ZERO-BD") }),
           row({ file: "B.cre", status: "book", reason: "no adjustment", newXp: 7 }),
-          row({ file: "U.cre", status: "unchanged", reason: "nothing read", newXp: 7 }),
+          row({ file: "U.cre", status: "asBase", reason: "nothing read", newXp: 7 }),
           row({
             file: "F.cre",
             status: "formula",
@@ -96,7 +114,7 @@ describe("experience report", () => {
     expect(rowOf("Z.cre")).toContain(`zero<br><span class="muted">summon</span>`);
     expect(rowOf("Z.cre")).toContain(`<td class="breakdown"></td>`);
     expect(rowOf("B.cre")).toContain(`book<br><span class="muted">no adjustment</span>`);
-    expect(rowOf("U.cre")).toContain(`unchanged<br><span class="muted">nothing read</span>`);
+    expect(rowOf("U.cre")).toContain(`as base<br><span class="muted">nothing read</span>`);
     expect(rowOf("F.cre")).toContain(`<td>formula</td>`);
     expect(rowOf("F.cre")).toContain(`<td class="breakdown">FORMULA-BD</td>`);
     expect(html).toContain("files whose XP changed");
