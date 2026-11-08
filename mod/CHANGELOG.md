@@ -45,6 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Spells: combo groups, random combo pick, spellbook level check
 - Dashboard: experience tab
 - XP: a power level or a tag on every created spell
+- XP: round damage tiers and refined DMG rows
 
 ### Changed
 
@@ -93,6 +94,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Doc: Attacks list the main hand before the off-hand
 - Ooze: puddings and mustard jelly split again
 - Docs: creature search finds monsters with adjustments
+- Doc: hide the engine's TRUECLASS kit
+- Vampire: the abomination extends the Ravenloft age table
 
 ## [0.4.0] - 2026-10-09
 
