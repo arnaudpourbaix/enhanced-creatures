@@ -38,6 +38,7 @@ export function clericSkeleton(entry: CreatureEntry<Creature>, base: Creature): 
     level1: 7,
     class: "CLERIC",
     wisdom: 12,
+    xpv: 2000,
     spells: clericSpells(7),
     script: {
       edits: [{ files: ["L#XZECLE"], replaces: [["Attack([PC])", ""]] }],

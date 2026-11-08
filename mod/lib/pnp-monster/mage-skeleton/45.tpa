@@ -39,7 +39,7 @@ BEGIN
 				ADD_MEMORIZED_SPELL ~SPWI314~ #2 ~wizard~ (1) 
 				ADD_MEMORIZED_SPELL ~SPWI311~ #2 ~wizard~ (1) 
 				ADD_MEMORIZED_SPELL ~SPWI408~ #3 ~wizard~ (1) 
-				ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
+				ADD_MEMORIZED_SPELL ~jasc0102~ #0 ~innate~ (1) // Minor Sequencer (Ray Of Enfeeblement)
 			END ELSE BEGIN
 				ADD_MEMORIZED_SPELL ~SPWI114~ #0 ~wizard~ (1) 
 				ADD_MEMORIZED_SPELL ~SPWI119~ #0 ~wizard~ (2) 
@@ -50,7 +50,7 @@ BEGIN
 				ADD_MEMORIZED_SPELL ~SPWI314~ #2 ~wizard~ (1) 
 				ADD_MEMORIZED_SPELL ~SPWI311~ #2 ~wizard~ (1) 
 				ADD_MEMORIZED_SPELL ~SPWI408~ #3 ~wizard~ (1) 
-				ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
+				ADD_MEMORIZED_SPELL ~jasc0102~ #0 ~innate~ (1) // Minor Sequencer (Ray Of Enfeeblement)
 			END
 			LPF clear_proficiencies END
 			LPF patchCreature
@@ -221,8 +221,8 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI513~ #4 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI503~ #4 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI623~ #5 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
-					ADD_MEMORIZED_SPELL ~jasc0109~ #0 ~innate~ (1) // Contingency (Stoneskin)
+					ADD_MEMORIZED_SPELL ~jasc010f~ #0 ~innate~ (1) // Minor Sequencer (Horror)
+					ADD_MEMORIZED_SPELL ~jasc012l~ #0 ~innate~ (1) // Contingency (Minor Globe Of Invulnerability)
 				END ELSE BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI114~ #0 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI119~ #0 ~wizard~ (2) 
@@ -244,8 +244,8 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI513~ #4 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI503~ #4 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI602~ #5 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
-					ADD_MEMORIZED_SPELL ~jasc0109~ #0 ~innate~ (1) // Contingency (Stoneskin)
+					ADD_MEMORIZED_SPELL ~jasc010f~ #0 ~innate~ (1) // Minor Sequencer (Horror)
+					ADD_MEMORIZED_SPELL ~jasc012l~ #0 ~innate~ (1) // Contingency (Minor Globe Of Invulnerability)
 				END
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM12B~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM13B~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM14B~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM16~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM16B~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM18~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM18B~) BEGIN 
@@ -287,9 +287,9 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI707~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI705~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI812~ #7 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
-					ADD_MEMORIZED_SPELL ~jasc0104~ #0 ~innate~ (1) // Sequencer (Lifedrain)
-					ADD_MEMORIZED_SPELL ~jasc0109~ #0 ~innate~ (1) // Contingency (Stoneskin)
+					ADD_MEMORIZED_SPELL ~jasc0102~ #0 ~innate~ (1) // Minor Sequencer (Ray Of Enfeeblement)
+					ADD_MEMORIZED_SPELL ~jasc011r~ #0 ~innate~ (1) // Sequencer (Remove Magic)
+					ADD_MEMORIZED_SPELL ~jasc012p~ #0 ~innate~ (1) // Contingency (Spell Deflection)
 				END ELSE BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI114~ #0 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI119~ #0 ~wizard~ (2) 
@@ -298,7 +298,7 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI221~ #1 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI219~ #1 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI213~ #1 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~SPWI223~ #1 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~SPWI218~ #1 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI314~ #2 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI311~ #2 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI312~ #2 ~wizard~ (1) 
@@ -318,9 +318,9 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI713~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI705~ #6 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI812~ #7 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
-					ADD_MEMORIZED_SPELL ~jasc0104~ #0 ~innate~ (1) // Sequencer (Lifedrain)
-					ADD_MEMORIZED_SPELL ~jasc0109~ #0 ~innate~ (1) // Contingency (Stoneskin)
+					ADD_MEMORIZED_SPELL ~jasc0102~ #0 ~innate~ (1) // Minor Sequencer (Ray Of Enfeeblement)
+					ADD_MEMORIZED_SPELL ~jasc011r~ #0 ~innate~ (1) // Sequencer (Remove Magic)
+					ADD_MEMORIZED_SPELL ~jasc012p~ #0 ~innate~ (1) // Contingency (Spell Deflection)
 				END
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SKL03~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SKL07~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~HGSKL03~) BEGIN 
@@ -368,10 +368,10 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI808~ #7 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI913~ #8 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI907~ #8 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~jasc0102~ #0 ~innate~ (1) // Minor Sequencer (Ray Of Enfeeblement)
-					ADD_MEMORIZED_SPELL ~jasc0104~ #0 ~innate~ (1) // Sequencer (Lifedrain)
-					ADD_MEMORIZED_SPELL ~jasc010f~ #0 ~innate~ (1) // Contingency (Protection From Magical Weapons)
-					ADD_MEMORIZED_SPELL ~jasc010t~ #0 ~innate~ (1) // Chain Contingency (Protect And Summon)
+					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
+					ADD_MEMORIZED_SPELL ~jasc0116~ #0 ~innate~ (1) // Sequencer (Deflection Stoneskin Teleport Field)
+					ADD_MEMORIZED_SPELL ~jasc0127~ #0 ~innate~ (1) // Contingency (Protection From Magic Energy)
+					ADD_MEMORIZED_SPELL ~jasc013p~ #0 ~innate~ (1) // Chain Contingency (Deflection Spell Shield)
 				END ELSE BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI114~ #0 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI119~ #0 ~wizard~ (2) 
@@ -380,7 +380,7 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI221~ #1 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI219~ #1 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI213~ #1 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~SPWI223~ #1 ~wizard~ (1) 
+					ADD_MEMORIZED_SPELL ~SPWI218~ #1 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI314~ #2 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI311~ #2 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI312~ #2 ~wizard~ (1) 
@@ -404,10 +404,10 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~SPWI813~ #7 ~wizard~ (2) 
 					ADD_MEMORIZED_SPELL ~SPWI913~ #8 ~wizard~ (1) 
 					ADD_MEMORIZED_SPELL ~SPWI907~ #8 ~wizard~ (1) 
-					ADD_MEMORIZED_SPELL ~jasc0102~ #0 ~innate~ (1) // Minor Sequencer (Ray Of Enfeeblement)
-					ADD_MEMORIZED_SPELL ~jasc0104~ #0 ~innate~ (1) // Sequencer (Lifedrain)
-					ADD_MEMORIZED_SPELL ~jasc010f~ #0 ~innate~ (1) // Contingency (Protection From Magical Weapons)
-					ADD_MEMORIZED_SPELL ~jasc010r~ #0 ~innate~ (1) // Chain Contingency (Protect And Summon)
+					ADD_MEMORIZED_SPELL ~jasc0100~ #0 ~innate~ (1) // Minor Sequencer (Larloch Minor Drain)
+					ADD_MEMORIZED_SPELL ~jasc0116~ #0 ~innate~ (1) // Sequencer (Deflection Stoneskin Teleport Field)
+					ADD_MEMORIZED_SPELL ~jasc0127~ #0 ~innate~ (1) // Contingency (Protection From Magic Energy)
+					ADD_MEMORIZED_SPELL ~jasc013n~ #0 ~innate~ (1) // Chain Contingency (Deflection Spell Shield)
 				END
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM7~) BEGIN 

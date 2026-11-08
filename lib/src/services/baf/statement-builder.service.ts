@@ -1057,7 +1057,7 @@ class StatementBuilderService {
       if (!combo || !isContingency(combo)) continue;
       const kind = translationService.from(KIND_NAMES[combo.kind]).toLowerCase();
       statements.push({
-        comment: `Precast ${kind} "${combo.key}"`,
+        comment: this.withComboSpells(`Precast ${kind} "${combo.key}"`, file),
         triggers: [
           triggerFactory.global(BAF_CONSTANTS.initGlobal, 0),
           triggerFactory.global(BAF_CONSTANTS.disableSpellcasting, 0),
@@ -1364,7 +1364,7 @@ class StatementBuilderService {
     const list = targetService.getTargetFromAbility(target.name, target.limit, target.randomOrder);
     bafFactory.addStatementsFromTargetList({
       statements,
-      comment: translationService.from(ability.name),
+      comment: this.abilityComment(ability),
       triggers: [...triggers, ...targetTriggers],
       responses: responseFactory.response(actions),
       targets: list.targets as string[],
@@ -1420,7 +1420,7 @@ class StatementBuilderService {
     }
     statements.push({
       triggers,
-      comment: translationService.from(ability.name),
+      comment: this.abilityComment(ability),
       responses: responseFactory.response(actions),
     });
   }
@@ -1436,6 +1436,25 @@ class StatementBuilderService {
       const type = this.castSpellType(action, ability);
       return type === "wizard" || type === "priest";
     });
+  }
+
+  /** The ability's name, plus the spells it holds when it casts a combo (sequencer, contingency...). */
+  private abilityComment(ability: CreatureAbility): string {
+    const name = translationService.from(ability.name);
+    for (const action of ability.actions) {
+      const casts = SPELL_ACTIONS.includes(action.name) && action.name.endsWith("RES");
+      if (!casts || !("params" in action)) continue;
+      const [first] = action.params as unknown[];
+      const file = String(first).startsWith("%") ? ability.resource : String(first);
+      if (file && spellComboService.comboOfFile(file)) return this.withComboSpells(name, file);
+    }
+    return name;
+  }
+
+  /** `label` followed by the spells the combo SPL `file` casts, if any. */
+  private withComboSpells(label: string, file: string): string {
+    const spells = spellComboService.spellNamesOf(file);
+    return spells ? `${label}: ${spells}` : label;
   }
 
   private castSpellType(

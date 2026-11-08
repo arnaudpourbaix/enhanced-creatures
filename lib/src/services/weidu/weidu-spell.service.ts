@@ -1,6 +1,7 @@
 import { CodeLine } from "../../model/misc";
 import { EffectDispelResistanceEnum } from "../../model/spell-item/effect.enums";
 import { Spell, SpellHeader } from "../../model/spell-item/spell-item";
+import spellComboService from "../spell-combo.service";
 import translationService from "../translation.service";
 import utils from "../utils/utils.service";
 import { AbstractWeiduService } from "./abstract-weidu.service";
@@ -16,7 +17,9 @@ class WeiduSpellService extends AbstractWeiduService {
   }
 
   createSpell(lines: CodeLine[], spell: Spell, tab: number) {
-    this.add(lines, `// ${translationService.from(spell.name)}`, tab);
+    const name = translationService.from(spell.name);
+    const spells = spellComboService.spellNamesOf(spell.file);
+    this.add(lines, `// ${name}${spells ? ": " + spells : ""}`, tab);
     weiduEffectService.createEffectFiles(lines, spell.effectFiles, tab);
     for (const projectile of spell.projectiles) {
       weiduProjectileService.createProjectile(lines, projectile);

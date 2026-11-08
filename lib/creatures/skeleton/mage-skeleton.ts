@@ -38,6 +38,7 @@ export function mageSkeleton(entry: CreatureEntry<Creature>, base: Creature): Cr
     level1: 7,
     class: "MAGE",
     intelligence: 12,
+    xpv: 2000,
     spells: mageSpells(7),
   });
   mage.variant("Lesser Mage Skeleton", {

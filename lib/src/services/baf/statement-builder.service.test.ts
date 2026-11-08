@@ -1088,7 +1088,7 @@ describe("precastContingencies (private)", () => {
     spells: [SPELLS.Wizard.Stoneskin],
   };
   const precast = (file: string): Statements[number] => ({
-    comment: 'Precast contingency "TestStoneskinOnHit"',
+    comment: 'Precast contingency "TestStoneskinOnHit": Stoneskin',
     triggers: [
       triggerFactory.global(BAF_CONSTANTS.initGlobal, 0),
       triggerFactory.global(BAF_CONSTANTS.disableSpellcasting, 0),
@@ -1116,7 +1116,9 @@ describe("precastContingencies (private)", () => {
       data: { spells: { memorized: [{ file }, { file: "SPWI408" }] } } as Partial<CreatureData>,
     });
     const result = statementBuilderService.buildStatements(creature, options());
-    const index = result.findIndex((s) => s.comment === 'Precast contingency "TestStoneskinOnHit"');
+    const index = result.findIndex(
+      (s) => s.comment === 'Precast contingency "TestStoneskinOnHit": Stoneskin',
+    );
     expect(result[index]).toEqual(precast(file));
     expect(index).toBeLessThan(result.findIndex((s) => s.comment === "Init"));
   });
@@ -1158,7 +1160,7 @@ describe("precastContingencies (private)", () => {
     });
     const statements: Statements = [];
     service.precastContingencies({ statements, creature });
-    expect(statements[0].comment).toBe('Precast chain contingency "TestChainOnHit"');
+    expect(statements[0].comment).toBe('Precast chain contingency "TestChainOnHit": Stoneskin x3');
   });
 
   it("skips spells that aren't contingencies", () => {

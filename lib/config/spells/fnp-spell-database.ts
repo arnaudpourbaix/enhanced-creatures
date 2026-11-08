@@ -1,4 +1,4 @@
-import { SpellTypeEnum } from "../../src/model/spell-item/effect.enums";
+import { ItemAbilityPrimaryTypeEnum, SpellTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { BaseSpell } from "../../src/model/spell-item/spell-item";
 import { flattenSpellCategories } from "../../src/model/spell-item/spell-reference";
 
@@ -27,6 +27,7 @@ const FNP_PRIEST_SPELLS = {
   CircleOfBones: {
     file: "SPPR332",
     level: 3,
+    school: ItemAbilityPrimaryTypeEnum.Necromancer,
     keywords: ["castOnSelf"],
     role: "protection",
     tier: "good",
@@ -54,6 +55,7 @@ const FNP_PRIEST_SPELLS = {
   Doom: {
     file: "SPPR113",
     level: 1,
+    school: ItemAbilityPrimaryTypeEnum.Enchanter,
     keywords: ["magicResistance"],
     role: "disable",
     castingTime: 1,

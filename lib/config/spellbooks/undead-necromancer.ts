@@ -1,3 +1,5 @@
+import spellComboFactory from "../../src/factories/spell-combo.factory";
+import { ItemAbilityPrimaryTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { SpellBook } from "../../src/model/spell-item/spellbook";
 import { COMBOS } from "../spells/spell-combos";
 import { SPELLS } from "../spells/spell-database";
@@ -6,7 +8,7 @@ const s = SPELLS.Wizard;
 
 export const UndeadNecromancerSpellbook: SpellBook = {
   name: "UndeadNecromancer",
-  // Necromancer: no Illusion or Enchantment/Charm
+  specialization: ItemAbilityPrimaryTypeEnum.Necromancer,
   values: [
     {
       level: 1,
@@ -63,16 +65,10 @@ export const UndeadNecromancerSpellbook: SpellBook = {
       repeat: [s.LarlochEnergyDrain],
     },
   ],
-  minorSequencers: [
-    COMBOS.MinorSequencers.LarlochMinorDrain,
-    COMBOS.MinorSequencers.RayOfEnfeeblement,
-  ],
-  spellSequencers: [COMBOS.SpellSequencers.Lifedrain],
-  contingencies: [
-    COMBOS.Contingencies.MomentOfPrescience,
-    COMBOS.Contingencies.PrismaticMantle,
-    COMBOS.Contingencies.ProtectionFromMagicalWeapons,
-    COMBOS.Contingencies.Stoneskin,
-  ],
-  chainContingencies: [COMBOS.ChainContingencies.ProtectAndSummon],
+  ...spellComboFactory.bySchool(
+    [ItemAbilityPrimaryTypeEnum.Necromancer, ItemAbilityPrimaryTypeEnum.Abjurer],
+    {
+      specialization: ItemAbilityPrimaryTypeEnum.Necromancer,
+    },
+  ),
 };

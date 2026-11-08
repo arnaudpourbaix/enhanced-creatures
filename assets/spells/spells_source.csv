@@ -1,0 +1,1316 @@
+file;level;type;ids;school;name
+SPCL001;0;Innate;B2#AERIEFAM;None;
+SPCL102;1;Innate;BLACKGUARD_ABSORB_HEALTH;Necromancy;Life Drain
+SPCL103;2;Innate;BLACKGUARD_AURA_OF_DESPAIR;Conjuration;Aura of Despair
+SPCL104;2;Innate;RESIST_FEAR;None;Resist Fear
+SPCL105;0;Innate;IMMUNITY_TO_LEVEL_DRAIN;None;Negative Plane Protection
+SPCL106;3;Innate;BLACKGUARD_ANIMATE_DEAD;Necromancy;Animate Dead
+SPCL121;1;Innate;ARCHER_CALL_SHOT;None;Called Shot
+SPCL122;0;Innate;;None;
+SPCL123;1;Innate;;None;
+SPCL131;0;Innate;;None;
+SPCL132;0;Innate;;None;
+SPCL133;0;Innate;;None;
+SPCL141;0;Innate;;None;
+SPCL142;0;Innate;;None;
+SPCL143;0;Innate;;None;
+SPCL144;1;Innate;KENSAI_KIA;None;Ki Focus
+SPCL151;0;Innate;;None;
+SPCL152;1;Innate;BARBARIAN_RAGE;None;Barbarian Rage
+SPCL153;0;Innate;;None;
+SPCL154;0;Innate;;None;
+SPCL211;1;Innate;PALADIN_LAY_ON_HANDS;Necromancy;Lay On Hands
+SPCL212;1;Innate;PALADIN_DETECT_EVIL;None;Detect Evil
+SPCL213;1;Innate;PALADIN_PROTECTION_FROM_EVIL;Abjuration;Protection From Evil
+SPCL221;0;Innate;;None;
+SPCL222;1;Innate;CAVALIER_REMOVE_FEAR;Abjuration;Remove Fear
+SPCL231;1;Innate;INQUIS_DISPEL_MAGIC;Abjuration;Dispel Magic
+SPCL232;5;Innate;INQUIS_TRUE_SIGHT;Divination;True Sight
+SPCL233;4;Innate;;Abjuration;Protection From Evil, 10' Radius
+SPCL234;0;Innate;;None;
+SPCL235;0;Innate;;None;
+SPCL236;1;Innate;SUN_SOUL_SUN_SOULRAY;None;Sun Soulray
+SPCL237;4;Innate;SUN_SOUL_GREATER_SUN;None;Greater Sun
+SPCL238;1;Innate;SUN_SOUL_FLAMING_FISTS;None;Flaming Fists
+SPCL239;1;Innate;SUN_SOUL_SUN_SOULBEAM;None;Sun Soulbeam
+SPCL241;0;Innate;;None;
+SPCL242;0;Innate;;None;
+SPCL311;1;Innate;RANGER_CHARM_ANIMAL;Enchantment;Charm Animal
+SPCL321;1;Innate;BERSERKER_RAGE;None;Enrage
+SPCL322;0;Innate;;None;
+SPCL331;0;Innate;;None;
+SPCL332;0;Innate;;None;
+SPCL341;0;Innate;;None;
+SPCL342;1;Innate;BEASTMASTER_FIND_FAMILIAR;None;Find Familiar
+SPCL351;0;Innate;;None;
+SPCL411;0;Innate;;None;
+SPCL412;4;Innate;THIEF_SET_SNARE;None;Set Snare
+SPCL414;4;Innate;THIEF_SET_SPECIAL_SNARE;None;Set Special Snare
+SPCL415;0;Innate;;None;
+SPCL417;0;Innate;;None;Special Snare
+SPCL421;0;Innate;;None;
+SPCL422;1;Innate;;None;
+SPCL423;1;Innate;ASSASSIN_POISON;None;Poison Weapon
+SPCL441;0;Innate;;None;
+SPCL442;0;Innate;;None;
+SPCL521;1;Innate;BLADE_OFFENSIVE_SPIN;None;Offensive Spin
+SPCL522;1;Innate;BLADE_DEFENSIVE_SPIN;None;Defensive Spin
+SPCL541;0;Innate;;None;
+SPCL542;0;Innate;;None;
+SPCL611;1;Innate;DRUID_SHAPESHIFT_BROWNBEAR;None;Shapeshift: Brown Bear
+SPCL612;1;Innate;DRUID_SHAPESHIFT_WOLF;None;Shapeshift: Wolf
+SPCL613;1;Innate;DRUID_SHAPESHIFT_BLACKBEAR;None;Shapeshift: Black Bear
+SPCL621;1;Innate;TOTEMIC_DRUID_SUMMON_SPIRIT_ANIMAL;Conjuration;Summon Spirit Animal
+SPCL622;0;Innate;;Conjuration;Spirit Snake
+SPCL623;0;Innate;;Conjuration;Spirit Bear
+SPCL624;0;Innate;;Conjuration;Spirit Lion
+SPCL625;1;Innate;;Conjuration;Spirit Wolf
+SPCL631;0;Innate;;None;
+SPCL632;1;Innate;AVENGER_SHAPESHIFT_SWORDSPIDER;None;Shapeshift: Sword Spider
+SPCL633;1;Innate;AVENGER_SHAPESHIFT_BABYWYVERN;None;Shapeshift: Baby Wyvern
+SPCL634;1;Innate;AVENGER_SHAPESHIFT_FIRESALAMANDER;None;Shapeshift: Fire Salamander
+SPCL641;2;Innate;;None;Charm Person or Mammal
+SPCL642;0;Innate;;None;
+SPCL643;1;Innate;SHAPESHIFTER_SHAPESHIFT_WEREWOLF;None;Shapeshift: Werewolf
+SPCL644;1;Innate;SHAPESHIFTER_SHAPESHIFT_GREATERWEREWOLF;None;Shapeshift: Greater Werewolf
+SPCL721;3;Priest;TALOS_STORMSHIELD;Abjuration;Storm Shield
+SPCL722;1;Innate;TALOS_LIGHTNING_BOLT;Evocation;Lightning Bolt
+SPCL731;4;Innate;HELM_SEEKING_SWORD;Evocation;Seeking Sword
+SPCL732;5;Innate;HELM_TRUE_SIGHT;Divination;True Sight
+SPCL741;4;Innate;LATHANDER_BOON;Conjuration;Boon of Lathander
+SPCL742;3;Innate;LATHANDER_HOLD_UNDEAD;Necromancy;Hold Undead
+SPCL751;0;Innate;;None;
+SPCL801;0;Innate;;None;
+SPCL811;1;Innate;MONK_STUNNING_BLOW;None;Stunning Blow
+SPCL812;0;Innate;;None;
+SPCL813;0;Innate;;None;
+SPCL814;0;Innate;;None;
+SPCL815;1;Innate;MONK_LAY_ON_HANDS;Necromancy;Wholeness of Body
+SPCL816;0;Innate;;None;
+SPCL817;0;Innate;;None;
+SPCL818;0;Innate;;None;
+SPCL819;0;Innate;;None;
+SPCL820;1;Innate;MONK_QUIVERING_PALM;None;Quivering Palm
+SPCL821;0;Innate;;None;Perfect Self
+SPCL822;0;Innate;;None;
+SPCL900;1;Innate;WARRIOR_WHIRLWIND;None;Whirlwind Attack
+SPCL901;1;Innate;WARRIOR_GREATER_WHIRLWIND;None;Greater Whirlwind Attack
+SPCL902;1;Innate;WARRIOR_DEATHBLOW;None;Deathblow
+SPCL903;1;Innate;WARRIOR_GREATER_DEATHBLOW;None;Greater Deathblow
+SPCL904;1;Innate;WARRIOR_RESIST_MAGIC;None;Resist Magic
+SPCL905;1;Innate;WARRIOR_CRITICAL_STRIKE;None;Critical Strike
+SPCL906;1;Innate;WARRIOR_POWER_ATTACK;None;Power Attack
+SPCL907;1;Innate;WARRIOR_HARDINESS;None;Hardiness
+SPCL908;1;Innate;WARRIOR_WAR_CRY;None;War Cry
+SPCL909;1;Innate;WARRIOR_SMITE;None;Smite
+SPCL910;9;Innate;ROGUE_SET_SPIKE_TRAP;None;Set Spike Trap
+SPCL911;9;Innate;ROGUE_SET_EXPLODING_TRAP;None;Set Exploding Trap
+SPCL912;9;Innate;ROGUE_SET_TIME_TRAP;None;Set Time Trap
+SPCL913;1;Innate;ROGUE_EVASION;None;Evasion
+SPCL914;1;Innate;ROGUE_GREATER_EVASION;None;Greater Evasion
+SPCL915;1;Innate;;Alteration;Use Any Item
+SPCL916;1;Innate;ROGUE_ASSASINATION;None;Assassination
+SPCL917;1;Innate;ROGUE_AVOID_DEATH;None;Avoid Death
+SPCL918;1;Innate;;Alteration;Alchemy
+SPCL919;1;Innate;;Alteration;Scribe Scrolls
+SPCL920;0;Innate;;None;Enhanced Bard Song
+SPCL921;1;Innate;;Alteration;Magic Flute
+SPCL922;7;Innate;RANGER_TRACKING;None;Tracking
+SPCL923;1;Innate;PALADIN_SUMMON_DEVA;Conjuration;Summon Deva
+SPCL924;0;Innate;DRUID_IMMUNE_POISON;None;
+SPCL925;0;Innate;DRUID_RESISTS;None;
+SPCL926;0;Innate;;None;
+SPCL927;0;Innate;;None;
+SPCL928;1;Innate;;Alteration;Extra Level 6 Spell
+SPCL929;1;Innate;;Alteration;Extra Level 7 Spell
+SPCL930;1;Innate;;Alteration;Extra Level 8 Spell
+SPCL931;1;Innate;;Alteration;
+SPCL932;1;Innate;;Alteration;
+SPCL933;1;Innate;;Alteration;
+SPCL934;1;Innate;;Alteration;
+SPCL935;1;Innate;BLACKGUARD_SUMMON_FALLEN_DEVA;Conjuration;Summon Fallen Deva
+SPCL936;1;Innate;SHADOWDANCER_SHADOW_TWIN;None;Shadow Twin
+SPCL937;1;Innate;SHADOWDANCER_SHADOW_MAZE;None;Shadow Maze
+SPCL938;1;Innate;SHADOWDANCER_SHADOW_FORM;None;Shadow Form
+SPCL940;1;Innate;SHAMAN_SPIRIT_FORM;None;Spirit Form
+SPCL941;1;Innate;SHAMAN_FAVORED_OF_THE_SPIRITS;None;Favored of the Spirits
+SPIN001;0;Innate;;None;Druid Polymorph
+SPIN101;1;Innate;INNATE_CURE_LIGHT_WOUNDS;Necromancy;Cure Light Wounds
+SPIN102;1;Innate;INNATE_SLOW_POISON;Necromancy;Slow Poison
+SPIN103;1;Innate;INNATE_DRAW_UPON_HOLY_MIGHT;Evocation;Draw upon Divine Might
+SPIN104;1;Innate;INNATE_LARLOCHS_MINOR_DRAIN;Necromancy;Larloch's Minor Drain
+SPIN105;1;Innate;INNATE_HORROR;Necromancy;Horror
+SPIN106;1;Innate;INNATE_VAMPIRIC_TOUCH;Necromancy;Vampiric Touch
+SPIN107;0;Innate;;None;Shapeshift: Brown Bear
+SPIN108;1;Innate;;Enchantment;Charm Animal
+SPIN109;1;Innate;;Necromancy;Lay On Hands
+SPIN110;1;Innate;;None;Shapeshift: Wolf
+SPIN111;1;Innate;;None;Shapeshift: Black Bear
+SPIN112;1;Innate;;Abjuration;Dispel Magic
+SPIN113;1;Innate;;None;Spiritual Hammer
+SPIN114;1;Innate;;Conjuration;Summon Dread Wolf
+SPIN115;1;Innate;;Conjuration;Summon Ghast
+SPIN116;1;Innate;;None;Create Poisoned Arrows
+SPIN117;1;Innate;MINSC_BERSERK;None;Berserker Rage
+SPIN118;1;Innate;;Illusion;Invisibility
+SPIN119;1;Innate;SAFANA_CHARM;Enchantment;Charm Person
+SPIN120;1;Innate;;Divination;Detect Evil
+SPIN121;1;Innate;;Abjuration;Protection From Evil
+SPIN122;1;Innate;AVENGER_SHAPESHIFT_NATURAL_FORM;None;Shapeshift: Natural Form
+SPIN123;1;Innate;DRUID_SHAPESHIFT_FROM_BLACKBEAR;None;Shapeshift: Natural Form
+SPIN124;1;Innate;SHAPESHIFTER_SHAPESHIFT_NATURAL_FORM;None;Shapeshift: Natural Form
+SPIN125;1;Innate;;None;Shapeshift: Spider
+SPIN126;1;Innate;;None;Shapeshift: Baby Wyvern
+SPIN127;1;Innate;;None;Shapeshift: Fire Salamander
+SPIN128;7;Innate;SEVEN_EYES_MIND;Enchantment;Eye of the Mind
+SPIN129;7;Innate;SEVEN_EYES_MAGE;Evocation;Eye of the Mage
+SPIN130;7;Innate;SEVEN_EYES_SWORD;Evocation;Eye of the Sword
+SPIN131;7;Innate;SEVEN_EYES_VENOM;Necromancy;Eye of Venom
+SPIN132;4;Innate;SEVEN_EYES_FORTITUDE;Evocation;Eye of Fortitude
+SPIN133;7;Innate;SEVEN_EYES_SPIRIT;Alteration;Eye of the Spirit
+SPIN134;7;Innate;SEVEN_EYES_STONE;Enchantment;Eye of Stone
+SPIN135;1;Innate;INNATE_BOMBARDIER_BEETLE_CLOUD;None;
+SPIN136;1;Innate;INNATE_FIEND_FIREBALL;Evocation;Unholy Fireball
+SPIN137;1;Innate;INNATE_FIEND_IMPROVED_INVISIBILITY;Illusion;Improved Invisibility
+SPIN138;1;Innate;INNATE_FIEND_TRUE_SIGHT;Divination;True Seeing
+SPIN139;1;Innate;INNATE_FIEND_DOMINATION;Enchantment;Domination
+SPIN140;1;Innate;INNATE_FIEND_RAY_OF_ENFEEBLEMENT;Necromancy;Ray of Enfeeblement
+SPIN141;1;Innate;DMWW_TRAP_SET;None;Trap set
+SPIN142;1;Innate;GOLEM_CONE_OF_COLD;Evocation;Cone of Cold
+SPIN143;1;Innate;INNATE_FIEND_TELEPORT;Alteration;Teleport Without Error
+SPIN144;1;Innate;INNATE_FIEND_DISPEL_MAGIC;Abjuration;Dispel Magic
+SPIN145;1;Innate;INNATE_FIEND_MIRROR_IMAGE;Illusion;Mirror Image
+SPIN146;1;Innate;INNATE_FIEND_UNHOLY_BLIGHT;Necromancy;Unholy Blight
+SPIN147;1;Innate;INNATE_FIEND_CONFUSION;Enchantment;Confusion
+SPIN148;1;Innate;INNATE_FIEND_BLADE_BARRIER;Conjuration;Blade Barrier
+SPIN149;1;Innate;INNATE_FIEND_CURE_CRITICAL_WOUNDS;Necromancy;Cure Mortal Wounds
+SPIN150;1;Innate;SHAPESHIFT_NATURAL_FORM_1;None;Shapeshift: Natural Form (Shapechange)
+SPIN151;1;Innate;SHAPESHIFT_NATURAL_FORM_2;None;Shapeshift: Natural Form
+SPIN152;1;Innate;SHAPECHANGE_MIND_FLAYER;None;Shapechange: Mind Flayer
+SPIN153;1;Innate;SHAPECHANGE_IRON_GOLEM;None;Shapechange: Iron Golem
+SPIN154;1;Innate;SHAPECHANGE_GIANT_TROLL;None;Shapechange: Giant Troll
+SPIN155;1;Innate;SHAPECHANGE_GREATER_WOLFWERE;None;Shapechange: Greater Wolfwere
+SPIN156;1;Innate;SHAPECHANGE_FIRE_ELEMENTAL;None;Shapechange: Fire Elemental
+SPIN157;1;Innate;SHAPECHANGE_EARTH_ELEMENTAL;None;Shapechange: Earth Elemental
+SPIN158;1;Innate;INNATE_FIEND_INVISIBILITY;Illusion;Invisibility
+SPIN159;1;Innate;INNATE_FIEND_PRISMATIC_SPRAY;Alteration;Prismatic Spray
+SPIN160;1;Innate;SALAMANDER_BREATHE_FIREBALL;None;Breathe Fireball
+SPIN161;1;Innate;INNATE_FIEND_SLOW;Alteration;Slow
+SPIN162;1;Innate;INNATE_FIEND_MASS_CHARM;Enchantment;Mass Charm
+SPIN163;1;Innate;INNATE_FIEND_BLUR;Illusion;Blur
+SPIN164;1;Innate;INNATE_FIEND_STONE_SKIN;Alteration;Stoneskin
+SPIN165;1;Innate;MARILITH_PROTECTION_FROM_MAGIC_WEAPONS;Abjuration;Protection from Magical Weapons
+SPIN166;1;Innate;MARILITH_ANIMATE_DEAD;Necromancy;Summon Shadow
+SPIN167;1;Innate;MARILITH_CLOUDKILL;Conjuration;Cloudkill
+SPIN168;1;Innate;INNATE_YOCHLOL_FLAME_STRIKE;Evocation;Flame Strike
+SPIN169;1;Innate;INNATE_YOCHLOL_SPIDER_SPAWN;Conjuration;Monster Summoning IV
+SPIN170;1;Innate;INNATE_SOLAR_HEAL;Necromancy;Heal
+SPIN171;1;Innate;INNATE_SOLAR_DEATH_SPELL;Abjuration;Banishment
+SPIN172;1;Innate;INNATE_SOLAR_VOCALIZE;Alteration;Vocalize
+SPIN173;1;Innate;INNATE_RILMANI_LAY_HANDS;Necromancy;Lay on Hands
+SPIN174;1;Innate;BEHOLDER_TELEKINESIS;None;Telekinesis
+SPIN175;1;Innate;BEHOLDER_ENERVATION;Alteration;Enervation
+SPIN176;1;Innate;BEHOLDER_CONE_OF_COLD;Evocation;Cone of Cold
+SPIN177;1;Innate;HIVE_MOTHER_DEATH_RAY;Alteration;Death Ray
+SPIN178;1;Innate;PSIONIC_ASTRAL_TRAVEL;Alteration;Planar Travel
+SPIN179;1;Innate;PSIONIC_DISPEL_MAGIC;Abjuration;Psionic Disjunction
+SPIN180;1;Innate;PSIONIC_BLUR;Illusion;Blur
+SPIN181;1;Innate;VAMPIRE_BAT_CLOUD;None;Cloud of Bats
+SPIN182;1;Innate;VAMPIRE_MESMERISM;Enchantment;Mesmerism
+SPIN183;1;Innate;BURNING_MAN_BANEFIRE;Abjuration;Anti-Magic Ray
+SPIN200;4;Innate;;Necromancy;Cure Serious Wounds
+SPIN201;4;Innate;;Necromancy;Neutralize Poison
+SPIN202;4;Innate;;Necromancy;Cause Serious Wounds
+SPIN203;4;Innate;;Conjuration;Cloak of Fear
+SPIN529;1;Innate;;Alteration;End Slayer Change
+SPIN530;4;Wizard;;None;Lower Poison Resistance
+SPIN531;9;Innate;ABAZIGAL_SHOCKWAVE;Necromancy;Abazigal Shockwave
+SPIN532;1;Innate;DRAGON_LOWER_ELECTRICAL;None;Lower Electrical Resistance
+SPIN533;0;Innate;SENDAI_CHANGE;None;
+SPIN534;9;Innate;SUMMON_DEVIL_SHADE;None;Call Dark Horde
+SPIN535;1;Innate;GREEN_DRAGON_BREATH;None;Green Dragon Breath
+SPIN536;0;Innate;LICH_FEAR;None;Fear
+SPIN537;7;Innate;TROLL_FIRE_CHANGE;None;
+SPIN538;4;Innate;MAJOR_POLYMORPH;Alteration;Polymorph Other
+SPIN539;2;Innate;FLAMING_SKULL_BOLT;Evocation;Magma Ball
+SPIN540;1;Innate;RABBIT_POWER;None;
+SPIN541;1;Wizard;SAR_DIVINATION;None;Divination
+SPIN542;6;Psionic;PSIONIC_DISINTEGRATE;Alteration;Disintegrate
+SPIN543;7;Psionic;PSIONIC_INFLICT_PAIN;Conjuration;Inflict Pain
+SPIN544;1;Innate;PSIONIC_SUPERIOR_INVISIBILITY;Illusion;Improved Invisibility
+SPIN545;1;Wizard;PSIONIC_LIFE_DRAIN;Necromancy;Life Drain
+SPIN546;3;Psionic;PSIONIC_INERTIAL_BARRIER;Abjuration;Inertial Barrier
+SPIN547;0;Psionic;PSIONIC_PROJECT_FORCE;Abjuration;Project Force
+SPIN548;9;Innate;DEMOGORGON_GATE;None;Gate
+SPIN549;9;Innate;SUMMON_INFERNAL_HOST;None;Summon the Abyssal Host
+SPIN550;1;Innate;HIVE_MOTHER_ANTIMAGIC_RAY;Abjuration;Anti-Magic Ray
+SPIN551;1;Innate;HIVE_MOTHER_CAUSE_SERIOUS_WOUNDS;Necromancy;Cause Serious Wounds
+SPIN552;1;Innate;HIVE_MOTHER_DISINTEGRATE;Alteration;Disintegrate
+SPIN553;0;Wizard;NALMISSRA_CHARM;Enchantment;Charm Person
+SPIN554;1;Innate;GAIN_ONE_CHA_PERMANENT;None;Charisma Increase
+SPIN555;1;Innate;GAIN_ONE_WIS_PERMANENT;None;Wisdom Increase
+SPIN556;1;Innate;GAIN_ONE_INT_PERMANENT;None;Intelligence Increase
+SPIN557;1;Innate;GAIN_ONE_DEX_PERMANENT;None;Dexterity Increase
+SPIN558;1;Innate;ERINYES_CHARM;Enchantment;Charm Person
+SPIN559;0;Innate;BURNING_MAN_KEENING;None;Keening
+SPIN560;1;Innate;BURNING_MAN_CINDER_SHOWER;Evocation;Cinder Shower
+SPIN561;1;Innate;FIRE_GIANT_LAVA;None;
+SPIN562;3;Innate;ICE_GOLEM_STEAM;Necromancy;Scalding Steam
+SPIN563;1;Innate;HOLY_PILLAR_VISUAL;None;
+SPIN564;3;Innate;SKULL_EXPLODE;Necromancy;Skull Trap
+SPIN565;4;Innate;GAROCK_TELEPORT;None;Dimension Door
+SPIN566;3;Innate;MIMIC_WEB;None;Mimic Web
+SPIN567;1;Innate;MIMIC_FIRE;None;Mimic Fire
+SPIN568;1;Innate;MIMIC_POISON;None;Mimic Poison
+SPIN569;4;Innate;SUMMON_ICE_SALAMANDER;Conjuration;Summon Ice Salamander
+SPIN570;4;Innate;SUMMON_FIRE_ELEMENTAL;Conjuration;Summon Fire Elemental
+SPIN571;0;Innate;SUCCUBUS_KISS;None;Energy Drain
+SPIN572;3;Wizard;CUTSCENE_HASTE;None;Haste
+SPIN573;1;Innate;IMOEN_BHAAL2;None;
+SPIN574;1;Innate;IMOEN_BHAAL1;None;
+SPIN575;3;Innate;VORTEX_WEB;None;Vortex Web
+SPIN576;1;Innate;DENSE_PUDDING_SPLIT;None;
+SPIN577;1;Innate;GAIN_ONE_THACO;None;
+SPIN578;1;Innate;GAIN_ONE_AC;None;
+SPIN579;5;Wizard;POWER_AMP;Evocation;Lightning Bolt
+SPIN580;9;Wizard;IMPRISONMENT_NO_SAVE;Abjuration;Imprisonment
+SPIN581;1;Innate;RESTORATION_IGNORE_RESIST;None;
+SPIN582;1;Innate;CONFUSION_NO_SAVE;None;Confusion
+SPIN583;1;Innate;POISON_NO_SAVE;None;
+SPIN584;1;Innate;GAIN_HASTE_TEMPORARY;None;
+SPIN585;1;Innate;GAIN_MAGIC_RESIST_PERMANENT;None;Magic Resistance
+SPIN586;1;Innate;LOSE_FIFTEEN_LEVELS;None;
+SPIN587;1;Innate;LOSE_FIVE_LEVELS;None;
+SPIN588;1;Innate;LOSE_ONE_DEX_PERMANENT;None;
+SPIN589;1;Innate;LOSE_ONE_INT_PERMANENT;None;
+SPIN590;1;Innate;GAIN_ONE_CON_PERMANENT;None;Constitution Increase
+SPIN591;1;Innate;GAIN_ONE_STR_PERMANENT;None;Strength Increase
+SPIN592;5;Innate;HELM_RITUAL_SCROLL;Conjuration;
+SPIN593;5;Innate;ODREN_RITUAL_SCROLL;Conjuration;
+SPIN594;1;Innate;DEMOGORGON_CHANGE;None;
+SPIN595;1;Innate;YELLOW_DRAGON_BREATH;None;Yellow Dragon Scorching Sand
+SPIN596;1;Innate;BROWN_DRAGON_BREATH;None;Brown Dragon Acid Breath
+SPIN597;1;Innate;BLUE_DRAGON_BREATH;None;Blue Dragon Lightning Breath
+SPIN598;1;Innate;SAREVOK_FLASHY1;Conjuration;
+SPIN599;1;Innate;FIRE_HEALING;None;
+SPIN600;1;Innate;SAREVOK_SOULSTEAL;Conjuration;
+SPIN601;1;Priest;SPECIAL_SWEET_AIR;Abjuration;
+SPIN602;1;Innate;CHROMATIC_DEMON_RED;None;
+SPIN603;1;Innate;CHROMATIC_DEMON_WHITE;None;
+SPIN604;1;Innate;CHROMATIC_DEMON_GREEN;None;
+SPIN605;1;Innate;CHROMATIC_DEMON_YELLOW;None;
+SPIN606;1;Innate;DECK_SUN;Evocation;Sun
+SPIN607;1;Innate;DECK_JESTER;Evocation;Jester
+SPIN608;7;Innate;DECK_VIZIER;Abjuration;Vizier
+SPIN609;1;Innate;DECK_GEM;Evocation;Gem
+SPIN610;1;Innate;DECK_FATES;Evocation;Erinyes
+SPIN611;1;Innate;DECK_COMET;Evocation;Comet
+SPIN612;4;Wizard;DECK_FOOL;Necromancy;Fool
+SPIN613;8;Innate;DECK_TALONS;Conjuration;Talons
+SPIN614;1;Innate;DECK_ROGUE;Enchantment;Rogue
+SPIN615;9;Innate;DECK_KNIGHT;Conjuration;Knight
+SPIN616;9;Innate;DECK_FLAMES;Conjuration;Flames
+SPIN617;1;Innate;DECK_EURYALE;Evocation;Euryale
+SPIN618;1;Innate;DECK_MOON;Necromancy;Moon
+SPIN619;1;Innate;DECK_THRONE;Evocation;Throne
+SPIN621;1;Innate;DECK_KEY;Evocation;Key
+SPIN622;5;Innate;DECK_SKULL;Necromancy;Skull
+SPIN623;0;Innate;DECK_MAGICIAN;Alteration;Magician
+SPIN624;6;Innate;DECK_VOID;Alteration;Void
+SPIN625;1;Innate;DECK_RUIN;Evocation;Ruin
+SPIN626;9;Innate;DECK_DONJON;Abjuration;Donjon
+SPIN627;1;Innate;FROZEN_DEATH;None;Trap
+SPIN628;1;Innate;SLOW_FREEZE;None;
+SPIN629;1;Innate;DECK_WHEEL;Conjuration;Wheel
+SPIN630;4;Wizard;DECK_STRENGTH;None;Strength Curse
+SPIN631;6;Innate;DECK_CONSTRUCT;Conjuration;Construct
+SPIN632;6;Wizard;DECK_EMPEROR;None;Emperor
+SPIN633;5;Priest;DECK_EMPRESS;Divination;True Seeing
+SPIN634;6;Wizard;DECK_HIGH_PRIESTESS;Conjuration;High Priestess
+SPIN635;3;Wizard;DECK_STRIFE;None;Strife
+SPIN636;5;Priest;DECK_DEFIANCE;None;Defiance
+SPIN637;6;Innate;DECK_GUILE;Conjuration;Guile
+SPIN638;6;Innate;DECK_TRIUMPH;Conjuration;Triumph
+SPIN639;4;Wizard;DECK_PLAGUE;None;Plague
+SPIN640;1;Innate;DECK_XP_DRAIN;Necromancy;Energy Drain
+SPIN641;1;Innate;DECK_VITALITY_DRAIN;Necromancy;Vitality Drain
+SPIN642;5;Innate;POISONOUS_CLOUD;None;Trap
+SPIN643;0;Innate;FAN_BLOW;Abjuration;
+SPIN644;4;Wizard;BALOR_FIRE_SHIELD;Evocation;
+SPIN645;1;Innate;WILD_MAGIC_AREA;None;
+SPIN646;1;Innate;DEAD_MAGIC_AREA;None;
+SPIN647;2;Innate;DISPEL_NO_SAVE;None;Hold Person
+SPIN648;2;Innate;HOLD_PERSON_NO_SAVE;None;Hold Person
+SPIN649;1;Innate;ENTER_POCKET_PLANE;None;Pocket Plane
+SPIN650;5;Priest;DM_SHIELD;Alteration;Armor
+SPIN651;5;Priest;DM_SEE_INVISIBLE;Alteration;Magic Resistance
+SPIN652;5;Priest;DM_MAGIC_PROTECTION;Alteration;Magic Resistance
+SPIN653;5;Priest;DM_COLD_PROTECTION;Alteration;Magic Resistance
+SPIN654;5;Priest;DM_FIRE_PROTECTION;Alteration;Magic Resistance
+SPIN655;6;Wizard;DM_IMPROVED_HASTE;Alteration;Improved Haste
+SPIN656;3;Innate;VIEKANG_LIGHTNING;None;
+SPIN657;1;Innate;DO_SOME_EFFECTS;None;
+SPIN658;0;Innate;HELL_BUFFET;None;
+SPIN659;1;Innate;TROLL_CHANGE_NITHIRI;None;
+SPIN660;4;Innate;POOF_GONE;None;Teleport
+SPIN661;7;Innate;EDWINA_IN_HELL;None;
+SPIN662;7;Innate;EDWIN_CHANGE_BACK;None;Dispel Magic
+SPIN663;2;Priest;CREATE_YOSHIMO_BLADE;Evocation;Flame Blade
+SPIN664;1;Innate;NETHER_SCROLL;None;
+SPIN665;1;Innate;BEHOLDER_BLAST_VISUAL2;Divination;
+SPIN666;1;Innate;ZOMBIE_LEVEL_DRAIN;None;Level Drain
+SPIN667;1;Innate;SLAYER_BACK_TO_HUMAN_NOVIS;Alteration;End Slayer Change
+SPIN668;6;Innate;REMOVE_NON_PERMANENT_DEATH;Necromancy;
+SPIN669;6;Innate;APPLY_NON_PERMANENT_DEATH;Necromancy;
+SPIN670;1;Innate;SEA_TROLL_CHANGE;None;
+SPIN671;4;Innate;SWOOSH_GONE;None;Teleport
+SPIN672;4;Innate;QUICK_INVISIBLE;None;
+SPIN673;5;Innate;SPORE_DEATH;Evocation;Cloudkill
+SPIN674;5;Innate;MIST_CHAOS;Enchantment;Chaos
+SPIN675;6;Innate;MIST_HORROR;None;Wandering Horror
+SPIN676;1;Innate;INVOKE_COURAGE;None;Invoke Courage
+SPIN677;0;Innate;SUMMON_POISON;None;
+SPIN678;0;Innate;ANOMEN_TITLE;None;
+SPIN679;6;Priest;HEAL_NO_VISUAL;Necromancy;Heal
+SPIN680;1;Innate;HARPER_DEATH_SONG;None;Deathsong
+SPIN681;9;Innate;BANSHEE_WAIL;Necromancy;Wail of the Banshee
+SPIN682;1;Innate;DRAGON_LOWER_FIRE;None;Lower Fire Resistance
+SPIN683;1;Innate;FIGURINE_SPIDER_WEB;None;Web Tangle
+SPIN684;6;Wizard;KOA_TRUE_SIGHT_NO_VIS;Divination;True Sight
+SPIN685;1;Wizard;MAGIC_MISSILE_SURE_HIT;Evocation;Magic Missile
+SPIN686;1;Innate;PROTECTION_MAGIC_WEAPON_NOEFF;Abjuration;Protection From Magical Weapons
+SPIN687;4;Innate;SHADOW_DRAGON_SHADOWS;Illusion;Create Shadows
+SPIN688;1;Innate;BLACK_DRAGON_PLANT;Alteration;Plant Growth
+SPIN689;1;Innate;BLACK_DRAGON_INSECT;Conjuration;Summon Insects
+SPIN690;1;Innate;HOLY_LIGHT_FROM_ABOVE;None;
+SPIN691;1;Innate;BLACK_DRAGON_BREATH;None;Black Dragon Breath
+SPIN692;1;Innate;DRAGON_SILENCE;Alteration;Silence, 15' Radius
+SPIN693;6;Innate;RED_DRAGON_HIT;None;
+SPIN694;1;Innate;DRAGON_STONE_SKIN;Alteration;Stoneskin
+SPIN695;0;Innate;DRAGON_WING_BUFFET;None;Wing Buffet
+SPIN696;3;Innate;MOON_DOG_HOWL;None;Moon Dog Sight
+SPIN697;2;Innate;HASTE_SELF;Illusion;Mirror Image
+SPIN698;4;Innate;NON_DETECTION_SELF;Illusion;Improved Invisibility
+SPIN699;1;Innate;INVISIBILITY_SELF;Necromancy;Healing Lick
+SPIN700;1;Innate;TROLL_SETHP1;None;Troll Death
+SPIN701;7;Innate;DEATHKNIGHT_FIREBALL;Evocation;Unholy Fireball
+SPIN702;0;Innate;FAKE_FLAME_STRIKE;Evocation;Spawn Demons
+SPIN703;3;Wizard;AERIE_DISPEL_MAGIC;Abjuration;Dispel Magic
+SPIN704;7;Innate;NYMPH_CONFUSION;Enchantment;Confusion
+SPIN706;0;Special;TRAP_VENT;None;
+SPIN707;0;Special;TRAP_DARTS;None;Trap
+SPIN708;0;Special;TRAP_SLIME;None;
+SPIN709;0;Special;TRAP_SPEAR;None;
+SPIN710;6;Wizard;SPELL_DEFLECTION_NO_VISUAL;Abjuration;Spell Deflection
+SPIN711;6;Priest;FINAL_HEAL;Necromancy;Heal
+SPIN712;3;Innate;MULTIPLAYER_ANTIMAGIC;None;
+SPIN713;4;Innate;ICE_DUST;Evocation;Icedust
+SPIN714;3;Innate;CELESTIAL_BOLT;Evocation;Lightning Bolt
+SPIN715;1;Innate;TROLL_RAT_SPAWN;Alteration;
+SPIN716;1;Innate;SLAYER_IMMUNE_TO_DAMAGE;Alteration;
+SPIN717;1;Innate;SLAYER_CHANGE_CUT_SCENE;None;Slayer Change
+SPIN718;1;Innate;SLAYER_BACK_TO_HUMAN;Alteration;End Slayer Change
+SPIN719;9;Wizard;CUTSCENE_METEOR_SWARM;Evocation;Meteor Swarm
+SPIN720;3;Innate;CUTSCENE_DAMAGE_1C;None;
+SPIN721;3;Innate;CUTSCENE_DAMAGE_1B;None;
+SPIN722;0;Innate;GREAT_DRUID_TITLE;None;
+SPIN723;4;Wizard;DRAGON_RAIN;Evocation;Dragon Rain
+SPIN724;7;Innate;RAISSA_RESTORE;None;
+SPIN725;1;Innate;SKIN_DANCER_RESTORE_2;None;
+SPIN726;3;Innate;CUTSCENE_DAMAGE_1;None;
+SPIN727;1;Innate;NOSAVE_PSIONIC_BLAST;None;Psionic Blast
+SPIN728;1;Innate;SKIN_DANCER_RESTORE;None;
+SPIN729;1;Innate;SKIN_DANCER_SWITCH;None;
+SPIN730;4;Innate;SUMMON_FUNGUS;Conjuration;Summon Fungus
+SPIN731;0;Innate;WISH_SPELL_FAILURE;Abjuration;Wish
+SPIN732;0;Innate;WISH_LOSE_SPELL;Abjuration;Wish
+SPIN733;0;Innate;WISH_POISON;Abjuration;Wish
+SPIN734;0;Innate;WISH_HEAL_PARTY;Abjuration;Wish
+SPIN735;0;Innate;WISH_RABBIT;Abjuration;Wish
+SPIN736;0;Innate;WISH_GLOBE;Abjuration;Wish
+SPIN737;0;Innate;WISH_MEMORIZE;Abjuration;Wish
+SPIN738;0;Innate;WISH_PLANE;Abjuration;Wish
+SPIN739;1;Innate;TROLL_SPECTRAL_CHANGE;None;
+SPIN740;1;Innate;TROLL_SNOW_CHANGE;None;
+SPIN741;1;Innate;TROLL_SPIRIT_CHANGE;None;
+SPIN742;7;Innate;TROLL_GIANT_CHANGE;None;
+SPIN743;1;Innate;TROLL_FRESHWATER_CHANGE;None;
+SPIN744;1;Innate;TROLL_DESERT_CHANGE;None;
+SPIN745;0;Innate;AERIE_PORTRAIT;Abjuration;
+SPIN746;0;Innate;RESTORE_FULL_HEALTH;Necromancy;
+SPIN747;1;Innate;HELL_SELFISH_EVIL;None;
+SPIN748;1;Innate;HELL_SELFISH_GOOD;None;
+SPIN749;1;Innate;HELL_WRATH_EVIL;None;
+SPIN750;1;Innate;HELL_WRATH_GOOD;None;
+SPIN751;1;Innate;HELL_PRIDE_EVIL;None;
+SPIN752;1;Innate;HELL_PRIDE_GOOD;None;
+SPIN753;1;Innate;HELL_FEAR_EVIL;None;
+SPIN754;1;Innate;HELL_FEAR_GOOD;None;
+SPIN755;1;Innate;HELL_GREED_EVIL;None;
+SPIN756;1;Innate;HELL_GREED_GOOD;None;
+SPIN757;1;Innate;IRENICUS_WORD_OF_POWER;None;Word Of Power
+SPIN758;1;Innate;PLAYER1_WORD_OF_POWER;None;Word Of Power
+SPIN759;1;Innate;HELL_GAIN_CHR;None;Charisma Increase
+SPIN760;1;Innate;HELL_GAIN_CON;None;Constitution Increase
+SPIN761;1;Innate;HELL_GAIN_DEX;None;Dexterity Increase
+SPIN762;1;Innate;HELL_GAIN_WIS;None;Wisdom Increase
+SPIN763;1;Innate;HELL_GAIN_INT;None;Intelligence Increase
+SPIN764;1;Innate;HELL_GAIN_STR;None;Strength Increase
+SPIN765;1;Innate;HELL_LOSE_XP;None;
+SPIN766;1;Innate;HELL_LOSE_DEX;None;
+SPIN767;1;Innate;HELL_LOSE_HP;None;
+SPIN768;1;Innate;HELL_DISPELL;None;
+SPIN769;1;Innate;HELL_HOLD;None;
+SPIN770;1;Innate;HELL_EXPLODE;None;
+SPIN771;1;Innate;HELL_DAMAGE_HALF;None;
+SPIN772;9;Innate;HELL_FEAR;None;
+SPIN773;1;Innate;EVIL_LAYONHANDS;Conjuration;Lay On Hands
+SPIN774;1;Innate;PSIONIC_MAZE;Conjuration;Psionic Maze
+SPIN775;1;Innate;PSIONIC_MIND_BLAST;Conjuration;Mind Blast
+SPIN776;1;Wizard;MAKE_STATUE;Alteration;
+SPIN777;1;Innate;BEHOLDER_BLAST_VISUAL;Divination;
+SPIN778;1;Innate;WILD_MAGIC_ZONE;Abjuration;Wild Magic Zone
+SPIN779;3;Innate;ANTI_MAGIC_ZONE;Abjuration;Anti-Magic
+SPIN780;1;Innate;FLASHY_DEATH_3;Divination;
+SPIN781;1;Innate;FLASHY_DEATH_2;Divination;
+SPIN782;1;Innate;FLASHY_DEATH_1;Divination;
+SPIN783;1;Innate;SLAYER_ENEMY;None;Slayer Change
+SPIN784;1;Innate;SNAKE_GAZE;None;Nauseating Gaze
+SPIN785;1;Innate;PERM_CHARM;Conjuration;
+SPIN786;9;Innate;LICH_IMPRISON;Abjuration;Banishment
+SPIN787;1;Innate;SMALL_DAMAGE_SPELL;Conjuration;
+SPIN788;9;Innate;DEMILICH_TRAP_SOUL;Abjuration;Demilich Soul Trap
+SPIN789;9;Innate;DEMILICH_DEATH;Necromancy;Demilich Howl
+SPIN790;1;Innate;LONG_VISUAL2;None;
+SPIN791;1;Innate;TROLL_ICE_CHANGE;None;
+SPIN792;1;Innate;LONG_VISUAL;None;
+SPIN793;1;Innate;FLASHY_DEATH_YEAH;Divination;
+SPIN794;1;Innate;FLASHY_4;Divination;
+SPIN795;1;Innate;FLASHY_3;Divination;
+SPIN796;1;Innate;FLASHY_2;Divination;
+SPIN797;1;Innate;FLASHY_1;Conjuration;
+SPIN798;1;Innate;BODHI_BAT_ASYLUM;None;
+SPIN799;5;Priest;DACE_FLAME;Evocation;Flame Strike
+SPIN800;1;Innate;FLAME_HEAD;Divination;
+SPIN801;1;Innate;NO_FEAR_PARTY;Divination;
+SPIN802;1;Innate;MIND_CRIPPLE;Divination;Psychic Drain
+SPIN803;0;Innate;DACE_MIST_FORM_CHANGE;None;
+SPIN804;1;Innate;PSIONIC_EMOTION_KILL;Divination;Psychic Drain
+SPIN805;1;Innate;THIEF_DETECT_ILLUSION;Divination;
+SPIN806;0;Innate;LICH_REPLACE_SELF;None;
+SPIN807;9;Innate;SLAYER_FEAR;None;Slayer Fear
+SPIN808;7;Wizard;DRAIN_PARTY;Necromancy;
+SPIN809;0;Innate;BODHI_MIST_FORM_CHANGE;None;
+SPIN810;1;Innate;GIVE_SLAYER_POWER;None;Slayer Change
+SPIN811;0;Innate;VAMPIRE_FORM_CHANGE;None;
+SPIN812;0;Innate;DEL_VAMP_FORM_CHANGE;None;
+SPIN813;7;Wizard;SLAVE_CHUNK;Necromancy;Death Curse
+SPIN814;0;Innate;TANOVA_MIST_FORM_CHANGE;None;
+SPIN815;0;Innate;DEL_MIST_FORM_CHANGE;None;
+SPIN816;0;Innate;VALEN_MIST_FORM_CHANGE;None;
+SPIN817;3;Innate;C6BODHI_WEAKNESS;None;
+SPIN818;3;Innate;C6VAMPIRE_WEAKNESS;None;
+SPIN819;3;Innate;LAVA_BURST;Evocation;Lava burst
+SPIN820;9;Wizard;ELVEN_GUARD_WAIL;Necromancy;Wail of the Banshee
+SPIN821;1;Wizard;LONG_RED_MIGHT;None;
+SPIN822;1;Innate;SLAYER_START;None;Slayer Change
+SPIN823;1;Innate;SLAYER_CHANGE_TWO;None;Slayer Change
+SPIN824;7;Wizard;DEATH_CURSE;Necromancy;Death Curse
+SPIN825;1;Wizard;DROW_CHANGE;None;Drow Transformation
+SPIN826;1;Innate;MAZZY_STRENGTH;Alteration;Strength
+SPIN827;1;Innate;MAZZY_LAY;None;Lay On Hands
+SPIN828;1;Innate;MAZZY_HASTE;Alteration;Haste
+SPIN829;1;Innate;JAN_AMMO;Evocation;Create Bruiser Mates
+SPIN830;4;Wizard;UNDER_NORM;Alteration;
+SPIN831;4;Wizard;UNDER_SQUIRREL;Alteration;
+SPIN832;6;Innate;SILVER_DRAGON_BREATH_PARALIZATION;None;Silver Dragon Paralyzation
+SPIN833;1;Innate;SILVER_DRAGON_BREATH_COLD;None;Silver Dragon Cone of Cold
+SPIN834;9;Innate;BRAIN_PSIONIC_BLAST;None;Psionic Blast
+SPIN835;1;Innate;ILLUSION_DEATH;None;
+SPIN836;9;Wizard;JON_ALL_DEAD;None;Wish
+SPIN837;1;Wizard;JON_WISH;Alteration;Wish
+SPIN838;1;Innate;LOSE_ALL;None;Loses all Bhaal powers
+SPIN839;4;Innate;HULK_CONFUSION;Enchantment;Confusing Gaze
+SPIN840;0;Innate;BOOK_GOLEM;None;
+SPIN841;0;Innate;BOOK_BEHOLD;None;
+SPIN842;0;Innate;BOOK_MIND;None;
+SPIN843;0;Innate;BOOK_UMBER;None;
+SPIN844;0;Innate;BOOK_SPIDER;None;
+SPIN845;0;Innate;BOOK_KOBOLD;None;
+SPIN846;1;Wizard;SAND_DIE;None;
+SPIN847;1;Innate;FIRAMB05_CHANGE;None;
+SPIN848;6;Innate;DISARM_ENEMY;Generalist;Level Drain
+SPIN849;1;Innate;TROLL_SMALL_CHANGE;None;
+SPIN850;1;Innate;DGTROLL_CHANGE;None;
+SPIN851;1;Innate;FIRAMB01_CHANGE;None;
+SPIN852;1;Innate;SLAYER_CHANGE;None;Slayer Change
+SPIN853;4;Wizard;FORCE_SPHERE;Alteration;Otiluke's Resilient Sphere
+SPIN854;0;Innate;MAGNET;None;
+SPIN855;0;Innate;SUMMON_DJINN_TRAP;None;
+SPIN856;0;Innate;SUMMON_DEATH_KNIGHT;None;
+SPIN857;0;Innate;SUMMON_PIT_FIEND;None;
+SPIN858;1;Innate;ONE_INT;None;
+SPIN859;1;Innate;ONE_WIS;None;
+SPIN860;1;Innate;ONE_DEX;None;
+SPIN861;1;Innate;ONE_CON;None;
+SPIN862;1;Innate;NOHOLD_PARTY;None;
+SPIN863;1;Innate;HOLD_PARTY;None;
+SPIN864;7;Wizard;TRANSFORMATION_DEATH;Necromancy;Rapture of the Father
+SPIN865;6;Wizard;FORCE_STONE_TRAP;Alteration;Flesh to Stone
+SPIN866;3;Wizard;FORCE_DISPEL_MAGIC;Abjuration;Dispel Magic
+SPIN867;1;Wizard;RED_PILLAR_VISUAL;None;
+SPIN868;1;Innate;CERND_CERND;None;
+SPIN869;1;Innate;CERND_BEAR;None;
+SPIN870;0;Innate;SUMMON_SHADOW_WOLF;None;
+SPIN871;1;Innate;END_EXPLORE;None;End Spell
+SPIN872;0;Innate;FIVE_ROUND_ENCHANTMENT_IMMUNITY;None;
+SPIN873;0;Innate;UNPAUSE_CASTER;None;
+SPIN874;1;Innate;FALDORN_PANTHER;None;
+SPIN875;1;Innate;ANATH_WEREWOLF2;None;
+SPIN876;1;Innate;ANATH_WEREWOLF;None;
+SPIN877;6;Innate;APPRENTI_DEATH;Generalist;Explosion
+SPIN878;6;Innate;SHADOW_DRAIN;Generalist;Level Drain
+SPIN879;0;Innate;MAKE_SHADOW;None;
+SPIN880;0;Innate;SUMMON_SHADOW;None;
+SPIN881;1;Innate;GREATER_WEREWOLF_CHANGE;None;
+SPIN882;1;Innate;VAMPIRE_FEAR;None;Vampire Fear
+SPIN883;1;Innate;VAMPIRE_DOMINATION;Enchantment;Dominating Gaze
+SPIN884;1;Priest;CHICKEN_CHANGE;None;Change Chicken
+SPIN885;6;Innate;KAMIKAZE_EXPLOSION;Generalist;Kamikaze Explosion
+SPIN886;1;Innate;RAELIS_OPEN_PORTAL;None;
+SPIN887;0;Innate;SUMMONED_MIND;None;
+SPIN888;6;Innate;SURE_STONE_SHATTER;Alteration;Flesh to Stone
+SPIN889;6;Innate;SURE_STONED;Alteration;Flesh to Stone
+SPIN890;9;Innate;DEMON_FEAR;None;Demon Fear
+SPIN891;6;Innate;MOON_DOG_FEAR;None;Moon Dog Howl
+SPIN892;1;Innate;SURE_SLEEP;None;Sleep
+SPIN893;6;Innate;SHADOW_DRAGON_BREATH;None;Shadow Dragon Breath
+SPIN894;1;Innate;RED_DRAGON_BREATH;None;Red Dragon Breath
+SPIN895;0;Innate;DRAGON_FEAR;None;Dragon Fear
+SPIN896;1;Priest;REPULSE_X;None;Repulse X
+SPIN897;3;Wizard;BEHOLDER_GAS_SPORE;Evocation;Gas Spore
+SPIN898;0;Innate;ARCHER_PROTECTION;None;Archer Protection
+SPIN899;1;Wizard;ZOMBIE_SICKNESS;None;
+SPIN900;8;Innate;ZOMBIE_CHANGE;None;Zombie Change
+SPIN901;0;Innate;ZOMBIE_CON_LOSS;None;
+SPIN902;1;Innate;BODVAM02_MIST_CHANGE;None;
+SPIN903;1;Innate;BODVAM01_MIST_CHANGE;None;
+SPIN904;0;Innate;LASSAL_MIST_CHANGE;None;
+SPIN905;1;Innate;DO_NOTHING;None;
+SPIN906;0;Innate;THREE_ROUND_ENCHANTMENT_IMMUNITY;None;
+SPIN907;0;Innate;FIFTY_PERCENT_DAMAGE_ARROW;None;
+SPIN908;0;Innate;FIFTY_PERCENT_DAMAGE;None;
+SPIN909;1;Innate;PSIONIC_EGOWHIP;None;Ego Whip
+SPIN910;1;Psionic;PSIONIC_DOMINATION;None;Domination
+SPIN911;1;Innate;PSIONIC_BALLISTIC;None;Ballistic Attack
+SPIN912;1;Innate;PSIONIC_DETONATE;None;Detonate
+SPIN913;1;Innate;MIMIC_ACID;None;Mimic Acid
+SPIN914;1;Innate;MIMIC_GLUE;None;Mimic Glue
+SPIN915;1;Wizard;SPIDER_CHANGE;None;
+SPIN916;7;Innate;EDWIN_CHANGE;None;Nether Spell
+SPIN917;1;Innate;MANE_GAS;None;Mane Gas
+SPIN918;0;Innate;HARPASS_CHANGE;None;Polymorph Other
+SPIN919;0;Innate;JAHEIRA_WEAKNESS;None;
+SPIN920;5;Innate;BEHOLDER_SPELL_TURNING;Abjuration;Minor Spell Turning
+SPIN921;0;Innate;;None;Deathsong
+SPIN922;1;Innate;REVENANT_CHANGE;None;
+SPIN923;7;Innate;GENIE_LIMITED_WISH_HEAL_ALL;None;Limited Wish
+SPIN924;0;Innate;COVER_PARTIAL;None;Partial cover
+SPIN925;0;Innate;COVER_FULL;None;Full cover
+SPIN926;2;Innate;MEPHIT_WATER_JET;None;Water Jet
+SPIN927;2;Innate;MEPHIT_RAINSTORM;None;Boiling Rain Storm
+SPIN929;2;Innate;MEPHIT_MIST;None;Mist Ball
+SPIN930;2;Innate;MEPHIT_LAVA;Evocation;Magma Ball
+SPIN931;2;Innate;MEPHIT_SOOTY_BALL;None;Sooty Ball
+SPIN932;2;Innate;MEPHIT_BOLT;Evocation;Lightning Bolt
+SPIN933;3;Innate;MEPHIT_LIGHTNING_BOLT;Evocation;Lightning Bolt
+SPIN934;2;Innate;MEPHIT_SALT_CRYSTAL;None;Salt Crystals
+SPIN935;1;Innate;MEPHIT_GLASS_DUST;Evocation;Glass Dust
+SPIN936;2;Innate;MEPHIT_ICE_SHARD;None;Ice Shard
+SPIN937;1;Innate;MEPHIT_COLOR_SPRAY;Alteration;Color Spray
+SPIN938;2;Innate;MEPHIT_FLAME_FAN;None;Flame Fan
+SPIN939;2;Innate;MEPHIT_FLAME_JET;Evocation;Flame Jet
+SPIN940;2;Innate;MEPHIT_STINKING_CLOUD;Evocation;Stinking Cloud
+SPIN941;2;Innate;MEPHIT_SPIT_ROCK;None;Stone Spit
+SPIN942;1;Innate;MEPHIT_GRIT;None;Breathes Grit
+SPIN943;2;Innate;MEPHIT_BLUR;Illusion;Blur
+SPIN944;7;Wizard;CUTSCENE_POWERWORD_STUN;Conjuration;Power Word, Stun
+SPIN945;9;Wizard;CUTSCENE_SPELLSTRIKE;Abjuration;Spellstrike
+SPIN946;6;Wizard;CUTSCENE_BREACH;Abjuration;Breach
+SPIN947;5;Wizard;CUTSCENE_MIND_FOG;Enchantment;Mind Fog
+SPIN948;5;Wizard;CUTSCENE_LOWER_RESISTANCE;Alteration;Lower Resistance
+SPIN949;7;Wizard;CUTSCENE_RUBY_RAY_OF_REVERSAL;Alteration;Ruby Ray of Reversal
+SPIN950;6;Wizard;CUTSCENE_FLESH_TO_STONE;Alteration;Flesh to Stone
+SPIN951;9;Wizard;CUTSCENE_POWERWORD_KILL;Conjuration;Power Word, Kill
+SPIN952;4;Wizard;CUTSCENE_PHANTASMAL_KILLER;Illusion;Phantasmal Killer
+SPIN953;9;Wizard;CUTSCENE_IMPRISONMENT;Abjuration;Imprisonment
+SPIN954;5;Innate;SIRINE_TELEPORT_FAKE;None;Teleport
+SPIN955;1;Innate;TROLL_CHANGE;None;
+SPIN956;1;Wizard;HELL_HOUND_FLAME;None;Hell Hound Flame Breath
+SPIN957;0;Special;GHOULLORD_FEAR;None;
+SPIN958;1;Innate;ULITHARID_CURE_SERIOUS_WOUNDS;None;Cure Serious Wounds
+SPIN959;1;Innate;ULITHARID_PSIONIC_BLAST;None;Psionic Blast
+SPIN960;7;Innate;BEHOLDER_PARALYZATION_RAY;None;Paralyzation Ray
+SPIN961;1;Innate;BEHOLDER_FINGER_OF_DEATH;Necromancy;Finger of Death
+SPIN962;1;Innate;BEHOLDER_MAGIC_MISSILE;Evocation;Magic Missile
+SPIN963;1;Innate;VAMPIRE_BAT_FORM_CHANGE;None;
+SPIN964;1;Innate;VAMPIRE_GAS_FORM_CHANGE;None;
+SPIN965;0;Innate;TROLL_HEAL_ONE_HIT_POINT;None;
+SPIN966;0;Innate;TROLL_SLEEP;None;
+SPIN967;1;Wizard;EFREETI_PHYSICAL_FORM_CHANGE;None;
+SPIN968;1;Wizard;DOA_PHYSICAL_FORM_CHANGE;None;
+SPIN969;1;Wizard;DJINNI_PHYSICAL_FORM_CHANGE;None;
+SPIN970;1;Wizard;EFREETI_GAS_FORM_CHANGE;None;
+SPIN971;1;Wizard;DOA_GAS_FORM_CHANGE;None;
+SPIN972;1;Wizard;DJINNI_GAS_FORM_CHANGE;None;
+SPIN973;9;Innate;AIR_ELEMENTAL_EFFECT;None;Air Elemental Whirlwind
+SPIN974;1;Innate;MIND_FLAYER_PSIONIC_BLAST;None;Psionic Blast
+SPIN975;1;Innate;MIND_FLAYER_DOMINATION;None;Psionic Domination
+SPIN976;4;Innate;GOLEM_CONFUSION;None;Confusion
+SPIN977;3;Innate;GOLEM_SLOW;None;Golem Slow
+SPIN978;3;Innate;GOLEM_HASTE;None;Golem Haste
+SPIN979;2;Innate;GOLEM_GASCLOUD;None;Gas Cloud
+SPIN980;1;Innate;BEHOLDER_CHARM_PERSON;Enchantment;Charm Person
+SPIN981;1;Innate;BEHOLDER_FEAR;Enchantment;Fear
+SPIN982;1;Innate;BEHOLDER_DISINTEGRATE;Alteration;Disintegrate
+SPIN983;1;Innate;BEHOLDER_SLOW;Alteration;Slow
+SPIN984;1;Innate;BEHOLDER_FLESH_TO_STONE;Alteration;Flesh to Stone
+SPIN985;1;Innate;BEHOLDER_DOMINATION;Enchantment;Domination
+SPIN986;1;Innate;BEHOLDER_CAUSE_SERIOUS_WOUNDS;Necromancy;Cause Serious Wounds
+SPIN987;1;Innate;BEHOLDER_AGANNAZAR_SCORCHER;Evocation;Burning Ray
+SPIN988;1;Innate;BEHOLDER_HOLD_PERSON;Enchantment;Hold Person
+SPIN989;1;Innate;BEHOLDER_LIGHTNING_BOLT;Evocation;Lightning Bolt
+SPIN990;1;Innate;BEHOLDER_PARALYZATION;Enchantment;Paralyze
+SPIN991;1;Innate;BEHOLDER_DEATH_RAY;Alteration;Death Ray
+SPIN992;1;Innate;BEHOLDER_ANTIMAGIC_RAY;Abjuration;Anti-Magic Ray
+SPIN994;1;Wizard;ACID_DAMAGE_1;None;
+SPIN995;1;Wizard;;None;
+SPIN996;1;Innate;TANARI_DEATH_GAZE;None;Death Gaze
+SPIN997;1;Innate;TANARI_VAMPIRIC_TOUCH;Necromancy;Vampiric Touch
+SPIN998;8;Innate;TANARI_SILENCE;Alteration;Silence, 15' Radius
+SPIN999;1;Innate;TANARI_PARALYZE;None;Paralyze
+SPPR101;1;Priest;CLERIC_BLESS;Enchantment;Bless
+SPPR102;1;Priest;CLERIC_COMMAND;Enchantment;Command
+SPPR103;1;Priest;CLERIC_CURE_LIGHT_WOUNDS;Necromancy;Cure Light Wounds
+SPPR104;1;Priest;CLERIC_DETECT_EVIL;Divination;Detect Alignment
+SPPR105;1;Priest;CLERIC_ENTANGLE;Alteration;Entangle
+SPPR106;1;Priest;CLERIC_MAGIC_STONE;Enchantment;Magical Stone
+SPPR107;1;Priest;CLERIC_PROTECT_FROM_EVIL;Abjuration;Protection from Evil
+SPPR108;1;Priest;CLERIC_REMOVE_FEAR;Abjuration;Resist Fear
+SPPR109;1;Priest;CLERIC_SANCTUARY;Abjuration;Sanctuary
+SPPR110;1;Priest;CLERIC_SHILLELAGH;Alteration;Shillelagh
+SPPR111;1;Priest;CLERIC_ARMOR_OF_FAITH;Abjuration;Armor of Faith
+SPPR113;1;Priest;CLERIC_DOOM;Enchantment;Doom
+SPPR116;1;Priest;CLERIC_FAERIE_FIRE;Evocation;Faerie Fire
+SPPR117;1;Priest;CLERIC_STRENGTH_OF_STONE;Alteration;Strength of Stone
+SPPR118;1;Priest;CLERIC_SUNSCORCH;Evocation;Sunscorch
+SPPR119;1;Priest;CLERIC_REGENERATE_LIGHT_WOUNDS;Alteration;Regenerate Light Wounds
+SPPR120;1;Priest;CLERIC_GOOD_BERRIES;Alteration;Goodberry
+SPPR121;1;Priest;CLERIC_CAUSE_LIGHT_WOUNDS;Necromancy;Cause Light Wounds
+SPPR122;1;Priest;CLERIC_ANIMAL_SUMMONING_LEVEL_1;Conjuration;Animal Summoning I
+SPPR123;1;Priest;CLERIC_OBSCURING_MIST;Conjuration;Obscuring Mist
+SPPR124;1;Priest;CLERIC_CURSE;Conjuration;Curse
+SPPR125;1;Priest;CLERIC_PROTECT_FROM_GOOD;Abjuration;Protection From Good
+SPPR149;1;Priest;;Conjuration;
+SPPR150;1;Priest;CLERIC_SPIRIT_WARD;Abjuration;Spirit Ward
+SPPR201;2;Priest;CLERIC_AID;Necromancy;Aid
+SPPR202;2;Priest;CLERIC_BARKSKIN;Alteration;Barkskin
+SPPR203;2;Priest;CLERIC_CHANT;Conjuration;Chant
+SPPR204;2;Priest;CLERIC_CHARM_PERSON;Enchantment;Charm Person or Animal
+SPPR205;2;Priest;CLERIC_FIND_TRAPS;Divination;Find Traps
+SPPR206;2;Priest;CLERIC_FLAME_BLADE;Evocation;Flame Blade
+SPPR207;2;Priest;CLERIC_GOOD_BERRIES_DEPRECATED;Alteration;Goodberry
+SPPR208;2;Priest;CLERIC_HOLD_PERSON;Enchantment;Hold Person
+SPPR209;2;Priest;CLERIC_KNOW_OPPONENT;Divination;Know Opponent
+SPPR210;2;Priest;CLERIC_RESIST_FIRE;Alteration;Resist Elements
+SPPR211;2;Priest;CLERIC_SILENCE_15_FOOT;Alteration;Silence
+SPPR212;2;Priest;CLERIC_SLOW_POISON;Necromancy;Slow Poison
+SPPR213;2;Priest;CLERIC_SPIRITUAL_HAMMER;Evocation;Spiritual Hammer
+SPPR214;2;Priest;CLERIC_DRAW_UPON_HOLY_MIGHT;Evocation;Draw upon Divine Might
+SPPR216;2;Priest;CLERIC_CURE_MODERATE_WOUNDS;Necromancy;Cure Moderate Wounds
+SPPR217;2;Priest;CLERIC_FIRE_TRAP;Abjuration;Fire Trap
+SPPR218;2;Priest;CLERIC_REGENERATE_MODERATE_WOUNDS;Alteration;Regenerate Moderate Wounds
+SPPR219;2;Priest;CLERIC_GUST_OF_WIND_DRUID_VERSION;Evocation;Gust of Wind
+SPPR220;2;Priest;CLERIC_CAUSE_MODERATE_WOUNDS;Necromancy;Cause Moderate Wounds
+SPPR221;2;Priest;CLERIC_ANIMAL_SUMMONING_LEVEL_2;Conjuration;Animal Summoning II
+SPPR222;2;Priest;CLERIC_ALICORN_LANCE;Evocation;Alicorn Lance
+SPPR223;2;Priest;CLERIC_BEAST_CLAW;Alteration;Beast Claw
+SPPR224;2;Priest;CLERIC_RESIST_ACID_AND_CORROSION;Abjuration;Resist Acid and Corrosion
+SPPR249;2;Priest;;Conjuration;
+SPPR250;2;Priest;CLERIC_WRITHING_FOG;Conjuration;Writhing Fog
+SPPR301;3;Priest;CLERIC_ANIMATE_DEAD;Necromancy;Animate Dead
+SPPR302;3;Priest;CLERIC_CALL_LIGHTNING;Alteration;Call Lightning
+SPPR303;3;Priest;CLERIC_DISPEL_MAGIC;Abjuration;Dispel Magic
+SPPR304;3;Priest;CLERIC_GLYPH_OF_WARDING;Abjuration;Glyph of Warding
+SPPR305;3;Priest;CLERIC_HOLD_ANIMAL;Enchantment;Hold Person or Animal
+SPPR306;3;Priest;CLERIC_PROTECTION_FROM_FIRE_DEPRECATED;Abjuration;Protection from Fire
+SPPR307;3;Priest;CLERIC_REMOVE_CURSE;Abjuration;Break Enchantment
+SPPR308;3;Priest;CLERIC_REMOVE_PARALYSIS;Abjuration;Remove Paralysis
+SPPR309;3;Priest;CLERIC_INVISIBILITY_PURGE;Abjuration;Invisibility Purge
+SPPR310;3;Priest;CLERIC_MISCAST_MAGIC;Enchantment;Miscast Magic
+SPPR311;3;Priest;CLERIC_RIGID_THINKING;Enchantment;Rigid Thinking
+SPPR312;3;Priest;CLERIC_STRENGTH_OF_ONE;Alteration;Strength of One
+SPPR313;3;Priest;CLERIC_HOLY_SMITE;Necromancy;Holy Smite
+SPPR314;3;Priest;CLERIC_UNHOLY_BLIGHT;Necromancy;Unholy Blight
+SPPR315;3;Priest;CLERIC_CURE_MEDIUM_WOUNDS;Necromancy;Cure Serious Wounds
+SPPR317;3;Priest;CLERIC_CURE_DISEASE;Abjuration;Cure Disease
+SPPR318;3;Priest;CLERIC_ZONE_OF_SWEET_AIR;Abjuration;Gust of Wind
+SPPR319;3;Priest;CLERIC_SUMMON_INSECTS;Conjuration;Summon Insects
+SPPR320;3;Priest;CLERIC_CONTAGION;Necromancy;Contagion
+SPPR321;3;Priest;CLERIC_ANIMAL_SUMMONING_LEVEL_3;Conjuration;Animal Summoning III
+SPPR322;3;Priest;CLERIC_CAUSE_MEDIUM_WOUNDS;Necromancy;Cause Serious Wounds
+SPPR323;3;Priest;CLERIC_STORM_SHIELD;Abjuration;Storm Shield
+SPPR324;3;Priest;CLERIC_REGENERATE_SERIOUS_WOUNDS;Alteration;Regenerate Serious Wounds
+SPPR325;3;Priest;CLERIC_MAGIC_FANG;Alteration;Magic Fang
+SPPR326;3;Priest;CLERIC_SPIKE_GROWTH;Alteration;Spike Growth
+SPPR327;3;Priest;CLERIC_ICELANCE;Evocation;Icelance
+SPPR328;3;Priest;CLERIC_PRAYER;Conjuration;Prayer
+SPPR329;3;Priest;CLERIC_CAUSE_DISEASE;Abjuration;Cause Disease
+SPPR330;3;Priest;CLERIC_EXALTATION;Abjuration;Exaltation
+SPPR331;3;Priest;CLERIC_MOONBLADE;Evocation;Moonblade
+SPPR332;3;Priest;CLERIC_CIRCLE_OF_BONES;Necromancy;Circle of Bones
+SPPR333;3;Priest;CLERIC_CLOUDBURST;Evocation;Cloudburst
+SPPR334;3;Priest;CLERIC_MOLD_TOUCH;Alteration;Mold Touch
+SPPR335;3;Priest;CLERIC_STORM_SHELL;Abjuration;Storm Shell
+SPPR336;3;Priest;CLERIC_FAVOR_OF_ILMATER;Necromancy;Favor of the Martyr
+SPPR349;3;Priest;;Conjuration;
+SPPR350;3;Priest;CLERIC_SPIRITUAL_CLARITY;Abjuration;Spiritual Clarity
+SPPR401;4;Priest;CLERIC_CURE_SERIOUS_WOUNDS;Necromancy;Cure Critical Wounds
+SPPR402;4;Priest;CLERIC_ANIMAL_SUMMONING_LEVEL_4;Conjuration;Animal Summoning IV
+SPPR403;4;Priest;CLERIC_FREE_ACTION;Abjuration;Free Action
+SPPR404;4;Priest;CLERIC_NEUTRALIZE_POISON;Necromancy;Neutralize Poison
+SPPR405;4;Priest;CLERIC_MENTAL_DOMINATION;Enchantment;Mental Domination
+SPPR406;4;Priest;CLERIC_DEFENSIVE_HARMONY;Enchantment;Defensive Harmony
+SPPR407;4;Priest;CLERIC_PROTECTION_FROM_LIGHTNING_DEPRECATED;Abjuration;Protection from Electricity
+SPPR408;4;Priest;CLERIC_PROTECTION_FROM_EVIL_10_FOOT;Abjuration;Magic Circle against Evil
+SPPR409;4;Priest;CLERIC_DEATH_WARD;Necromancy;Death Ward
+SPPR410;4;Priest;CLERIC_CALL_WOODLAND_BEINGS;Conjuration;Call Woodland Beings
+SPPR411;4;Priest;CLERIC_POISON;Necromancy;Poison
+SPPR412;4;Priest;CLERIC_HOLY_POWER;Evocation;Divine Power
+SPPR413;4;Priest;CLERIC_NEGATIVE_PLANE_PROTECTION;Alteration;Negative Plane Protection
+SPPR414;4;Priest;CLERIC_CAUSE_SERIOUS_WOUNDS;Necromancy;Cause Critical Wounds
+SPPR415;4;Priest;CLERIC_FAR_SIGHT;Divination;Farsight
+SPPR416;4;Priest;CLERIC_CLOAK_OF_FEAR;Conjuration;Cloak of Fear
+SPPR417;4;Priest;CLERIC_LESSER_RESTORATION;Alteration;Lesser Restoration
+SPPR418;4;Priest;CLERIC_ICE_STORM;Evocation;Ice Storm
+SPPR419;4;Priest;CLERIC_REGENERATE_CRITICAL_WOUNDS;Alteration;Regenerate Critical Wounds
+SPPR420;4;Priest;CLERIC_PRODUCE_FIRE;Alteration;Produce Fire
+SPPR421;4;Priest;CLERIC_STATIC_CHARGE;Alteration;Static Charge
+SPPR422;4;Priest;CLERIC_RECITATION;Abjuration;Recitation
+SPPR423;4;Priest;CLERIC_BLOOD_RAGE;Alteration;Blood Rage
+SPPR424;4;Priest;CLERIC_CLOUD_OF_PESTILENCE;Alteration;Cloud of Pestilence
+SPPR425;4;Priest;CLERIC_UNFAILING_ENDURANCE;Necromancy;Unfailing Endurance
+SPPR426;4;Priest;CLERIC_STAR_METAL_CUDGEL;Conjuration;Star Metal Cudgel
+SPPR427;4;Priest;CLERIC_SMASHING_WAVE;Evocation;Smashing Wave
+SPPR428;4;Priest;CLERIC_THORN_SPRAY;Alteration;Thorn Spray
+SPPR429;4;Priest;CLERIC_WALL_OF_MOONLIGHT;Evocation;Wall of Moonlight
+SPPR430;4;Priest;CLERIC_GIANT_INSECT;Alteration;Giant Insect
+SPPR431;4;Priest;CLERIC_PROTECTION_FROM_GOOD_10_FOOT;Abjuration;Protection From Good 10' Radius
+SPPR449;4;Priest;;Conjuration;
+SPPR450;4;Priest;CLERIC_SPIRIT_FIRE;Conjuration;Spirit Fire
+SPPR501;5;Priest;CLERIC_ANIMAL_SUMMONING_LEVEL_5;Conjuration;Animal Summoning V
+SPPR502;5;Priest;CLERIC_CURE_CRITICAL_WOUNDS_DEPRECATED;Necromancy;Cure Mortal Wounds
+SPPR503;5;Priest;CLERIC_FLAME_STRIKE;Evocation;Flame Strike
+SPPR504;5;Priest;CLERIC_RAISE_DEAD;Necromancy;Raise Dead
+SPPR505;5;Priest;CLERIC_TRUE_SIGHT;Divination;True Seeing
+SPPR506;5;Priest;CLERIC_IRONSKIN;Alteration;Stoneskin
+SPPR507;5;Priest;CLERIC_CHAMPIONS_STRENGTH;Alteration;Champion's Strength
+SPPR508;5;Priest;CLERIC_CHAOTIC_COMMANDS;Enchantment;Chaotic Commands
+SPPR509;5;Priest;CLERIC_MAGIC_RESISTANCE;Alteration;Magic Resistance
+SPPR510;5;Priest;CLERIC_CAUSE_CRITICAL_WOUNDS_DEPRECATED;Necromancy;Cause Mortal Wounds
+SPPR511;5;Priest;CLERIC_SLAY_LIVING;Necromancy;Slay Living
+SPPR512;5;Priest;CLERIC_GREATER_COMMAND;Enchantment;Greater Command
+SPPR513;5;Priest;CLERIC_RIGHTEOUS_MAGIC;Alteration;Righteous Fury
+SPPR514;5;Priest;CLERIC_MASS_CURE;Necromancy;Mass Cure
+SPPR515;5;Priest;CLERIC_REPULSION;Abjuration;Repulsion
+SPPR516;5;Priest;CLERIC_PIXIE_DUST;Conjuration;Pixie Dust
+SPPR517;5;Priest;CLERIC_INSECT_PLAGUE;Conjuration;Insect Plague
+SPPR518;5;Priest;CLERIC_POLYMORPH_OTHER;Alteration;Polymorph Other
+SPPR519;5;Priest;CLERIC_PROTECTION_FROM_ACID;Abjuration;Protection from Acid
+SPPR520;5;Priest;CLERIC_PROTECTION_FROM_COLD;Abjuration;Protection from Cold
+SPPR521;5;Priest;CLERIC_PROTECTION_FROM_LIGHTNING;Abjuration;Protection from Electricity
+SPPR522;5;Priest;CLERIC_PROTECTION_FROM_FIRE;Abjuration;Protection from Fire
+SPPR523;5;Priest;CLERIC_MASS_REGENERATE;Alteration;Mass Regenerate
+SPPR524;5;Priest;CLERIC_ANIMAL_GROWTH;Alteration;Animal Growth
+SPPR525;5;Priest;CLERIC_RIGHTEOUS_WRATH_OF_THE_FAITHFUL;Enchantment;Righteous Wrath of the Faithful
+SPPR526;5;Priest;CLERIC_SPIKE_STONES;Alteration;Spike Stones
+SPPR527;5;Priest;CLERIC_SHIELD_OF_LATHANDER;Conjuration;Divine Protection
+SPPR528;5;Priest;CLERIC_UNDEAD_WARD;Necromancy;Undead Ward
+SPPR529;5;Priest;CLERIC_ANIMAL_RAGE;Enchantment;Animal Rage
+SPPR530;5;Priest;CLERIC_MASS_CAUSE_LIGHT_WOUNDS;Necromancy;Mass Cause Light Wounds
+SPPR531;5;Priest;CLERIC_PHYSICAL_MIRROR;Alteration;Physical Mirror
+SPPR549;5;Priest;;Conjuration;
+SPPR550;5;Priest;CLERIC_RECALL_SPIRIT;Necromancy;Recall Spirit
+SPPR599;5;Priest;ENEMY_CLERIC_SLAY_LIVING;Necromancy;Slay Living
+SPPR601;6;Priest;CLERIC_AERIAL_SERVANT;Conjuration;Aerial Servant
+SPPR602;6;Priest;CLERIC_ANIMAL_SUMMONING_LEVEL_6;Conjuration;Animal Summoning VI
+SPPR603;6;Priest;CLERIC_BLADE_BARRIER;Conjuration;Blade Barrier
+SPPR604;6;Priest;CLERIC_CONJURE_ANIMALS_DEPRECATED;Enchantment;Conjure Animals
+SPPR605;6;Priest;CLERIC_CONJURE_FIRE_ELEMENTAL;Conjuration;Conjure Fire Elemental
+SPPR606;6;Priest;CLERIC_FIRE_SEEDS;Conjuration;Fire Seeds
+SPPR607;6;Priest;CLERIC_HEAL;Necromancy;Heal
+SPPR608;6;Priest;CLERIC_HARM;Necromancy;Harm
+SPPR609;6;Priest;CLERIC_FALSE_DAWN;Evocation;False Dawn
+SPPR610;6;Priest;CLERIC_DOLOROUS_DECAY;Alteration;Dolorous Decay
+SPPR611;6;Priest;CLERIC_WONDROUS_RECALL;Alteration;Wondrous Recall
+SPPR612;6;Priest;CLERIC_BOLT_OF_GLORY;Evocation;Bolt of Glory
+SPPR613;6;Priest;CLERIC_MIRROR_OLD;Alteration;Physical Mirror
+SPPR614;6;Priest;CLERIC_SOL_SEARING_ORB;Conjuration;Sol's Searing Orb
+SPPR615;6;Priest;CLERIC_REGENERATION_DRUID_VERSION;Alteration;Regeneration
+SPPR616;6;Priest;CLERIC_BANISHMENT;Abjuration;Banishment
+SPPR617;6;Priest;CLERIC_CONJURE_AIR_ELEMENTAL;Conjuration;Conjure Air Elemental
+SPPR618;6;Priest;CLERIC_CONJURE_EARTH_ELEMENTAL;Conjuration;Conjure Earth Elemental
+SPPR619;6;Priest;CLERIC_ANIMATE_SKELETON_WARRIOR;Necromancy;Animate Skeleton Warrior
+SPPR620;6;Priest;CLERIC_ENTROPY_SHIELD;Abjuration;Entropy Shield
+SPPR621;6;Priest;CLERIC_WHIRLWIND;Evocation;Whirlwind
+SPPR622;6;Priest;CLERIC_SPIRITUAL_WRATH;Evocation;Spiritual Wrath
+SPPR649;6;Priest;;Conjuration;
+SPPR650;6;Priest;CLERIC_SPIRITUAL_LOCK;Enchantment;Spiritual Lock
+SPPR698;6;Priest;NPC_BLADE_BARRIER;Evocation;Blade Barrier
+SPPR699;6;Priest;ENEMY_CLERIC_HARM;Necromancy;Harm
+SPPR701;7;Priest;CLERIC_SHIELD_OF_THE_ARCHONS;Abjuration;Shield of the Archons
+SPPR702;7;Priest;CLERIC_STALKER;Conjuration;Stalker
+SPPR703;7;Priest;CLERIC_SUMMON_DEATH_KNIGHT;Necromancy;Summon Death Knight
+SPPR704;7;Priest;CLERIC_NATURE_BEAUTY;Illusion;Nature's Beauty
+SPPR705;7;Priest;CLERIC_FIRE_STORM;Evocation;Fire Storm
+SPPR706;7;Priest;CLERIC_SYMBOL_WEAKNESS;Conjuration;Symbol of Weakness
+SPPR707;7;Priest;CLERIC_SUNRAY;Evocation;Sunray
+SPPR708;7;Priest;CLERIC_FINGER_OF_DEATH;Necromancy;Finger of Death
+SPPR709;7;Priest;CLERIC_CONFUSION;Enchantment;Chaos
+SPPR710;7;Priest;CLERIC_HOLY_WORD;Conjuration;Holy Word
+SPPR711;7;Priest;CLERIC_REGENERATE;Necromancy;Regeneration
+SPPR712;7;Priest;CLERIC_RESURRECTION;Necromancy;Resurrection
+SPPR713;7;Priest;CLERIC_RESTORATION;Necromancy;Greater Restoration
+SPPR714;7;Priest;CLERIC_ENERGY_DRAIN;Necromancy;Energy Drain
+SPPR715;7;Priest;CLERIC_UNHOLY_WORD;Conjuration;Unholy Word
+SPPR717;7;Priest;CLERIC_CREEPING_DOOM;Conjuration;Creeping Doom
+SPPR718;7;Priest;CLERIC_SYMBOL_STUN;Conjuration;Symbol of Stunning
+SPPR719;7;Priest;CLERIC_SYMBOL_DEATH;Conjuration;Symbol of Death
+SPPR720;7;Priest;CLERIC_EARTHQUAKE;Alteration;Earthquake
+SPPR721;1;Innate;CLERIC_ENERGY_BLADES;Conjuration;Energy Blades
+SPPR722;1;Innate;CLERIC_STORM_OF_VENGEANCE;None;Storm of Vengeance
+SPPR723;1;Innate;CLERIC_ELEMENTAL_SWARM;Conjuration;Elemental Swarm
+SPPR724;1;Innate;CLERIC_GREATER_ELEMENTAL_SWARM;Conjuration;Elemental Prince Call
+SPPR725;1;Innate;CLERIC_GLOBE_OF_BLADES;Evocation;Globe of Blades
+SPPR726;1;Innate;CLERIC_SUMMON_DEVA;Conjuration;Summon Deva
+SPPR727;1;Innate;CLERIC_SUMMON_FALLEN_DEVA;Conjuration;Summon Fallen Deva
+SPPR728;1;Innate;CLERIC_IMPLOSION;Alteration;Implosion
+SPPR729;1;Innate;CLERIC_MASS_RAISE_DEAD;None;Mass Raise Dead
+SPPR730;1;Innate;CLERIC_AURA_OF_FLAMING_DEATH;Evocation;Aura of Flaming Death
+SPPR731;1;Innate;CLERIC_ELEMENTAL_TRANSFORMATION_FIRE;None;Fire Elemental Transformation
+SPPR732;1;Innate;CLERIC_ELEMENTAL_TRANSFORMATION_EARTH;None;Earth Elemental Transformation
+SPPR733;7;Priest;CLERIC_ANIMAL_SUMMONING_LEVEL_7;Conjuration;Animal Summoning VII
+SPPR734;7;Priest;CLERIC_SYMBOL_PAIN;Conjuration;Symbol, Pain
+SPPR735;7;Priest;CLERIC_SYMBOL_HOPELESSNESS;Conjuration;Symbol, Hopelessness
+SPPR736;7;Priest;CLERIC_IMPERVIOUS_SANCTITY_OF_MIND;Abjuration;Impervious Sanctity of Mind
+SPPR737;7;Priest;CLERIC_DESTRUCTION;Necromancy;Destruction
+SPPR738;7;Priest;CLERIC_GREATER_SHIELD_OF_LATHANDER;Conjuration;Greater Divine Protection
+SPPR739;7;Priest;CLERIC_MIST_OF_ELDATH;Evocation;Healing Mist
+SPPR740;7;Priest;CLERIC_WITHER;Necromancy;Wither
+SPPR741;7;Priest;CLERIC_FIENDISH_WARDING;Abjuration;Fiendish Warding
+SPPR749;7;Priest;;Conjuration;
+SPPR750;7;Priest;CLERIC_ETHER_GATE;Alteration;Ether Gate
+SPPR751;7;Priest;CLERIC_ETHEREAL_RETRIBUTION;Conjuration;Ethereal Retribution
+SPPR950;6;Priest;;Divination;True Sight
+SPPR982;3;Priest;TRAP_DIRE_CHARM;Enchantment;Dire Charm
+SPPR983;4;Priest;TRAP_CONFUSION;Enchantment;Confusion
+SPPR984;1;Innate;TRAP_CHROMATIC_ORB;Evocation;Chromatic Orb
+SPPR985;1;Innate;TRAP_FLAMESTRIKE;Evocation;Flame Strike
+SPPR986;1;Innate;TRAP_MISCAST_MAGIC;Enchantment;Miscast Magic
+SPPR987;1;Innate;TRAP_CALL_LIGHTNING;Alteration;Call Lightning
+SPPR988;1;Innate;TRAP_SILENCE;Alteration;Silence, 15' Radius
+SPPR989;1;Innate;TRAP_HOLD_PERSON;Enchantment;Hold Person
+SPPR999;5;Priest;SHOAL_REVIVE;None;Raise Dead
+SPWI001;3;Wizard;TRAP_FIREBALL;Evocation;Fireball
+SPWI002;3;Wizard;TRAP_LIGHTNING_BOLT;Evocation;Lightning Bolt
+SPWI003;1;Wizard;TRAP_MAGIC_MISSILE;Evocation;Magic Missile
+SPWI004;2;Wizard;TRAP_STINKING_CLOUD;Evocation;Stinking Cloud
+SPWI005;0;Special;TRAP_ARROW;None;
+SPWI006;0;Special;TRAP_ARROW_SLAYING;None;
+SPWI007;0;Special;TRAP_ARROW_ACID;None;
+SPWI008;1;Special;TRAP_ARROW_BITING;Evocation;Trap
+SPWI009;0;Special;TRAP_ARROW_DETONATION;None;
+SPWI010;0;Special;TRAP_ARROW_DISPELLING;None;
+SPWI011;0;Special;TRAP_ARROW_FIRE;None;
+SPWI012;0;Special;TRAP_ARROW_ICE;None;
+SPWI013;0;Special;TRAP_ARROW_PIERCING;None;
+SPWI014;3;Wizard;TRAP_MONSTER_SUMMONING;Conjuration;Monster Summoning I
+SPWI015;5;Wizard;TRAP_FROST;Evocation;Frost
+SPWI016;5;Wizard;TRAP_CLOUDKILL;Evocation;Cloudkill
+SPWI017;3;Wizard;TRAP_MINOR_LIGHTNING_BOLT;Evocation;Minor Lightning Bolt
+SPWI018;5;Wizard;;Evocation;Frost
+SPWI019;1;Special;;Evocation;
+SPWI020;1;Wizard;TRAP_UNDERWATER_BITE;None;just ten damage
+SPWI021;0;Special;TRAP_HALLWAY_SPIKES;None;
+SPWI022;0;Special;TRAP_MUCK;None;
+SPWI023;0;Special;TRAP_SHADOW_DEATH;None;Trap
+SPWI024;0;Special;TRAP_GUILLOTINE;None;
+SPWI025;1;Wizard;TRAP_LIGHTNING_ORB1;None;Minor Lightning Bolt
+SPWI026;1;Wizard;TRAP_LIGHTNING_ORB2;None;Minor Lightning Bolt
+SPWI027;1;Wizard;TRAP_LIGHTNING_ORB3;None;Minor Lightning Bolt
+SPWI050;5;Wizard;WIZARD_CHAOS_VISUALS_ONLY;None;Chaos
+SPWI051;3;Wizard;WIZARD_DISPEL_MAGIC_VISUALS_ONLY;Abjuration;Dispel Magic
+SPWI052;6;Wizard;WIZARD_POWER_WORD_SILENCE_VISUALS_ONLY;None;Power Word, Silence
+SPWI053;6;Wizard;WIZARD_FLESH_TO_STONE_IGNORE_RESISTANCE;Alteration;Flesh to Stone
+SPWI054;7;Wizard;WIZARD_FINGER_OF_DEATH_IGNORE_RESISTANCE;Necromancy;Finger of Death
+SPWI055;6;Wizard;WIZARD_DISINTEGRATE_IGNORE_RESISTANCE;Alteration;Disintegrate
+SPWI056;6;Wizard;WIZARD_DISINTEGRATE2_IGNORE_RESISTANCE;Alteration;Disintegrate
+SPWI101;1;Wizard;WIZARD_GREASE;Conjuration;Grease
+SPWI102;1;Wizard;WIZARD_ARMOR;Conjuration;Mage Armor
+SPWI103;1;Wizard;WIZARD_BURNING_HANDS;Evocation;Burning Hands
+SPWI104;1;Wizard;WIZARD_CHARM_PERSON;Enchantment;Charm Person
+SPWI105;1;Wizard;WIZARD_COLOR_SPRAY;Alteration;Color Spray
+SPWI106;1;Wizard;WIZARD_OBSCURING_MIST;Conjuration;Obscuring Mist
+SPWI107;1;Wizard;WIZARD_MONSTER_SUMMONING_LEVEL_1;Conjuration;Monster Summoning I
+SPWI108;1;Wizard;WIZARD_PROTECTION_FROM_PETRIFICATION;Abjuration;Protection from Petrification
+SPWI110;1;Wizard;WIZARD_IDENTIFY;Divination;Identify
+SPWI111;1;Wizard;WIZARD_TRUE_STRIKE;Divination;True Strike
+SPWI112;1;Wizard;WIZARD_MAGIC_MISSILE;Evocation;Magic Missile
+SPWI113;1;Wizard;WIZARD_PROTECTION_FROM_EVIL;Abjuration;Protection from Evil
+SPWI114;1;Wizard;WIZARD_SHIELD;Abjuration;Shield
+SPWI115;1;Wizard;WIZARD_SHOCKING_GRASP;Evocation;Shocking Grasp
+SPWI116;1;Wizard;WIZARD_SLEEP;Enchantment;Sleep
+SPWI117;1;Wizard;WIZARD_CHILL_TOUCH;Necromancy;Chill Touch
+SPWI118;1;Wizard;WIZARD_CHROMATIC_ORB;Alteration;Chromatic Orb
+SPWI119;1;Wizard;WIZARD_LARLOCH_MINOR_DRAIN;Necromancy;Larloch's Minor Drain
+SPWI120;1;Wizard;WIZARD_REFLECTED_IMAGE;Illusion;Reflected Image
+SPWI123;1;Wizard;WIZARD_FIND_FAMILAR;None;Find Familiar
+SPWI124;1;Wizard;WIZARD_NAHALS_RECKLESS_DWEOMER;Generalist;Nahal's Reckless Dweomer
+SPWI125;1;Wizard;WIZARD_SPOOK;Illusion;Spook
+SPWI126;1;Wizard;WIZARD_DANCING_LIGHTS;Alteration;Dancing Lights
+SPWI127;1;Wizard;WIZARD_EXPEDITIOUS_RETREAT;Alteration;Expeditious Retreat
+SPWI128;1;Wizard;WIZARD_DIMENSION_JUMP;Conjuration;Dimension Jump
+SPWI129;1;Wizard;WIZARD_KNOW_ALIGNMENT;Divination;Detect Alignment
+SPWI130;1;Wizard;WIZARD_STONEFIST;Conjuration;Stonefist
+SPWI131;1;Wizard;WIZARD_ICE_KNIFE;Evocation;Ice Knife
+SPWI201;2;Wizard;WIZARD_BLUR;Illusion;Blur
+SPWI202;2;Wizard;WIZARD_DETECT_EVIL_DEPRECATED;Divination;Detect Alignment
+SPWI203;2;Wizard;WIZARD_DETECT_INVISIBILITY;Divination;Detect Invisibility
+SPWI205;2;Wizard;WIZARD_HORROR;Necromancy;Horror
+SPWI206;2;Wizard;WIZARD_INVISIBILITY;Illusion;Invisibility
+SPWI207;2;Wizard;WIZARD_KNOCK;Evocation;Battering Ram
+SPWI208;2;Wizard;WIZARD_KNOW_OPPONENT;Divination;Know Opponent
+SPWI209;2;Wizard;WIZARD_LUCK;Enchantment;Luck
+SPWI210;2;Wizard;WIZARD_RESIST_FEAR;Abjuration;Resist Fear
+SPWI211;2;Wizard;WIZARD_MELF_ACID_ARROW;Conjuration;Melf's Acid Arrow
+SPWI212;2;Wizard;WIZARD_MIRROR_IMAGE;Illusion;Mirror Image
+SPWI213;2;Wizard;WIZARD_STINKING_CLOUD;Conjuration;Stinking Cloud
+SPWI214;2;Wizard;WIZARD_STRENGTH;Alteration;Strength
+SPWI215;2;Wizard;WIZARD_WEB;Conjuration;Web
+SPWI217;2;Wizard;WIZARD_AGANNAZAR_SCORCHER;Evocation;Agannazar's Scorcher
+SPWI218;2;Wizard;WIZARD_GHOUL_TOUCH;Necromancy;Ghoul Touch
+SPWI219;2;Wizard;WIZARD_VOCALIZE;Alteration;Vocalize
+SPWI220;2;Wizard;WIZARD_POWER_WORD_SLEEP;Enchantment;Power Word Sleep
+SPWI221;2;Wizard;WIZARD_RAY_OF_ENFEEBLEMENT;Necromancy;Ray of Enfeeblement
+SPWI222;2;Wizard;WIZARD_CHAOS_SHIELD;Generalist;Chaos Shield
+SPWI223;2;Wizard;WIZARD_SOUND_BURST;Evocation;Sound Burst
+SPWI224;2;Wizard;WIZARD_GLITTERDUST;Conjuration;Glitterdust
+SPWI225;2;Wizard;WIZARD_RESIST_ELEMENTS;Abjuration;Resist Elements
+SPWI226;2;Wizard;WIZARD_MONSTER_SUMMONING_LEVEL_2;Conjuration;Monster Summoning II
+SPWI227;2;Wizard;WIZARD_SNILLOCS_SNOWBALL_SWARM;Evocation;Snilloc's Snowball Swarm
+SPWI228;2;Wizard;WIZARD_DARKNESS_15_FOOT;Alteration;Darkness, 15' Radius
+SPWI229;2;Wizard;WIZARD_DECASTAVE;Evocation;Decastave
+SPWI230;2;Wizard;WIZARD_CATS_GRACE;Alteration;Cat's Grace
+SPWI231;2;Wizard;WIZARD_MINOR_LIGHTNING_BOLT;Evocation;Minor Lightning Bolt
+SPWI232;2;Wizard;WIZARD_COMBUST;Evocation;Combust
+SPWI298;2;Wizard;CONTINGENCY_MIRROR_IMAGE;None;Contingency – Mirror Image
+SPWI299;2;Wizard;;None;Summon Cow
+SPWI301;3;Wizard;WIZARD_CLAIRVOYANCE;Divination;Clairvoyance
+SPWI302;3;Wizard;WIZARD_REMOVE_MAGIC;Abjuration;Dispel Magic
+SPWI303;3;Wizard;WIZARD_FLAME_ARROW;Conjuration;Flame Arrow
+SPWI304;3;Wizard;WIZARD_FIREBALL;Evocation;Fireball
+SPWI305;3;Wizard;WIZARD_HASTE;Alteration;Haste
+SPWI306;3;Wizard;WIZARD_HOLD_PERSON;Enchantment;Hold Person
+SPWI307;3;Wizard;WIZARD_INVISIBILITY_10_FOOT;Illusion;Invisibility Sphere
+SPWI308;3;Wizard;WIZARD_LIGHTNING_BOLT;Evocation;Lightning Bolt
+SPWI309;3;Wizard;WIZARD_MONSTER_SUMMONING_LEVEL_3;Conjuration;Monster Summoning III
+SPWI310;3;Wizard;WIZARD_NON_DETECTION;Abjuration;Non-Detection
+SPWI311;3;Wizard;WIZARD_PROTECTION_FROM_NORMAL_MISSILES;Abjuration;Protection from Missiles
+SPWI312;3;Wizard;WIZARD_SLOW;Alteration;Slow
+SPWI313;3;Wizard;WIZARD_SKULL_TRAP;Necromancy;Skull Trap
+SPWI314;3;Wizard;WIZARD_VAMPIRIC_TOUCH;Necromancy;Vampiric Touch
+SPWI315;3;Wizard;WIZARD_WRAITH_FORM;Alteration;Wraithform
+SPWI316;3;Wizard;WIZARD_DIRE_CHARM;Enchantment;Dire Charm
+SPWI317;3;Wizard;WIZARD_GHOST_ARMOR;Illusion;Ghost Armor
+SPWI318;3;Wizard;WIZARD_MINOR_SPELL_DEFLECTION;Abjuration;Minor Spell Deflection
+SPWI319;4;Wizard;WIZARD_PROTECTION_FROM_FIRE;Abjuration;Protection from Fire
+SPWI320;4;Wizard;WIZARD_PROTECTION_FROM_COLD;Abjuration;Protection from Cold
+SPWI321;3;Wizard;WIZARD_SPELL_THRUST;Abjuration;Spell Thrust
+SPWI322;3;Wizard;WIZARD_DETECT_ILLUSION;Divination;Detect Illusion
+SPWI323;3;Wizard;WIZARD_ICELANCE;Evocation;Icelance
+SPWI324;3;Wizard;WIZARD_HOLD_UNDEAD;Necromancy;Halt Undead
+SPWI325;3;Wizard;WIZARD_MELF_METEOR;Conjuration;Melf's Minute Meteors
+SPWI326;3;Wizard;WIZARD_TRUE_DISPEL_MAGIC;Abjuration;Dispel Magic
+SPWI327;3;Wizard;WIZARD_LANCE_OF_DISRUPTION;Evocation;Lance of Disruption
+SPWI328;3;Wizard;WIZARD_TURN_PEBBLE_TO_BOULDER;Alteration;Turn Pebble to Boulder
+SPWI399;3;Wizard;;None;Lightning Bolt
+SPWI401;4;Wizard;WIZARD_CONFUSION;Enchantment;Confusion
+SPWI402;4;Wizard;WIZARD_DIMENSION_DOOR_DEPRECATED;Conjuration;Dimension Jump
+SPWI403;4;Wizard;WIZARD_FIRE_SHIELD_BLUE;Conjuration;Mestil's Acid Sheath
+SPWI404;4;Wizard;WIZARD_ICE_STORM;Evocation;Ice Storm
+SPWI405;4;Wizard;WIZARD_IMPROVED_INVISIBILITY;Illusion;Improved Invisibility
+SPWI406;4;Wizard;WIZARD_MINOR_GLOBE_OF_INVULNERABILITY;Abjuration;Minor Globe of Invulnerability
+SPWI407;4;Wizard;WIZARD_MONSTER_SUMMONING_2_DEPRECATED;Conjuration;Monster Summoning II
+SPWI408;4;Wizard;WIZARD_STONE_SKIN;Alteration;Stoneskin
+SPWI409;4;Wizard;WIZARD_CONTAGION;Necromancy;Contagion
+SPWI410;4;Wizard;WIZARD_REMOVE_CURSE;Abjuration;Break Enchantment
+SPWI411;4;Wizard;WIZARD_EMOTION_HOPELESSNESS;Enchantment;Emotion, Hopelessness
+SPWI412;4;Wizard;WIZARD_GREATER_MALISON;Enchantment;Greater Malison
+SPWI413;4;Wizard;WIZARD_OTILUKES_RESILIENT_SPHERE;Alteration;Otiluke's Resilient Sphere
+SPWI414;4;Wizard;WIZARD_SPIRIT_ARMOR;Necromancy;Spirit Armor
+SPWI415;4;Wizard;WIZARD_POLYMORPH_OTHER;Alteration;Polymorph Other
+SPWI416;4;Wizard;WIZARD_POLYMORPH_SELF;Alteration;Polymorph Self
+SPWI417;4;Wizard;WIZARD_ENCHANTED_WEAPON;Conjuration;Enchanted Weapon
+SPWI418;4;Wizard;WIZARD_FIRE_SHIELD_RED;Evocation;Fire Shield
+SPWI419;4;Wizard;WIZARD_SECRET_WORD;Enchantment;Secret Word
+SPWI420;4;Wizard;WIZARD_MINOR_SEQUENCER;None;Simbul's Spell Matrix
+SPWI421;4;Wizard;WIZARD_TELEPORT_FIELD;Alteration;Teleport Field
+SPWI422;4;Wizard;WIZARD_PROTECTION_FROM_ELEMENTAL_ENERGY;Abjuration;Protection from Elemental Energy
+SPWI423;4;Wizard;WIZARD_SPIDER_SPAWN;Conjuration;Monster Summoning IV
+SPWI424;4;Wizard;WIZARD_FAR_SIGHT;Divination;Farsight
+SPWI425;4;Wizard;WIZARD_EYE;Divination;Wizard Eye
+SPWI426;4;Wizard;WIZARD_VITRIOLIC_SPHERE;Conjuration;Vitriolic Sphere
+SPWI427;4;Wizard;WIZARD_BELTYNS_BURNING_BLOOD;Necromancy;Beltyn's Burning Blood
+SPWI428;4;Wizard;WIZARD_EMOTION_COURAGE;Enchantment;Emotion, Courage
+SPWI429;4;Wizard;WIZARD_EMOTION_HOPE;Enchantment;Emotion, Hope
+SPWI430;4;Wizard;WIZARD_EMOTION_FEAR;Enchantment;Emotion, Fear
+SPWI431;4;Wizard;WIZARD_MORDENKAINENS_FORCE_MISSILES;Evocation;Mordenkainen's Force Missiles
+SPWI432;4;Wizard;WIZARD_SHOUT;Evocation;Shout
+SPWI433;4;Wizard;WIZARD_SHADOW_MONSTERS;Illusion;Shadow Monsters
+SPWI461;1;Innate;;None;Shapeshift: Flind
+SPWI462;1;Innate;;None;Shapeshift: Ogre
+SPWI463;1;Innate;;None;Shapeshift: Mustard Jelly
+SPWI464;1;Innate;;None;Shapeshift: Spider
+SPWI465;1;Innate;;None;Shapeshifts Winter Wolf
+SPWI483;0;Innate;;None;Morning Star
+SPWI484;0;Innate;;None;Quarterstaff
+SPWI485;0;Innate;;Enchantment;Long Sword
+SPWI486;0;Innate;;Enchantment;Short Sword
+SPWI487;0;Innate;;Enchantment;Axe
+SPWI488;0;Innate;;Enchantment;Mace
+SPWI489;1;Innate;;None;Shapeshift: Natural Form (Polymorph Self)
+SPWI490;1;Innate;WIZARD_POLYMORPH_NATURAL_FORM;None;Shapeshift: Natural Form
+SPWI491;1;Innate;;None;Shapeshift: Natural Form
+SPWI493;1;Innate;WIZARD_POLYMORPH_FLIND;None;Shapeshift: Flind
+SPWI494;1;Innate;WIZARD_POLYMORPH_OGRE;None;Shapeshift: Ogre
+SPWI495;1;Innate;WIZARD_POLYMORPH_SPIDER;None;Shapeshift: Spider
+SPWI496;1;Innate;WIZARD_POLYMORPH_MUSTARD_JELLY;None;Shapeshift: Mustard Jelly
+SPWI497;1;Innate;WIZARD_POLYMORPH_BROWN_BEAR;None;Shapeshift: Brown Bear
+SPWI498;1;Innate;WIZARD_POLYMORPH_BLACK_BEAR;None;Shapeshift: Black Bear
+SPWI499;1;Innate;WIZARD_POLYMORPH_WOLF;None;Shapeshift: Wolf
+SPWI501;5;Wizard;WIZARD_SUMMON_SHADOW;Necromancy;Summon Shadow
+SPWI502;5;Wizard;WIZARD_CLOUDKILL;Conjuration;Cloudkill
+SPWI503;5;Wizard;WIZARD_CONE_OF_COLD;Evocation;Cone of Cold
+SPWI504;5;Wizard;WIZARD_MONSTER_SUMMONING_LEVEL_5;Conjuration;Monster Summoning V
+SPWI505;5;Wizard;WIZARD_SHADOW_DOOR;Illusion;Shadow Door
+SPWI506;5;Wizard;WIZARD_DOMINATION;Enchantment;Domination
+SPWI507;5;Wizard;WIZARD_HOLD_MONSTER;Enchantment;Hold Monster
+SPWI508;5;Wizard;WIZARD_WAVES_OF_FATIGUE;Necromancy;Waves of Fatigue
+SPWI509;5;Wizard;WIZARD_FEEBLEMIND;Enchantment;Feeblemind
+SPWI510;5;Wizard;WIZARD_SPELL_IMMUNITY;Abjuration;Dispelling Screen
+SPWI511;5;Wizard;WIZARD_PROTECTION_FROM_NORMAL_WEAPONS;Abjuration;Protection from Normal Weapons
+SPWI512;4;Wizard;WIZARD_PROTECTION_FROM_ELECTRICITY;Abjuration;Protection from Electricity
+SPWI513;5;Wizard;WIZARD_BREACH;Abjuration;Breach
+SPWI514;5;Wizard;WIZARD_LOWER_RESISTANCE;Alteration;Lower Resistance
+SPWI515;5;Wizard;WIZARD_ORACLE;Divination;Oracle
+SPWI516;5;Wizard;WIZARD_CONJURE_LESSER_FIRE_ELEMENTAL;Conjuration;Conjure Lesser Fire Elemental
+SPWI517;4;Wizard;WIZARD_PROTECTION_FROM_ACID;Abjuration;Protection from Acid
+SPWI518;5;Wizard;WIZARD_PHANTOM_BLADE;Illusion;Phantom Blade
+SPWI519;5;Wizard;WIZARD_SPELL_SHIELD;Abjuration;Spell Shield
+SPWI520;5;Wizard;WIZARD_CONJURE_LESSER_AIR_ELEMENTAL;Conjuration;Conjure Lesser Air Elemental
+SPWI521;5;Wizard;WIZARD_CONJURE_LESSER_EARTH_ELEMENTAL;Conjuration;Conjure Lesser Earth Elemental
+SPWI522;5;Wizard;WIZARD_SPELL_DEFLECTION;Abjuration;Spell Deflection
+SPWI523;5;Wizard;WIZARD_SUN_FIRE;Evocation;Fireburst
+SPWI524;5;Wizard;WIZARD_MESTILS_ACID_SHEATH;Conjuration;Mestil's Acid Sheath
+SPWI525;5;Wizard;WIZARD_SHROUD_OF_FLAME;Evocation;Shroud of Flame
+SPWI526;5;Wizard;WIZARD_CONJURE_LESSER_WATER_ELEMENTAL;Conjuration;Conjure Lesser Water Elemental
+SPWI527;5;Wizard;WIZARD_DEMI_SHADOW_MONSTERS;Illusion;Demi-Shadow Monsters
+SPWI528;5;Wizard;WIZARD_TELEKINESIS;Alteration;Telekinesis
+SPWI590;5;Wizard;WIZARD_SPELL_IMMUNITY_ABJURATION;Abjuration;Dispelling Screen
+SPWI591;5;Wizard;WIZARD_SPELL_IMMUNITY_CONJURATION;Abjuration;Immunity: Conjuration
+SPWI592;5;Wizard;WIZARD_SPELL_IMMUNITY_DIVINATION;Abjuration;Non-Detection
+SPWI593;5;Wizard;WIZARD_SPELL_IMMUNITY_ENCHANTMENT;Abjuration;Mind Blank
+SPWI594;5;Wizard;WIZARD_SPELL_IMMUNITY_ILLUSIONIST;Abjuration;Immunity: Illusion
+SPWI595;5;Wizard;WIZARD_SPELL_IMMUNITY_INVOCATION;Abjuration;Immunity: Evocation
+SPWI596;5;Wizard;WIZARD_SPELL_IMMUNITY_NECROMANCY;Abjuration;Immunity: Necromancy
+SPWI597;5;Wizard;WIZARD_SPELL_IMMUNITY_ALTERATION;Abjuration;Immunity: Alteration
+SPWI601;6;Wizard;WIZARD_INVISIBLE_STALKER;Conjuration;Invisible Stalker
+SPWI602;6;Wizard;WIZARD_GLOBE_OF_INVULNERABILITY;Abjuration;Globe of Invulnerability
+SPWI603;6;Wizard;WIZARD_TENSERS_TRANSFORMATION;Alteration;Tenser's Transformation
+SPWI604;6;Wizard;WIZARD_FLESH_TO_STONE;Alteration;Flesh to Stone
+SPWI605;6;Wizard;WIZARD_DEATH_SPELL;Abjuration;Banishment
+SPWI606;6;Wizard;WIZARD_PROTECTION_FROM_MAGIC_ENERGY;Abjuration;Protection from Magic Energy
+SPWI607;6;Wizard;WIZARD_MISLEAD;Illusion;Mislead
+SPWI608;6;Wizard;WIZARD_PIERCE_MAGIC;Abjuration;Pierce Magic
+SPWI609;6;Wizard;WIZARD_TRUE_SIGHT;Divination;True Seeing
+SPWI610;6;Wizard;WIZARD_MONSTER_SUMMONING_LEVEL_6;Conjuration;Monster Summoning VI
+SPWI611;6;Wizard;WIZARD_PROTECTION_FROM_MAGIC_WEAPONS;Abjuration;Protection from Magical Weapons
+SPWI612;6;Wizard;WIZARD_POWER_WORD_SILENCE;Enchantment;Power Word Silence
+SPWI613;6;Wizard;WIZARD_IMPROVED_HASTE;Alteration;Improved Haste
+SPWI614;6;Wizard;WIZARD_DEATH_FOG;Conjuration;Acid Fog
+SPWI615;6;Wizard;WIZARD_CHAIN_LIGHTNING;Evocation;Chain Lightning
+SPWI616;6;Wizard;WIZARD_DISINTEGRATE;Alteration;Disintegrate
+SPWI617;6;Wizard;WIZARD_CONTINGENCY;None;Contingency
+SPWI618;6;Wizard;WIZARD_SPELL_DEFLECTION_DEPRECATED;Abjuration;Spell Deflection
+SPWI619;6;Wizard;WIZARD_WYVERN_CALL;Conjuration;Wyvern Call
+SPWI620;6;Wizard;WIZARD_CONJURE_FIRE_ELEMENTAL;Conjuration;Conjure Fire Elemental
+SPWI621;6;Wizard;WIZARD_CONJURE_AIR_ELEMENTAL;Conjuration;Conjure Air Elemental
+SPWI622;6;Wizard;WIZARD_CONJURE_EARTH_ELEMENTAL;Conjuration;Conjure Earth Elemental
+SPWI623;6;Wizard;WIZARD_CARRION;Necromancy;Animate Skeleton Warrior
+SPWI624;6;Wizard;WIZARD_SUMMON_NISHRUU;Conjuration;Summon Nishruu
+SPWI625;6;Wizard;WIZARD_STONE_TO_FLESH;Alteration;Stone to Flesh
+SPWI626;6;Wizard;WIZARD_OTILUKES_FREEZING_SPHERE;Evocation;Otiluke's Freezing Sphere
+SPWI627;6;Wizard;WIZARD_DARTS_OF_BONE;Necromancy;Darts of Bone
+SPWI628;6;Wizard;WIZARD_SOUL_EATER;Necromancy;Soul Eater
+SPWI629;6;Wizard;WIZARD_TROLLISH_FORTITUDE;Necromancy;Trollish Fortitude
+SPWI630;6;Wizard;WIZARD_ANTIMAGIC_SHELL;Abjuration;Antimagic Shell
+SPWI631;6;Wizard;WIZARD_LICH_TOUCH;Necromancy;Lich Touch
+SPWI632;6;Wizard;WIZARD_SHADES;Illusion;Shades
+SPWI633;6;Wizard;WIZARD_CONJURE_WATER_ELEMENTAL;Conjuration;Conjure Water Elemental
+SPWI701;7;Wizard;WIZARD_SPELL_TURNING;Abjuration;Greater Spell Deflection
+SPWI702;7;Wizard;WIZARD_PROTECTION_FROM_THE_ELEMENTS;Abjuration;Protection from the Elements
+SPWI703;7;Wizard;WIZARD_PROJECT_IMAGE;Illusion;Project Image
+SPWI704;7;Wizard;WIZARD_RUBY_RAY_OF_REVERSAL;Alteration;Ruby Ray of Reversal
+SPWI705;7;Wizard;WIZARD_WARDING_WHIP;Evocation;Khelben's Warding Whip
+SPWI706;7;Wizard;WIZARD_MONSTER_SUMMONING_LEVEL_7;Conjuration;Monster Summoning VII
+SPWI707;7;Wizard;WIZARD_SUMMON_DEATH_KNIGHT;Necromancy;Summon Death Knight
+SPWI708;7;Wizard;WIZARD_MANTLE;Abjuration;Prismatic Mantle
+SPWI710;7;Wizard;WIZARD_SPELL_SEQUENCER;None;Simbul's Spell Sequencer
+SPWI711;7;Wizard;WIZARD_SPHERE_OF_CHAOS;Enchantment;Chaos
+SPWI712;7;Wizard;WIZARD_DELAYED_BLAST_FIREBALL;Evocation;Delayed Blast Fireball
+SPWI713;7;Wizard;WIZARD_FINGER_OF_DEATH;Necromancy;Finger of Death
+SPWI714;7;Wizard;WIZARD_PRISMATIC_SPRAY;Alteration;Prismatic Spray
+SPWI715;7;Wizard;WIZARD_POWER_WORD_STUN;Enchantment;Power Word Stun
+SPWI716;7;Wizard;WIZARD_MORDENKAINENS_SWORD;Evocation;Mordenkainen's Sword
+SPWI717;7;Wizard;WIZARD_SUMMON_EFREET;Conjuration;Summon Efreeti
+SPWI718;7;Wizard;WIZARD_SUMMON_DJINNI;Conjuration;Summon Djinni
+SPWI719;7;Wizard;WIZARD_SUMMON_HAKEASHAR;Conjuration;Summon Nishruu
+SPWI720;7;Wizard;WIZARD_CONTROL_UNDEAD;Necromancy;Control Undead
+SPWI721;7;Wizard;WIZARD_MASS_INVISIBILITY;Illusion;Mass Invisibility
+SPWI722;7;Wizard;WIZARD_LIMITED_WISH;None;Limited Wish
+SPWI723;7;Wizard;WIZARD_IMPROVED_CHAOS_SHIELD;Generalist;Improved Chaos Shield
+SPWI724;7;Wizard;WIZARD_ACID_STORM;Evocation;Acid Storm
+SPWI725;7;Wizard;WIZARD_SUFFOCATE;Alteration;Suffocate
+SPWI726;7;Wizard;WIZARD_MORDENKAINENS_SWORD_IWD;Evocation;Mordenkainen's Force Blade
+SPWI727;7;Wizard;WIZARD_MALAVONS_RAGE;Evocation;Malavon's Rage
+SPWI728;7;Wizard;WIZARD_SEVEN_EYES;Abjuration;Seven Eyes
+SPWI801;8;Wizard;WIZARD_GHOSTFORM;Alteration;Ghostform
+SPWI802;8;Wizard;WIZARD_MIND_BLANK;Abjuration;Mind Blank
+SPWI803;8;Wizard;WIZARD_PROTECTION_FROM_ENERGY;Abjuration;Protection from Energy
+SPWI804;8;Wizard;WIZARD_SIMULACRUM;Illusion;Simulacrum
+SPWI805;8;Wizard;WIZARD_PIERCE_SHIELD;Abjuration;Pierce Shield
+SPWI806;8;Wizard;WIZARD_MONSTER_SUMMONING_LEVEL_8;Conjuration;Monster Summoning VIII
+SPWI807;8;Wizard;WIZARD_SUMMON_FIEND;Conjuration;Summon Fiend
+SPWI808;8;Wizard;WIZARD_MOMENT_OF_PRESCIENCE;Divination;Moment of Prescience
+SPWI809;8;Wizard;WIZARD_SPELL_TRIGGER;None;Simbul's Spell Trigger
+SPWI810;8;Wizard;WIZARD_INCENDIARY_CLOUD;Conjuration;Incendiary Cloud
+SPWI811;8;Wizard;WIZARD_SYMBOL_WEAKNESS;Conjuration;Symbol of Weakness
+SPWI812;8;Wizard;WIZARD_ABI_DALZIMS_HORRID_WILTING;Necromancy;Abi-Dalzim's Horrid Wilting
+SPWI813;8;Wizard;WIZARD_MAZE;Conjuration;Maze
+SPWI815;8;Wizard;WIZARD_POWER_WORD_BLIND;Enchantment;Power Word Blind
+SPWI816;8;Wizard;WIZARD_SYMBOL_STUN;Conjuration;Symbol of Stunning
+SPWI817;8;Wizard;WIZARD_SYMBOL_DEATH;Conjuration;Symbol of Death
+SPWI818;8;Wizard;WIZARD_BIGBYS_ICY_GRASP;Evocation;Bigby's Icy Grasp
+SPWI819;8;Wizard;WIZARD_GREAT_SHOUT;Evocation;Great Shout
+SPWI820;8;Wizard;WIZARD_IRON_BODY;Alteration;Iron Body
+SPWI821;8;Wizard;WIZARD_TELEKINETIC_STORM;Alteration;Telekinetic Storm
+SPWI853;4;Wizard;;Alteration;Otiluke's Resilient Sphere
+SPWI888;3;Wizard;FORCE_DAMAGE_1;None;Flame Arrow
+SPWI897;8;Wizard;WIZARD_NPC_SYMBOL_DEATH;Conjuration;Symbol, Death
+SPWI898;8;Wizard;WIZARD_NPC_SYMBOL_STUN;Conjuration;Symbol, Stun
+SPWI899;8;Wizard;WIZARD_NPC_SYMBOL_FEAR;Conjuration;Symbol, Fear
+SPWI901;9;Wizard;WIZARD_MONSTER_SUMMONING_7;Conjuration;Monster Summoning VII
+SPWI902;9;Wizard;WIZARD_SPELL_TRAP;Abjuration;Spell Trap
+SPWI903;9;Wizard;WIZARD_SPELL_STRIKE;Abjuration;Spellstrike
+SPWI904;9;Wizard;WIZARD_STORMBOLTS;Evocation;Stormbolts
+SPWI905;9;Wizard;WIZARD_GATE;Conjuration;Gate
+SPWI906;9;Wizard;WIZARD_VERIDONS_ICY_RAY;Evocation;Veridon's Icy Ray
+SPWI907;9;Wizard;WIZARD_ABSOLUTE_IMMUNITY;Abjuration;Absolute Immunity
+SPWI908;9;Wizard;WIZARD_CHAIN_CONTINGENCY;None;Chain Contingency
+SPWI909;9;Wizard;WIZARD_TIME_STOP;Alteration;Time Stop
+SPWI910;9;Wizard;WIZARD_IMPRISONMENT;Abjuration;Imprisonment
+SPWI911;9;Wizard;WIZARD_METEOR_SWARM;Evocation;Meteor Swarm
+SPWI912;9;Wizard;WIZARD_POWER_WORD_KILL;Enchantment;Power Word Kill
+SPWI913;9;Wizard;WIZARD_WAIL_OF_THE_BANSHEE;Necromancy;Wail of the Banshee
+SPWI914;9;Wizard;WIZARD_ENERGY_DRAIN;Necromancy;Larloch's Energy Drain
+SPWI915;9;Wizard;WIZARD_BLACK_BLADE_OF_DISASTER;Conjuration;Black Blade of Disaster
+SPWI916;9;Wizard;WIZARD_SHAPECHANGE;Alteration;Shapechange
+SPWI917;9;Wizard;WIZARD_FREEDOM;Abjuration;Freedom
+SPWI918;9;Wizard;WIZARD_BIGBYS_CRUSHING_HAND;Evocation;Bigby's Crushing Hand
+SPWI919;9;Wizard;WIZARD_WISH;None;Wish
+SPWI920;1;Innate;WIZARD_ENERGY_BLADES;Evocation;Energy Blades
+SPWI921;1;Innate;WIZARD_IMPROVED_ALUCRITY;Alteration;Improved Alacrity
+SPWI922;1;Innate;WIZARD_DRAGONS_BREATH;Evocation;Dragon's Breath
+SPWI923;1;Innate;WIZARD_SUMMON_PLANATAR_GOOD;None;Summon Planetar
+SPWI924;1;Innate;WIZARD_SUMMON_PLANATAR_EVIL;None;Summon Dark Planetar
+SPWI925;1;Innate;WIZARD_COMET;Conjuration;Comet
+SPWI926;4;Wizard;QUICK_TELEPORT;Alteration;Dimension Door
+SPWI927;1;Innate;SUCCUBUS_ETHEREAL;None;Ethereal
+SPWI928;0;Wizard;SUCCUBUS_ENERGY_DRAIN;Necromancy;Energy Drain
+SPWI929;0;Wizard;SUCCUBUS_CHARM_FEMALE;Enchantment;Charm Person
+SPWI930;0;Wizard;SUCCUBUS_CHARM_MALE;Enchantment;Charm Person
+SPWI931;4;Wizard;SUCCUBUS_TELEPORT;Alteration;Teleport Without Error
+SPWI932;0;Wizard;TANARI_CHANGE;None;
+SPWI933;0;Wizard;DURLAG_SWORD;None;
+SPWI934;0;Wizard;CRUSHING_TRAP;None;
+SPWI935;0;Wizard;SUMMON_SKELETON_WARRIOR3;None;
+SPWI936;0;Wizard;SUMMON_SKELETON_WARRIOR2;None;
+SPWI937;0;Wizard;SUMMON_SKELETON_WARRIOR;None;
+SPWI938;9;Priest;;None;Lightning
+SPWI939;0;Wizard;CHARM_HERO;None;
+SPWI940;2;Wizard;FIREDRAKE_DAMAGE;Evocation;Agannazar's Scorcher
+SPWI941;1;Wizard;LOVEM_CHANGE;None;
+SPWI942;1;Wizard;QUEEN_CHANGE;None;
+SPWI943;3;Wizard;SIRINE_DIRE_CHARM;Enchantment;Dire Charm
+SPWI944;1;Wizard;DAESEWOLF_CHANGE;None;
+SPWI945;1;Wizard;LOUPGAR_CHANGE;None;
+SPWI946;1;Wizard;PLAYER_WEREWOLF_CHANGE;None;
+SPWI947;1;Wizard;GREATER_WOLFWERE_CHANGE;None;
+SPWI948;1;Wizard;WEREWOLF_CHANGE;None;
+SPWI949;1;Wizard;WOLFWERE_CHANGE;None;
+SPWI950;3;Wizard;FAST_SKULLTRAP;Necromancy;Skull Trap
+SPWI951;1;Wizard;JELLY_SPLIT;None;
+SPWI952;5;Innate;DRADEEL_FLAMEBLADE;Conjuration;Selûne's Blade
+SPWI953;8;Innate;DRADEEL_BLUE_FIREBALL;Evocation;Selûne's Curse
+SPWI954;8;Innate;DRADEEL_MINOR_GLOBE;Abjuration;Selûne's Blessing
+SPWI955;1;Innate;PAIN;Conjuration;Symbol, Pain
+SPWI956;1;Innate;FEAR;Conjuration;Symbol, Fear
+SPWI957;3;Innate;RED_FIREBALL;Evocation;Fireball
+SPWI958;1;Innate;POWERWORD_BLIND;Conjuration;Power Word, Blind
+SPWI959;1;Innate;POWERWORD_STUN;Conjuration;Power Word, Stun
+SPWI960;1;Innate;POWERWORD_KILL;Conjuration;Power Word, Kill
+SPWI961;1;Wizard;DOPPLEGANGER_CHANGE4;None;
+SPWI962;1;Wizard;DOPPLEGANGER_CHANGE5;None;
+SPWI963;1;Wizard;DOPPLEGANGER_CHANGE6;None;
+SPWI964;1;Wizard;DOPPLEGANGER_CHANGE7;None;
+SPWI965;1;Wizard;DOPPLEGANGER_CHANGE8;None;
+SPWI966;9;Wizard;WIZARD_CREATE_BONEGUARD;Necromancy;Create Boneguard
+SPWI971;1;Innate;;None;Shapechange: Earth Elemental
+SPWI972;1;Innate;;None;Shapechange: Fire Elemental
+SPWI973;1;Innate;;None;Shapechange: Iron Golem
+SPWI974;1;Innate;;None;Shapechange: Mind Flayer
+SPWI975;1;Innate;;None;Shapechange: Spirit Troll
+SPWI976;1;Innate;;None;Shapechange: Greater Wolfwere
+SPWI977;1;Innate;;None;Shapeshift: Natural Form
+SPWI978;1;Innate;;None;Shapeshift: Natural Form
+SPWI979;5;Priest;SAREVOK_STRIKE;Evocation;Flame Strike
+SPWI980;1;Wizard;FIREBALL_DEATH;None;
+SPWI981;1;Wizard;MUSHROOM_FIRE;None;
+SPWI982;4;Wizard;DAERRAGH;None;Dimension Door
+SPWI983;1;Wizard;RISE_FROM_ASH;None;
+SPWI984;1;Wizard;RED_SWIRL;None;
+SPWI985;1;Wizard;RED_HOLY_MIGHT;None;
+SPWI986;0;Special;SPIDER_SUMMON;None;
+SPWI987;1;Wizard;DOPPLEGANGER_CHANGE_DEFAULT_LESSER;None;
+SPWI988;1;Wizard;DOPPLEGANGER_CHANGE_DEFAULT;None;
+SPWI989;1;Wizard;EFFECT_ONLY;None;Antichickenator
+SPWI990;1;Wizard;DOPPLEGANGER_CHANGE3;None;
+SPWI991;1;Wizard;DOPPLEGANGER_RASHAD;None;
+SPWI992;1;Wizard;DOPPLEGANGER_CHANGE2;None;
+SPWI993;1;Wizard;DOPPLEGANGER_CHANGE;None;
+SPWI994;4;Wizard;PHASE_SPIDER_TELEPORT;Alteration;Dimension Door
+SPWI995;4;Wizard;DRYAD_TELEPORT;None;Dimension Door
+SPWI996;0;Wizard;CHARM_KORAX;None;
+SPWI997;3;Wizard;GORION_LIGHTNING;Evocation;Lightning Bolt
+SPWI998;1;Wizard;GORION_MAGIC_MISSILE;None;Magic Missile
+SPWI999;3;Priest;DIETY_KILL;None;

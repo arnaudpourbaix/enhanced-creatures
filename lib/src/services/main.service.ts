@@ -7,7 +7,13 @@ import { SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { SpellIdentifier } from "../model/ids/spell";
 import { SpellCombo } from "../model/spell-item/spell-combo";
-import { getAllSpells, spellFiles, type SpellReference } from "../model/spell-item/spell-reference";
+import {
+  getAllSpells,
+  resolveForMod,
+  spellFiles,
+  spellKeyLabel,
+  type SpellReference,
+} from "../model/spell-item/spell-reference";
 import { entryFactories } from "../../creatures/entries";
 import { KinEnum } from "../../creatures/kin";
 import { kinFactories } from "../../creatures/kins";
@@ -15,9 +21,13 @@ import { Creature } from "../model/creature/creature";
 import { GeneratedGroup } from "../model/creature/creature-group";
 import { CreatureEntry } from "../model/creature/entry";
 import { CreatureKin } from "../model/creature/kin";
+import { ItemAbilityPrimaryTypeEnum } from "../model/spell-item/effect.enums";
 import {
+  SpellBook,
   SpellBookModVariant,
   SpellBookSpells,
+  isOpposed,
+  opposedComboSpell,
   spellBookVariants,
 } from "../model/spell-item/spellbook";
 import bafGeneratorService from "./baf/baf-generator.service";
@@ -289,6 +299,79 @@ class MainService {
       for (const variant of spellBookVariants(book)) {
         if (MOD_LAYER_ORDER.includes(variant.mod)) this.checkSpellbookVariant(book.name, variant);
       }
+      this.checkSpellbookSchools(book);
+    }
+  }
+
+  /**
+   * A specialist's book can't list a spell of an opposed school (an error). An opposed fallback
+   * is left out of that mod's spells instead (a combo holding one, as a whole: see
+   * resolveSpellBookSpellsForMod and opposedComboSpell), with a warning.
+   */
+  private checkSpellbookSchools(book: SpellBook): void {
+    const specialization = book.specialization;
+    if (specialization === undefined) return;
+    const school = (spell: SpellReference) => ItemAbilityPrimaryTypeEnum[spell.school ?? 0];
+    const prefix = `Spellbook "${book.name}" (${ItemAbilityPrimaryTypeEnum[specialization]})`;
+    const left = (listed: SpellReference, resolved: SpellReference, mod: string) =>
+      `${spellKeyLabel(listed)} falls back to ${spellKeyLabel(resolved)} under ${mod}, of the opposed school ${school(resolved)}`;
+
+    const lists = ["base", "additionnals", "repeat"] as const;
+    const authored = [
+      { variant: "", values: book.values },
+      ...(book.variants ?? []).map((v) => ({ variant: ` (${v.mod} variant)`, values: v.values })),
+    ];
+    const combos = [
+      ...(book.minorSequencers ?? []),
+      ...(book.spellSequencers ?? []),
+      ...(book.contingencies ?? []),
+      ...(book.chainContingencies ?? []),
+    ];
+    const listedIn = [
+      ...authored.flatMap(({ variant, values }) =>
+        values.flatMap((level) =>
+          lists.flatMap((list) =>
+            level[list].map((spell) => ({
+              spell,
+              where: `level ${level.level} ${list}${variant}`,
+            })),
+          ),
+        ),
+      ),
+      ...combos.flatMap((combo) =>
+        combo.spells.map((spell) => ({ spell, where: `${combo.kind} ${combo.key}` })),
+      ),
+    ];
+    for (const { spell, where } of listedIn) {
+      if (isOpposed(spell, specialization)) {
+        throw new Error(
+          `${prefix} lists ${spellKeyLabel(spell)}, of the opposed school ${school(spell)}, in its ${where}.`,
+        );
+      }
+    }
+
+    for (const mod of MOD_LAYER_ORDER) {
+      const dropped = new Map<string, string>();
+      for (const level of book.values) {
+        for (const list of lists) {
+          for (const listed of level[list]) {
+            const resolved = resolveForMod(listed, mod);
+            if (isOpposed(resolved, specialization)) {
+              dropped.set(listed.file, `${left(listed, resolved, mod)}: left out of its spells.`);
+            }
+          }
+        }
+      }
+      for (const combo of combos) {
+        const opposed = opposedComboSpell(combo, mod, specialization);
+        if (opposed) {
+          dropped.set(
+            combo.key,
+            `${left(opposed.listed, opposed.resolved, mod)}: its ${combo.kind} ${combo.key} is left out.`,
+          );
+        }
+      }
+      for (const message of dropped.values()) logService.warn(`${prefix}: ${message}`);
     }
   }
 

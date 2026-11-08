@@ -34,7 +34,7 @@ CREATE ITM "jaic000j"
 	WRITE_ASCII 0x3a ~IRING16~ #8
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10112)
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10112)
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11029)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11030)
 COPY_EXISTING ~jaic000j.itm~ ~override~
 	LPF cat_trait END
 
@@ -175,7 +175,7 @@ CREATE ITM "jaic000g"
 	WRITE_ASCII 0x3a ~IRING16~ #8
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10111)
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10111)
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11028)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11029)
 COPY_EXISTING ~jaic000g.itm~ ~override~
 	LPF spider_trait END
 
@@ -201,63 +201,62 @@ CREATE ITM "jaic000i"
 COPY_EXISTING ~jaic000i.itm~ ~override~
 	LPF vermin_trait END
 
-// Minor Sequencer
+// Minor Sequencer: Larloch's Minor Drain x2
 CREATE SPL "jasc0100"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasc0100.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11004)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI119" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI119" END
 
-// Minor Sequencer
+// Minor Sequencer: Magic Missiles x2
 CREATE SPL "jasc0101"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasc0101.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11004)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI112" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI112" END
 
-// Minor Sequencer
+// Minor Sequencer: Ray of Enfeeblement x2
 CREATE SPL "jasc0102"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasc0102.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11004)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI221" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI221" END
 
-// Minor Sequencer
+// Minor Sequencer: Mirror Images, Blur
 CREATE SPL "jasc0103"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasc0103.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11004)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI212" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI201" END
 
-// Sequencer
+// Minor Sequencer: Melf Acid Arrow x2
 CREATE SPL "jasc0104"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasc0104.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=10 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI314" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI119" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI119" END
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI211" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI211" END
 
-// Sequencer
+// Minor Sequencer: Sleep x2
 CREATE SPL "jasc0105"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasc0105.SPL~  ~override~
@@ -265,15 +264,259 @@ COPY_EXISTING ~jasc0105.SPL~  ~override~
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI411" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI411" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI312" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI116" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI116" END
 
-// Sequencer
+// Minor Sequencer: Monster Summoning 2 x2
 CREATE SPL "jasc0106"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasc0106.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI226" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI226" END
+
+// Minor Sequencer: Color Spray x2
+CREATE SPL "jasc0107"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0107.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=10 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI105" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI105" END
+
+// Minor Sequencer: Chromatic Orb x2
+CREATE SPL "jasc0108"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0108.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI118" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI118" END
+
+// Minor Sequencer: Burning Hands x2
+CREATE SPL "jasc0109"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0109.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=10 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI103" END
+
+// Minor Sequencer: Snilloc's Snowball Swarm x2
+CREATE SPL "jasc010a"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010a.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI227" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI227" END
+
+// Minor Sequencer: Battering Ram x2
+CREATE SPL "jasc010b"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010b.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI207" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI207" END
+
+// Minor Sequencer: Deafness x2
+CREATE SPL "jasc010c"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010c.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI223" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI223" END
+
+// Minor Sequencer: Charm Person x2
+CREATE SPL "jasc010d"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010d.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI104" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI104" END
+
+// Minor Sequencer: Ray of Enfeeblement, Blindness
+CREATE SPL "jasc010e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI221" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI106" END
+
+// Minor Sequencer: Horror x2
+CREATE SPL "jasc010f"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010f.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI205" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI205" END
+
+// Minor Sequencer: Mirror Images, Invisibility
+CREATE SPL "jasc010g"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010g.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI212" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI206" END
+
+// Minor Sequencer: Mirror Images, Shield
+CREATE SPL "jasc010h"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010h.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI212" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI114" END
+
+// Minor Sequencer: Stinking Cloud, Web
+CREATE SPL "jasc010i"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010i.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI213" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI215" END
+
+// Minor Sequencer: Web x2
+CREATE SPL "jasc010j"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010j.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI215" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI215" END
+
+// Minor Sequencer: Ice Knife x2
+CREATE SPL "jasc010k"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010k.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI131" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI131" END
+
+// Minor Sequencer: Agannazar's Scorcher x2
+CREATE SPL "jasc010l"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010l.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI217" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI217" END
+
+// Minor Sequencer: Combust x2
+CREATE SPL "jasc010m"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010m.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=10 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI232" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI232" END
+
+// Minor Sequencer: Minor Lightning Bolt x2
+CREATE SPL "jasc010n"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010n.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11005)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI231" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI231" END
+
+// Sequencer: Vampiric Touch, Larloch's Minor Drain x2
+CREATE SPL "jasc010o"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010o.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=10 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI314" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI119" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI119" END
+
+// Sequencer: Skull Trap x2
+CREATE SPL "jasc010p"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010p.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI313" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI313" END
+
+// Sequencer: Beltyn's Burning Blood, Skull Trap x2
+CREATE SPL "jasc010q"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010q.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI427" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI313" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI313" END
+
+// Sequencer: Emotion Hopelessness x2, Slow
+CREATE SPL "jasc010r"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010r.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI411" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI411" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI312" END
+
+// Sequencer: Stoneskin, Minor Globe Of Invulnerability, Spirit Armor
+CREATE SPL "jasc010s"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010s.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
@@ -281,270 +524,1315 @@ COPY_EXISTING ~jasc0106.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI406" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI414" END
 
-// Contingency
-CREATE SPL "jasc0107"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc0107.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0107" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=5 timing=1 probability1=100 STR_VAR resource="jasc0108" END
-
-// Contingency
-CREATE SPL "jasc0108"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc0108.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0107" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI413" END
-
-// Contingency
-CREATE SPL "jasc0109"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc0109.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0109" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=2 timing=1 probability1=100 STR_VAR resource="jasc010a" END
-
-// Contingency
-CREATE SPL "jasc010a"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010a.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0109" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
-
-// Contingency
-CREATE SPL "jasc010b"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010b.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010b" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc010c" END
-
-// Contingency
-CREATE SPL "jasc010c"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010c.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010b" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI613" END
-
-// Contingency
-CREATE SPL "jasc010d"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010d.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010d" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc010e" END
-
-// Contingency
-CREATE SPL "jasc010e"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010e.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010d" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI609" END
-
-// Contingency
-CREATE SPL "jasc010f"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010f.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010f" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc010g" END
-
-// Contingency
-CREATE SPL "jasc010g"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010g.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010f" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI611" END
-
-// Contingency
-CREATE SPL "jasc010h"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010h.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010h" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc010i" END
-
-// Contingency
-CREATE SPL "jasc010i"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010i.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010h" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI606" END
-
-// Contingency
-CREATE SPL "jasc010j"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010j.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010j" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc010k" END
-
-// Contingency
-CREATE SPL "jasc010k"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010k.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010j" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI721" END
-
-// Contingency
-CREATE SPL "jasc010l"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010l.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010l" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc010m" END
-
-// Contingency
-CREATE SPL "jasc010m"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010m.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010l" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI708" END
-
-// Contingency
-CREATE SPL "jasc010n"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010n.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010n" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc010o" END
-
-// Contingency
-CREATE SPL "jasc010o"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010o.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010n" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI813" END
-
-// Contingency
-CREATE SPL "jasc010p"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010p.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010p" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc010q" END
-
-// Contingency
-CREATE SPL "jasc010q"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010q.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010p" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI808" END
-
-// Chain Contingency
-CREATE SPL "jasc010r"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010r.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010r" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc010s" END
-
-// Chain Contingency
-CREATE SPL "jasc010s"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasc010s.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010r" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI813" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI803" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI807" END
-
-// Chain Contingency
+// Sequencer: Minor Spell Deflection, Improved Invisibility, Minor Globe Of Invulnerability
 CREATE SPL "jasc010t"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasc010t.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010t" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc010u" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI405" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI406" END
 
-// Chain Contingency
+// Sequencer: Minor Spell Deflection, Improved Invisibility, Monster Summoning 4
 CREATE SPL "jasc010u"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasc010u.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI405" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI423" END
+
+// Sequencer: Minor Spell Deflection, Improved Invisibility, Fire Shield
+CREATE SPL "jasc010v"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010v.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI405" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI418" END
+
+// Sequencer: Improved Invisibility, Mirror Images, Blur
+CREATE SPL "jasc010w"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010w.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI405" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI212" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI201" END
+
+// Sequencer: Minor Spell Deflection, Improved Invisibility, Mirror Images
+CREATE SPL "jasc010x"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010x.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI405" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI212" END
+
+// Sequencer: Minor Spell Deflection, Minor Globe Of Invulnerability, Fire Shield
+CREATE SPL "jasc010y"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010y.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI406" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI418" END
+
+// Sequencer: Minor Spell Deflection, Fire Shield, Monster Summoning 4
+CREATE SPL "jasc010z"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc010z.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI418" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI423" END
+
+// Sequencer: Minor Spell Deflection, Monster Summoning 4, Minor Globe Of Invulnerability
+CREATE SPL "jasc0110"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0110.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI423" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI406" END
+
+// Sequencer: Improved Invisibility, Stoneskin, Minor Spell Deflection
+CREATE SPL "jasc0111"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0111.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI405" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+
+// Sequencer: Improved Invisibility, Stoneskin, Mirror Images
+CREATE SPL "jasc0112"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0112.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI405" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI212" END
+
+// Sequencer: Improved Invisibility, Stoneskin, Teleport Field
+CREATE SPL "jasc0113"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0113.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI405" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI421" END
+
+// Sequencer: Improved Invisibility, Stoneskin, Shield
+CREATE SPL "jasc0114"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0114.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI405" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI114" END
+
+// Sequencer: Minor Spell Deflection, Stoneskin, Ghost Armor
+CREATE SPL "jasc0115"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0115.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI317" END
+
+// Sequencer: Minor Spell Deflection, Stoneskin, Teleport Field
+CREATE SPL "jasc0116"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0116.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI421" END
+
+// Sequencer: Minor Spell Deflection, Minor Globe Of Invulnerability, Stoneskin
+CREATE SPL "jasc0117"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0117.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI406" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
+
+// Sequencer: Fire Shield, Minor Globe Of Invulnerability, Stoneskin
+CREATE SPL "jasc0118"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0118.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI418" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI406" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
+
+// Sequencer: Minor Spell Deflection, Stoneskin, Shield
+CREATE SPL "jasc0119"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0119.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI114" END
+
+// Sequencer: Minor Spell Deflection, Stoneskin, Spirit Armor
+CREATE SPL "jasc011a"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011a.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI414" END
+
+// Sequencer: Minor Spell Deflection, Teleport Field, Spirit Armor
+CREATE SPL "jasc011b"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011b.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI318" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI421" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI414" END
+
+// Sequencer: Fireball x3
+CREATE SPL "jasc011c"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011c.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI304" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI304" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI304" END
+
+// Sequencer: Shout x3
+CREATE SPL "jasc011d"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011d.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=18 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI432" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI432" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI432" END
+
+// Sequencer: Lightning Bolt x3
+CREATE SPL "jasc011e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI308" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI308" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI308" END
+
+// Sequencer: Lance of Disruption, Lightning Bolt, Icelance
+CREATE SPL "jasc011f"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011f.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=10 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI327" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI308" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI323" END
+
+// Sequencer: Icelance x3
+CREATE SPL "jasc011g"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011g.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=10 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI323" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI323" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI323" END
+
+// Sequencer: Confusion x3
+CREATE SPL "jasc011h"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011h.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI401" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI401" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI401" END
+
+// Sequencer: Mordenkainen's Force Missiles x3
+CREATE SPL "jasc011i"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011i.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI431" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI431" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI431" END
+
+// Sequencer: Flame Arrow x3
+CREATE SPL "jasc011j"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011j.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI303" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI303" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI303" END
+
+// Sequencer: Vitriolic Sphere x3
+CREATE SPL "jasc011k"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011k.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI426" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI426" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI426" END
+
+// Sequencer: Web, Monster Summoning 4 x2
+CREATE SPL "jasc011l"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011l.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI215" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI423" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI423" END
+
+// Sequencer: Dire Charm x3
+CREATE SPL "jasc011m"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011m.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI316" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI316" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI316" END
+
+// Sequencer: Skull Trap x3
+CREATE SPL "jasc011n"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011n.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI313" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI313" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI313" END
+
+// Sequencer: Confusion, Emotion Hopelessness, Slow
+CREATE SPL "jasc011o"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011o.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI401" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI411" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI312" END
+
+// Sequencer: Emotion Hopelessness x2, Monster Summoning 4
+CREATE SPL "jasc011p"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011p.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI411" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI411" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI423" END
+
+// Sequencer: Emotion, Fear, Emotion Hopelessness, Confusion
+CREATE SPL "jasc011q"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011q.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI430" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI411" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI401" END
+
+// Sequencer: Dispel Magic x3
+CREATE SPL "jasc011r"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011r.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI302" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI302" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI302" END
+
+// Sequencer: Ice Storm x3
+CREATE SPL "jasc011s"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011s.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI404" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI404" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI404" END
+
+// Sequencer: Unholy Blight x3
+CREATE SPL "jasc011t"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011t.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPPR314" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPPR314" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPPR314" END
+
+// Sequencer: Call Woodland Beeings x3
+CREATE SPL "jasc011u"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011u.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=30 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPPR410" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPPR410" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPPR410" END
+
+// Sequencer: Poison x3
+CREATE SPL "jasc011v"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011v.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=1 range=10 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPPR411" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPPR411" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPPR411" END
+
+// Sequencer: Turn Pebble to Boulder x3
+CREATE SPL "jasc011w"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011w.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11006)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI328" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI328" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI328" END
+
+// Contingency: Otiluke's Resilient Sphere
+CREATE SPL "jasc011x"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011x.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc010t" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc011x" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=5 timing=1 probability1=100 STR_VAR resource="jasc011y" END
+
+// Contingency: Otiluke's Resilient Sphere
+CREATE SPL "jasc011y"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011y.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc011x" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI413" END
+
+// Contingency: Stoneskin
+CREATE SPL "jasc011z"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc011z.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc011z" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=2 timing=1 probability1=100 STR_VAR resource="jasc0120" END
+
+// Contingency: Stoneskin
+CREATE SPL "jasc0120"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0120.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc011z" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI408" END
+
+// Contingency: Improved Haste
+CREATE SPL "jasc0121"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0121.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0121" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc0122" END
+
+// Contingency: Improved Haste
+CREATE SPL "jasc0122"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0122.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0121" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI613" END
+
+// Contingency: True Seeing
+CREATE SPL "jasc0123"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0123.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0123" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc0124" END
+
+// Contingency: True Seeing
+CREATE SPL "jasc0124"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0124.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0123" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI609" END
+
+// Contingency: Protection From Magical Weapons
+CREATE SPL "jasc0125"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0125.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0125" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc0126" END
+
+// Contingency: Protection From Magical Weapons
+CREATE SPL "jasc0126"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0126.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0125" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI611" END
+
+// Contingency: Protection from Magic Energy
+CREATE SPL "jasc0127"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0127.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0127" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc0128" END
+
+// Contingency: Protection from Magic Energy
+CREATE SPL "jasc0128"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0128.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0127" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI606" END
+
+// Contingency: Mass Invisibility
+CREATE SPL "jasc0129"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0129.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0129" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc012a" END
+
+// Contingency: Mass Invisibility
+CREATE SPL "jasc012a"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012a.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0129" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI721" END
+
+// Contingency: Prismatic Mantle
+CREATE SPL "jasc012b"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012b.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012b" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc012c" END
+
+// Contingency: Prismatic Mantle
+CREATE SPL "jasc012c"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012c.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012b" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI708" END
+
+// Contingency: Moment of Prescience
+CREATE SPL "jasc012d"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012d.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012d" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 timing=1 probability1=100 STR_VAR resource="jasc012e" END
+
+// Contingency: Moment of Prescience
+CREATE SPL "jasc012e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012d" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI808" END
+
+// Contingency: Protection From Magical Weapons
+CREATE SPL "jasc012f"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012f.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012f" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc012g" END
+
+// Contingency: Protection From Magical Weapons
+CREATE SPL "jasc012g"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012g.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012f" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI611" END
+
+// Contingency: Spell Shield
+CREATE SPL "jasc012h"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012h.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012h" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc012i" END
+
+// Contingency: Spell Shield
+CREATE SPL "jasc012i"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012i.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012h" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI519" END
+
+// Contingency: Improved Invisibility
+CREATE SPL "jasc012j"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012j.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012j" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc012k" END
+
+// Contingency: Improved Invisibility
+CREATE SPL "jasc012k"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012k.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012j" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI405" END
+
+// Contingency: Minor Globe Of Invulnerability
+CREATE SPL "jasc012l"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012l.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012l" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc012m" END
+
+// Contingency: Minor Globe Of Invulnerability
+CREATE SPL "jasc012m"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012m.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012l" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI406" END
+
+// Contingency: Globe of Invulnerability
+CREATE SPL "jasc012n"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012n.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012n" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc012o" END
+
+// Contingency: Globe of Invulnerability
+CREATE SPL "jasc012o"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012o.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012n" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI602" END
+
+// Contingency: Spell Deflection
+CREATE SPL "jasc012p"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012p.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012p" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc012q" END
+
+// Contingency: Spell Deflection
+CREATE SPL "jasc012q"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012q.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11007)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012p" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI522" END
+
+// Chain Contingency: Protection from Energy, Summon Fiend
+CREATE SPL "jasc012r"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012r.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012r" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc012s" END
+
+// Chain Contingency: Protection from Energy, Summon Fiend
+CREATE SPL "jasc012s"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012s.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012r" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI803" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI807" END
+
+// Chain Contingency: Moment of Prescience, Protection from Energy, Monster Summoning 8
+CREATE SPL "jasc012t"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012t.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012t" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc012u" END
+
+// Chain Contingency: Moment of Prescience, Protection from Energy, Monster Summoning 8
+CREATE SPL "jasc012u"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012u.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012t" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI808" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI803" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI806" END
+
+// Chain Contingency: Summon Efreeti x2, Protection From Magical Weapons
+CREATE SPL "jasc012v"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012v.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012v" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc012w" END
+
+// Chain Contingency: Summon Efreeti x2, Protection From Magical Weapons
+CREATE SPL "jasc012w"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012w.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012v" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI717" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI717" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI611" END
+
+// Chain Contingency: Conjure Water Elemental x2, Protection From Magical Weapons
+CREATE SPL "jasc012x"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012x.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012x" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc012y" END
+
+// Chain Contingency: Conjure Water Elemental x2, Protection From Magical Weapons
+CREATE SPL "jasc012y"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012y.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012x" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI633" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI633" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI611" END
+
+// Chain Contingency: Conjure Earth Elemental x2, Protection From Magical Weapons
+CREATE SPL "jasc012z"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc012z.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012z" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc0130" END
+
+// Chain Contingency: Conjure Earth Elemental x2, Protection From Magical Weapons
+CREATE SPL "jasc0130"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0130.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc012z" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI622" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI622" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI611" END
+
+// Chain Contingency: Spell Shield, Summon Djinni x2
+CREATE SPL "jasc0131"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0131.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0131" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc0132" END
+
+// Chain Contingency: Spell Shield, Summon Djinni x2
+CREATE SPL "jasc0132"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0132.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0131" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI519" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI718" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI718" END
+
+// Chain Contingency: Spell Shield, Summon Nishruu x2
+CREATE SPL "jasc0133"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0133.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0133" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc0134" END
+
+// Chain Contingency: Spell Shield, Summon Nishruu x2
+CREATE SPL "jasc0134"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0134.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0133" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI519" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI624" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI624" END
+
+// Chain Contingency: Spell Shield, Summon Hakeashar x2
+CREATE SPL "jasc0135"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0135.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0135" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc0136" END
+
+// Chain Contingency: Spell Shield, Summon Hakeashar x2
+CREATE SPL "jasc0136"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0136.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0135" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI519" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI719" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI719" END
+
+// Chain Contingency: Summon Efreeti, Summon Djinni, Summon Nishruu
+CREATE SPL "jasc0137"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0137.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0137" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc0138" END
+
+// Chain Contingency: Summon Efreeti, Summon Djinni, Summon Nishruu
+CREATE SPL "jasc0138"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0138.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0137" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI717" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI718" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI624" END
+
+// Chain Contingency: Summon Efreeti, Summon Djinni, Summon Hakeashar
+CREATE SPL "jasc0139"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc0139.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0139" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc013a" END
+
+// Chain Contingency: Summon Efreeti, Summon Djinni, Summon Hakeashar
+CREATE SPL "jasc013a"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013a.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc0139" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI717" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI718" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI719" END
+
+// Chain Contingency: Summon Nishruu x2, Mass Invisibility
+CREATE SPL "jasc013b"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013b.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013b" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc013c" END
+
+// Chain Contingency: Summon Nishruu x2, Mass Invisibility
+CREATE SPL "jasc013c"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013c.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013b" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI624" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI624" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI721" END
+
+// Chain Contingency: Summon Hakeashar x2, Mass Invisibility
+CREATE SPL "jasc013d"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013d.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013d" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc013e" END
+
+// Chain Contingency: Summon Hakeashar x2, Mass Invisibility
+CREATE SPL "jasc013e"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013e.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013d" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI719" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI719" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI721" END
+
+// Chain Contingency: Spell Shield, Mordenkainen's Sword x2
+CREATE SPL "jasc013f"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013f.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013f" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc013g" END
+
+// Chain Contingency: Spell Shield, Mordenkainen's Sword x2
+CREATE SPL "jasc013g"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013g.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013f" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI519" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI716" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI716" END
+
+// Chain Contingency: Mordenkainen's Sword x2, Mass Invisibility
+CREATE SPL "jasc013h"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013h.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013h" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc013i" END
+
+// Chain Contingency: Mordenkainen's Sword x2, Mass Invisibility
+CREATE SPL "jasc013i"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013i.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013h" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI716" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI716" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI721" END
+
+// Chain Contingency: Spell Shield, Protection from the Elements, Globe of Invulnerability
+CREATE SPL "jasc013j"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013j.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013j" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc013k" END
+
+// Chain Contingency: Spell Shield, Protection from the Elements, Globe of Invulnerability
+CREATE SPL "jasc013k"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013k.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013j" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI519" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI702" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI602" END
+
+// Chain Contingency: Spell Shield, Greater Spell Deflection, Globe of Invulnerability
+CREATE SPL "jasc013l"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013l.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013l" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc013m" END
+
+// Chain Contingency: Spell Shield, Greater Spell Deflection, Globe of Invulnerability
+CREATE SPL "jasc013m"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013m.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013l" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI519" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI701" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI602" END
+
+// Chain Contingency: Protection from the Elements, Spell Shield, Protection From Magical Weapons
+CREATE SPL "jasc013n"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013n.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013n" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc013o" END
+
+// Chain Contingency: Protection from the Elements, Spell Shield, Protection From Magical Weapons
+CREATE SPL "jasc013o"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013o.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013n" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI702" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI519" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI611" END
+
+// Chain Contingency: Greater Spell Deflection, Spell Shield, Protection From Magical Weapons
+CREATE SPL "jasc013p"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013p.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013p" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc013q" END
+
+// Chain Contingency: Greater Spell Deflection, Spell Shield, Protection From Magical Weapons
+CREATE SPL "jasc013q"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013q.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013p" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI701" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI519" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI611" END
+
+// Chain Contingency: Protection from the Elements, Shadow Door, Globe of Invulnerability
+CREATE SPL "jasc013r"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013r.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013r" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc013s" END
+
+// Chain Contingency: Protection from the Elements, Shadow Door, Globe of Invulnerability
+CREATE SPL "jasc013s"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013s.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013r" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI702" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI505" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI602" END
+
+// Chain Contingency: Greater Spell Deflection, Shadow Door, Globe of Invulnerability
+CREATE SPL "jasc013t"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013t.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013t" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc013u" END
+
+// Chain Contingency: Greater Spell Deflection, Shadow Door, Globe of Invulnerability
+CREATE SPL "jasc013u"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013u.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013t" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI701" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI505" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI602" END
+
+// Chain Contingency: Conjure Earth Elemental, Conjure Fire Elemental, Protection From Magical Weapons
+CREATE SPL "jasc013v"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013v.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013v" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=232 target=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="jasc013w" END
+
+// Chain Contingency: Conjure Earth Elemental, Conjure Fire Elemental, Protection From Magical Weapons
+CREATE SPL "jasc013w"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasc013w.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11008)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=1 probability1=100 STR_VAR resource="jasc013v" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPPR618" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPPR605" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="SPWI611" END

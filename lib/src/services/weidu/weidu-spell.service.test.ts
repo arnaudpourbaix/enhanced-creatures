@@ -3,6 +3,8 @@ import { CodeLine } from "../../model/misc";
 import { Effect } from "../../model/spell-item/effect";
 import { Spell, SpellHeader } from "../../model/spell-item/spell-item";
 import weiduSpellService from "./weidu-spell.service";
+// the comments name combo SPLs (spellComboService.spellNamesOf), which needs the spells' presets
+import "../../../config/ability-presets";
 
 interface WeiduSpellServicePrivate {
   createSpellHeader(

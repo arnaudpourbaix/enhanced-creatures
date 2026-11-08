@@ -84,7 +84,7 @@ export const SUMMON_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.SummonDjinni,
       SPELLS.Wizard.SummonEfreeti,
       SPELLS.Wizard.SummonNishruu,
-      SPELLS.Wizard.SummonNishruuSPWI719,
+      SPELLS.Wizard.SummonHakeashar,
       SPELLS.Wizard.WyvernCall,
       SPELLS.Priest.ConjureAirElemental,
       SPELLS.Priest.ConjureAnimals,

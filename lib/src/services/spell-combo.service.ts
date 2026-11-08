@@ -1,4 +1,4 @@
-import { MOD_LAYER_ORDER } from "../../config/mods";
+import { isAvailableInMod, MOD_LAYER_ORDER } from "../../config/mods";
 import { SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SpellbookModName } from "../../config/spells/spellbook-mod-name";
 import { Effect } from "../model/spell-item/effect";
@@ -80,6 +80,7 @@ export const isContingency = (combo: SpellCombo): boolean =>
 /** One combo with its spells resolved for some mods: one generated SPL (two for a contingency). */
 interface ComboEntry {
   combo: SpellCombo;
+  /** The spells it casts, see spellsFor. */
   spells: SpellReference[];
   /** The SPL a caster memorizes. */
   file: string;
@@ -89,10 +90,15 @@ interface ComboEntry {
   built?: Spell[];
 }
 
+/** A combo's spells for one mod: the ones it casts, and why the others were left out. */
+interface Resolution {
+  spells: SpellReference[];
+  dropped: string[];
+}
+
 /**
- * The SPLs generated for sequencers and contingencies (see SpellCombo). Names are computed without
- * presets, so creatures can ask for them at module load; the SPLs
- * themselves (whose shape depends on isSelf) are only built by allSpells(), at write time.
+ * The SPLs generated for sequencers and contingencies (see SpellCombo). Names need the spells'
+ * presets (see spellsFor); the SPLs themselves are only built by allSpells(), at write time.
  */
 class SpellComboService {
   /** By `combo.key` + resolved files, in allocation order. */
@@ -102,6 +108,8 @@ class SpellComboService {
   private spellBuilder?: SpellBuilder;
   /** The spells' presets (without the combos' own), see usePresets. */
   private presets?: AbilityPreset[];
+  /** resolve's results, by combo and mod. */
+  private resolved = new Map<SpellCombo, Map<SpellbookModName, Resolution | undefined>>();
 
   /**
    * The SPL a caster memorizes for this combo under `mod`: mods resolving the combo's spells to the
@@ -111,7 +119,10 @@ class SpellComboService {
    */
   comboFile(combo: SpellCombo, mod: SpellbookModName): string {
     this.allocateRegistry();
-    return this.allocate(combo, resolve(combo, mod)).file;
+    const spells = this.spellsFor(combo, mod);
+    if (!spells)
+      throw new Error(`Spell combo ${combo.key}: none of its spells can be cast under ${mod}`);
+    return this.allocate(combo, spells).file;
   }
 
   /**
@@ -128,9 +139,37 @@ class SpellComboService {
     ];
   }
 
-  /** The combo's spells for `mod` (see comboFile), undefined when one isn't available there. */
+  /**
+   * The spells the combo casts under `mod`, through their fallbacks (see resolveForMod); undefined
+   * when one isn't available there (no fallback) or when it would cast none (see dropOtherSide).
+   * Throws, like resolveForMod, on a fallback cycle.
+   */
   spellsFor(combo: SpellCombo, mod: SpellbookModName): SpellReference[] | undefined {
-    return tryResolve(combo, mod);
+    const { spells } = this.resolution(combo, mod) ?? {};
+    return spells?.length ? spells : undefined;
+  }
+
+  private resolution(combo: SpellCombo, mod: SpellbookModName): Resolution | undefined {
+    let byMod = this.resolved.get(combo);
+    if (!byMod) {
+      byMod = new Map<SpellbookModName, Resolution | undefined>();
+      this.resolved.set(combo, byMod);
+    }
+    if (!byMod.has(mod)) byMod.set(mod, this.resolve(combo, mod));
+    return byMod.get(mod);
+  }
+
+  private resolve(combo: SpellCombo, mod: SpellbookModName): Resolution | undefined {
+    let resolved: SpellReference[];
+    try {
+      resolved = combo.spells.map((s) => resolveForMod(s, mod));
+    } catch (error) {
+      // a combo holding a spell some mod lacks (no fallback) simply doesn't exist there
+      if (error instanceof Error && error.message.startsWith("No spell available"))
+        return undefined;
+      throw error;
+    }
+    return this.dropOtherSide(combo, mod, resolved);
   }
 
   /**
@@ -160,10 +199,12 @@ class SpellComboService {
   /**
    * Throws when the combo mixes self and enemy spells (see isSelf), when a plain contingency aims at
    * anyone but the caster, and when a chain contingency's target doesn't suit its spells. Warns when a contingency aims at its last hitter on another condition
-   * than `hit` (nobody may have hit it), and when an enemy sequencer's spells target different lists
-   * (it is cast at the first one's targets).
+   * than `hit` (nobody may have hit it), when an enemy sequencer's spells target different lists
+   * (it is cast at the first one's targets), and when a fallback is left out (see dropOtherSide).
+   * Run with the log on: names are allocated at module load, before it is.
    */
   checkTargets(combo: SpellCombo): void {
+    this.warnDroppedFallbacks(combo);
     // an anySide spell suits either side
     const selves = combo.spells
       .filter((spell) => !spell.anySide)
@@ -185,6 +226,19 @@ class SpellComboService {
       logService.warn(
         `Spell combo ${combo.key}: its spells have different preset target lists, the first one's are used`,
       );
+    }
+  }
+
+  /** One warning per fallback dropOtherSide leaves out, naming the mods it does so for. */
+  private warnDroppedFallbacks(combo: SpellCombo): void {
+    const mods = new Map<string, SpellbookModName[]>();
+    for (const mod of MOD_LAYER_ORDER) {
+      for (const message of this.resolution(combo, mod)?.dropped ?? []) {
+        mods.set(message, [...(mods.get(message) ?? []), mod]);
+      }
+    }
+    for (const [message, list] of mods) {
+      logService.warn(`Spell combo ${combo.key} (${list.join(", ")}): ${message}`);
     }
   }
 
@@ -222,11 +276,7 @@ class SpellComboService {
    * for docs and comments: its kind and its key, e.g. "Minor Sequencer (Double Magic Missiles)".
    */
   labelOf(file: string): string | undefined {
-    this.allocateRegistry();
-    const target = file.toLowerCase();
-    const entry = [...this.entries.values()].find(
-      (e) => e.file.toLowerCase() === target || e.wrapper?.toLowerCase() === target,
-    );
+    const entry = this.entryOrWrapperOf(file);
     if (!entry) return undefined;
     const key = entry.combo.key.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
     return `${translationService.from(KIND_NAMES[entry.combo.kind])} (${key})`;
@@ -235,6 +285,31 @@ class SpellComboService {
   /** The spells (resolved for its mods) cast by the combo SPL `file`, see comboOfFile. */
   spellsOfFile(file: string): SpellReference[] | undefined {
     return this.entryOfFile(file)?.spells;
+  }
+
+  /**
+   * The names of the spells cast by the combo SPL `file` (a memorized one or a self contingency's
+   * wrapper), for comments: in cast order, a spell held several times counted once ("Magic
+   * Missiles x2, Fireball").
+   */
+  spellNamesOf(file: string): string | undefined {
+    const spells = this.entryOrWrapperOf(file)?.spells;
+    if (!spells?.length) return undefined;
+    const counts = new Map<string, number>();
+    for (const spell of spells) {
+      const name = translationService.from(spell.name);
+      counts.set(name, (counts.get(name) ?? 0) + 1);
+    }
+    return [...counts].map(([name, count]) => (count > 1 ? `${name} x${count}` : name)).join(", ");
+  }
+
+  /** The combo whose memorized SPL or self contingency's wrapper is `file` (case-insensitive). */
+  private entryOrWrapperOf(file: string) {
+    this.allocateRegistry();
+    const target = file.toLowerCase();
+    return [...this.entries.values()].find(
+      (e) => e.file.toLowerCase() === target || e.wrapper?.toLowerCase() === target,
+    );
   }
 
   /** Whether `file` is a contingency's memorized SPL: set up at init, then the engine fires it. */
@@ -248,12 +323,40 @@ class SpellComboService {
     this.entries.clear();
     this.counter = 0;
     this.registryAllocated = false;
+    this.resolved.clear();
   }
 
   private entryOfFile(file: string): ComboEntry | undefined {
     this.allocateRegistry();
     const target = file.toLowerCase();
     return [...this.entries.values()].find((e) => e.file.toLowerCase() === target);
+  }
+
+  /**
+   * Leaves out each fallback cast on the other side than the combo (a self Spirit Armor standing in
+   * for an enemy Beltyn's Burning Blood): it can't be cast with the others. Combos are built around
+   * their own spells: no search for a better fallback. checkTargets warns about each.
+   */
+  private dropOtherSide(
+    combo: SpellCombo,
+    mod: SpellbookModName,
+    resolved: SpellReference[],
+  ): Resolution {
+    const sided = combo.spells.filter((spell) => !spell.anySide);
+    if (!sided.length) return { spells: resolved, dropped: [] };
+    const self = this.spellIsSelf(combo, sided[0]);
+    const dropped: string[] = [];
+    const spells = resolved.filter((spell, i) => {
+      const original = combo.spells[i];
+      if (spell.anySide || isAvailableInMod(original, mod)) return true;
+      if (this.spellIsSelf(combo, spell) === self) return true;
+      dropped.push(
+        `left out ${spell.file}, the fallback of ${original.file}: ` +
+          `cast on ${self ? "enemies" : "self"}, unlike the combo's spells`,
+      );
+      return false;
+    });
+    return { spells, dropped };
   }
 
   private spellIsSelf(combo: SpellCombo, spell: SpellReference): boolean {
@@ -279,8 +382,7 @@ class SpellComboService {
     this.registryAllocated = true;
     for (const combo of SPELL_COMBOS) {
       for (const mod of MOD_LAYER_ORDER) {
-        // a combo holding a spell some mod lacks (no fallback) simply doesn't exist there
-        const spells = tryResolve(combo, mod);
+        const spells = this.spellsFor(combo, mod);
         if (spells) this.allocate(combo, spells);
       }
     }
@@ -380,20 +482,6 @@ class SpellComboService {
 export function comboRange(spells: SpellReference[]): number {
   const ranges = spells.flatMap((s) => (s.range === undefined ? [] : [s.range]));
   return ranges.length ? Math.min(...ranges) : DEFAULT_RANGE;
-}
-
-/** The combo's spells for `mod`, through their fallbacks (see resolveForMod). */
-function resolve(combo: SpellCombo, mod: SpellbookModName): SpellReference[] {
-  return combo.spells.map((s) => resolveForMod(s, mod));
-}
-
-/** Same as resolve, undefined when a spell isn't available for `mod`. */
-function tryResolve(combo: SpellCombo, mod: SpellbookModName): SpellReference[] | undefined {
-  try {
-    return resolve(combo, mod);
-  } catch {
-    return undefined;
-  }
 }
 
 const spellComboService = new SpellComboService();

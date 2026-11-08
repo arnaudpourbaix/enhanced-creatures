@@ -1,6 +1,7 @@
 import { BUILD_CONFIG } from "../../config/build-config";
 import { getAllFnpSpells } from "../../config/spells/fnp-spell-database";
 import { SPELLS } from "../../config/spells/spell-database";
+import { holdsPriestSpell } from "../../config/spells/spell-combos";
 import {
   getAllSpells,
   SpellReference,
@@ -42,7 +43,12 @@ import {
   SpellCombo,
   SpellComboKind,
 } from "../model/spell-item/spell-combo";
-import { SpellBook, SpellBookSpells, spellBookVariants } from "../model/spell-item/spellbook";
+import {
+  opposedComboSpell,
+  SpellBook,
+  SpellBookSpells,
+  spellBookVariants,
+} from "../model/spell-item/spellbook";
 import { SpellbookModName } from "../../config/spells/spellbook-mod-name";
 import { State } from "../state";
 import abilityService from "./baf/ability.service";
@@ -55,6 +61,8 @@ import utils from "./utils/utils.service";
 class SpellService {
   /** The "none fits" warnings already given (book, caster level, kind), see pickCombos. */
   private comboWarnings = new Set<string>();
+  /** The combo logs already given (book, or book, caster level and mod), see logCombos. */
+  private comboLogs = new Set<string>();
 
   getSpell(spell: PartialSpell, file: string): Spell {
     // headers/effectFiles are pulled out only to exclude them from the `...others` spread below
@@ -386,7 +394,17 @@ class SpellService {
         ...(book.contingencies ?? []),
         ...(book.chainContingencies ?? []),
       ];
-      memorized.push(...this.pickCombos(combos, params.casterLevel, mod, name));
+      // no cleric/mage caster type yet: a mage can't hold priest spells
+      const priestCombo = combos.find(holdsPriestSpell);
+      if (priestCombo) {
+        throw new Error(
+          `Spellbook ${name} gives a mage the combo ${priestCombo.key}, which holds priest spells: only a cleric/mage can memorize it.`,
+        );
+      }
+      this.logDefinedCombos(name, combos);
+      // a specialist can't cast a combo whose fallback is opposed (warned by checkSpellbooks)
+      const castable = combos.filter((c) => !opposedComboSpell(c, mod, book.specialization));
+      memorized.push(...this.pickCombos(castable, params.casterLevel, mod, name));
     }
     return memorized;
   }
@@ -405,6 +423,7 @@ class SpellService {
     bookName: string,
   ): MemorizedSpell[] {
     const picks: MemorizedSpell[] = [];
+    const picked: string[] = [];
     for (const kind of Object.keys(COMBO_RULES) as SpellComboKind[]) {
       if (casterLevel < COMBO_RULES[kind].minCasterLevel) continue;
       const maxLevel = kind === "contingency" ? contingencyMaxLevel(casterLevel) : Infinity;
@@ -415,11 +434,35 @@ class SpellService {
         const combo =
           fitting[utils.seededIndex(`${bookName}|${casterLevel}|${kind}`, fitting.length)];
         picks.push({ file: spellComboService.comboFile(combo, mod), memorizedCount: 1 });
+        picked.push(`${kind}: ${combo.key}`);
       } else {
         this.warnNoCombo(bookName, casterLevel, kind);
       }
     }
+    // most players install spell mods: their variant alone is logged
+    if (picked.length > 0 && mod === "AllSpellMods") {
+      this.logOnce(
+        `${bookName}|${casterLevel}`,
+        [`${bookName}: caster level ${casterLevel} memorizes:`, ...picked].join("\n  "),
+      );
+    }
     return picks;
+  }
+
+  /** Logs (once per book) every combo the book defines, one line per kind. */
+  private logDefinedCombos(bookName: string, combos: SpellCombo[]): void {
+    if (combos.length === 0) return;
+    const byKind = (Object.keys(COMBO_RULES) as SpellComboKind[])
+      .map((kind) => [kind, combos.filter((c) => c.kind === kind).map((c) => c.key)] as const)
+      .filter(([, keys]) => keys.length > 0)
+      .map(([kind, keys]) => `${kind}: ${keys.join(", ")}`);
+    this.logOnce(bookName, [`${bookName} defines the combos:`, ...byKind].join("\n  "));
+  }
+
+  private logOnce(key: string, message: string): void {
+    if (this.comboLogs.has(key)) return;
+    this.comboLogs.add(key);
+    logService.info(message);
   }
 
   /** Warns (once per book, caster level and kind) that no combo of `kind` fits, see pickCombos. */

@@ -36,6 +36,8 @@ export interface BaseSpell {
   file: string;
   type: SpellTypeEnum;
   level: number;
+  /** See SpellReference.school */
+  school?: ItemAbilityPrimaryTypeEnum;
   /** See SpellRole: how the cast order rules treat it (at-will powers declare it) */
   role?: SpellRole;
   /** What else the spell does, adding to its value */

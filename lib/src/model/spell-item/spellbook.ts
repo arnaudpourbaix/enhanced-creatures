@@ -1,6 +1,7 @@
 import { MOD_LAYER_ORDER } from "../../../config/mods";
 import { SpellBookName } from "../../../config/spellbooks/spellbook-name";
 import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
+import { SPELL_SCHOOLS, type SpecialistSchool } from "../../../config/spells/spell-school";
 import type { SpellCombo } from "./spell-combo";
 import { resolveForMod, SpellReference } from "./spell-reference";
 
@@ -16,17 +17,57 @@ export interface SpellBookSpells {
  * `mod` (see resolveForMod) - lets a spellbook be authored once (typically for AllSpellMods, the
  * "ideal" version) and its other variant(s) derived automatically, instead of hand-authoring a full
  * parallel list per mod. Throws if any listed spell has no fallback chain reaching `mod`.
+ *
+ * A specialist (`specialization`) can't cast every fallback: one of an opposed school (Sound Burst
+ * falling back to the illusion Deafness, for a necromancer) is left out of that mod's list.
  */
 export function resolveSpellBookSpellsForMod(
   values: SpellBookSpells[],
   mod: SpellbookModName,
+  specialization?: SpecialistSchool,
 ): SpellBookSpells[] {
+  const resolve = (spells: SpellReference[]): SpellReference[] =>
+    spells.flatMap((spell) => {
+      const resolved = resolveForMod(spell, mod);
+      // an opposed spell listed as it is stays an error (mainService.checkSpellbooks)
+      return isOpposed(resolved, specialization) ? [] : [resolved];
+    });
   return values.map((level) => ({
     level: level.level,
-    base: level.base.map((spell) => resolveForMod(spell, mod)),
-    additionnals: level.additionnals.map((spell) => resolveForMod(spell, mod)),
-    repeat: level.repeat.map((spell) => resolveForMod(spell, mod)),
+    base: resolve(level.base),
+    additionnals: resolve(level.additionnals),
+    repeat: resolve(level.repeat),
   }));
+}
+
+/** The spell is of a school `specialization` can't cast (see SPELL_SCHOOLS). */
+export function isOpposed(spell: SpellReference, specialization?: SpecialistSchool): boolean {
+  if (specialization === undefined || spell.school === undefined) return false;
+  return SPELL_SCHOOLS[specialization].opposed.includes(spell.school);
+}
+
+/**
+ * The first spell of `combo` resolving, under `mod`, to one of a school `specialization` can't
+ * cast (with the listed spell it comes from): a combo can't drop a spell, so it's left out there.
+ * A spell without any for `mod` isn't one: the combo doesn't exist there anyway.
+ */
+export function opposedComboSpell(
+  combo: SpellCombo,
+  mod: SpellbookModName,
+  specialization?: SpecialistSchool,
+): { listed: SpellReference; resolved: SpellReference } | undefined {
+  if (specialization === undefined) return undefined;
+  for (const listed of combo.spells) {
+    let resolved: SpellReference;
+    try {
+      resolved = resolveForMod(listed, mod);
+    } catch (error) {
+      if (error instanceof Error && error.message.startsWith("No spell available")) continue;
+      throw error;
+    }
+    if (isOpposed(resolved, specialization)) return { listed, resolved };
+  }
+  return undefined;
 }
 
 /**
@@ -56,6 +97,11 @@ export interface SpellBook {
    */
   values: SpellBookSpells[];
   variants?: SpellBookModVariant[];
+  /**
+   * The wizard school the book's caster specialises in: no spell of an opposed school (see
+   * SPELL_SCHOOLS) may appear in any variant or combo, checked by mainService.checkSpellbooks.
+   */
+  specialization?: SpecialistSchool;
   /*
    * Mage books, one list per kind: the caster memorizes one combo of each kind its level allows,
    * picked at random among the list's entries that fit (see spellService.pickCombos).
@@ -72,7 +118,7 @@ export function spellBookVariants(book: SpellBook): SpellBookModVariant[] {
   return [
     ...DEFAULT_VARIANT_ORDER.map((mod) => ({
       mod,
-      values: resolveSpellBookSpellsForMod(book.values, mod),
+      values: resolveSpellBookSpellsForMod(book.values, mod, book.specialization),
     })),
     ...(book.variants ?? []),
   ];

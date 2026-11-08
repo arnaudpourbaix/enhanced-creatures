@@ -123,6 +123,58 @@ describe("filesOf", () => {
   });
 });
 
+describe("fallbacks", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  // the registry's own combos warn too
+  const fixtureWarnings = (warn: { mock: { calls: unknown[][] } }) =>
+    warn.mock.calls.filter(([message]) => String(message).includes("TestFallback"));
+
+  it("doesn't exist in a mod where every spell is left out", () => {
+    vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    const combo: SpellCombo = {
+      key: "TestFallback",
+      kind: "spellSequencer",
+      spells: [
+        { ...w.MagicMissiles, requiresMod: "AllSpellMods" as const, fallback: w.SpiritArmor },
+      ],
+    };
+    expect(spellComboService.spellsFor(combo, "Vanilla")).toBeUndefined();
+    expect(spellComboService.filesOf(combo)).toEqual([
+      spellComboService.comboFile(combo, "AllSpellMods"),
+    ]);
+  });
+
+  const withFallback = (fallback: SpellCombo["spells"][number]): SpellCombo => ({
+    key: "TestFallback",
+    kind: "spellSequencer",
+    spells: [
+      { ...w.MagicMissiles, requiresMod: "AllSpellMods" as const, fallback },
+      w.MagicMissiles,
+    ],
+  });
+
+  it("leaves out, with a warning, a fallback cast on the other side than the combo", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    const combo = withFallback(w.SpiritArmor);
+    const file = spellComboService.comboFile(combo, "Vanilla");
+    expect(spellComboService.spellsFor(combo, "Vanilla")?.map((s) => s.file)).toEqual(["SPWI112"]);
+    expect(castResources(splOf(file))).toEqual(["SPWI112"]);
+    expect(fixtureWarnings(warn)).toHaveLength(0);
+    spellComboService.checkTargets(combo);
+    expect(fixtureWarnings(warn)).toHaveLength(1);
+  });
+
+  it("keeps a fallback cast on the combo's side", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    const combo = withFallback(w.Horror);
+    const file = spellComboService.comboFile(combo, "Vanilla");
+    expect(castResources(splOf(file))).toEqual([w.Horror.file, "SPWI112"]);
+    spellComboService.checkTargets(combo);
+    expect(fixtureWarnings(warn)).toHaveLength(0);
+  });
+});
+
 describe("generated SPLs", () => {
   it("casts a sequencer's spells instantly, in order, at its smallest range", () => {
     const file = spellComboService.comboFile(COMBOS.MinorSequencers.MagicMissiles, "Vanilla");
@@ -274,6 +326,22 @@ describe("labelOf", () => {
     const wrapper = effectsOf(setUp, EffectTypeEnum.CastSpellOnCondition)[0].resource ?? "";
     expect(spellComboService.labelOf(setUp.file)).toBe("Chain Contingency (Test Stoneskin On Hit)");
     expect(spellComboService.labelOf(wrapper)).toBe("Chain Contingency (Test Stoneskin On Hit)");
+  });
+});
+
+describe("spellNamesOf", () => {
+  it("lists a combo's spells in order, counting the repeated ones", () => {
+    const combo: SpellCombo = {
+      key: "TestMixed",
+      kind: "sequencer",
+      spells: [w.MagicMissiles, w.Stoneskin, w.MagicMissiles],
+    };
+    const file = spellComboService.comboFile(combo, "Vanilla");
+    expect(spellComboService.spellNamesOf(file)).toBe("Magic Missiles x2, Stoneskin");
+  });
+
+  it("knows no spells for a file that isn't a combo", () => {
+    expect(spellComboService.spellNamesOf("SPWI112")).toBeUndefined();
   });
 });
 

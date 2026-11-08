@@ -10,7 +10,7 @@ import { StringReference } from "../final/stringref";
 import { SpellStateValue } from "../../../config/common";
 import { Durations } from "../game-data/durations";
 import type { AlliesCheck } from "../creature/ability";
-import { SaveTypeEnum } from "./effect.enums";
+import { ItemAbilityPrimaryTypeEnum, SaveTypeEnum } from "./effect.enums";
 import { EffectTypeEnum } from "./effect.type";
 
 /**
@@ -96,6 +96,11 @@ export interface SpellReference {
   /** Translation key for this spell's display name when used as an ability, e.g. "spell.Vocalize.name" */
   name: StringReference;
   level?: number;
+  /**
+   * Primary school (SPL 0x25), from assets/spells/spells_source.csv by
+   * scripts/extract-spell-schools.ts - unset for a spell of no school
+   */
+  school?: ItemAbilityPrimaryTypeEnum;
   /**
    * Drives precasting (see StatementBuilderService.precastSpells) of protection, buff, summon and
    * reactive spells, the only ones ever precast - also used by the cast order rules.
@@ -246,6 +251,17 @@ export interface SpellReference {
  */
 export function setFallback(spell: SpellReference, fallback: SpellReference): void {
   spell.fallback = fallback;
+}
+
+/** A spell's registry key (`SoundBurst`), from a name following spell.<Key>.name. */
+export function spellKey(spell: SpellReference): string | undefined {
+  return typeof spell.name === "string" ? /^spell\.(\w+)\.name$/.exec(spell.name)?.[1] : undefined;
+}
+
+/** A spell's registry key and file (`SoundBurst (SPWI223)`), the file alone without a key. */
+export function spellKeyLabel(spell: SpellReference): string {
+  const key = spellKey(spell);
+  return key ? `${key} (${spell.file})` : spell.file;
 }
 
 /** A spell's `file` (plus `id` when set), for identifying it in an error message. */

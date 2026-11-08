@@ -1,4 +1,5 @@
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
+import { ItemAbilityPrimaryTypeEnum } from "../model/spell-item/effect.enums";
 import { BUILD_CONFIG } from "../../config/build-config";
 import { SPELLS } from "../../config/spells/spell-database";
 import {
@@ -678,6 +679,34 @@ describe("pickCombos", () => {
         comboFiles.map((f) => ({ file: f, memorizedCount: 1 })),
       );
       expect(withCombos.filter((m) => !comboFiles.includes(m.file))).toEqual(without);
+    });
+
+    it("leaves out, for a specialist, a combo whose fallback is opposed under that mod", () => {
+      vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+      // Sound Burst falls back to Deafness, an illusion, without spell mods
+      const burst = { ...minorSequencer([w.SoundBurst, w.SoundBurst]), key: "TestBurst" };
+      addBook({ specialization: ItemAbilityPrimaryTypeEnum.Necromancer, minorSequencers: [burst] });
+      const variants = spellService.createSpellbooks({
+        name: "TestMage" as never,
+        casterLevel: 16,
+        type: "mage",
+      });
+      const files = (m: string) =>
+        variants.find((v) => v.mod === m)?.memorized.map((s) => s.file) ?? [];
+      expect(files("AllSpellMods")).toContain(spellComboService.comboFile(burst, "AllSpellMods"));
+      expect(files("Vanilla")).not.toContain(spellComboService.comboFile(burst, "Vanilla"));
+    });
+
+    it("refuses a combo holding priest spells", () => {
+      const p = SPELLS.Priest;
+      const priest = {
+        ...spellSequencer([p.UnholyBlight, p.UnholyBlight, p.UnholyBlight]),
+        key: "TestPriest",
+      };
+      addBook({ spellSequencers: [priest] });
+      expect(() => create(16)).toThrow(
+        "Spellbook TestMage gives a mage the combo TestPriest, which holds priest spells",
+      );
     });
   });
 });

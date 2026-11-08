@@ -8,12 +8,13 @@ import { KIN_FOLDERS, KinEnum } from "../../creatures/kin";
 import { kinFactories } from "../../creatures/kins";
 import { MonsterEnum } from "../../creatures/monster";
 import { ABILITY_PRESETS } from "../../config/ability-presets";
-import { SPELL_COMBOS } from "../../config/spells/spell-combos";
+import { COMBOS, SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { Spellbooks } from "../../config/spellbooks/spellbook";
-import { SpellBook } from "../model/spell-item/spellbook";
+import { SpellBook, spellBookVariants } from "../model/spell-item/spellbook";
+import { minorSequencer } from "../model/spell-item/spell-combo";
 import { Creature } from "../model/creature/creature";
-import { SpellTypeEnum } from "../model/spell-item/effect.enums";
+import { ItemAbilityPrimaryTypeEnum, SpellTypeEnum } from "../model/spell-item/effect.enums";
 import { SpellReference } from "../model/spell-item/spell-reference";
 import { CreatureEntry } from "../model/creature/entry";
 import { CreatureKin } from "../model/creature/kin";
@@ -110,6 +111,65 @@ describe("checkSpellbooks", () => {
     expect(() => mainService.checkSpellbooks()).toThrow(
       `Spellbook "TestBook" (FaithsAndPowers variant) lists ${w.MagicMissiles.file} (level 1) in its level 2 spells.`,
     );
+  });
+
+  it("accepts a specialist's book without opposed spells", () => {
+    onlyBook({
+      specialization: ItemAbilityPrimaryTypeEnum.Necromancer,
+      values: [level(1, [w.MagicMissiles, w.LarlochMinorDrain])],
+    });
+    expect(() => mainService.checkSpellbooks()).not.toThrow();
+  });
+
+  it("rejects a spell of a school opposed to the specialization", () => {
+    onlyBook({
+      specialization: ItemAbilityPrimaryTypeEnum.Necromancer,
+      values: [level(2, [w.MirrorImages])],
+    });
+    expect(() => mainService.checkSpellbooks()).toThrow(
+      `Spellbook "TestBook" (Necromancer) lists MirrorImages (${w.MirrorImages.file}), of the opposed school Illusionist, in its level 2 base.`,
+    );
+  });
+
+  it("leaves out a level spell whose fallback is opposed, with a warning", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
+    // Sound Burst falls back to Deafness (illusion) without spell mods
+    const book: SpellBook = {
+      name: "TestBook" as never,
+      specialization: ItemAbilityPrimaryTypeEnum.Necromancer,
+      values: [level(2, [w.SoundBurst, w.GhoulTouch])],
+    };
+    onlyBook(book);
+    expect(() => mainService.checkSpellbooks()).not.toThrow();
+    const files = (mod: string) =>
+      spellBookVariants(book)
+        .find((v) => v.mod === mod)
+        ?.values[0].base.map((s) => s.file);
+    expect(files("AllSpellMods")).toEqual([w.SoundBurst.file, w.GhoulTouch.file]);
+    expect(files("Vanilla")).toEqual([w.GhoulTouch.file]);
+    expect(warn).toHaveBeenCalledWith(
+      `Spellbook "TestBook" (Necromancer): SoundBurst (${w.SoundBurst.file}) falls back to Deafness (${w.Deafness.file}) under Vanilla, of the opposed school Illusionist: left out of its spells.`,
+    );
+  });
+
+  it("leaves out a combo whose fallback is opposed, with a warning", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
+    onlyBook({
+      specialization: ItemAbilityPrimaryTypeEnum.Necromancer,
+      minorSequencers: [{ ...minorSequencer([w.SoundBurst, w.SoundBurst]), key: "TestSoundBurst" }],
+    });
+    expect(() => mainService.checkSpellbooks()).not.toThrow();
+    expect(warn).toHaveBeenCalledWith(
+      `Spellbook "TestBook" (Necromancer): SoundBurst (${w.SoundBurst.file}) falls back to Deafness (${w.Deafness.file}) under Vanilla, of the opposed school Illusionist: its minorSequencer TestSoundBurst is left out.`,
+    );
+  });
+
+  it("rejects a combo holding an opposed spell", () => {
+    onlyBook({
+      specialization: ItemAbilityPrimaryTypeEnum.Necromancer,
+      minorSequencers: [COMBOS.MinorSequencers.MirrorBlur],
+    });
+    expect(() => mainService.checkSpellbooks()).toThrow(`in its minorSequencer MirrorBlur.`);
   });
 });
 
