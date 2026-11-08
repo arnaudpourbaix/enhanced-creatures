@@ -187,3 +187,39 @@ describe("gapPercent", () => {
     expect(gapPercent(undefined, 3000)).toBeUndefined();
   });
 });
+
+describe("the experience filter script", () => {
+  type Row = { dataset: Record<string, string>; hidden: boolean };
+  function run(rows: Row[], query: string): void {
+    const handlers: Record<string, () => void> = {};
+    const element = (id: string) => ({
+      id,
+      value: id === "xp-search" ? query : "",
+      dataset: {},
+      addEventListener: (event: string, handler: () => void) =>
+        (handlers[`${id}:${event}`] = handler),
+      querySelectorAll: (selector: string) =>
+        selector === "table.counts tbody tr"
+          ? rows.map((row) => ({
+              dataset: row.dataset,
+              classList: { toggle: (_: string, on: boolean) => (row.hidden = on) },
+            }))
+          : [],
+    });
+    const elements = new Map<string, ReturnType<typeof element>>();
+    const document = {
+      getElementById: (id: string) => elements.get(id) ?? elements.set(id, element(id)).get(id),
+    };
+    const localStorage = { getItem: () => null, setItem: () => undefined };
+    new Function("document", "localStorage", EXPERIENCE_SCRIPT)(document, localStorage);
+    handlers["xp-search:input"]();
+  }
+
+  it("filters the proposals past the reference tables' rows, which have no search key", () => {
+    const reference: Row = { dataset: {}, hidden: false };
+    const ghast: Row = { dataset: { search: "ghast" }, hidden: false };
+    const bear: Row = { dataset: { search: "brownbear" }, hidden: false };
+    run([reference, ghast, bear], "bear");
+    expect([reference.hidden, ghast.hidden, bear.hidden]).toEqual([false, true, false]);
+  });
+});

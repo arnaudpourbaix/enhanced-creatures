@@ -254,6 +254,8 @@ showXpView(savedXpView);
 function filterExperience() {
   const q = xpSearch.value.trim().toLowerCase();
   for (const row of xpTab.querySelectorAll("table.counts tbody tr")) {
+    // reference tables (the proposals' fighter and archer) have no search key: never filtered
+    if (row.dataset.search === undefined) continue;
     const statusOk = row.dataset.status === undefined || !xpStatus.value || row.dataset.status === xpStatus.value;
     row.classList.toggle("hidden", !((!q || row.dataset.search.includes(q)) && statusOk));
   }
