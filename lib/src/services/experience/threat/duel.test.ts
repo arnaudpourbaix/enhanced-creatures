@@ -151,6 +151,10 @@ describe("rangedDuel", () => {
     expect(rangedDuel(brute(6), referenceArcher(2)).monsterRounds).toBe(30);
   });
 
+  it("a melee monster as fast as the archer closes in", () => {
+    expect(rangedDuel(brute(12), referenceArcher(2)).notes[0]).toBe("closes in after a free round of arrows");
+  });
+
   it("a fast melee monster reaches the archer", () => {
     expect(rangedDuel(brute(15), referenceArcher(2)).monsterRounds).toBeLessThan(30);
   });
@@ -196,9 +200,11 @@ describe("rangedDuel", () => {
 });
 
 describe("threat", () => {
-  it("the geometric mean of both ratios", () => {
-    const result = threat(ghoul());
-    expect(result.threat).toBeCloseTo(Math.sqrt(result.melee.ratio * result.ranged.ratio), 6);
+  it("melee weighs 3/4, ranged 1/4 (weighted geometric mean)", () => {
+    // slow: kited, so its two ratios differ
+    const result = threat({ ...ghoul(), movement: 6 });
+    expect(result.melee.ratio).not.toBeCloseTo(result.ranged.ratio, 1);
+    expect(result.threat).toBeCloseTo(result.melee.ratio ** 0.75 * result.ranged.ratio ** 0.25, 6);
   });
 
   it("declared abilities multiply it by 1.1 each", () => {

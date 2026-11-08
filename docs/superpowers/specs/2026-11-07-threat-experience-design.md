@@ -147,9 +147,9 @@ The archer's side is the fighter's with his bow (his attacks, to-hit and damage;
 piercing, so the monster's piercing and missile resistances apply). The monster's side depends on
 reaching him (my calls):
 
-- **It can be kited** (PnP movement 12 or less, it fights in melee): its melee never lands; only
+- **It can be kited** (PnP movement under 12, slower than the archer, it fights in melee): its melee never lands; only
   its ranged attacks, ranged powers and spells count. The archer shoots at half rate while kiting.
-- **It's faster** (more than 12): one free round of arrows, then the melee duel against the
+- **It's as fast or faster** (12 or more; user, 2026-11-08: at equal speed nobody gains distance): one free round of arrows, then the melee duel against the
   archer (his AC, his bow damage).
 - **It's ranged** (a wielded missile weapon, ranged powers, a breath): it shoots back as in melee,
   kiting doesn't help.
@@ -161,9 +161,9 @@ user's greater basilisk: protected from petrification, a bow wins), a fast or ra
 
 - Each duel's ratio: R_f ÷ R_m (the archer's rounds ÷ the monster's for the ranged duel). About 1
   is an even fight for its level, above 1 needs preparation.
-- Threat T = √(melee ratio × ranged ratio) (my call: both tactics matter and a party mixes them;
-  the lower of the two, a party always picking its best tactic, would mark a slow basilisk
-  harmless where kiting isn't possible) × 1.2 with invisibility at will (above).
+- Threat T = melee ratio^0.75 × ranged ratio^0.25 (user, 2026-11-08: a party mostly melees, and
+  against 3 to 10 enemies an archer is rarely safe, he can barely kite one of two; the ranged duel
+  only discounts a slow melee brute like the greater basilisk; the 0.25 weight is my call) × 1.2 with invisibility at will (above).
 
 ## From threat to XP
 

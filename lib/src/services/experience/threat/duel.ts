@@ -37,12 +37,17 @@ const HP_PER_STRENGTH = 1.3;
 const DISEASE_HP = 13;
 const AREA_FACTOR = 1.5;
 const INVISIBLE_TO_HIT = 0.1;
-/** At most this movement, a melee monster is kited by the archer */
+/** The archer's movement: a slower melee monster is kited, one as fast or faster closes in */
 const KITING_MOVEMENT = 12;
 /** A kiting archer shoots at half rate */
 const KITING_RATE = 0.5;
 /** The fewest rounds a fast monster's free round of arrows leaves the archer */
 const MIN_CLOSING_ROUNDS = 0.5;
+/**
+ * The ranged duel's weight in the threat (user, 2026-11-08): a party mostly melees, and with 3 to 10
+ * enemies an archer is rarely safe to kite; the ranged duel only discounts a slow melee brute
+ */
+const RANGED_WEIGHT = 0.25;
 const INVISIBLE_FACTOR = 1.2;
 const DECLARED_FACTOR = 1.1;
 
@@ -313,7 +318,7 @@ function confusionChance(p: CombatProfile, archer: ReferenceCombatant, rounds: n
 /** The ranged duel against the reference archer: kited, closing in, or shooting back */
 export function rangedDuel(p: CombatProfile, archer: ReferenceCombatant): DuelResult {
   const resist = Math.max(p.resist.piercing, p.resist.missile);
-  const fast = p.movement > KITING_MOVEMENT;
+  const fast = p.movement >= KITING_MOVEMENT;
   const closing = () => {
     const result = duel(p, archer, meleeAttacks(p), p.powers, { resist, freeRound: true });
     result.notes.unshift("closes in after a free round of arrows");
@@ -344,7 +349,7 @@ function kitedDuel(
   return mix(kited, closing(), share, `confusion breaks the kiting ${percent(share)} of the fight`);
 }
 
-/** Threat: both duels' ratios, geometric mean, × 1.2 invisible at will, × 1.1 per declared */
+/** Threat: melee^0.75 × ranged^0.25, × 1.2 invisible at will, × 1.1 per declared */
 export function threat(p: CombatProfile): {
   threat: number;
   melee: DuelResult;
@@ -356,6 +361,10 @@ export function threat(p: CombatProfile): {
   return {
     melee,
     ranged,
-    threat: Math.sqrt(melee.ratio * ranged.ratio) * invisible * DECLARED_FACTOR ** p.declared,
+    threat:
+      melee.ratio ** (1 - RANGED_WEIGHT) *
+      ranged.ratio ** RANGED_WEIGHT *
+      invisible *
+      DECLARED_FACTOR ** p.declared,
   };
 }
