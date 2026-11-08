@@ -374,9 +374,10 @@ function chapter6Encounter(bodhi: Variant, items: BodhiItems) {
   const { claws, trait, bodhiClaws, bodhiTrait, finalTrait, blood } = items;
   const lair = (
     file: string,
-    p: { extra?: EquippedItem[]; final?: boolean } = {},
+    p: { extra?: EquippedItem[]; final?: boolean; keepInGameXp?: boolean } = {},
   ): PartialCreatureAdjustment => ({
     files: [file],
+    keepInGameXp: p.keepInGameXp,
     data: {
       items: {
         remove: [trait.file],
@@ -394,7 +395,8 @@ function chapter6Encounter(bodhi: Variant, items: BodhiItems) {
     ...powers,
     files: ["C6BODHI", "CHEVIL08", "FINBODH"],
     adjust: [
-      lair("C6BODHI"),
+      // her Chapter 6 XP rewards the whole hunt for her, not only the final blow
+      lair("C6BODHI", { keepInGameXp: true }),
       // echoes in the Pocket Plane and in Hell: chalDIE / finbodhi destroy her on death, no mist
       lair("CHEVIL08", { extra: [{ file: "BOOT01", slot: "BOOTS" }], final: true }),
       lair("FINBODH", { final: true }),

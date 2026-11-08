@@ -191,11 +191,13 @@ XP is the DMG formula; the threat stays in the XP proposals view.
 - ☐ Review the far-from-book cases (greater basilisk, ghoul lord, ghast, ghoul).
 - ☐ Review the adjustments' XP in the proposals view (next).
 
-### ☐ Bosses and drops
+### ☐ Bosses and lowered XP
 
-Files whose formula XP is below their in-game XP keep the in-game value (`drop` status, listed
-on the dashboard's Experience tab). The final rule must be automated; to decide from the drop
-list.
+Since 2026-11-08 (user) the formula wins over the in-game XP; `keepInGameXp: true` on an
+adjustment keeps it (C6BODHI). The dashboard's "XP lowered" view lists the files below their
+in-game XP (246 at the change).
+
+- ☐ Review the "XP lowered" list for other story bosses whose XP must stay.
 
 ---
 

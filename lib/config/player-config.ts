@@ -17,7 +17,7 @@ export interface PlayerConfig {
   strengthEdition: StrengthEdition;
   /**
    * true: a base creature plays its 2e book XP (xpv2e, the Monstrous Manual value). false: base
-   * creatures are scored by the 2e DMG formula like adjustments, never below their in-game XP
+   * creatures are scored by the 2e DMG formula like adjustments, even below their in-game XP
    * (experience.service); the book XP stays for the Base XP conflicts.
    *
    * true may give adjustments odd XP: they are always scored by the formula, on its scale, while
@@ -75,7 +75,7 @@ export const PLAYER_CONFIG: PlayerConfig = {
     kits: true,
   },
   strengthEdition: "3e+",
-  experience2e: true,
+  experience2e: false,
   saveCheckMinFailChance: 0,
   weaponCheck: true,
   avoidClouds: true,

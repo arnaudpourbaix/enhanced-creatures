@@ -99,7 +99,7 @@ BEGIN
 			LPF web_immunity END
 			LPF patchCreature
 				INT_VAR
-					xpv=650
+					xpv=975
 					hp=40
 					ac=7
 					thac0=15
@@ -142,6 +142,24 @@ BEGIN
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm1x01 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~ETTERCSU~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~DUPLICA2~) BEGIN 
+				WRITE_LONG 0x14 975 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~DUPLICA4~) BEGIN 
+				WRITE_LONG 0x14 975 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~DUPLICA5~) BEGIN 
+				WRITE_LONG 0x14 975 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~ETTER01~) BEGIN 
+				WRITE_LONG 0x14 975 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~ETTERC~) BEGIN 
+				WRITE_LONG 0x14 975 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~ETTERC1~) BEGIN 
+				WRITE_LONG 0x14 975 // xpv
 			END
 		BUT_ONLY_IF_IT_CHANGES
 	END

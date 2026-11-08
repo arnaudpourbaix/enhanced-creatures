@@ -4,14 +4,14 @@ import { escapeHtml } from "./stats-report-html";
 import { PROPOSALS_STYLE, renderProposals } from "./experience-proposals";
 
 // HTML rendering for the dashboard's Experience tab (data from scripts/lib/experience-report.ts):
-// the adjustments whose XP changed, the drops to review, the base XP conflicts and every file's XP
+// the adjustments whose XP changed, the files it lowers, the base XP conflicts and every file's XP
 // decision, as sortable table.counts tables (sorting is wired by the dashboard script).
 
-const STATUSES: ExperienceStatus[] = ["formula", "drop", "asBase", "book", "zero"];
+const STATUSES: ExperienceStatus[] = ["formula", "kept", "asBase", "book", "zero"];
 
 const STATUS_LABELS: Record<ExperienceStatus, string> = {
   formula: "formula",
-  drop: "drop",
+  kept: "kept",
   asBase: "as base",
   book: "book",
   zero: "zero",
@@ -20,7 +20,7 @@ const STATUS_LABELS: Record<ExperienceStatus, string> = {
 /** What each status means, for the tab's legend. */
 const STATUS_HELP: Record<ExperienceStatus, string> = {
   formula: "an adjustment scored by the 2e DMG formula: Hit Dice plus the Table 32 abilities",
-  drop: "the formula gives less than the in-game XP, so the in-game XP is kept (to review)",
+  kept: "an adjustment with keepInGameXp: the in-game XP, whatever the formula says",
   asBase: "the adjustment changes nothing the formula reads, so it takes its base creature's XP",
   book:
     "a file with no adjustment: the base creature's own XP (its Monstrous Manual value, " +
@@ -76,8 +76,8 @@ function fileCell(r: ExperienceReportRow): string {
   return `<td class="file">${escapeHtml(r.file)}${game}</td>`;
 }
 
-/** Statuses whose reason is short; formula and drop reasons are the breakdown, in its column. */
-const SHORT_REASONS: ExperienceStatus[] = ["zero", "book", "asBase"];
+/** Statuses whose reason is short; formula reasons are the breakdown, in its column. */
+const SHORT_REASONS: ExperienceStatus[] = ["zero", "book", "asBase", "kept"];
 
 function allRow(r: ExperienceReportRow): string {
   const showReason = SHORT_REASONS.includes(r.status) && r.reason;
@@ -96,20 +96,6 @@ function allRow(r: ExperienceReportRow): string {
     `<td class="num">${num(r.inGameXp)}</td><td class="num">${r.newXp}</td>` +
     gapCell(r.inGameXp, r.newXp) +
     `<td class="breakdown">${breakdown}</td></tr>`
-  );
-}
-
-function dropRow(r: ExperienceReportRow): string {
-  const search = escapeHtml(`${r.monster} ${r.file}`.toLowerCase());
-  return (
-    `<tr data-search="${search}" ` +
-    `data-monster="${escapeHtml(r.monster)}" data-file="${escapeHtml(r.file)}" ` +
-    `data-ingame="${r.inGameXp ?? -1}" data-formula="${r.score.xp}" ` +
-    `data-gap="${gapSortValue(r.inGameXp, r.score.xp)}">` +
-    `<td class="monster-name">${escapeHtml(r.monster)}</td>${fileCell(r)}` +
-    `<td class="num">${num(r.inGameXp)}</td><td class="num">${r.score.xp}</td>` +
-    gapCell(r.inGameXp, r.score.xp) +
-    `<td class="breakdown">${escapeHtml(r.score.breakdown)}</td></tr>`
   );
 }
 
@@ -141,12 +127,13 @@ export function renderExperienceTab(d: ExperienceReportData): string {
     )
     .join("");
   return `<div class="page">
-<p class="muted">Creature XP follows the AD&amp;D 2e DMG rule. A file whose formula XP is below its
-in-game XP keeps the in-game value (a drop, to review). Adjustments' old XP was mostly arbitrary,
-so All files is for reference: the changes, drops and conflicts are what to review.</p>
+<p class="muted">Creature XP follows the AD&amp;D 2e DMG rule, even below the in-game XP; only an
+adjustment with keepInGameXp keeps the in-game value (kept). Adjustments' old XP was mostly
+arbitrary, so All files is for reference: the changes, lowered files and conflicts are what to
+review.</p>
 <div class="summary">
 <button type="button" class="stat good" data-xp-view="changed"><b>${d.changed}</b><span class="muted">adjustments whose XP changed</span></button>
-<button type="button" class="stat warn" data-xp-view="drops"><b>${d.drops.length}</b><span class="muted">drops to review</span></button>
+<button type="button" class="stat warn" data-xp-view="lowered"><b>${d.lowered.length}</b><span class="muted">files below their in-game XP</span></button>
 <button type="button" class="stat bad" data-xp-view="conflicts"><b>${d.conflicts.length}</b><span class="muted">base XP conflicts</span></button>
 <button type="button" class="stat" data-xp-view="all"><b>${d.rows.length}</b><span class="muted">files</span></button>
 </div>
@@ -154,7 +141,7 @@ ${legend()}
 <div class="xp-nav">
 <div class="xp-views" role="tablist">
 <button type="button" role="tab" data-xp-view="changed">XP changed <span class="count">${d.changed}</span></button>
-<button type="button" role="tab" data-xp-view="drops">XP drops to review <span class="count">${d.drops.length}</span></button>
+<button type="button" role="tab" data-xp-view="lowered">XP lowered <span class="count">${d.lowered.length}</span></button>
 <button type="button" role="tab" data-xp-view="conflicts">Base XP conflicts <span class="count">${d.conflicts.length}</span></button>
 <button type="button" role="tab" data-xp-view="all">All files <span class="count">${d.rows.length}</span></button>
 <button type="button" role="tab" data-xp-view="proposals">XP proposals <span class="count">${d.proposals.rows.length}</span></button>
@@ -169,13 +156,11 @@ their base creature's XP when the adjustment changes nothing the formula reads (
 with no adjustment take their monster's book XP, checked once per monster in Base XP conflicts.</p>
 ${fileTable("xp-changed", d.changedRows)}
 </section>
-<section class="card" data-xp-panel="drops">
-<h2>XP drops to review (${d.drops.length})</h2>
-<p class="muted">The formula gives less than the in-game XP, so the in-game value is kept.</p>
-<div class="table-wrap"><table class="counts" id="xp-drops"><thead><tr>
-${th("monster", "Monster")}${th("file", "File")}${th("ingame", "In-game XP", true)}
-${th("formula", "Formula XP", true)}${GAP_HEADER}<th>Breakdown</th>
-</tr></thead><tbody>${d.drops.map(dropRow).join("")}</tbody></table></div>
+<section class="card" data-xp-panel="lowered">
+<h2>XP lowered (${d.lowered.length})</h2>
+<p class="muted">Files whose new XP is below their in-game XP. The formula wins; a file whose XP
+must stay (a boss rewarding its whole story) gets keepInGameXp on its adjustment.</p>
+${fileTable("xp-lowered", d.lowered)}
 </section>
 <section class="card" data-xp-panel="conflicts">
 <h2>Base XP conflicts (${d.conflicts.length})</h2>
@@ -203,10 +188,9 @@ td.breakdown { white-space: normal; min-width: 560px; font-size: 13px; line-heig
 #tab-experience [data-xp-panel] { display: none; }
 #tab-experience[data-xp-active="changed"] [data-xp-panel="changed"],
 #tab-experience[data-xp-active="all"] [data-xp-panel="all"],
-#tab-experience[data-xp-active="drops"] [data-xp-panel="drops"],
+#tab-experience[data-xp-active="lowered"] [data-xp-panel="lowered"],
 #tab-experience[data-xp-active="conflicts"] [data-xp-panel="conflicts"],
 #tab-experience[data-xp-active="proposals"] [data-xp-panel="proposals"] { display: block; }
-#tab-experience[data-xp-active="drops"] .xp-status-filter,
 #tab-experience[data-xp-active="conflicts"] .xp-status-filter,
 #tab-experience[data-xp-active="proposals"] .xp-status-filter { display: none; }${PROPOSALS_STYLE}
 .xp-nav { position: sticky; top: var(--header-h); z-index: 5; display: flex; flex-wrap: wrap;
@@ -236,7 +220,7 @@ export const EXPERIENCE_SCRIPT = `
 const xpTab = document.getElementById("tab-experience");
 const xpSearch = document.getElementById("xp-search");
 const xpStatus = document.getElementById("xp-status");
-const XP_VIEWS = ["changed", "drops", "conflicts", "all", "proposals"];
+const XP_VIEWS = ["changed", "lowered", "conflicts", "all", "proposals"];
 function showXpView(view) {
   if (!XP_VIEWS.includes(view)) view = "changed";
   xpTab.dataset.xpActive = view;

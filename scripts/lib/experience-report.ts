@@ -26,7 +26,8 @@ export interface ExperienceReportData {
   /** The base creatures' XP side by side, threat included (experience-proposals.ts) */
   proposals: Proposals;
   rows: ExperienceReportRow[];
-  drops: ExperienceReportRow[];
+  /** Files the formula puts below their in-game XP: candidates for `keepInGameXp` */
+  lowered: ExperienceReportRow[];
   conflicts: ExperienceConflictRow[];
   counts: Record<ExperienceStatus, number>;
   /**
@@ -48,7 +49,7 @@ export function buildExperienceReport(
     book: 0,
     asBase: 0,
     formula: 0,
-    drop: 0,
+    kept: 0,
   };
   for (const creature of creatures) {
     const monster = MonsterEnum[creature.id] ?? String(creature.id);
@@ -60,7 +61,12 @@ export function buildExperienceReport(
     }
     if (creature.baseExperience) conflicts.push({ monster, ...creature.baseExperience });
   }
-  const drops = rows.filter((r) => r.status === "drop");
+  const lowered = rows.filter(
+    (r) =>
+      (r.status === "formula" || r.status === "asBase") &&
+      r.difference !== undefined &&
+      r.difference < 0,
+  );
   const changedRows = rows.filter(
     (r) =>
       (r.status === "formula" || r.status === "asBase") &&
@@ -69,7 +75,7 @@ export function buildExperienceReport(
   );
   return {
     rows,
-    drops,
+    lowered,
     conflicts,
     counts,
     changedRows,

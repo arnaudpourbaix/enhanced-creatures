@@ -15,13 +15,16 @@ import { ExperienceScore, scoreExperience, toughHitterAbility } from "./experien
 import { combatProfile } from "./threat/combat-profile";
 import { meleeDuel } from "./threat/duel";
 import { referenceFighter } from "./threat/reference";
+import logService from "../log.service";
+import translationService from "../translation.service";
 
 /**
  * How a file scope's XP is decided: `zero` (summon, xpv 0 or worth 0 in game), `book` (no
  * adjustment, the creature's own XP), `asBase` (its adjustments change nothing the formula
- * reads: the base creature's XP), `formula` (the 2e DMG formula's score) or `drop` (the score is below the in-game XP, kept).
+ * reads: the base creature's XP), `formula` (the 2e DMG formula's score) or `kept` (an adjustment
+ * with `keepInGameXp`: the in-game XP, whatever the formula says).
  */
-export type ExperienceStatus = "zero" | "book" | "asBase" | "formula" | "drop";
+export type ExperienceStatus = "zero" | "book" | "asBase" | "formula" | "kept";
 
 export interface ExperienceRow {
   file: string;
@@ -53,6 +56,7 @@ interface XpScope {
 const GAMES: Game[] = ["bg1", "bg2"];
 
 const AS_BASE_REASON = "adjustment changes nothing the formula reads: base creature XP";
+const KEPT_REASON = "keepInGameXp: the in-game XP";
 
 class ExperienceService {
   /** Entries `apply` appended, never read as the creature's own adjustments. */
@@ -76,7 +80,7 @@ class ExperienceService {
 
   /**
    * Stores the rows and the conflict on the creature, then appends one XP patch per `formula`,
-   * `drop` and "0 in game" row, after every other adjustment so its xpv wins. Runs once.
+   * `kept` and "0 in game" row, after every other adjustment so its xpv wins. Runs once.
    */
   apply(creature: Creature): void {
     if (this.applied.has(creature)) return;
@@ -86,7 +90,7 @@ class ExperienceService {
     creature.baseExperience = conflict;
     creature.baseScore = base;
     // scored by the formula: the base creature's own XP (its CRE and doc) is the base score, each
-    // file's row patch (formula or drop) then sets what that file plays
+    // file's row patch (formula or kept) then sets what that file plays
     if (!PLAYER_CONFIG.experience2e) creature.data.xpv = base.xp;
 
     const patches: PartialCreatureAdjustment[] = rows
@@ -101,7 +105,7 @@ class ExperienceService {
   private writes(row: ExperienceRow): boolean {
     return (
       row.status === "formula" ||
-      row.status === "drop" ||
+      row.status === "kept" ||
       (row.status === "zero" && row.reason === "0 in game")
     );
   }
@@ -180,18 +184,20 @@ class ExperienceService {
     if (matching.some((a) => a.summon)) return row("zero", "summon", 0);
     if (matching.some((a) => a.data.xpv === 0)) return row("zero", "xpv 0", 0);
     if (inGameXp === 0) return row("zero", "0 in game", 0);
+    // The formula takes precedence over the in-game XP (user, 2026-11-08), except on request:
+    // a boss whose XP rewards its whole story, not only the final blow (Bodhi's lair).
+    if (matching.some((a) => a.keepInGameXp)) {
+      if (inGameXp !== undefined) return row("kept", KEPT_REASON, inGameXp);
+      logService.warn(
+        `${translationService.from(creature.name)}: '${scope.file}' asks keepInGameXp but has no in-game XP; scored by the formula.`,
+      );
+    }
     if (!matching.length && PLAYER_CONFIG.experience2e) return row("book", "no adjustment", bookXp);
-    // As base never lowers the in-game XP: below it, the row is a drop like any other.
-    const lowersInGame = inGameXp !== undefined && bookXp < inGameXp;
     // a file with no adjustment is the base creature itself: scored, not "as base"
-    const asBase = matching.length > 0 && this.sameScore(score, base);
-    if (asBase && !lowersInGame) {
+    if (matching.length > 0 && this.sameScore(score, base)) {
       return row("asBase", AS_BASE_REASON, bookXp);
     }
-    if (inGameXp === undefined || score.xp >= inGameXp) {
-      return row("formula", score.breakdown, score.xp);
-    }
-    return row("drop", score.breakdown, inGameXp);
+    return row("formula", score.breakdown, score.xp);
   }
 
   private score(scope: ExperienceScope): ExperienceScore {

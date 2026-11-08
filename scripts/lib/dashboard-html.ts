@@ -140,7 +140,7 @@ ${stat(new Set(stats.missing).size, "not compared")}
 <h2>Experience</h2>
 <div class="summary">
 ${stat(experience.changed, "files whose XP changed", "good")}
-${stat(experience.drops.length, "XP drops to review", experience.drops.length ? "warn" : "")}
+${stat(experience.lowered.length, "XP lowered", experience.lowered.length ? "warn" : "")}
 ${stat(experience.conflicts.length, "base XP conflicts", experience.conflicts.length ? "bad" : "")}
 </div>
 <p><a href="#experience">See experience →</a></p>
@@ -376,7 +376,7 @@ export function renderDashboard(d: DashboardData): string {
 <div class="tabs">
 <a href="#overview">Overview</a>
 <a href="#stats">Stats report<span class="badge">${d.stats.flagged.reduce((s, r) => s + r.flagged.length, 0)}</span></a>
-<a href="#experience">Experience<span class="badge">${d.experience.drops.length}</span></a>
+<a href="#experience">Experience<span class="badge">${d.experience.lowered.length}</span></a>
 <a href="#missing">Missing monsters<span class="badge">${d.monsters.missing.length}</span></a>
 </div>
 <span class="generated muted">Generated ${generated} UTC</span>

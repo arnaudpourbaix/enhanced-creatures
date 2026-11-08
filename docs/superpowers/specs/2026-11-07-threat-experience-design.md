@@ -40,7 +40,9 @@ the in-game XP for base creatures, +58% for every file). A polar bear can't go f
 ## Settings
 
 > 2026-11-08 (user): the `experienceSystem` setting was removed. XP is always the DMG formula; the
-> threat system stays as a comparison in the dashboard's XP proposals view.
+> threat system stays as a comparison in the dashboard's XP proposals view. The "never below the
+> in-game XP" floor was removed the same day: the formula wins unless an adjustment sets
+> `keepInGameXp` (see docs/research/experience-rules.md).
 
 - `PLAYER_CONFIG.experienceSystem: "dmg" | "threat"`, default `"dmg"` (nothing changes).
 - `PLAYER_CONFIG.experience2e` keeps its meaning in both systems: true, base creatures play their

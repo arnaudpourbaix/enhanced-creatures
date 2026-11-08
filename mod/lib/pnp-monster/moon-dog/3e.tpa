@@ -84,7 +84,7 @@ BEGIN
 			LPF planarEssence_trait END
 			LPF patchCreature
 				INT_VAR
-					xpv=9000
+					xpv=11000
 					hp=75
 					ac=1
 					thac0=11
@@ -126,6 +126,12 @@ BEGIN
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm3e01 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~MOONDOG~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHDCDAWG~) BEGIN 
+				WRITE_LONG 0x14 11000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~TELDOG~) BEGIN 
+				WRITE_LONG 0x14 11000 // xpv
 			END
 		BUT_ONLY_IF_IT_CHANGES
 	END

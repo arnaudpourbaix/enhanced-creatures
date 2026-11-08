@@ -46,7 +46,7 @@ BEGIN
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
-					xpv=4000
+					xpv=6000
 					hp=130
 					ac=5
 					thac0=11
@@ -103,6 +103,9 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~UGHH~) BEGIN 
 				WRITE_LONG 0x14 10000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDPETSG~) BEGIN 
+				WRITE_LONG 0x14 6000 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDPETSG2~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv

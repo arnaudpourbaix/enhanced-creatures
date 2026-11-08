@@ -78,7 +78,7 @@ BEGIN
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
-					xpv=65
+					xpv=175
 					hp=9
 					ac=8
 					thac0=20
@@ -112,6 +112,9 @@ BEGIN
 			PATCH_DEFINE_ARRAY skipFiles BEGIN BDSPIDER END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm1q00 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDSPIDER~) BEGIN 
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~SPIDSM01~) BEGIN 
+				WRITE_LONG 0x14 175 // xpv
 			END
 		BUT_ONLY_IF_IT_CHANGES
 	END

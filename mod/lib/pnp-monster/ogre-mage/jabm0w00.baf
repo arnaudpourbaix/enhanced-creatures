@@ -19926,7 +19926,7 @@ END
 
 // Open door
 IF
-	Global("RR#NOPND","GLOBAL",0)
+	Global("JA_DOOR","GLOBAL",0)
 	Allegiance(Myself,EVILCUTOFF)
 	!AreaType(OUTDOOR)
 	!Range(NearestEnemyOf(Myself),30)

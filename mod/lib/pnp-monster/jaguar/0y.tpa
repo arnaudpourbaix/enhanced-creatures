@@ -132,7 +132,7 @@ BEGIN
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
-					xpv=420
+					xpv=650
 					hp=33
 					ac=7
 					thac0=17

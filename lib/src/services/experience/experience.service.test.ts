@@ -5,6 +5,8 @@ import { Game } from "../../model/creature/game";
 import monsterFilesService, { CreatureCsvRow } from "../monster-files.service";
 import { PLAYER_CONFIG } from "../../../config/player-config";
 import experienceService from "./experience.service";
+import logService from "../log.service";
+import translationService from "../translation.service";
 
 const FILE = "F";
 
@@ -32,7 +34,12 @@ function fakeCreature(p: {
   xpv2e?: number;
   level?: number;
   files?: { name: string; game?: Game }[];
-  adjustments?: { game?: Game; summon?: boolean; data: Partial<CreatureData> }[];
+  adjustments?: {
+    game?: Game;
+    summon?: boolean;
+    keepInGameXp?: boolean;
+    data: Partial<CreatureData>;
+  }[];
 }): Creature {
   const data = {
     ...emptyData(),
@@ -70,6 +77,7 @@ function fakeCreature(p: {
       noWeapon: false,
       game: a.game,
       summon: a.summon ?? false,
+      keepInGameXp: a.keepInGameXp,
       scriptName: false,
       data: { ...emptyData(), ...a.data },
     })),
@@ -126,13 +134,13 @@ describe("experience2e off: base creatures scored by the formula", () => {
     ]);
   });
 
-  it("keeps the in-game XP of a file no adjustment covers when the formula is below it", () => {
+  it("writes the formula XP of a file no adjustment covers even below the in-game XP", () => {
     PLAYER_CONFIG.experience2e = false;
     mockRows(row(650));
     const creature = fakeCreature({ xpv: 300, xpv2e: 300 });
     experienceService.apply(creature);
     expect(creature.experience).toEqual([
-      expect.objectContaining({ status: "drop", inGameXp: 650, newXp: 650 }),
+      expect.objectContaining({ status: "formula", inGameXp: 650, newXp: 120 }),
     ]);
   });
 
@@ -188,7 +196,7 @@ describe("experienceService.evaluate", () => {
     expect(appended(creature, 1)).toEqual([]);
   });
 
-  it("turns an as-base row into a drop when the book XP is below the in-game XP", () => {
+  it("keeps an as-base row when the book XP is below the in-game XP", () => {
     mockRows(row(91000));
     const creature = fakeCreature({
       xpv: 21000,
@@ -196,12 +204,9 @@ describe("experienceService.evaluate", () => {
     });
     experienceService.apply(creature);
     expect(creature.experience).toEqual([
-      expect.objectContaining({ status: "drop", inGameXp: 91000, newXp: 91000 }),
+      expect.objectContaining({ status: "asBase", inGameXp: 91000, newXp: 21000 }),
     ]);
-    expect(creature.experience[0].reason).toBe(creature.experience[0].score.breakdown);
-    expect(appended(creature, 1)).toEqual([
-      { files: [FILE], game: undefined, variant: undefined, xpv: 91000 },
-    ]);
+    expect(appended(creature, 1)).toEqual([]);
   });
 
   it("keeps an as-base row when the book XP is at least the in-game XP", () => {
@@ -237,16 +242,44 @@ describe("experienceService.evaluate", () => {
     ]);
   });
 
-  it("keeps the in-game XP when the formula would drop it", () => {
+  it("writes the formula XP even below the in-game XP", () => {
     mockRows(row(91000));
     const creature = fakeCreature({ xpv: 120, adjustments: [BUMP] });
     experienceService.apply(creature);
     expect(creature.experience).toEqual([
-      expect.objectContaining({ status: "drop", inGameXp: 91000, newXp: 91000 }),
+      expect.objectContaining({ status: "formula", inGameXp: 91000, newXp: 975 }),
+    ]);
+    expect(appended(creature, 1)).toEqual([
+      { files: [FILE], game: undefined, variant: undefined, xpv: 975 },
+    ]);
+  });
+
+  it("keeps the in-game XP of an adjustment with keepInGameXp", () => {
+    mockRows(row(91000));
+    const creature = fakeCreature({ xpv: 120, adjustments: [{ ...BUMP, keepInGameXp: true }] });
+    experienceService.apply(creature);
+    expect(creature.experience).toEqual([
+      expect.objectContaining({
+        status: "kept",
+        reason: "keepInGameXp: the in-game XP",
+        inGameXp: 91000,
+        newXp: 91000,
+      }),
     ]);
     expect(appended(creature, 1)).toEqual([
       { files: [FILE], game: undefined, variant: undefined, xpv: 91000 },
     ]);
+  });
+
+  it("scores a keepInGameXp file with no in-game XP by the formula, with a warning", () => {
+    mockRows(row(undefined));
+    vi.spyOn(translationService, "from").mockReturnValue("Test");
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
+    const creature = fakeCreature({ xpv: 120, adjustments: [{ ...BUMP, keepInGameXp: true }] });
+    expect(experienceService.evaluate(creature).rows).toEqual([
+      expect.objectContaining({ status: "formula", newXp: 975 }),
+    ]);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("keepInGameXp"));
   });
 
   it("zeroes a summon file and appends nothing", () => {
@@ -285,11 +318,11 @@ describe("experienceService.evaluate", () => {
     experienceService.apply(creature);
     expect(creature.experience).toEqual([
       expect.objectContaining({ game: "bg1", status: "formula", inGameXp: 650, newXp: 975 }),
-      expect.objectContaining({ game: "bg2", status: "drop", inGameXp: 1400, newXp: 1400 }),
+      expect.objectContaining({ game: "bg2", status: "formula", inGameXp: 1400, newXp: 975 }),
     ]);
     expect(appended(creature, 1)).toEqual([
       { files: [FILE], game: "bg1", variant: undefined, xpv: 975 },
-      { files: [FILE], game: "bg2", variant: undefined, xpv: 1400 },
+      { files: [FILE], game: "bg2", variant: undefined, xpv: 975 },
     ]);
   });
 
@@ -299,11 +332,11 @@ describe("experienceService.evaluate", () => {
     experienceService.apply(creature);
     expect(creature.experience).toEqual([
       expect.objectContaining({ game: "bg1", status: "formula", inGameXp: 650, newXp: 975 }),
-      expect.objectContaining({ game: "bg2", status: "drop", inGameXp: 1400, newXp: 1400 }),
+      expect.objectContaining({ game: "bg2", status: "formula", inGameXp: 1400, newXp: 975 }),
     ]);
     expect(appended(creature, 1)).toEqual([
       { files: [FILE], game: "bg1", variant: undefined, xpv: 975 },
-      { files: [FILE], game: "bg2", variant: undefined, xpv: 1400 },
+      { files: [FILE], game: "bg2", variant: undefined, xpv: 975 },
     ]);
   });
 
@@ -348,11 +381,11 @@ describe("experienceService.evaluate", () => {
     experienceService.apply(creature);
     expect(creature.experience).toEqual([
       expect.objectContaining({ game: "bg1", status: "formula", inGameXp: 650, newXp: 975 }),
-      expect.objectContaining({ game: "bg2", status: "drop", inGameXp: 1400, newXp: 1400 }),
+      expect.objectContaining({ game: "bg2", status: "formula", inGameXp: 1400, newXp: 975 }),
     ]);
     expect(appended(creature, 2)).toEqual([
       { files: [FILE], game: "bg1", variant: undefined, xpv: 975 },
-      { files: [FILE], game: "bg2", variant: undefined, xpv: 1400 },
+      { files: [FILE], game: "bg2", variant: undefined, xpv: 975 },
     ]);
   });
 
@@ -383,7 +416,7 @@ describe("experienceService.evaluate", () => {
     experienceService.apply(creature);
     expect(appended(creature, 1)).toEqual([
       { files: [FILE], game: "bg1", variant: undefined, xpv: 975 },
-      { files: [FILE], game: "bg2", variant: undefined, xpv: 1400 },
+      { files: [FILE], game: "bg2", variant: undefined, xpv: 975 },
     ]);
   });
 

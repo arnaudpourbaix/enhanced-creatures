@@ -55,7 +55,7 @@ BEGIN
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
-					xpv=65
+					xpv=2000
 					hp=84
 					ac=7
 					thac0=13
@@ -409,6 +409,33 @@ BEGIN
 					ADD_MEMORIZED_SPELL ~jasc010f~ #0 ~innate~ (1) // Contingency (Protection From Magical Weapons)
 					ADD_MEMORIZED_SPELL ~jasc010r~ #0 ~innate~ (1) // Chain Contingency (Protect And Summon)
 				END
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM7~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM7A~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM7B~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM8~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM8A~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM8B~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM9~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM9A~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM9B~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~D9SM12~) BEGIN 
 				WRITE_LONG 0x14 7000 // xpv

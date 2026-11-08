@@ -29,7 +29,7 @@ BEGIN
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
-					xpv=650
+					xpv=420
 					hp=72
 					ac=6
 					thac0=15
@@ -93,6 +93,15 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~C0DESUM3~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDSKGR02~) BEGIN 
+				WRITE_LONG 0x14 420 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDSKGR01~) BEGIN 
+				WRITE_LONG 0x14 420 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDTEAM62~) BEGIN 
+				WRITE_LONG 0x14 420 // xpv
 			END
 		BUT_ONLY_IF_IT_CHANGES
 	END

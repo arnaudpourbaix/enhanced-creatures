@@ -23,6 +23,11 @@ export interface CreatureAdjustment extends BaseCreature {
    */
   summon: boolean;
   /**
+   * The file keeps its in-game XP instead of the DMG formula's score (experience.service): a boss
+   * whose XP rewards its whole story, not only the final blow. Without it the formula always wins.
+   */
+  keepInGameXp?: boolean;
+  /**
    * Don't assign a weapon
    */
   noWeapon: boolean;

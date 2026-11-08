@@ -12,15 +12,20 @@ Each creature file (one row per game when the games disagree on its in-game XP) 
 | Status  | When                                                   | XP written                       |
 | ------- | ------------------------------------------------------ | -------------------------------- |
 | zero    | a summon, an adjustment with `xpv: 0`, or 0 XP in game | 0                                |
+| kept    | an adjustment with `keepInGameXp: true`                | the in-game XP                   |
 | book    | a base file (no adjustment), with `experience2e` on    | the creature's book XP (`xpv2e`) |
 | as base | the adjustment changes nothing the formula reads       | the base creature's XP           |
 | formula | an adjustment, or a base file with `experience2e` off  | the formula score                |
-| drop    | the score is below the in-game XP                      | the in-game XP (kept)            |
 
 Rules:
 
-- **Never below the in-game XP** _(user)_: a formula or "as base" score below the file's in-game
-  XP keeps the in-game value (a drop, listed for review on the dashboard).
+- **The formula takes precedence over the in-game XP** _(user, 2026-11-08)_: a formula or "as
+  base" score below the file's in-game XP is written as is. The dashboard's "XP lowered" view
+  lists those files for review.
+- **Keeping the in-game XP is explicit** _(user)_: `keepInGameXp: true` on an adjustment keeps
+  the in-game XP of its files, whatever the formula says. It is for a boss whose XP rewards its
+  whole story, not only the final blow (Bodhi's lair, C6BODHI: 91,000). A file with no in-game
+  XP is scored by the formula, with a warning.
 - **Adjustments never set their own XP** except `xpv: 0` (worth nothing): the generator refuses
   any other value (`checkAdjustmentXp`).
 - **Base creatures keep their book XP** in `xpv2e` (the Monstrous Manual value). The switch
@@ -147,6 +152,7 @@ paralysis) gets nothing.
 | -------------------- | ------------------------------------------------------------ |
 | Book XP              | `xpv2e` on the base creature's data                          |
 | A file worth nothing | `xpv: 0` on its adjustment, or a summon                      |
+| Keep the in-game XP  | `keepInGameXp: true` on its adjustment                       |
 | Declared abilities   | `xpAbilities` on the creature's data                         |
 | A power's ability    | `xpAbility` / `worthLevel` on the created spell              |
 | The switch           | `PLAYER_CONFIG.experience2e` (`lib/config/player-config.ts`) |
@@ -172,7 +178,7 @@ Full design: [the spec](../superpowers/specs/2026-11-07-threat-experience-design
   ranged duel only discounts a slow melee brute), x 1.2 when invisible at will and x 1.1 per
   ability the creature declares. Only a monster slower than the archer (movement under 12) is
   kited; at equal speed it closes in.
-- **XP** (`threat-xp.ts`) = Table 31 value x s x T^k, rounded to 10, never below the in-game XP.
+- **XP** (`threat-xp.ts`) = Table 31 value x s x T^k, rounded to 10.
 - **The fit** (`threat-fit.ts`): s and k are fitted on the base creatures' book XP. Committed fit:
   s = 2.116, k = 0.25 (clamped at its lower limit), 107 samples. Total on those monsters: threat
   342,700 against book 342,665. Refit with `npm run fit-threat`

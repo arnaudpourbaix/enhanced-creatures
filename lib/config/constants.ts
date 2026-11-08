@@ -22,7 +22,7 @@ export const BAF_CONSTANTS = {
   shoutTimer: "JA_SHOUT",
   helpTimer: "JA_HELP",
   roundTimer: "JA_ROUND",
-  noOpenDoor: "RR#NOPND",
+  noOpenDoor: "JA_DOOR",
   dialog: "JA_DIALOG",
   monsterShoutId: 99,
   summonerShoutId: 98,

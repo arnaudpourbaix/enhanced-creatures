@@ -86,7 +86,7 @@ BEGIN
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
-					xpv=1400
+					xpv=2000
 					hp=90
 					ac=7
 					thac0=11
@@ -125,6 +125,12 @@ BEGIN
 				WRITE_SHORT 0x24 45 // hp
 				WRITE_SHORT 0x26 45 // hp
 				REMOVE_MEMORIZED_SPELLS
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~AC#FPWP2~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~AC#FPWPU~) BEGIN 
+				WRITE_LONG 0x14 2000 // xpv
 			END
 		BUT_ONLY_IF_IT_CHANGES
 	END

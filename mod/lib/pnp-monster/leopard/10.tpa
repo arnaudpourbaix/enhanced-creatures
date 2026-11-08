@@ -125,7 +125,7 @@ BEGIN
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
-					xpv=270
+					xpv=420
 					hp=26
 					ac=10
 					thac0=17
@@ -168,6 +168,15 @@ BEGIN
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm1001 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~CATJAGSU~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~CATLEO01~) BEGIN 
+				WRITE_LONG 0x14 420 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHRLEOP~) BEGIN 
+				WRITE_LONG 0x14 420 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~WAUKLEO~) BEGIN 
+				WRITE_LONG 0x14 420 // xpv
 			END
 		BUT_ONLY_IF_IT_CHANGES
 	END

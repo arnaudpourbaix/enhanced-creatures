@@ -22,7 +22,7 @@ import { buildStatsReport, loadStatsCsv } from "./lib/stats-report";
 // - Overview: creatures.csv rows by MonsterId status, monster counts, stats
 //   report headline
 // - Stats report: creatures.csv hp / thac0 / apr vs the documentation (scripts/lib/stats-report.ts)
-// - Experience: the XP decided per file, drops to review, base XP conflicts
+// - Experience: the XP decided per file, files it lowers, base XP conflicts
 // - Missing monsters: missing / file-less / unvalidated monsters, each with the number of
 //   creatures.csv rows carrying its MonsterId
 //
@@ -140,7 +140,7 @@ async function main() {
       `${unvalidated.length} failing validation`,
   );
   console.log(
-    `Experience: ${experience.changed} adjustments whose XP changed, ${experience.drops.length} drops, ` +
+    `Experience: ${experience.changed} adjustments whose XP changed, ${experience.lowered.length} lowered, ` +
       `${experience.conflicts.length} conflicts`,
   );
 }

@@ -36,7 +36,8 @@ describe("experience report", () => {
       [
         row({ file: "A.cre", status: "formula", inGameXp: 650, newXp: 975, score: score(975) }),
         row({ file: "B.cre", status: "zero", inGameXp: 0, newXp: 0 }),
-        row({ file: "C.cre", status: "drop", inGameXp: 2000, newXp: 2000, score: score(1400) }),
+        row({ file: "C.cre", status: "formula", inGameXp: 2000, newXp: 1400, score: score(1400) }),
+        row({ file: "K.cre", status: "kept", inGameXp: 9000, newXp: 9000, score: score(1400) }),
         row({ file: "D.cre", status: "formula", newXp: 420, score: score(420) }),
       ],
       { bookXp: 650, score: score(975) },
@@ -46,12 +47,12 @@ describe("experience report", () => {
   const report = buildExperienceReport(creatures);
 
   it("counts every status", () => {
-    expect(report.counts).toEqual({ zero: 1, book: 1, asBase: 0, formula: 2, drop: 1 });
-    expect(report.rows).toHaveLength(5);
+    expect(report.counts).toEqual({ zero: 1, book: 1, asBase: 0, formula: 3, kept: 1 });
+    expect(report.rows).toHaveLength(6);
   });
 
-  it("lists the drops", () => {
-    expect(report.drops.map((r) => r.file)).toEqual(["C.cre"]);
+  it("lists the files the formula puts below their in-game XP, not the kept ones", () => {
+    expect(report.lowered.map((r) => r.file)).toEqual(["C.cre"]);
   });
 
   it("computes the difference", () => {
@@ -62,12 +63,12 @@ describe("experience report", () => {
   });
 
   it("counts the adjustments whose XP changed, not the book files", () => {
-    expect(report.changed).toBe(1);
+    expect(report.changed).toBe(2);
     const mixed = buildExperienceReport([
       fake(1, [
         row({ file: "A.cre", status: "book", inGameXp: 650, newXp: 120 }),
         row({ file: "B.cre", status: "asBase", inGameXp: 100, newXp: 120 }),
-        row({ file: "C.cre", status: "drop", inGameXp: 2000, newXp: 2000 }),
+        row({ file: "C.cre", status: "kept", inGameXp: 2000, newXp: 2000 }),
         row({ file: "D.cre", status: "zero", inGameXp: 650, newXp: 0 }),
         row({ file: "E.cre", status: "formula", newXp: 420 }),
         row({ file: "F.cre", status: "formula", inGameXp: 100, newXp: 200 }),
@@ -90,7 +91,7 @@ describe("experience report", () => {
     expect(changed).toContain('data-file="CH.cre"');
     expect(changed).not.toContain('data-file="SAME.cre"');
     const views = [...html.matchAll(/role="tab" data-xp-view="(\w+)"/g)].map((m) => m[1]);
-    expect(views).toEqual(["changed", "drops", "conflicts", "all", "proposals"]);
+    expect(views).toEqual(["changed", "lowered", "conflicts", "all", "proposals"]);
     expect(EXPERIENCE_SCRIPT).toContain('"changed"');
   });
 
@@ -140,9 +141,9 @@ describe("experience report", () => {
           }),
           row({
             file: "DOWN.cre",
-            status: "drop",
+            status: "formula",
             inGameXp: 2000,
-            newXp: 2000,
+            newXp: 1000,
             score: score(1000, "D"),
           }),
         ]),
@@ -151,16 +152,16 @@ describe("experience report", () => {
     const allRow = html.split("<tr").find((r) => r.includes('data-file="UP.cre"')) ?? "";
     expect(allRow).toContain(`data-gap="50"`);
     expect(allRow).toContain(">+50%<");
-    const dropRows = html.split('id="xp-drops"')[1].split("<tr");
-    const dropRow = dropRows.find((r) => r.includes('data-file="DOWN.cre"')) ?? "";
-    expect(dropRow).toContain(`data-gap="50"`);
-    expect(dropRow).toContain(">-50%<");
+    const loweredRows = html.split('id="xp-lowered"')[1].split("<tr");
+    const loweredRow = loweredRows.find((r) => r.includes('data-file="DOWN.cre"')) ?? "";
+    expect(loweredRow).toContain(`data-gap="50"`);
+    expect(loweredRow).toContain(">-50%<");
   });
 
   it("explains every status in a legend", () => {
     const html = renderExperienceTab(buildExperienceReport([]));
     const legend = html.split('class="xp-legend"')[1].split("</dl>")[0];
-    for (const label of ["formula", "drop", "as base", "book", "zero"]) {
+    for (const label of ["formula", "kept", "as base", "book", "zero"]) {
       expect(legend).toContain(`<dt>${label}</dt>`);
     }
   });
@@ -168,11 +169,11 @@ describe("experience report", () => {
   it("renders the sections and escapes data", () => {
     const html = renderExperienceTab(report);
     expect(html).toContain("All files");
-    expect(html).toContain("XP drops to review");
+    expect(html).toContain("XP lowered");
     expect(html).toContain("Base XP conflicts");
     expect(html).toContain("C.cre");
     const evil = buildExperienceReport([
-      fake(1, [row({ file: "<x>.cre", status: "drop", inGameXp: 5, score: score(1, "<b>") })]),
+      fake(1, [row({ file: "<x>.cre", status: "formula", inGameXp: 5, score: score(1, "<b>") })]),
     ]);
     const out = renderExperienceTab(evil);
     expect(out).not.toContain("<x>");

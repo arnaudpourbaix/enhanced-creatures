@@ -92,7 +92,7 @@ BEGIN
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
-					xpv=18000
+					xpv=11000
 					hp=160
 					ac=0
 					thac0=7
@@ -135,6 +135,12 @@ BEGIN
 				WRITE_BYTE 0x57 4 // saveBreath
 				WRITE_BYTE 0x58 6 // saveSpell
 				WRITE_BYTE 0x234 25 // level1
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~ICBONE01~) BEGIN 
+				WRITE_LONG 0x14 11000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~NTGOLBON~) BEGIN 
+				WRITE_LONG 0x14 11000 // xpv
 			END
 		BUT_ONLY_IF_IT_CHANGES
 	END

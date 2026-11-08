@@ -76,7 +76,7 @@ BEGIN
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
-					xpv=975
+					xpv=650
 					hp=48
 					ac=8
 					thac0=15
@@ -137,6 +137,12 @@ BEGIN
 				WRITE_BYTE 0x57 4 // saveBreath
 				WRITE_BYTE 0x58 7 // saveSpell
 				WRITE_BYTE 0x234 16 // level1
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~RZOMB01~) BEGIN 
+				WRITE_LONG 0x14 650 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~AC#W40ZM~) BEGIN 
+				WRITE_LONG 0x14 650 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#RVZDOE~) BEGIN 
 				WRITE_LONG 0x14 4000 // xpv

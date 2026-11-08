@@ -74,7 +74,7 @@ BEGIN
 			LPF backstab_immunity END
 			LPF patchCreature
 				INT_VAR
-					xpv=975
+					xpv=650
 					hp=60
 					ac=7
 					thac0=15
@@ -150,6 +150,9 @@ BEGIN
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDDISPBP~) BEGIN 
 				WRITE_LONG 0x14 4000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDDISPBE~) BEGIN 
+				WRITE_LONG 0x14 650 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JY_00DB1~) BEGIN 
 				WRITE_LONG 0x14 4000 // xpv
