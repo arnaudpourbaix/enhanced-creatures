@@ -11,22 +11,15 @@ import {
   ExperienceScope,
   matchingAdjustments,
 } from "./experience-detection";
-import {
-  ExperienceScore,
-  hitDiceValue,
-  scoreExperience,
-  toughHitterAbility,
-} from "./experience-table";
+import { ExperienceScore, scoreExperience, toughHitterAbility } from "./experience-table";
 import { combatProfile } from "./threat/combat-profile";
-import { DuelResult, meleeDuel, threat } from "./threat/duel";
+import { meleeDuel } from "./threat/duel";
 import { referenceFighter } from "./threat/reference";
-import { threatXp, threatXpText } from "./threat/threat-xp";
 
 /**
  * How a file scope's XP is decided: `zero` (summon, xpv 0 or worth 0 in game), `book` (no
  * adjustment, the creature's own XP), `asBase` (its adjustments change nothing the formula
- * reads: the base creature's XP), `formula` (the score of PLAYER_CONFIG.experienceSystem: the 2e
- * DMG formula or the threat XP) or `drop` (the score is below the in-game XP, kept).
+ * reads: the base creature's XP), `formula` (the 2e DMG formula's score) or `drop` (the score is below the in-game XP, kept).
  */
 export type ExperienceStatus = "zero" | "book" | "asBase" | "formula" | "drop";
 
@@ -202,7 +195,6 @@ class ExperienceService {
   }
 
   private score(scope: ExperienceScope): ExperienceScore {
-    if (PLAYER_CONFIG.experienceSystem === "threat") return this.threatScore(scope);
     const abilities = detectAbilities(scope);
     const profile = combatProfile(scope);
     const rounds = meleeDuel(profile, referenceFighter(profile.level)).fighterRounds;
@@ -210,25 +202,8 @@ class ExperienceService {
     return scoreExperience(detectHitDice(scope), tough ? [...abilities, tough] : abilities);
   }
 
-  /** The threat system's score: no abilities, total = the Hit Dice value, xp = the threat XP. */
-  private threatScore(scope: ExperienceScope): ExperienceScore {
-    const hitDice = detectHitDice(scope);
-    const value = hitDiceValue(hitDice);
-    const result = threat(combatProfile(scope));
-    const xp = threatXp(value, result.threat);
-    const breakdown = [
-      `duel: ${duelText(result.melee, "fighter", " rounds")}`,
-      `archer: ${duelText(result.ranged, "archer")}`,
-      threatXpText(value, result.threat),
-    ].join("; ");
-    return { hitDiceValue: value, abilities: [], total: value, hitDice, xp, breakdown };
-  }
-
-  /** As base: the DMG formula reads the same total and abilities, threat the same score. */
+  /** As base: the DMG formula reads the same total and abilities. */
   private sameScore(score: ExperienceScore, base: ExperienceScore): boolean {
-    if (PLAYER_CONFIG.experienceSystem === "threat") {
-      return score.xp === base.xp && score.breakdown === base.breakdown;
-    }
     return score.total === base.total && this.sameAbilities(score, base);
   }
 
@@ -240,18 +215,6 @@ class ExperienceService {
         .join(",");
     return names(a) === names(b);
   }
-}
-
-/** Two decimals at most, trailing zeros dropped (30, 2.4, 1.06) */
-function round(value: number): string {
-  return String(Math.round(value * 100) / 100);
-}
-
-/** "monster 1.06 rounds (77% ending a round), fighter 2.43 = 2.29" ("rounds" in the first duel) */
-function duelText(duel: DuelResult, reference: string, unit = ""): string {
-  const notes = duel.notes.length ? ` (${duel.notes.join(", ")})` : "";
-  const monster = `monster ${round(duel.monsterRounds)}${unit}${notes}`;
-  return `${monster}, ${reference} ${round(duel.fighterRounds)} = ${round(duel.ratio)}`;
 }
 
 const experienceService = new ExperienceService();

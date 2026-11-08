@@ -2,13 +2,9 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { Creature } from "../../model/creature/creature";
 import { CreatureData } from "../../model/creature/data";
 import { Game } from "../../model/creature/game";
-import { ItemAbilityTypeEnum } from "../../model/spell-item/effect.enums";
 import monsterFilesService, { CreatureCsvRow } from "../monster-files.service";
 import { PLAYER_CONFIG } from "../../../config/player-config";
 import experienceService from "./experience.service";
-import { combatProfile } from "./threat/combat-profile";
-import { threat } from "./threat/duel";
-import { threatXp } from "./threat/threat-xp";
 
 const FILE = "F";
 
@@ -438,102 +434,5 @@ describe("experienceService.evaluate", () => {
     expect(experienceService.evaluate(creature).rows).toEqual([
       expect.objectContaining({ status: "zero", reason: "0 in game" }),
     ]);
-  });
-});
-
-describe("experienceSystem threat", () => {
-  const experience2e = PLAYER_CONFIG.experience2e;
-  afterEach(() => {
-    PLAYER_CONFIG.experienceSystem = "dmg";
-    PLAYER_CONFIG.experience2e = experience2e;
-  });
-
-  /** The threat XP the file scope should score, from the threat modules themselves */
-  function expectedXp(creature: Creature): number {
-    const profile = combatProfile({ creature, file: FILE });
-    return threatXp(profile.level, threat(profile).threat);
-  }
-
-  it("scores an adjustment that raises the level with the threat XP", () => {
-    PLAYER_CONFIG.experienceSystem = "threat";
-    PLAYER_CONFIG.experience2e = true;
-    mockRows(row(undefined));
-    const creature = fakeCreature({ xpv: 120, adjustments: [BUMP] });
-    const xp = expectedXp(creature);
-    experienceService.apply(creature);
-    const [scored] = creature.experience;
-    expect(scored).toEqual(expect.objectContaining({ status: "formula", newXp: xp }));
-    expect(scored.score).toEqual(
-      expect.objectContaining({ abilities: [], total: 9, hitDiceValue: 9, xp }),
-    );
-    expect(scored.reason).toBe(scored.score.breakdown);
-    expect(scored.score.breakdown).toMatch(/^duel: monster [\d.]+ rounds/);
-    expect(scored.score.breakdown).toContain("; archer: monster ");
-    expect(scored.score.breakdown).toMatch(
-      /; threat [\d.]+ → \d+ × [\d.]+ × [\d.]+\^[\d.]+ = \d+$/,
-    );
-    expect(appended(creature, 1)).toEqual([
-      { files: [FILE], game: undefined, variant: undefined, xpv: xp },
-    ]);
-  });
-
-  it("keeps the book XP of a base file with experience2e", () => {
-    PLAYER_CONFIG.experienceSystem = "threat";
-    PLAYER_CONFIG.experience2e = true;
-    mockRows(row(650));
-    expect(experienceService.evaluate(fakeCreature({ xpv: 120 })).rows).toEqual([
-      expect.objectContaining({ status: "book", newXp: 120 }),
-    ]);
-  });
-
-  it("scores a base file with the threat XP without experience2e", () => {
-    PLAYER_CONFIG.experienceSystem = "threat";
-    PLAYER_CONFIG.experience2e = false;
-    mockRows(row(undefined));
-    const creature = fakeCreature({ xpv: 120 });
-    const xp = expectedXp(creature);
-    experienceService.apply(creature);
-    expect(creature.experience).toEqual([
-      expect.objectContaining({ status: "formula", newXp: xp }),
-    ]);
-    expect(creature.data.xpv).toBe(xp);
-  });
-
-  it("marks a script-only adjustment as base: the same threat", () => {
-    PLAYER_CONFIG.experienceSystem = "threat";
-    PLAYER_CONFIG.experience2e = true;
-    mockRows(row(100));
-    const creature = fakeCreature({
-      xpv: 120,
-      adjustments: [{ data: { script: { remove: [], location: "X" } } as Partial<CreatureData> }],
-    });
-    experienceService.apply(creature);
-    expect(creature.experience).toEqual([
-      expect.objectContaining({ status: "asBase", newXp: 120 }),
-    ]);
-    expect(appended(creature, 1)).toEqual([]);
-  });
-
-  it.each([
-    ["more hit points", { hp: 120 }],
-    ["more attacks", { apr: 3 }],
-  ])("scores an adjustment with %s above its base", (_name, data) => {
-    PLAYER_CONFIG.experienceSystem = "threat";
-    PLAYER_CONFIG.experience2e = true;
-    mockRows(row(undefined));
-    const creature = fakeCreature({ xpv: 120, adjustments: [{ data }] });
-    creature.items = [
-      {
-        file: "CLAW",
-        header: { type: ItemAbilityTypeEnum.Melee, diceThrown: 1, diceSize: 8, effects: [] },
-        immunities: [],
-        effects: [],
-        equippedSlot: [],
-        trait: false,
-      },
-    ] as unknown as Creature["items"];
-    const { base, rows } = experienceService.evaluate(creature);
-    expect(rows).toEqual([expect.objectContaining({ status: "formula" })]);
-    expect(rows[0].newXp).toBeGreaterThan(base.xp);
   });
 });

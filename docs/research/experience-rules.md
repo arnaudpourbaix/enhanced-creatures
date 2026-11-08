@@ -157,9 +157,9 @@ A second way to score XP, from how hard a creature is to beat rather than from t
 Full design: [the spec](../superpowers/specs/2026-11-07-threat-experience-design.md). Code:
 `lib/src/services/experience/threat/`.
 
-- **The setting**: `PLAYER_CONFIG.experienceSystem` is `"dmg"` (default, the formula above) or
-  `"threat"`. Everything else is shared: statuses, "never below the in-game XP", zero files.
-  `experience2e` still decides book XP against a computed score for base creatures.
+- **No setting** (user, 2026-11-08): the `experienceSystem` setting is gone, XP is always the
+  DMG formula. The threat duels stay as a comparison in the dashboard's XP proposals view, and
+  the DMG formula's "hard to kill and hard hitting" row reads the melee duel's rounds.
 - **The reference** (`reference.ts`): a fighter and an archer of the creature's own level.
   Fighter: 13 HP per level up to 9 then +3, Strength 18/50, two d8 swords, specialization,
   2.5 attacks a round (3 at 7, 3.5 at 13), enchantment +0 to +3, AC 10 down to -5 at 20, 2e

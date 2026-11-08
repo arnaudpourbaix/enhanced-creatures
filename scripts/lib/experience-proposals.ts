@@ -18,8 +18,8 @@ import {
 import { escapeHtml } from "./stats-report-html";
 
 // The dashboard's XP proposals view: per base creature, its in-game XP, its 2e book XP, its DMG
-// formula score and its threat XP side by side, whichever experienceSystem plays (a comparison
-// view: the threat is computed here on the base creature). Also the samples `npm run fit-threat`
+// formula score in both strength editions and its threat XP side by side (a comparison view: the
+// threat is computed here on the base creature; XP itself is always the DMG formula). Also the samples `npm run fit-threat`
 // fits the threat XP on.
 
 export interface BaseThreat {
@@ -325,7 +325,7 @@ export function renderProposals(p: Proposals): string {
   const body = p.rows.map(rowHtml).join("");
   return `<section class="card" data-xp-panel="proposals">
 <h2>XP proposals: base creatures (${p.rows.length})</h2>
-<p class="muted">A comparison, whichever <code>experienceSystem</code> plays. In-game = the base
+<p class="muted">A comparison: XP itself is the DMG formula. In-game = the base
 files' in-game XP (median, range when they differ), 2e = book XP, DMG = the DMG formula with
 each strength edition (<code>strengthEdition</code>; hover for its breakdown),
 then the threat system: the melee and ranged duels' rounds (R<sub>m</sub> the monster's,
