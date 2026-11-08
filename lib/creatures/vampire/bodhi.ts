@@ -322,6 +322,12 @@ function chapter3Encounter(bodhi: Variant, items: BodhiItems) {
 }
 
 /**
+ * A file's own strength plays in both editions (user, 2026-11-08): the abomination and Bodhi extend
+ * the Ravenloft age table, so choosing 2e strength never weakens her
+ */
+const EXTENDED_AGE_TABLE = "Ravenloft vampire age table, extended: the file's own strength";
+
+/**
  * Spellhold: level 15, as she must hunt the party without winning, but never below each file's
  * own values (AC is a final value: the file's natural -1 plus its DEX bonus; level 15 gives THAC0 5,
  * no worse than the files' 6 and 5)
@@ -335,6 +341,7 @@ function chapter4Encounter({ claws, trait, drain5, spellholdTrait }: BodhiItems)
     data: {
       ac: p.ac,
       strength: p.strength,
+      strength2e: { strength: p.strength, source: EXTENDED_AGE_TABLE },
       dexterity: p.dexterity,
       level1: 15,
       apr: 2.5, // the game's 8
@@ -401,6 +408,7 @@ function blackPitsEncounter({ claws, trait, drain5, blackPitsTrait }: BodhiItems
     files: ["OHB3BODH"],
     data: {
       strength: 21,
+      strength2e: { strength: 21, source: EXTENDED_AGE_TABLE },
       dexterity: 20,
       ac: -8,
       items: {

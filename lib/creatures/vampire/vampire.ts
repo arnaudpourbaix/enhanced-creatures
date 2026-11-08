@@ -113,7 +113,7 @@ export interface VampireAge {
   turnAs: TurnUndeadType;
   strength: number;
   exceptionalStrength?: number;
-  /** The 2e strength (MM fledgling, Ravenloft age table); none for the abomination (ours) */
+  /** The 2e strength (MM fledgling, Ravenloft age table, the abomination its extension) */
   strength2e?: Strength2e;
   intelligence: number;
   dexterity: number;
@@ -306,6 +306,12 @@ export const ABOMINATION_AGE: VampireAge = {
   bonusHp: 0,
   turnAs: "lich", // irrelevant: immune to turn undead
   strength: 24,
+  // The abomination extends the Ravenloft age table (user, 2026-11-08): 2e strength must never
+  // weaken it, nor Bodhi, below the patriarch
+  strength2e: {
+    strength: 24,
+    source: "Ravenloft vampire age table, extended above the patriarch (Bodhi's Ch2-3 strength)",
+  },
   intelligence: 20,
   dexterity: 24,
   charisma: 19,
