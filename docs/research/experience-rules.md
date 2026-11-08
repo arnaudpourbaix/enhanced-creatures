@@ -151,9 +151,10 @@ paralysis) gets nothing.
 | A power's ability    | `xpAbility` / `worthLevel` on the created spell              |
 | The switch           | `PLAYER_CONFIG.experience2e` (`lib/config/player-config.ts`) |
 
-## Threat system (opt-in, weights provisional)
+## Threat system (comparison only, weights provisional)
 
-A second way to score XP, from how hard a creature is to beat rather than from the DMG tables.
+A comparison score, from how hard a creature is to beat rather than from the DMG tables. It never
+sets the XP written: the dashboard shows it next to the DMG formula and the book XP.
 Full design: [the spec](../superpowers/specs/2026-11-07-threat-experience-design.md). Code:
 `lib/src/services/experience/threat/`.
 

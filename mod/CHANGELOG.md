@@ -81,6 +81,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Skeleton: mage and cleric variants move to their own entries
 - XP: experience of adjusted creatures now follows the AD&D 2e DMG rule (Hit Dice + special abilities); a creature never gives less XP than in the original game
 - 2e strengths found, and the design to keep them next to the 3e/5e ones
+- XP: the threat system is a comparison only
 
 ### Fixed
 
