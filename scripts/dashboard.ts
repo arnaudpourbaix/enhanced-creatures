@@ -1,5 +1,8 @@
+import { spawnSync } from "child_process";
 import * as fs from "fs";
+import * as os from "os";
 import * as path from "path";
+import { PLAYER_CONFIG } from "../lib/config/player-config";
 import { buildAllCreatures } from "../lib/creatures";
 import { MonsterEnum } from "../lib/creatures/monster";
 import { parseCsv } from "./lib/csv";
@@ -11,6 +14,7 @@ import logService from "../lib/src/services/log.service";
 import mainService from "../lib/src/services/main.service";
 import stateService from "../lib/src/services/state.service";
 import { buildExperienceReport } from "./lib/experience-report";
+import { DmgScore, EditionScores, STRENGTH_EDITIONS } from "./lib/experience-proposals";
 import { buildStrengthReport } from "./lib/strength-report";
 import { buildStatsReport, loadStatsCsv } from "./lib/stats-report";
 
@@ -65,6 +69,30 @@ function summarizeCsv(rows: Record<string, string>[]): {
   return { summary, byMonster };
 }
 
+/**
+ * The base creatures' DMG scores under the strength edition the settings don't play, from its own
+ * build (scripts/dmg-edition.ts, a child process: the builders keep global state). Undefined, with
+ * a warning, when that build fails: the proposals then show the current edition only.
+ */
+function otherEditionScores(): EditionScores | undefined {
+  const edition = STRENGTH_EDITIONS.find((e) => e !== PLAYER_CONFIG.strengthEdition);
+  if (!edition) return undefined;
+  const out = path.join(os.tmpdir(), `dmg-edition-${process.pid}.json`);
+  const tsNode = require.resolve("ts-node/dist/bin.js");
+  const script = path.join(__dirname, "dmg-edition.ts");
+  const result = spawnSync(process.execPath, [tsNode, script, edition, out], { stdio: "inherit" });
+  if (result.status !== 0 || !fs.existsSync(out)) {
+    console.warn(
+      `The ${edition} strength build failed: XP proposals show ${PLAYER_CONFIG.strengthEdition} only`,
+    );
+    return undefined;
+  }
+  const entries = JSON.parse(fs.readFileSync(out, "utf-8")) as [string, DmgScore][];
+  const scores = new Map(entries);
+  fs.rmSync(out);
+  return { edition, scores };
+}
+
 async function main() {
   const { assetsDir } = parseArgs();
   await initBuildPipeline();
@@ -78,7 +106,10 @@ async function main() {
   const { missing, unvalidated, noFiles, total } = diffMonsters(creatures);
   const unknown = [...byMonster.keys()].filter((m) => !(m in MonsterEnum));
 
-  const experience = buildExperienceReport(creatures);
+  const experience = buildExperienceReport(creatures, {
+    current: PLAYER_CONFIG.strengthEdition,
+    other: otherEditionScores(),
+  });
   const html = renderDashboard({
     generatedAt: new Date(),
     version: readModVersion(),

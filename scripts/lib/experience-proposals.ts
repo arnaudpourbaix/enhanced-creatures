@@ -1,3 +1,4 @@
+import { PLAYER_CONFIG, StrengthEdition } from "../../lib/config/player-config";
 import { MonsterEnum } from "../../lib/creatures/monster";
 import type { Creature } from "../../lib/src/model/creature/creature";
 import { combatProfile } from "../../lib/src/services/experience/threat/combat-profile";
@@ -32,6 +33,26 @@ export type ThreatOf = (creature: Creature) => BaseThreat;
 
 export const baseThreat: ThreatOf = (creature) => threat(combatProfile({ creature }));
 
+/** A DMG score's XP and breakdown */
+export interface DmgScore {
+  xp: number;
+  breakdown: string;
+}
+
+/** The base creatures' DMG scores under the other strength edition, by monster name */
+export interface EditionScores {
+  edition: StrengthEdition;
+  scores: Map<string, DmgScore>;
+}
+
+/** The edition this build plays, and the other one's scores when its build ran */
+export interface ProposalEditions {
+  current: StrengthEdition;
+  other?: EditionScores;
+}
+
+export const STRENGTH_EDITIONS: StrengthEdition[] = ["2e", "3e+"];
+
 export interface ProposalRow {
   monster: string;
   /** The base creature's files with an in-game XP */
@@ -41,6 +62,8 @@ export interface ProposalRow {
   inGameMax?: number;
   bookXp?: number;
   formulaXp: number;
+  /** The DMG XP by strength edition (user, 2026-11-08: both side by side) */
+  dmg: Partial<Record<StrengthEdition, DmgScore>>;
   /** The duels' rounds: the monster's (R_m) and the reference's (R_f) */
   melee: { monster: number; fighter: number };
   ranged: { monster: number; fighter: number };
@@ -56,6 +79,7 @@ export interface ProposalTotals {
   inGame: number;
   book: number;
   formula: number;
+  dmg: Partial<Record<StrengthEdition, number>>;
   threat: number;
 }
 
@@ -113,12 +137,30 @@ function duelNotes(label: string, duel: DuelResult): string {
   return `${label}: ${decimals(duel.ratio)}${notes}`;
 }
 
+/** The current edition's DMG score, and the other edition's when its build gave one */
+function dmgByEdition(
+  monster: string,
+  base: DmgScore,
+  editions: ProposalEditions,
+): Partial<Record<StrengthEdition, DmgScore>> {
+  const dmg: Partial<Record<StrengthEdition, DmgScore>> = {
+    [editions.current]: { xp: base.xp, breakdown: base.breakdown },
+  };
+  const other = editions.other?.scores.get(monster);
+  if (editions.other && other) dmg[editions.other.edition] = other;
+  return dmg;
+}
+
 function addToTotals(totals: ProposalTotals, row: ProposalRow): void {
   if (row.inGameXp === undefined || row.bookXp === undefined) return;
   totals.rows++;
   totals.inGame += row.inGameXp;
   totals.book += row.bookXp;
   totals.formula += row.formulaXp;
+  for (const edition of STRENGTH_EDITIONS) {
+    const score = row.dmg[edition];
+    if (score) totals.dmg[edition] = (totals.dmg[edition] ?? 0) + score.xp;
+  }
   totals.threat += row.threatXp;
 }
 
@@ -126,17 +168,27 @@ export function buildProposals(
   creatures: Creature[],
   threatOf: ThreatOf = baseThreat,
   fit: ThreatFit = THREAT_FIT,
+  editions: ProposalEditions = { current: PLAYER_CONFIG.strengthEdition },
 ): Proposals {
   const rows: ProposalRow[] = [];
-  const totals: ProposalTotals = { rows: 0, inGame: 0, book: 0, formula: 0, threat: 0 };
+  const totals: ProposalTotals = {
+    rows: 0,
+    inGame: 0,
+    book: 0,
+    formula: 0,
+    dmg: {},
+    threat: 0,
+  };
   for (const creature of creatures) {
     const base = creature.baseScore;
     if (!base) continue;
     const inGame = inGameXps(creature);
     const g = median(inGame);
     const t = threatOf(creature);
+    const monster = MonsterEnum[creature.id] ?? String(creature.id);
     const row: ProposalRow = {
-      monster: MonsterEnum[creature.id] ?? String(creature.id),
+      monster,
+      dmg: dmgByEdition(monster, base, editions),
       files: inGame.length,
       inGameXp: g === undefined ? undefined : round(g),
       inGameMin: inGame.length ? Math.min(...inGame) : undefined,
@@ -216,26 +268,49 @@ function referenceTable(title: string, of: (level: number) => ReferenceCombatant
 const REFERENCE_TEXT = `<p class="muted">Threat measures a monster against a fighter (melee duel)
 and an archer (ranged duel) of its own level (its Hit Dice value). A duel: the rounds the monster
 needs to drop him (R<sub>m</sub>) against the rounds he needs to drop it (R<sub>f</sub>); their
-ratio R<sub>f</sub> ÷ R<sub>m</sub> is about 1 for an even fight. T = the two ratios' geometric
-mean (× 1.2 invisible at will, × 1.1 per declared ability). Threat XP = Table 31 × s × T<sup>k</sup>,
+ratio R<sub>f</sub> ÷ R<sub>m</sub> is about 1 for an even fight. T = melee<sup>0.75</sup> ×
+ranged<sup>0.25</sup> (× 1.2 invisible at will, × 1.1 per declared ability). Threat XP = Table 31 × s × T<sup>k</sup>,
 s and k fitted by <code>npm run fit-threat</code> on the base creatures with a book and an in-game
 XP. HP: 10 per level + 3 Con to 9, then +3. AC: 10 at 1-2, plate (3) around 4, full plate (1)
 around 6, magic items to -5 at 20; the archer's 4 better. Fighter: Strength 18/50, two d8 swords,
 specialization; archer: Dexterity +2, specialization, two arrows. Enchantment +1 per 4 levels to
 +3. THAC0 and saves: the 2e warrior tables.</p>`;
 
+/** The 3e+ DMG XP minus the 2e one, when both editions were scored */
+function dmgDiff(r: ProposalRow): number | undefined {
+  const [a, b] = [r.dmg["2e"], r.dmg["3e+"]];
+  return a && b ? b.xp - a.xp : undefined;
+}
+
+/** "+380 +141%": the difference, and its share of the 2e XP */
+function diffCell(r: ProposalRow): string {
+  const diff = dmgDiff(r);
+  if (diff === undefined) return `<td class="num"></td>`;
+  const from = r.dmg["2e"]?.xp ?? 0;
+  const sign = diff > 0 ? "+" : "";
+  const share =
+    from && diff ? ` <span class="muted">${sign}${Math.round((diff / from) * 100)}%</span>` : "";
+  return `<td class="num">${sign}${diff}${share}</td>`;
+}
+
+function dmgCell(score: DmgScore | undefined, inGameXp: number | undefined): string {
+  return score ? cell(score.xp, inGameXp, score.breakdown) : `<td class="num"></td>`;
+}
+
 function rowHtml(r: ProposalRow): string {
   const search = escapeHtml(r.monster.toLowerCase());
   return (
     `<tr data-search="${search}" data-monster="${escapeHtml(r.monster)}" ` +
     `data-files="${r.files}" data-ingame="${r.inGameXp ?? -1}" data-book="${r.bookXp ?? -1}" ` +
-    `data-formula="${r.formulaXp}" data-mrm="${r.melee.monster}" data-mrf="${r.melee.fighter}" ` +
+    `data-formula="${r.formulaXp}" data-dmg2e="${r.dmg["2e"]?.xp ?? -1}" ` +
+    `data-dmg3e="${r.dmg["3e+"]?.xp ?? -1}" data-dmgdiff="${dmgDiff(r) ?? 0}" data-mrm="${r.melee.monster}" data-mrf="${r.melee.fighter}" ` +
     `data-rrm="${r.ranged.monster}" data-rrf="${r.ranged.fighter}" data-threat="${r.threat}" ` +
     `data-threatxp="${r.threatXp}">` +
     `<td class="monster-name">${escapeHtml(r.monster)}</td><td class="num">${r.files}</td>` +
     inGameCell(r) +
     `<td class="num">${num(r.bookXp)}</td>` +
-    cell(r.formulaXp, r.inGameXp) +
+    STRENGTH_EDITIONS.map((edition) => dmgCell(r.dmg[edition], r.inGameXp)).join("") +
+    diffCell(r) +
     `<td class="num">${r.melee.monster}</td><td class="num">${r.melee.fighter}</td>` +
     `<td class="num">${r.ranged.monster}</td><td class="num">${r.ranged.fighter}</td>` +
     `<td class="num" title="${escapeHtml(r.notes)}">${r.threat}</td>` +
@@ -251,14 +326,17 @@ export function renderProposals(p: Proposals): string {
   return `<section class="card" data-xp-panel="proposals">
 <h2>XP proposals: base creatures (${p.rows.length})</h2>
 <p class="muted">A comparison, whichever <code>experienceSystem</code> plays. In-game = the base
-files' in-game XP (median, range when they differ), 2e = book XP, Formula = the DMG formula,
+files' in-game XP (median, range when they differ), 2e = book XP, DMG = the DMG formula with
+each strength edition (<code>strengthEdition</code>; hover for its breakdown),
 then the threat system: the melee and ranged duels' rounds (R<sub>m</sub> the monster's,
 R<sub>f</sub> the reference's), the threat T and its XP. Values below the in-game XP are marked.
 Fit: <b>s = ${p.fit.s}, k = ${p.fit.k}</b> (${p.fit.samples} samples).</p>
 <div class="summary">
 <div class="stat"><b>${t.inGame}</b><span class="muted">in-game total (${t.rows} monsters)</span></div>
 ${stat(t.book, "2e book", t.inGame)}
-${stat(t.formula, "formula", t.inGame)}
+${STRENGTH_EDITIONS.map((e) =>
+  t.dmg[e] === undefined ? "" : stat(t.dmg[e], `DMG, ${e} Str`, t.inGame),
+).join("\n")}
 ${stat(t.threat, "threat", t.inGame)}
 </div>
 ${REFERENCE_TEXT}
@@ -267,10 +345,13 @@ ${referenceTable("Reference archer (ranged duel)", referenceArcher)}
 <div class="table-wrap"><table class="counts" id="xp-proposals"><thead><tr>
 <th data-sort="monster" rowspan="2">Monster</th><th data-sort="files" class="num" rowspan="2">Files</th>
 <th data-sort="ingame" class="num" rowspan="2">In-game</th><th data-sort="book" class="num" rowspan="2">2e</th>
-<th data-sort="formula" class="num" rowspan="2">Formula</th>
+<th data-sort="dmg2e" class="num" rowspan="2">DMG, 2e Str</th>
+<th data-sort="dmg3e" class="num" rowspan="2">DMG, 3e+ Str</th>
+<th data-sort="dmgdiff" class="num" rowspan="2" title="DMG 3e+ Str minus 2e Str, and its share of the 2e XP">Diff</th>
 <th colspan="2">Melee</th><th colspan="2">Ranged</th>
 <th data-sort="threat" class="num" rowspan="2">T</th>
-<th data-sort="threatxp" class="num" rowspan="2">Threat XP</th><th rowspan="2">Duels</th>
+<th data-sort="threatxp" class="num" rowspan="2">Threat XP</th>
+<th rowspan="2">Duels</th>
 </tr><tr>
 <th data-sort="mrm" class="num">R<sub>m</sub></th><th data-sort="mrf" class="num">R<sub>f</sub></th>
 <th data-sort="rrm" class="num">R<sub>m</sub></th><th data-sort="rrf" class="num">R<sub>f</sub></th>

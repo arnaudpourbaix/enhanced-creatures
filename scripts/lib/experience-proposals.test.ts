@@ -73,6 +73,40 @@ describe("experience proposals", () => {
     expect(html).not.toContain("√(B × F)");
   });
 
+  it("shows the DMG XP in both strength editions, the other one from its own build", () => {
+    const other = {
+      edition: "3e+" as const,
+      scores: new Map([["Ankheg", { xp: 650, breakdown: "3e+ breakdown" }]]),
+    };
+    const p = buildProposals(creatures, threatOf, fit, {
+      current: "2e",
+      other,
+    });
+    const ankheg = p.rows.find((r) => r.monster === "Ankheg")!;
+    expect(ankheg.dmg).toEqual({
+      "2e": { xp: 270, breakdown: "" },
+      "3e+": { xp: 650, breakdown: "3e+ breakdown" },
+    });
+    expect(p.totals.dmg).toEqual({ "2e": 270, "3e+": 650 });
+    const html = renderProposals(p);
+    expect(html).toContain("DMG, 2e Str");
+    expect(html).toContain("DMG, 3e+ Str");
+    const ankhegRow = html.match(/<tr[^>]*data-monster="Ankheg".*?<\/tr>/)![0];
+    expect(ankhegRow).toContain('data-dmg3e="650"');
+    // 3e+ minus 2e, sortable, with its share of the 2e value
+    expect(ankhegRow).toContain('data-dmgdiff="380"');
+    expect(ankhegRow).toContain(">+380 <span");
+    expect(ankhegRow).toContain("+141%");
+    expect(html).toContain('data-sort="dmgdiff"');
+  });
+
+  it("without the other edition's build, only the current edition has a DMG XP", () => {
+    const p = buildProposals(creatures, threatOf, fit, { current: "3e+" });
+    expect(p.rows.find((r) => r.monster === "Ankheg")!.dmg).toEqual({
+      "3e+": { xp: 270, breakdown: "" },
+    });
+  });
+
   it("samples the base creatures with a book and an in-game XP", () => {
     expect(threatSamples(creatures, threatOf)).toEqual([{ hitDiceValue: 4, threat: 2, book: 420 }]);
   });
