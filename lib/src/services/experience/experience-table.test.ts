@@ -1,5 +1,61 @@
 import { describe, expect, it } from "vitest";
-import { hitDiceValue, scoreExperience, xpForHitDiceValue } from "./experience-table";
+import {
+  hitDiceValue,
+  scoreExperience,
+  toughHitterAbility,
+  xpForHitDiceValue,
+} from "./experience-table";
+
+describe("fast movement", () => {
+  const fast = { ability: "fastMovement" as const, source: "movement 15" };
+  it("counts nothing with no offensive ability: speed brings no danger (wild dog 1d4)", () => {
+    expect(scoreExperience({ whole: 1, plus: true }, [fast])).toMatchObject({ total: 2, xp: 35 });
+  });
+  it("counts with an offensive ability (ghast paralysis)", () => {
+    const s = scoreExperience({ whole: 4, plus: false }, [
+      fast,
+      { ability: "paralysis", source: "Claws" },
+    ]);
+    expect(s.abilities.map((a) => a.ability)).toEqual(["fastMovement", "paralysis"]);
+  });
+  it("defensive abilities alone don't make it count (AC 0)", () => {
+    const s = scoreExperience({ whole: 5, plus: false }, [
+      fast,
+      { ability: "acZeroOrLower", source: "AC -1" },
+    ]);
+    expect(s.abilities.map((a) => a.ability)).toEqual(["acZeroOrLower"]);
+  });
+});
+
+describe("slow movement", () => {
+  it("counts nothing when invisible at will: an unseen spider can't be kited (phase spider)", () => {
+    const s = scoreExperience({ whole: 5, plus: true }, [
+      { ability: "slowMovement", source: "movement 6" },
+      { ability: "fatalPoison", source: "Jaws" },
+      { ability: "invisibleAtWill", source: "Phase out" },
+    ]);
+    expect(s.abilities.map((a) => a.ability)).toEqual(["fatalPoison", "invisibleAtWill"]);
+    expect(s).toMatchObject({ total: 10, xp: 1400 });
+  });
+});
+
+describe("toughHitterAbility", () => {
+  const hard = [
+    { ability: "roundDamage15" as const, source: "SWORD 10.5 + SWORD 10.5 = 21 a round" },
+  ];
+  it("hard to kill (5+ rounds) and hard hitting (a round damage tier)", () => {
+    expect(toughHitterAbility(6.75, 5, hard)).toEqual({
+      ability: "toughHitter",
+      source: "6.8 rounds for a level 5 fighter",
+    });
+  });
+  it("not when quick to kill", () => {
+    expect(toughHitterAbility(4.9, 5, hard)).toBeUndefined();
+  });
+  it("not when hitting softly, however hard to kill (a ghast)", () => {
+    expect(toughHitterAbility(9, 4, [{ ability: "paralysis", source: "Claws" }])).toBeUndefined();
+  });
+});
 
 describe("experience table", () => {
   it("maps every Table 31 row", () => {

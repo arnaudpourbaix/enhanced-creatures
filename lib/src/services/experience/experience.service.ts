@@ -11,9 +11,15 @@ import {
   ExperienceScope,
   matchingAdjustments,
 } from "./experience-detection";
-import { ExperienceScore, hitDiceValue, scoreExperience } from "./experience-table";
+import {
+  ExperienceScore,
+  hitDiceValue,
+  scoreExperience,
+  toughHitterAbility,
+} from "./experience-table";
 import { combatProfile } from "./threat/combat-profile";
-import { DuelResult, threat } from "./threat/duel";
+import { DuelResult, meleeDuel, threat } from "./threat/duel";
+import { referenceFighter } from "./threat/reference";
 import { threatXp, threatXpText } from "./threat/threat-xp";
 
 /**
@@ -197,7 +203,11 @@ class ExperienceService {
 
   private score(scope: ExperienceScope): ExperienceScore {
     if (PLAYER_CONFIG.experienceSystem === "threat") return this.threatScore(scope);
-    return scoreExperience(detectHitDice(scope), detectAbilities(scope));
+    const abilities = detectAbilities(scope);
+    const profile = combatProfile(scope);
+    const rounds = meleeDuel(profile, referenceFighter(profile.level)).fighterRounds;
+    const tough = toughHitterAbility(rounds, profile.level, abilities);
+    return scoreExperience(detectHitDice(scope), tough ? [...abilities, tough] : abilities);
   }
 
   /** The threat system's score: no abilities, total = the Hit Dice value, xp = the threat XP. */

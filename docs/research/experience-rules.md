@@ -70,9 +70,9 @@ Each ability counts once, whatever number of sources it has.
 | Flies                                      | +1                | the `hover` trait, or a tagged at-will Fly (ogre mage) _(user)_                                                                                                                                            |
 | Missile weapons                            | +1                | a wielded ranged weapon (bow, crossbow, sling, dart, quiver item), not `attack.ranged` _(user)_                                                                                                            |
 | Invisible at will                          | +1                | invisibility memorized at will, or an own power making the caster invisible                                                                                                                                |
-| Spells                                     | +1 / +2 / +3 / +4 | highest spell level 1-2 / 3-4 / 5-6 / 7-9 _(user tiers)_, only the top tier                                                                                                                                |
-| Single attack over 20                      | +2                | one hit's maximum damage 20+                                                                                                                                                                               |
-| Multiple attacks over 30                   | +2                | a round's maximum damage 30+                                                                                                                                                                               |
+| Spells                                     | +1 / +2 / +3 / +4 | highest spell level 1-2 / 3-4 / 5-6 / 7-9 _(user tiers)_, only the top tier; a single spell is a special attack instead                                                                                    |
+| Round damage                               | +1 / +2 / +3 / +4 | a round's average damage 15+ / 30+ / 45+ / 60+ _(user)_, see Damage rows                                                                                                                                   |
+| Hard to kill and hard hitting              | +1                | 5+ rounds for the threat system's fighter of its level, and a round damage tier _(user)_                                                                                                                   |
 | Breath weapon                              | +2                | a tagged power                                                                                                                                                                                             |
 | Paralysis                                  | +2                | paralyze or hold effects                                                                                                                                                                                   |
 | Weakness or fear                           | +2                | panic, or a strength-lowering effect                                                                                                                                                                       |
@@ -84,22 +84,38 @@ Each ability counts once, whatever number of sources it has.
 | Special magical attack                     | +2                | an own killing or summoning power, or a tagged one                                                                                                                                                         |
 | Special attack                             | +1                | an own damaging, disabling, buff or grab power; any harmful on-hit effect without its own row (stun, sleep, slow, blind, confusion, charm, silence, web, entangle, maze, imprisonment, polymorph, slay...) |
 | Blood drain, swallows whole, magical items | +1 / +2 / +1      | only declared (`xpAbilities`) or tagged                                                                                                                                                                    |
-| Slow movement                              | -1                | PnP movement 9 or less _(user)_                                                                                                                                                                            |
-| Fast movement                              | +1                | PnP movement 15 or more _(user)_                                                                                                                                                                           |
+| Slow movement                              | -1                | PnP movement 9 or less _(user)_; nothing when invisible at will _(user)_                                                                                                                                   |
+| Fast movement                              | +1                | PnP movement 15 or more _(user)_, only with an offensive row _(user)_                                                                                                                                      |
 
 Movement counts only for a creature that walks into melee _(user)_: never for a flier (its speed
 is the flight's, already "flies") or a missile wielder. Spells and breath weapons don't exempt a
 creature: vampires, hell hounds and golems still kill up close.
 
+Fast movement counts only with an offensive row (a round damage tier, paralysis, poison, drain,
+petrification, fear, disease, a breath, a special attack, spells) _(user)_: a wild dog's 1d4 bite
+arriving sooner is still a 1d4 bite (wild dogs, wolves, worgs and dire wolves sat one row over
+their book XP). Slow movement counts nothing for a creature invisible at will _(user)_: kiting
+means shooting it, and an unseen one can't be shot (the phase spider).
+
+**Hard to kill and hard hitting** _(user)_: the doom guard and the battle horror are no fast kill
+and every hit hurts. A soft hitter that is hard to kill (a ghast, an easy kill once immune to its
+paralysis) gets nothing.
+
 ### Damage rows
 
-- The **maximum** damage, not the average _(user)_.
-- A round: each weapon once, strongest first; extra attacks repeat the weakest one. The off-hand
-  weapon's attack (engine-added) is counted.
+- What a **round** deals counts, in tiers, not whether one hit or one round crosses a threshold
+  (user, 2026-11-08: Table 32's "single attack over 20" and "multiple attacks over 30" fired
+  together for one trait and only said yes or no). Tiers: 15+ / 30+ / 45+ / 60+ a round give
+  +1 / +2 / +3 / +4, only the highest.
+- The **average** damage, not the maximum (user, 2026-11-08, replacing the earlier maximum rule):
+  what a round deals on most turns. A chance-based extra counts at its chance (a 10% hug adds a
+  tenth of its damage).
+- A round: each weapon once, strongest first (ranked by maximum); extra attacks repeat the weakest
+  one; a 2.5 round counts 3. The off-hand weapon's attack (engine-added) is counted.
 - A melee hit adds the creature's strength damage bonus, as the engine does. The strength is the
   one that plays (see `PLAYER_CONFIG.strengthEdition`): in 2e mode, a creature without a 2e
   strength hits for its dice alone.
-- On-hit damage adds to the weapon's maximum: damage effects on the weapon (a flaming sword, ooze
+- On-hit damage adds to the weapon's damage: damage effects on the weapon (a flaming sword, ooze
   acid) and damage of spells the hit casts (ankheg enzymes, bear hug). That's extra damage, not a
   special attack.
 - A diceless weapon that deals no damage (mist form) is no attack.
@@ -114,6 +130,9 @@ creature: vampires, hell hounds and golems still kill up close.
   the spell tiers at that level) or an explicit `xpAbility` (a body attack form). The generator
   refuses neither.
 - A power typed as a wizard or priest spell counts only through its spell level.
+- **A single spell** (one spell file, whatever its uses) is no spell list: it counts as a special
+  attack, a special magical attack from level 5 (a stone golem's slow, a banshee's wail, a zombie
+  lord's animate dead) _(user)_, not the caster tier its level would give.
 - Spells and abilities gated on a memorized spell (HaveSpell) count only where it's memorized.
 - Never a spell: class and kit abilities (SPCL), Dimension Door (SPWI402, Spell Revisions'
   SPWI128: a once-a-day teleport).

@@ -415,7 +415,7 @@ function powerAbility(spell: Spell, found: Set<XpAbility>): XpAbility | undefine
   // also deals damage (a ghost's draining touch)
   if (found.size && !dealsDamage(spell)) return undefined;
   // A power cast as a wizard or priest spell (the ogre mage's cone of cold) or given a power level
-  // (a dryad's charm) is a spell: it counts through that level (highestSpell), not as an attack
+  // (a dryad's charm) is a spell: it counts through that level (spellCandidates), not as an attack
   // form too
   if (isSpellPower(spell) || spell.worthLevel !== undefined) return undefined;
   if (spell.role === "kill" || spell.role === "summon") return "specialMagicalAttack";
@@ -505,13 +505,25 @@ function addSpellLevelAbility(
   effective: EffectiveAdjustment,
   add: AddSource,
 ): void {
-  const spell = highestSpell(scope, effective);
+  const candidates = spellCandidates(scope, effective);
+  const spell = highest(candidates);
   if (spell && spell.level >= 1) {
-    add(spellTier(spell.level), spellLabel(spell.file));
+    add(spellTierOrPower(candidates, spell.level), spellLabel(spell.file));
   }
   for (const file of atWillInvisibility(scope.creature, effective)) {
     add("invisibleAtWill", spellLabel(file));
   }
+}
+
+/**
+ * A caster's spell tier, or a single power (user, 2026-11-08): one spell, whatever its uses, is
+ * no spell list but a special attack, magical from level 5 (a stone golem's slow, a banshee's
+ * wail), not the caster tier its level would give.
+ */
+function spellTierOrPower(candidates: { file: string }[], level: number): XpAbility {
+  const files = new Set(candidates.map((c) => c.file.toUpperCase()));
+  if (files.size > 1) return spellTier(level);
+  return level >= 5 ? "specialMagicalAttack" : "specialAttack";
 }
 
 /** The spell tier of a highest spell level: 1-2, 3-4, 5-6, 7-9 (user, beyond Table 32's 3+). */
@@ -615,8 +627,10 @@ const ATTACK_ABILITIES: XpAbility[] = [
   "highSpells",
   "lowSpells",
   "missileWeapons",
-  "singleAttack20",
-  "multipleAttacks30",
+  "roundDamage60",
+  "roundDamage45",
+  "roundDamage30",
+  "roundDamage15",
   "breathWeapon",
   "flies",
   "specialDefense",
@@ -776,11 +790,11 @@ const NO_POWER_SPELLS = new Set(
   [SPELLS.Wizard.DimensionDoor.file, "SPWI128"].map((f) => f.toUpperCase()),
 );
 
-/** The highest spell level among memorized spells, spellbook variants and leveled abilities. */
-function highestSpell(
+/** The spells that count for the spell bonus: memorized spells, spellbook variants, leveled abilities. */
+export function spellCandidates(
   scope: ExperienceScope,
   effective: EffectiveAdjustment,
-): { file: string; level: number } | undefined {
+): { file: string; level: number }[] {
   const spellbooks = effective.spellbooks ?? scope.creature.data.spells.spellbooks ?? [];
   const memorized = [
     ...effective.memorized.map((m) => m.spell),
@@ -788,7 +802,7 @@ function highestSpell(
   ].filter((spell) => (spell.memorizedCount ?? 1) > 0);
   const worth = (file: string, level: number | undefined) =>
     spellWorth(scope.creature, file, level);
-  const candidates = [
+  return [
     ...memorized.map((spell) => ({ file: spell.file, level: worth(spell.file, spell.level) })),
     ...ownSpells(scope.creature, effective)
       .filter((spell) => isSpellPower(spell) || spellLikeLevel(scope.creature, spell) !== undefined)
@@ -801,6 +815,12 @@ function highestSpell(
     (c): c is { file: string; level: number } =>
       c.level !== undefined && !isClassSpell(c.file) && !NO_POWER_SPELLS.has(c.file.toUpperCase()),
   );
+}
+
+/** The highest spell level among spell candidates. */
+function highest(
+  candidates: { file: string; level: number }[],
+): { file: string; level: number } | undefined {
   return candidates.reduce<{ file: string; level: number } | undefined>(
     (best, c) => (best === undefined || c.level > best.level ? c : best),
     undefined,
@@ -868,12 +888,6 @@ export function diceOf(
   return { thrown: header.diceThrown, size: header.diceSize, bonus: header.damageBonus ?? 0 };
 }
 
-/** "+2", "-1", or "" for 0. */
-function signed(value: number): string {
-  if (!value) return "";
-  return value > 0 ? `+${value}` : String(value);
-}
-
 /**
  * The maximum extra damage a weapon's hit deals: opcode 12 on its header (a flaming sword's fire,
  * an ooze's acid, a cat's rake) and the damage of the powers the hit casts (an ankheg's digestive
@@ -887,6 +901,38 @@ export function onHitDamage(creature: Creature, item: Item): number {
     .filter((spell): spell is Spell => spell !== undefined)
     .reduce((sum, spell) => sum + damageOf(targetEffects(spell)), 0);
   return damageOf(effects) + cast;
+}
+
+/**
+ * The average extra damage a weapon's hit deals: onHitDamage's sources at their average, each
+ * effect at its chance (a 10% hug adds a tenth of its damage, user).
+ */
+export function onHitAverage(creature: Creature, item: Item): number {
+  const effects = item.header?.effects ?? [];
+  const cast = effects
+    .filter((e) => CAST_OPCODES.has(e.opcode) && e.resource !== undefined)
+    .map((e) => {
+      const spell = allSpells(creature).find((s) => s.file === e.resource);
+      return spell ? chanceOf(e) * averageDamageOf(targetEffects(spell)) : 0;
+    })
+    .reduce((sum, damage) => sum + damage, 0);
+  return averageDamageOf(effects) + cast;
+}
+
+/** The chance (0..1) an effect happens: its probability, 100% when it has none */
+function chanceOf(effect: Effect): number {
+  return effect.probability1 === undefined ? 1 : effect.probability1 / 100;
+}
+
+/** The average damage (opcode 12) of a list of effects, each at its chance. */
+function averageDamageOf(effects: Effect[]): number {
+  return effects
+    .filter((e) => e.opcode === EffectTypeEnum.Damage)
+    .reduce((sum, e) => {
+      const d = e as { diceThrown?: number; diceSize?: number; amount?: number };
+      const dice = ((d.diceThrown ?? 0) * ((d.diceSize ?? 0) + 1)) / 2;
+      return sum + chanceOf(e) * (dice + (d.amount ?? 0));
+    }, 0);
 }
 
 /** The maximum damage (opcode 12) of a list of effects, repeated ones each counting. */
@@ -931,7 +977,23 @@ export function strengthDamage(effective: EffectiveAdjustment): number {
   }).damage;
 }
 
-/** singleAttack20 / multipleAttacks30 from the wielded items whose dice are known. */
+/**
+ * Round damage tiers (user, 2026-11-08): what a round of attacks deals on average, not whether a
+ * single hit or a round's maximum crosses one threshold.
+ */
+const ROUND_DAMAGE_TIERS: [number, XpAbility][] = [
+  [60, "roundDamage60"],
+  [45, "roundDamage45"],
+  [30, "roundDamage30"],
+  [15, "roundDamage15"],
+];
+
+/** One decimal at most */
+function oneDecimal(value: number): string {
+  return String(Math.round(value * 10) / 10);
+}
+
+/** The round damage tier from the wielded items whose dice are known. */
 function addDamageAbilities(
   creature: Creature,
   items: Item[],
@@ -939,27 +1001,24 @@ function addDamageAbilities(
   strength: number,
   add: (ability: XpAbility, source: string) => void,
 ): void {
-  const attacks: { file: string; max: number }[] = [];
+  const attacks: { file: string; max: number; average: number }[] = [];
   for (const item of items) {
     const dice = diceOf(creature, item);
     if (!dice) continue;
-    // A melee hit adds the strength damage bonus (a juju zombie's 3d4 at 20 strength: 3d4+8 = 20)
+    // A melee hit adds the strength damage bonus (a juju zombie's 3d4 at 20 strength: 3d4+8)
     const str = item.header?.type === ItemAbilityTypeEnum.Melee ? strength : 0;
-    const extra = onHitDamage(creature, item);
-    const max = dice.thrown * dice.size + dice.bonus + str + extra;
-    const strLabel = (str ? signed(str) + " str" : "") + (extra ? signed(extra) + " on hit" : "");
-    const base = dice.thrown * dice.size ? `${dice.thrown}d${dice.size}` : "";
-    const label = `${base}${signed(dice.bonus)}${strLabel}`.replace(/^\+/, "");
-    const name = labelOf(item.file, item.stringRef);
-    if (max >= 20) add("singleAttack20", `${name}: ${label} = ${max}`);
-    attacks.push({ file: name, max });
+    const max = dice.thrown * dice.size + dice.bonus + str + onHitDamage(creature, item);
+    const average =
+      (dice.thrown * (dice.size + 1)) / 2 + dice.bonus + str + onHitAverage(creature, item);
+    attacks.push({ file: labelOf(item.file, item.stringRef), max, average });
   }
+  // Ranked by maximum, as the round is built (roundAttacks), then counted at average
   const round = roundAttacks(attacks, apr);
-  const total = round.reduce((sum, a) => sum + a.max, 0);
-  if (round.length > 1 && total >= 30) {
-    const parts = round.map((a) => a.file + " " + String(a.max)).join(" + ");
-    add("multipleAttacks30", `${parts} = ${total}`);
-  }
+  const total = round.reduce((sum, a) => sum + a.average, 0);
+  const tier = ROUND_DAMAGE_TIERS.find(([threshold]) => total >= threshold);
+  if (!tier) return;
+  const parts = round.map((a) => `${a.file} ${oneDecimal(a.average)}`).join(" + ");
+  add(tier[1], `${parts} = ${oneDecimal(total)} a round`);
 }
 
 /**

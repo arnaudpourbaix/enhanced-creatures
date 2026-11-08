@@ -550,6 +550,11 @@ function naturalWeapon(header: Partial<ItemHeader> = {}, item: Partial<Item> = {
   };
 }
 
+/** A second spell, so a creature's other spell counts as a caster tier, not a single power */
+const MAGIC_MISSILE = {
+  spells: { memorized: [{ file: "SPWI112", memorizedCount: 1 }] },
+} as unknown as Partial<CreatureData>;
+
 function equipped(file: string, slot: string): Partial<CreatureData> {
   return { items: { equipped: [{ file, slot }], remove: [] } } as unknown as Partial<CreatureData>;
 }
@@ -738,6 +743,7 @@ describe("detectAttackAbilities", () => {
 
   it("an own wizard power is a spell: its level counts, not an attack form (cone of cold)", () => {
     const creature = fakeCreature({
+      data: MAGIC_MISSILE,
       spells: [
         {
           file: SPELL,
@@ -753,10 +759,40 @@ describe("detectAttackAbilities", () => {
     ]);
   });
 
+  it("a single spell is a special attack, not a caster tier (stone golem's slow)", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, type: 1, level: 4 }] as never,
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "specialAttack", source: SPELL },
+    ]);
+  });
+
+  it("a single spell of level 5 or more is a special magical attack (banshee's wail)", () => {
+    const creature = fakeCreature({
+      spells: [{ file: SPELL, type: 1, level: 9 }] as never,
+      abilities: [{ resource: SPELL }],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "specialMagicalAttack", source: SPELL },
+    ]);
+  });
+
+  it("a single spell with several uses is still a single spell", () => {
+    const creature = fakeCreature({
+      data: { spells: { memorized: [{ file: "SPWI304", memorizedCount: 3 }] } } as never,
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([
+      { ability: "specialAttack", source: "Fireball" },
+    ]);
+  });
+
   it("spell tiers: 1-2, 3-4, 5-6 and 7-9", () => {
     const tier = (level: number) =>
       detectAttackAbilities({
         creature: fakeCreature({
+          data: MAGIC_MISSILE,
           spells: [{ file: SPELL, type: 1, level }] as never,
           abilities: [{ resource: SPELL }],
         }),
@@ -769,6 +805,7 @@ describe("detectAttackAbilities", () => {
 
   it("an innate power counts at its power level (dryad charm: Dire Charm preset, worth 5)", () => {
     const creature = fakeCreature({
+      data: MAGIC_MISSILE,
       spells: [
         {
           file: SPELL,
@@ -818,6 +855,7 @@ describe("detectAttackAbilities", () => {
 
   it("a spell-like charm counts as a spell, not also as a special attack", () => {
     const creature = fakeCreature({
+      data: MAGIC_MISSILE,
       spells: [
         {
           file: SPELL,
@@ -850,6 +888,7 @@ describe("detectAttackAbilities", () => {
 
   it("a spell counts at its hand-rated worth (control undead: level 7, worth 3)", () => {
     const creature = fakeCreature({
+      data: MAGIC_MISSILE,
       spells: [{ file: SPELL, type: 1, level: 7, worthLevel: 3 }] as never,
       abilities: [{ resource: SPELL }],
     });
@@ -866,7 +905,14 @@ describe("detectAttackAbilities", () => {
 
   it("an invisibility spell memorized at will is invisible at will", () => {
     const creature = fakeCreature({
-      data: { spells: { memorized: [{ file: "SPWI206", memorizedCount: 90 }] } } as never,
+      data: {
+        spells: {
+          memorized: [
+            { file: "SPWI206", memorizedCount: 90 },
+            { file: "SPWI112", memorizedCount: 1 },
+          ],
+        },
+      } as never,
     });
     expect(detectAttackAbilities({ creature })).toEqual([
       { ability: "invisibleAtWill", source: "Invisibility" },
@@ -874,7 +920,7 @@ describe("detectAttackAbilities", () => {
     ]);
   });
 
-  it("Dimension Door never raises the spell bonus", () => {
+  it("Dimension Door never raises the spell bonus: the other spell stays a single power", () => {
     const creature = fakeCreature({
       data: {
         spells: {
@@ -886,16 +932,16 @@ describe("detectAttackAbilities", () => {
       } as never,
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "lowSpells", source: "Magic Missiles" },
+      { ability: "specialAttack", source: "Magic Missiles" },
     ]);
   });
 
-  it("an invisibility spell memorized once is only a spell", () => {
+  it("an invisibility spell memorized once is no invisibility at will", () => {
     const creature = fakeCreature({
       data: { spells: { memorized: [{ file: "SPWI206", memorizedCount: 1 }] } } as never,
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "lowSpells", source: "Invisibility" },
+      { ability: "specialAttack", source: "Invisibility" },
     ]);
   });
 
@@ -974,13 +1020,14 @@ describe("detectAttackAbilities", () => {
 
   it("a damaging power cast by a hit is extra damage, no special attack (bear hug)", () => {
     const creature = fakeCreature({
+      data: { apr: 2 },
       items: [naturalWeapon({ effects: [effect(EffectTypeEnum.CastSpell, { resource: SPELL })] })],
       spells: [
         { file: SPELL, effects: [effect(EffectTypeEnum.Damage, { diceThrown: 2, diceSize: 8 })] },
       ],
     });
-    // 1d4 + the hug's 2d8 = 20: the damage counts, the hug is no special attack
-    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["singleAttack20"]);
+    // 1d4 + the hug's 2d8 = 11.5, twice: the damage counts, the hug is no special attack
+    expect(detectAttackAbilities({ creature }).map((a) => a.ability)).toEqual(["roundDamage15"]);
   });
 
   it("a poison cast by a weapon is only poison", () => {
@@ -993,6 +1040,7 @@ describe("detectAttackAbilities", () => {
 
   it("a weapon's extra damage on a hit adds to its damage, it is no special attack", () => {
     const creature = fakeCreature({
+      data: { apr: 2 },
       items: [
         naturalWeapon({
           diceThrown: 2,
@@ -1001,9 +1049,9 @@ describe("detectAttackAbilities", () => {
         }),
       ],
     });
-    // 2d6 = 12, + 1d6+2 fire on hit = 20
+    // 2d6 = 7, + 1d6+2 fire on hit = 12.5, twice
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "singleAttack20", source: `${WEAPON}: 2d6+8 on hit = 20` },
+      { ability: "roundDamage15", source: `${WEAPON} 12.5 + ${WEAPON} 12.5 = 25 a round` },
     ]);
   });
 
@@ -1020,7 +1068,7 @@ describe("detectAttackAbilities", () => {
       items: [naturalWeapon({ diceThrown: 2, diceSize: 6 })],
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "multipleAttacks30", source: `${WEAPON} 12 + ${WEAPON} 12 + ${WEAPON} 12 = 36` },
+      { ability: "roundDamage15", source: `${WEAPON} 7 + ${WEAPON} 7 + ${WEAPON} 7 = 21 a round` },
     ]);
     expect(detectStatAbilities({ creature }).map((a) => a.ability)).not.toContain("fourAttacks");
   });
@@ -1033,9 +1081,9 @@ describe("detectAttackAbilities", () => {
         naturalWeapon({ diceThrown: 0, diceSize: 0 }, { file: "MIST" }),
       ],
     });
-    // claws 1d6+12 = 18, three times = 54 (the mist adds no attack)
+    // claws 1d6+12 = 15.5, three times = 46.5 (the mist adds no attack)
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "multipleAttacks30", source: "CLAWS 18 + CLAWS 18 + CLAWS 18 = 54" },
+      { ability: "roundDamage45", source: "CLAWS 15.5 + CLAWS 15.5 + CLAWS 15.5 = 46.5 a round" },
     ]);
   });
 
@@ -1050,7 +1098,7 @@ describe("detectAttackAbilities", () => {
       ],
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "singleAttack20", source: `${WEAPON}: 30 on hit = 30` },
+      { ability: "roundDamage30", source: `${WEAPON} 30 = 30 a round` },
     ]);
   });
 
@@ -1082,10 +1130,10 @@ describe("detectAttackAbilities", () => {
       ],
       spells: [{ file: SPELL, headers: [{ effects: [acid, acid, acid, acid] }] as never }],
     });
-    // 3d6 = 18 + 4 x 1d4 = 16
+    // 3d6 = 10.5 + 4 x 1d4 = 10
     expect(detectAttackAbilities({ creature })).toContainEqual({
-      ability: "singleAttack20",
-      source: `${WEAPON}: 3d6+16 on hit = 34`,
+      ability: "roundDamage15",
+      source: `${WEAPON} 20.5 = 20.5 a round`,
     });
   });
 
@@ -1229,6 +1277,8 @@ describe("detectAttackAbilities", () => {
   it("lowSpells from a memorized level 1 spell resolved through SPELLS", () => {
     const creature = fakeCreature({
       data: { spells: { memorized: [{ file: "SPWI112", memorizedCount: 1 }] } } as never,
+      spells: [{ file: SPELL, type: 1, level: 1 }] as never,
+      abilities: [{ resource: SPELL }],
     });
     expect(detectAttackAbilities({ creature })).toEqual([
       { ability: "lowSpells", source: "Magic Missiles" },
@@ -1237,6 +1287,7 @@ describe("detectAttackAbilities", () => {
 
   it("a spell an adjustment memorizes counts for its file", () => {
     const creature = fakeCreature({
+      data: MAGIC_MISSILE,
       adjustments: [
         { files: [FILE], data: { spells: { memorized: [{ file: "SPWI304" }] } } as never },
       ],
@@ -1278,6 +1329,7 @@ describe("detectAttackAbilities", () => {
 
   it("behaviour abilities with a numeric level count as spells, null ones do not", () => {
     const creature = fakeCreature({
+      data: MAGIC_MISSILE,
       abilities: [
         { resource: "TESTS9", level: null },
         { resource: SPELL, level: 2 },
@@ -1344,31 +1396,51 @@ describe("detectAttackAbilities", () => {
     ]);
   });
 
-  it("a 2d10+2 natural weapon at 2 attacks gives singleAttack20 and multipleAttacks30", () => {
+  it("round damage tiers: 15, 30, 45 and 60 a round", () => {
+    const tier = (average: number) =>
+      detectAttackAbilities({
+        creature: fakeCreature({
+          items: [naturalWeapon({ diceThrown: 1, diceSize: 1, damageBonus: average - 1 })],
+        }),
+      }).map((a) => a.ability);
+    expect(tier(14)).toEqual([]);
+    expect(tier(15)).toEqual(["roundDamage15"]);
+    expect(tier(30)).toEqual(["roundDamage30"]);
+    expect(tier(45)).toEqual(["roundDamage45"]);
+    expect(tier(60)).toEqual(["roundDamage60"]);
+  });
+
+  it("the round's average damage counts, not its maximum (2d10+2 twice: 26, max 44)", () => {
     const creature = fakeCreature({
       data: { apr: 2 },
       items: [naturalWeapon({ diceThrown: 2, diceSize: 10, damageBonus: 2 })],
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "singleAttack20", source: `${WEAPON}: 2d10+2 = 22` },
-      { ability: "multipleAttacks30", source: `${WEAPON} 22 + ${WEAPON} 22 = 44` },
+      { ability: "roundDamage15", source: `${WEAPON} 13 + ${WEAPON} 13 = 26 a round` },
     ]);
   });
 
-  it("a single 1d20 attack gives only singleAttack20", () => {
-    const creature = fakeCreature({ items: [naturalWeapon({ diceThrown: 1, diceSize: 20 })] });
+  it("one attack a round counts on its own (3d10)", () => {
+    const creature = fakeCreature({ items: [naturalWeapon({ diceThrown: 3, diceSize: 10 })] });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "singleAttack20", source: `${WEAPON}: 1d20 = 20` },
+      { ability: "roundDamage15", source: `${WEAPON} 16.5 = 16.5 a round` },
     ]);
   });
 
-  it("3d6 at 2 attacks gives only multipleAttacks30", () => {
+  it("a chance-based extra on a hit counts at its chance (a 10% hug)", () => {
     const creature = fakeCreature({
-      data: { apr: 2 },
-      items: [naturalWeapon({ diceThrown: 3, diceSize: 6 })],
+      items: [
+        naturalWeapon({
+          diceThrown: 1,
+          diceSize: 1,
+          damageBonus: 13,
+          effects: [effect(EffectTypeEnum.Damage, { amount: 20, probability1: 10 })],
+        }),
+      ],
     });
+    // 14 + 10% of 20 = 16, where the whole 20 would make 34
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "multipleAttacks30", source: `${WEAPON} 18 + ${WEAPON} 18 = 36` },
+      { ability: "roundDamage15", source: `${WEAPON} 16 = 16 a round` },
     ]);
   });
 
@@ -1377,14 +1449,14 @@ describe("detectAttackAbilities", () => {
       data: { apr: 3 },
       items: [
         naturalWeapon({ diceThrown: 2, diceSize: 8 }, { file: "BITE" }),
-        naturalWeapon({ diceThrown: 1, diceSize: 6 }, { file: "CLAWS" }),
+        naturalWeapon({ diceThrown: 1, diceSize: 4 }, { file: "CLAWS" }),
       ],
     });
-    // bite 16 + claws 6 + claws 6 = 28: under 30, where 16 x 3 = 48 was over
+    // bite 9 + claws 2.5 + claws 2.5 = 14: under 15, where 9 x 3 = 27 was over
     expect(detectAttackAbilities({ creature })).toEqual([]);
   });
 
-  it("claw/claw/bite over 30 lists each attack", () => {
+  it("claw/claw/bite over a tier lists each attack", () => {
     const creature = fakeCreature({
       data: { apr: 3 },
       items: [
@@ -1393,8 +1465,7 @@ describe("detectAttackAbilities", () => {
       ],
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "singleAttack20", source: "BITE: 2d10 = 20" },
-      { ability: "multipleAttacks30", source: "BITE 20 + CLAWS 8 + CLAWS 8 = 36" },
+      { ability: "roundDamage15", source: "BITE 11 + CLAWS 4.5 + CLAWS 4.5 = 20 a round" },
     ]);
   });
 
@@ -1408,7 +1479,7 @@ describe("detectAttackAbilities", () => {
       ],
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "multipleAttacks30", source: "A 16 + B 16 = 32" },
+      { ability: "roundDamage15", source: "A 9 + B 9 = 18 a round" },
     ]);
   });
 
@@ -1418,7 +1489,7 @@ describe("detectAttackAbilities", () => {
       items: [naturalWeapon({ diceThrown: 3, diceSize: 4 })],
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "singleAttack20", source: `${WEAPON}: 3d4+8 str = 20` },
+      { ability: "roundDamage15", source: `${WEAPON} 15.5 = 15.5 a round` },
     ]);
   });
 
@@ -1428,27 +1499,28 @@ describe("detectAttackAbilities", () => {
       items: [naturalWeapon({ diceThrown: 2, diceSize: 8 })],
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "singleAttack20", source: `${WEAPON}: 2d8+6 str = 22` },
+      { ability: "roundDamage15", source: `${WEAPON} 15 = 15 a round` },
     ]);
   });
 
   it("an equipped item owned by a fellow member counts (greater wyvern wields the wyvern's jaws)", () => {
-    const creature = fakeCreature({ data: equipped("JAWS", "WEAPON2") });
+    const creature = fakeCreature({ data: { ...equipped("JAWS", "WEAPON2"), apr: 2 } });
     setSharedResources(creature, {
       items: [
         naturalWeapon({ diceThrown: 2, diceSize: 10 }, { file: "JAWS", equippedSlot: ["WEAPON2"] }),
       ] as never,
     });
     expect(detectAttackAbilities({ creature })).toEqual([
-      { ability: "singleAttack20", source: "JAWS: 2d10 = 20" },
+      { ability: "roundDamage15", source: "JAWS 11 + JAWS 11 = 22 a round" },
     ]);
   });
 
   it("no damage abilities under the thresholds", () => {
     const creature = fakeCreature({
       data: { apr: 3 },
-      items: [naturalWeapon({ diceThrown: 1, diceSize: 8, damageBonus: 1 })],
+      items: [naturalWeapon({ diceThrown: 1, diceSize: 6, damageBonus: 1 })],
     });
+    // 4.5 x 3 = 13.5
     expect(detectAttackAbilities({ creature })).toEqual([]);
   });
 });
