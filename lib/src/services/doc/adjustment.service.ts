@@ -21,6 +21,11 @@ const TWO_STAR_CAP_PROFICIENCY_TYPES = new Set<ProficiencyTypeEnum>([
   ProficiencyTypeEnum.PROFICIENCYSINGLEWEAPON,
 ]);
 
+// The kit as the docs show it: TRUECLASS is the engine's "no kit" value, so it is hidden.
+export function documentedKit(kit: KitIdentifier | undefined): KitIdentifier | undefined {
+  return kit === "TRUECLASS" ? undefined : kit;
+}
+
 export interface AdjustmentField<T> {
   value: T;
   changed: boolean;
@@ -253,8 +258,8 @@ class AdjustmentService {
         base.hideShadow,
       ),
       kit: this.field(
-        this.lastDefined(matching, (d) => d.kit),
-        base.kit,
+        documentedKit(this.lastDefined(matching, (d) => d.kit) ?? base.kit),
+        documentedKit(base.kit),
       ),
       immunities: this.getImmunities(matching, base),
       memorized: this.getMemorized(matching, base),

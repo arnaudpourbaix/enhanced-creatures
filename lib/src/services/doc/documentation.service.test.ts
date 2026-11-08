@@ -127,6 +127,14 @@ describe("addCreature (Kit)", () => {
     expect(html).toContain('<div class="stat"><dt>Kit</dt><dd>Berserker</dd></div>');
   });
 
+  it("omits the Kit stat when the kit is TRUECLASS (the engine's no-kit value)", () => {
+    const creature = fakeCreatureForAddCreature(false);
+    creature.data.kit = "TRUECLASS";
+    documentationService.addCreature(creature);
+    const html = service.monsters.at(-1) ?? "";
+    expect(html).not.toContain("Kit");
+  });
+
   it("omits the Kit stat entirely when the creature has no kit", () => {
     documentationService.addCreature(fakeCreatureForAddCreature(false));
     const html = service.monsters.at(-1) ?? "";

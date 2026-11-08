@@ -29,7 +29,7 @@ import translationService from "../translation.service";
 import spellComboService, { KIND_NAMES } from "../spell-combo.service";
 import utils from "../utils/utils.service";
 import { toCode } from "../utils/misc.func";
-import adjustmentService, { EffectiveAdjustment } from "./adjustment.service";
+import adjustmentService, { documentedKit, EffectiveAdjustment } from "./adjustment.service";
 import { AbilityPart, CardOmissions, CardPart, CardParts, WeaponPart } from "./card-parts";
 import { ContingencyTarget, ContingencyTrigger, SpellCombo } from "../../model/spell-item/spell-combo";
 import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
@@ -465,7 +465,7 @@ class DocumentationService {
     // XP Value is omitted entirely when it's 0 (or unset) - a detected summon is folded in with
     // xpv 0 and showing "XP Value 0" carries no documentation value.
     if (d.xpv) parts.push(stat("XP Value", d.xpv));
-    if (d.kit) parts.push(stat("Kit", this.formatEnumLabel(d.kit)));
+    if (documentedKit(d.kit)) parts.push(stat("Kit", this.formatEnumLabel(d.kit)));
     const special = this.getSpecialText(creature);
     if (special) parts.push(stat("Special", special, "stat stat-half"));
     return parts;
@@ -995,7 +995,7 @@ class DocumentationService {
       cell("Alignment", this.formatEnumLabel(d.alignment)) +
       cell("Size", d.size.value) +
       (d.xpv ? cell("XP Value", d.xpv) : "") +
-      (d.kit ? cell("Kit", this.formatEnumLabel(d.kit)) : "")
+      (documentedKit(d.kit) ? cell("Kit", this.formatEnumLabel(d.kit)) : "")
     );
   }
 
