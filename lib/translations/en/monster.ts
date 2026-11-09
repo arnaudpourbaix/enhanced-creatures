@@ -624,12 +624,12 @@ Humans save against mummies at an additional +2.`,
   skeleton: {
     name: {
       skeleton: "Skeleton",
-      archer: "Archer Skeleton",
+      archer: "Skeleton Archer",
       monster: "Skeleton Monster",
       giant: "Giant Skeleton",
       spike: "Spike Skeleton",
-      mage: "Mage Skeleton",
-      cleric: "Cleric Skeleton",
+      mage: "Skeleton Mage",
+      cleric: "Skeleton Cleric",
     },
   },
   skeletonWarrior: {

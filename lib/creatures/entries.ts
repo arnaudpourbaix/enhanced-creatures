@@ -113,7 +113,7 @@ import { createVampyreEntry } from "./vampyre";
  * entry (`kins.get(KinEnum.Fey)`).
  *
  * Load-bearing orders (a later entry reads what an earlier one built): Helmed Horror < Battle Horror <
- * Doom Sayer; Ogre < Ogre Shaman; Skeleton < Spike, Archer, Giant, Mage and Cleric Skeletons, Skeleton Monster.
+ * Doom Sayer; Ogre < Ogre Shaman; Skeleton < Spike and Giant Skeletons, Skeleton Archer, Mage, Cleric and Monster.
  */
 export const entryFactories: ((kins: Map<KinEnum, CreatureKin>) => CreatureEntry<Creature>)[] = [
   createAnkhegEntry,

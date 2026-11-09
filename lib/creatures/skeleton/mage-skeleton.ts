@@ -41,7 +41,7 @@ export function mageSkeleton(entry: CreatureEntry<Creature>, base: Creature): Cr
     xpv: 2000,
     spells: mageSpells(7),
   });
-  mage.variant("Lesser Mage Skeleton", {
+  mage.variant("Lesser Skeleton Mage", {
     data: {
       level1: 5,
       spells: mageSpells(5),
@@ -49,11 +49,11 @@ export function mageSkeleton(entry: CreatureEntry<Creature>, base: Creature): Cr
     },
     files: ["BDSKGR07"],
   });
-  mage.variant("Adept Mage Skeleton", {
+  mage.variant("Adept Skeleton Mage", {
     data: { level1: 8, spells: mageSpells(8) },
     files: ["BDTEAM60"],
   });
-  mageSkeletonVariant(mage, "Experienced Mage Skeleton", 12, [
+  mageSkeletonVariant(mage, "Experienced Skeleton Mage", 12, [
     "D9SM12",
     "D9SM12A",
     "D9SM13",
@@ -63,7 +63,7 @@ export function mageSkeleton(entry: CreatureEntry<Creature>, base: Creature): Cr
     "D9SM17",
     "D9SM17B",
   ]);
-  mageSkeletonVariant(mage, "Elite Mage Skeleton", 16, [
+  mageSkeletonVariant(mage, "Elite Skeleton Mage", 16, [
     "D9SM12B",
     "D9SM13B",
     "D9SM14B",
@@ -72,7 +72,7 @@ export function mageSkeleton(entry: CreatureEntry<Creature>, base: Creature): Cr
     "D9SM18",
     "D9SM18B",
   ]);
-  mageSkeletonVariant(mage, "Master Mage Skeleton", 20, ["D9SKL03", "D9SKL07", "HGSKL03"]);
+  mageSkeletonVariant(mage, "Master Skeleton Mage", 20, ["D9SKL03", "D9SKL07", "HGSKL03"]);
   return mage;
 }
 

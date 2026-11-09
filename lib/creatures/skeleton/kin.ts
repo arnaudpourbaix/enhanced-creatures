@@ -3,8 +3,8 @@ import { KinEnum } from "../kin";
 import { Creature } from "../../src/model/creature/creature";
 
 /**
- * The Skeleton and the skeletons derived from it (Spike, Archer, Giant, Mage and Cleric Skeletons, Skeleton
- * Monster). No shared resources: the kin hands the Skeleton built by its entry to the others.
+ * The Skeleton and the skeletons derived from it (Spike and Giant Skeletons, Skeleton Archer, Mage, Cleric
+ * and Monster). No shared resources: the kin hands the Skeleton built by its entry to the others.
  */
 export class SkeletonKin extends CreatureKin {
   /** Set when the Skeleton entry builds: the other skeletons derive from it. */

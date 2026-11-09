@@ -1,6 +1,6 @@
 // Generated file (don't edit)
 
-// Archer Skeleton
+// Skeleton Archer
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/archer-skeleton/jabm4400.baf~
 
 DEFINE_ACTION_FUNCTION jam44_patch

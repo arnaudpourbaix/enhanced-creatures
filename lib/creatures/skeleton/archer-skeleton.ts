@@ -50,7 +50,7 @@ export function archerSkeleton(entry: CreatureEntry<Creature>, base: Creature): 
 }
 
 function greaterArcherSkeletonVariant(base: Creature): Variant {
-  return base.variant("Greater Archer Skeleton", {
+  return base.variant("Greater Skeleton Archer", {
     data: {
       level1: 5,
       strength: 12,

@@ -83,6 +83,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - XP: experience of adjusted creatures now follows the AD&D 2e DMG rule (Hit Dice + special abilities), even when that gives less XP than the original game; a few story bosses (Bodhi in her lair) keep their original XP
 - 2e strengths found, and the design to keep them next to the 3e/5e ones
 - XP: the threat system is a comparison only
+- Skeleton: Skeleton Archer, Mage and Cleric names
 
 ### Fixed
 

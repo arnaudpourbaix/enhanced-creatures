@@ -51,7 +51,7 @@ export function clericSkeleton(entry: CreatureEntry<Creature>, base: Creature): 
       data: { level1: 6, immunities: ["turnUndead"] },
     },
   ]);
-  clericSkeletonVariant(cleric, "Experienced Cleric Skeleton", 12, [
+  clericSkeletonVariant(cleric, "Experienced Skeleton Cleric", 12, [
     "D9SC12",
     "D9SC12A",
     "D9SC12B",
@@ -63,17 +63,17 @@ export function clericSkeleton(entry: CreatureEntry<Creature>, base: Creature): 
     "D9SC14B",
     "D9SC16",
   ]);
-  clericSkeletonVariant(cleric, "Elite Cleric Skeleton", 16, [
+  clericSkeletonVariant(cleric, "Elite Skeleton Cleric", 16, [
     "D9SC16B",
     "D9SC17",
     "D9SC17B",
     "D9SC18",
     "D9SC18B",
   ]);
-  clericSkeletonVariant(cleric, "Master Cleric Skeleton", 20, ["D9SKL01", "D9SKL06", "L#RVSKLP"]);
-  clericSkeletonVariant(cleric, "Ancient Cleric Skeleton", 25, ["HGSKL01"]);
+  clericSkeletonVariant(cleric, "Master Skeleton Cleric", 20, ["D9SKL01", "D9SKL06", "L#RVSKLP"]);
+  clericSkeletonVariant(cleric, "Ancient Skeleton Cleric", 25, ["HGSKL01"]);
   // Ukk'an the Bone of Wrath: formerly a Skeleton Monster variant, keeps its strength and size.
-  cleric.variant("Wrathful Cleric Skeleton", {
+  cleric.variant("Wrathful Skeleton Cleric", {
     data: {
       level1: 20,
       strength: 17,

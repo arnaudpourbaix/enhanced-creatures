@@ -1,6 +1,6 @@
 // Generated file (don't edit)
 
-// Cleric Skeleton
+// Skeleton Cleric
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/cleric-skeleton/jabm4p00.baf~
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/cleric-skeleton/jabm4p02.baf~
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/cleric-skeleton/jabm4p03.baf~
