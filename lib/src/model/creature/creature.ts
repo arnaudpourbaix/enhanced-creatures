@@ -336,9 +336,25 @@ export class Creature extends AbstractCreature implements BaseCreature {
     );
   }
 
-  /** Creates the trait for the effects added to it when the entry adds no trait of its own. */
+  /**
+   * Creates the trait for the effects added to it when the entry adds no trait of its own. A
+   * creature wearing a shared trait (a revenant) gets it copied into this one instead, rather than
+   * two "<Monster> Traits" rings: a shared trait can't take the creature's own effects.
+   */
   finalizeTrait(): void {
-    if (this.pendingTraitEffects.length && !this.items.some((i) => i.trait)) this.addTrait({});
+    if (!this.pendingTraitEffects.length || this.items.some((i) => i.trait)) return;
+    const equipped = this.data.items.equipped;
+    const sharedIndex = equipped.findIndex(
+      (e) => State.items.find((i) => i.file === e.file)?.shared,
+    );
+    if (sharedIndex === -1) {
+      this.addTrait({});
+      return;
+    }
+    const shared = State.items.find((i) => i.file === equipped[sharedIndex].file)!;
+    equipped.splice(sharedIndex, 1);
+    this.pendingTraitEffects = [...shared.effects, ...this.pendingTraitEffects];
+    this.addTrait({ immunities: [...shared.immunities] });
   }
 
   addTrait(payload: {

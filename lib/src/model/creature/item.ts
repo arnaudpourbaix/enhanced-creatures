@@ -31,23 +31,11 @@ export const WEAPON_SLOTS: { slot: ItemSlot; id: SlotIdentifier }[] = [
   { slot: "SHIELD", id: "SLOT_SHIELD" },
 ] as const;
 
-export const JEWEL_SLOTS: ItemSlot[] = [
-  "LRING",
-  "RRING",
-  "AMULET",
-  "BELT",
-  "GLOVES",
-  "CLOAK",
-];
+export const JEWEL_SLOTS: ItemSlot[] = ["LRING", "RRING", "AMULET", "BELT", "GLOVES", "CLOAK"];
 
 export const QUICK_SLOTS: ItemSlot[] = ["QITEM1", "QITEM2", "QITEM3"];
 
-export type WeaponSlot =
-  | "WEAPON1"
-  | "WEAPON2"
-  | "WEAPON3"
-  | "WEAPON4"
-  | "SHIELD";
+export type WeaponSlot = "WEAPON1" | "WEAPON2" | "WEAPON3" | "WEAPON4" | "SHIELD";
 
 export interface EquippedItem {
   /**

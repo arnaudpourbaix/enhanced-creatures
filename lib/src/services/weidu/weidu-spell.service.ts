@@ -67,7 +67,8 @@ class WeiduSpellService extends AbstractWeiduService {
   }
 
   private createSpellCommon(lines: CodeLine[], spell: Spell, tab: number) {
-    this.writeStringRef(lines, 0x8, spell.name, tab);
+    if (spell.hideName) this.write(lines, 0x8, 4, `"-1"`, tab);
+    else this.writeStringRef(lines, 0x8, spell.name, tab);
     this.write(lines, 0x10, 8, spell.castingSound, tab);
     this.writeFlag(lines, 0x18, 4, spell.flags, tab);
     this.write(lines, 0x1c, 2, spell.type, tab);

@@ -10,6 +10,7 @@ import { Effect } from "../../model/spell-item/effect";
 import {
   EffectStatisticModifierEnum,
   EffectTargetEnum,
+  ItemAbilityFlagEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
   SpellTypeEnum,
@@ -1005,8 +1006,9 @@ function addDamageAbilities(
   for (const item of items) {
     const dice = diceOf(creature, item);
     if (!dice) continue;
-    // A melee hit adds the strength damage bonus (a juju zombie's 3d4 at 20 strength: 3d4+8)
-    const str = item.header?.type === ItemAbilityTypeEnum.Melee ? strength : 0;
+    // A melee hit adds the strength damage bonus (a juju zombie's 3d4 at 20 strength: 3d4+8),
+    // unless the weapon goes without it
+    const str = addsStrength(item) ? strength : 0;
     const max = dice.thrown * dice.size + dice.bonus + str + onHitDamage(creature, item);
     const average =
       (dice.thrown * (dice.size + 1)) / 2 + dice.bonus + str + onHitAverage(creature, item);
@@ -1019,6 +1021,13 @@ function addDamageAbilities(
   if (!tier) return;
   const parts = round.map((a) => `${a.file} ${oneDecimal(a.average)}`).join(" + ");
   add(tier[1], `${parts} = ${oneDecimal(total)} a round`);
+}
+
+function addsStrength(item: Item): boolean {
+  return (
+    item.header?.type === ItemAbilityTypeEnum.Melee &&
+    (item.header.abilityflags ?? []).includes(ItemAbilityFlagEnum.AddStrengthBonus)
+  );
 }
 
 /**

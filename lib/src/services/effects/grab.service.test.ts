@@ -3,7 +3,7 @@ import { MonsterEnum } from "../../../creatures/monster";
 import { GRAB_IMMUNE_CREATURES, HUGE_CREATURES, LARGE_CREATURES } from "../../../config/creatures";
 import { Creature } from "../../model/creature/creature";
 import { CreatureGrabConfig } from "../../model/creature/grab";
-import { CastSpellEffect, Effect, IdsEffect } from "../../model/spell-item/effect";
+import { CastSpellEffect, Effect, ProtectionFromResourceEffect } from "../../model/spell-item/effect";
 import {
   EffectCastSpellTypeEnum,
   EffectDamageTypeEnum,
@@ -54,11 +54,19 @@ function attach(
   const weapon = fakeWeapon();
   const creature = fakeCreature(p);
   grabService.attachGrabToWeapon(creature, weapon, grab);
-  const [check, hold, release] = creature.spells;
-  return { weapon, creature, check, hold, release };
+  const [check, hold, release, grip, letGo] = creature.spells;
+  return { weapon, creature, check, hold, release, grip, letGo };
 }
 
 const effectsOf = (spell: Spell) => spell.headers[0].effects;
+/** The race and class entries protected from the hold (op 318 against the hold itself). */
+const immuneEntries = (spell: Spell) =>
+  effectsOf(spell)
+    .filter(
+      (e): e is ProtectionFromResourceEffect =>
+        e.opcode === EffectTypeEnum.ProtectionFromResource && typeof e.type === "object",
+    )
+    .map((e) => e.value);
 const casts = (spell: Spell) =>
   effectsOf(spell).filter((e): e is CastSpellEffect => e.opcode === EffectTypeEnum.CastSpell);
 
@@ -82,7 +90,7 @@ describe("attachGrabToWeapon", () => {
     expect(described({})).toContain(translationService.from("spell.grab.grabber"));
     expect(described({})).not.toContain("2d8");
     expect(described(strangle)).toContain(
-      translationService.interpolate("spell.grab.damage", { damage: "2d8" }),
+      translationService.interpolate("spell.grab.damage", { damage: "2d8 crushing" }),
     );
     expect(described(strangle)).toContain(translationService.from("spell.grab.grabberNoAttack"));
     expect(described({ ...strangle, freeHand: true })).toContain(
@@ -90,18 +98,77 @@ describe("attachGrabToWeapon", () => {
     );
   });
 
+  it("describes several grip damages, from the next round when the hit holds at once", () => {
+    const { hold } = attach(
+      {
+        trigger: "probability",
+        damagePerRound: [
+          { type: EffectDamageTypeEnum.Crushing, diceThrown: 3, diceSize: 6 },
+          { type: EffectDamageTypeEnum.Acid, diceThrown: 1, diceSize: 4 },
+        ],
+        addStrengthBonus: true,
+      },
+      { strength: 17, size: "Huge" },
+    );
+    expect(translationService.from(hold.description ?? 0)).toContain(
+      translationService.interpolate("spell.grab.damageNextRound", {
+        damage: "3d6+1 crushing + 1d4 acid",
+      }),
+    );
+  });
+
   it("marks the weapon as grabbing", () => {
     expect(attach().weapon.grab).toBe(true);
   });
 
-  it("creates the check, hold and release spells", () => {
-    const { creature, check, hold, release } = attach();
-    expect(creature.spells).toHaveLength(3);
+  it("creates the check, hold, release, grip and let-go spells", () => {
+    const { creature, check, hold, release, grip, letGo } = attach();
+    expect(creature.spells).toHaveLength(5);
     expect(casts(check)[0].resource).toBe(hold.file);
+    // cast at the victim, so the hold's protections block it; its effects land on the grabber
+    expect(casts(hold)).toContainEqual(
+      expect.objectContaining({ resource: grip.file, target: EffectTargetEnum.PresetTarget }),
+    );
+    expect(effectsOf(grip).map((e) => e.target)).toEqual(
+      effectsOf(grip).map(() => EffectTargetEnum.OriginalCaster),
+    );
     expect(release.headers[0].effects[0]).toMatchObject({
       opcode: EffectTypeEnum.RemoveEffectsByResource,
       resource: hold.file,
     });
+    expect(letGo.headers[0].effects[0]).toMatchObject({
+      opcode: EffectTypeEnum.RemoveEffectsByResource,
+      resource: grip.file,
+    });
+  });
+
+  it("hides every grab spell's name from the combat log", () => {
+    const { creature } = attach();
+    expect(creature.spells.map((s) => s.hideName)).toEqual([true, true, true, true, true]);
+  });
+
+  it("never holds a held victim: every attack hits it already", () => {
+    expect(effectsOf(attach().hold)).toContainEqual(
+      expect.objectContaining({ opcode: EffectTypeEnum.ProtectionFromResource, type: "HELD" }),
+    );
+  });
+
+  it("never holds a victim the grabbing hit killed: its grip would bind the grabber to a corpse", () => {
+    expect(immuneEntries(attach().hold)).toContain("STATE_DEAD");
+  });
+
+  it("lets the grabber go when it kills, from its trait, never from the renewed hold", () => {
+    const { creature, hold, letGo } = attach();
+    expect(creature.traits).toContainEqual(
+      expect.objectContaining({
+        opcode: EffectTypeEnum.CastSpellOnCondition,
+        condition: "Killed([ANYONE])",
+        resource: letGo.file,
+      }),
+    );
+    expect(effectsOf(hold).map((e) => e.opcode)).not.toContain(
+      EffectTypeEnum.CastSpellOnCondition,
+    );
   });
 
   it("computes the check's save from strength + size grab modifiers", () => {
@@ -124,10 +191,26 @@ describe("attachGrabToWeapon", () => {
 
   it("holds at once on a probability-only trigger, but the check still saves", () => {
     const { weapon, check, hold } = attach({ trigger: "probability", probability: 5 });
-    expect((weapon.header.effects[0] as CastSpellEffect).resource).toBe(hold.file);
+    expect(weapon.header.effects[1]).toMatchObject({ resource: hold.file, probability1: 5 });
     expect(hold.xpAbility).toBe("specialAttack");
     expect(check.xpAbility).toBeUndefined();
     expect(casts(check)[0].saveTypes).toHaveLength(1);
+  });
+
+  it("says Grabbed once, before the hold on the same roll, never on a victim held or grabbed", () => {
+    const { weapon, creature } = attach({ trigger: "probability", probability: 5 });
+    const seize = creature.spells[5];
+    expect(weapon.header.effects[0]).toMatchObject({ resource: seize.file, probability1: 5 });
+    expect(seize.hideName).toBe(true);
+    const effects = effectsOf(seize);
+    expect(effects.at(-1)?.opcode).toBe(EffectTypeEnum.DisplayString);
+    expect(effects).toContainEqual(
+      expect.objectContaining({ opcode: EffectTypeEnum.ProtectionFromResource, type: "HELD" }),
+    );
+    expect(immuneEntries(seize)).toContain("JA_GRAPPLED");
+    expect(immuneEntries(seize)).toEqual(expect.arrayContaining(immuneEntries(attach().hold)));
+    // a check's save could still fail the grab: nothing said on its hit
+    expect(attach().creature.spells).toHaveLength(5);
   });
 
   it("holds past the next check, removing the previous round first, then casts the check a round later", () => {
@@ -138,9 +221,8 @@ describe("attachGrabToWeapon", () => {
       resource: hold.file,
     });
     expect(effects.every((e) => !e.saveTypes?.length)).toBe(true);
-    const next = casts(hold)[0];
+    const next = casts(hold).find((e) => e.resource === check.file);
     expect(next).toMatchObject({
-      resource: check.file,
       timing: EffectTimingEnum.DelayPermanent,
       duration: 6,
     });
@@ -152,62 +234,93 @@ describe("attachGrabToWeapon", () => {
   });
 
   it("stops the grabber from moving, and from attacking only when the grip deals damage", () => {
-    const onGrabber = (spell: Spell) =>
-      effectsOf(spell)
-        .filter((e) => e.target === EffectTargetEnum.OriginalCaster)
-        .map((e) => e.opcode);
-    const plain = attach().hold;
+    const onGrabber = (spell: Spell) => effectsOf(spell).map((e) => e.opcode);
+    const plain = attach().grip;
     expect(onGrabber(plain)).toContain(EffectTypeEnum.MovementRateBonus2);
     expect(onGrabber(plain)).not.toContain(EffectTypeEnum.ModifyAttacksPerRound);
-    expect(effectsOf(plain).map((e) => e.opcode)).not.toContain(EffectTypeEnum.Damage);
 
     const strangle = attach({
       damagePerRound: { type: EffectDamageTypeEnum.Crushing, diceThrown: 2, diceSize: 8 },
-    }).hold;
+    }).grip;
     expect(onGrabber(strangle)).toContain(EffectTypeEnum.ModifyAttacksPerRound);
-    expect(effectsOf(strangle)).toContainEqual(
-      expect.objectContaining({ opcode: EffectTypeEnum.Damage, diceThrown: 2, diceSize: 8 }),
-    );
 
     const oneHand = attach({
       damagePerRound: { type: EffectDamageTypeEnum.Crushing, diceThrown: 2, diceSize: 8 },
       freeHand: true,
-    }).hold;
+    }).grip;
     expect(onGrabber(oneHand)).toContain(EffectTypeEnum.MovementRateBonus2);
     expect(onGrabber(oneHand)).not.toContain(EffectTypeEnum.ModifyAttacksPerRound);
-    expect(effectsOf(oneHand)).toContainEqual(
-      expect.objectContaining({ opcode: EffectTypeEnum.Damage, diceThrown: 2, diceSize: 8 }),
+  });
+
+  it("deals the grip's damage in the check, sharing the hold's save, never in the hold", () => {
+    const damages = (spell: Spell) =>
+      effectsOf(spell).filter((e) => e.opcode === EffectTypeEnum.Damage);
+    const plain = attach();
+    expect(damages(plain.check)).toEqual([]);
+
+    const { check, hold } = attach(
+      {
+        damagePerRound: [
+          { type: EffectDamageTypeEnum.Crushing, diceThrown: 3, diceSize: 6 },
+          { type: EffectDamageTypeEnum.Acid, diceThrown: 1, diceSize: 4 },
+        ],
+      },
+      { strength: 17, size: "Huge" },
     );
+    expect(damages(hold)).toEqual([]);
+    const save = { saveTypes: casts(check)[0].saveTypes, saveBonus: casts(check)[0].saveBonus };
+    expect(damages(check)).toEqual([
+      expect.objectContaining({
+        type: EffectDamageTypeEnum.Crushing,
+        diceThrown: 3,
+        diceSize: 6,
+        ...save,
+      }),
+      expect.objectContaining({ type: EffectDamageTypeEnum.Acid, diceThrown: 1, ...save }),
+    ]);
+    expect(damages(check)[0].amount ?? 0).toBe(0);
+  });
+
+  it("adds the grabber's Strength damage bonus to the grip's first damage when asked", () => {
+    const { check } = attach(
+      {
+        damagePerRound: [
+          { type: EffectDamageTypeEnum.Crushing, diceThrown: 3, diceSize: 6 },
+          { type: EffectDamageTypeEnum.Acid, diceThrown: 1, diceSize: 4 },
+        ],
+        addStrengthBonus: true,
+      },
+      { strength: 17, size: "Huge" },
+    );
+    const damages = effectsOf(check).filter((e) => e.opcode === EffectTypeEnum.Damage);
+    expect(damages.map((e) => e.amount ?? 0)).toEqual([1, 0]);
   });
 
   it("releases on the grabber's death", () => {
     const { creature, release } = attach();
-    expect(creature.traits).toEqual([
+    expect(creature.traits).toContainEqual(
       expect.objectContaining({
         opcode: EffectTypeEnum.CastSpellOnCondition,
         condition: "Die()",
         resource: release.file,
       }),
-    ]);
+    );
   });
 
   it("always includes the base grab-immune creature list regardless of size", () => {
     const { hold } = attach();
-    const entries = effectsOf(hold)
-      .filter((e): e is IdsEffect => "idsEntry" in e)
-      .map((e) => e.idsEntry);
+    const entries = immuneEntries(hold);
     for (const [, entry] of GRAB_IMMUNE_CREATURES) {
       expect(entries).toContain(entry);
     }
     expect(entries).not.toContain("GIANT"); // HUGE_CREATURES, not added without a size
-    expect(hold.effectFiles).toHaveLength(1); // the protection the immune creatures get
+    // protected from the hold itself, no EFF file
+    expect(hold.effectFiles).toEqual([]);
   });
 
   it("adds HUGE_CREATURES immunities for a Huge creature but not LARGE_CREATURES", () => {
     const { hold } = attach({}, { strength: 10, size: "Huge" });
-    const entries = effectsOf(hold)
-      .filter((e): e is IdsEffect => "idsEntry" in e)
-      .map((e) => e.idsEntry);
+    const entries = immuneEntries(hold);
     for (const [, entry] of HUGE_CREATURES) {
       expect(entries).toContain(entry);
     }
@@ -218,9 +331,7 @@ describe("attachGrabToWeapon", () => {
 
   it("adds both HUGE_CREATURES and LARGE_CREATURES immunities for a Large creature", () => {
     const { hold } = attach({}, { strength: 10, size: "Large" });
-    const entries = effectsOf(hold)
-      .filter((e): e is IdsEffect => "idsEntry" in e)
-      .map((e) => e.idsEntry);
+    const entries = immuneEntries(hold);
     for (const [, entry] of [...HUGE_CREATURES, ...LARGE_CREATURES]) {
       expect(entries).toContain(entry);
     }

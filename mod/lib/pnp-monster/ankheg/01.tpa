@@ -8,85 +8,64 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/ankheg/jabm0101.baf~
 CREATE SPL "jasm0100"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasm0100.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10129)
-	WRITE_SHORT 0x1c 4
-	WRITE_BYTE 0x27 10
-	WRITE_LONG 0x34 1
-	WRITE_ASCII 0x3a ~SPWI211C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10130)
-	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=1 range=30 speed=3 projectile=(IDS_OF_SYMBOL (~projectl~ ~acidblob~)) + 1 STR_VAR icon="SPWI211B" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=65536 probability1=100 dicesize=4 dicenumber=8 savingthrow=4 special=256 END
-	
-// Digestive Enzymes
-CREATE SPL "jasm0101"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasm0101.SPL~  ~override~
 	WRITE_LONG 0x8 RESOLVE_STR_REF(@10127)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 10
 	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI211C~ #8
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@10128)
-	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=102 duration=24 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=65536 timing=9 probability1=100 dicesize=4 dicenumber=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=65536 timing=4 duration=6 probability1=100 dicesize=4 dicenumber=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=65536 timing=4 duration=12 probability1=100 dicesize=4 dicenumber=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=65536 timing=4 duration=18 probability1=100 dicesize=4 dicenumber=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=24 probability1=100 STR_VAR resource="jasm0101" END
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=1 range=30 speed=3 projectile=(IDS_OF_SYMBOL (~projectl~ ~acidblob~)) + 1 STR_VAR icon="SPWI211B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=65536 probability1=100 dicesize=4 dicenumber=8 savingthrow=4 special=256 END
 	
 // Grab
+CREATE SPL "jasm0102"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm0102.SPL~  ~override~
+	WRITE_LONG 0x8 "-1"
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11044)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 probability1=100 savingthrow=4 savebonus="-9" STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=1 timing=9 probability1=100 dicesize=6 dicenumber=3 savingthrow=4 savebonus="-9" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter2=65536 timing=9 probability1=100 dicesize=4 dicenumber=1 savingthrow=4 savebonus="-9" END
+	
+// Grabbed
 CREATE SPL "jasm0103"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasm0103.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10471)
+	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11043)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11042)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 probability1=100 savingthrow=4 savebonus="-9" STR_VAR resource="jasm0104" END
-	
-// Grabbed
-CREATE EFF "jasm0104"
-	WRITE_LONG 0x10 206
-	WRITE_LONG 0x14 2
-	WRITE_LONG 0x24 1
-	WRITE_SHORT 0x2c 100
-	WRITE_ASCII 0x30 ~jasm0104~ #8
-
-CREATE SPL "jasm0104"
-	WRITE_LONG 0x64 0x72
-COPY_EXISTING ~jasm0104.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10472)
-	WRITE_SHORT 0x1c 4
-	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11045)
-	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIMIC~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SLIME~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WILL-O-WISP~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WYVERN~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~MIST~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SHADOW~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SPECTRAL_UNDEAD~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~SPECTRE~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WILL-O-WISP~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~WRAITH~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPECTRAL_TROLL~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPIDER_WRAITH~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~DRAGON~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~NEOTHELID~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ANKHEG~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELEMENTAL~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~ETTIN~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~GIANT~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~LIZARDMAN~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~RACE~ ~TREANT~) parameter2=4 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~BEAR_CAVE~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~BEAR_POLAR~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPIDER_PHASE~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=1 parameter1=IDS_OF_SYMBOL (~CLASS~ ~SPIDER_SWORD~) parameter2=5 duration=1 probability1=100 STR_VAR resource="jasm0104" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10472) timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~MIMIC~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SLIME~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~WILL-O-WISP~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~WYVERN~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~MIST~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SHADOW~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SPECTRAL_UNDEAD~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SPECTRE~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~WILL-O-WISP~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~WRAITH~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~SPECTRAL_TROLL~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~SPIDER_WRAITH~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~DRAGON~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~NEOTHELID~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~ANKHEG~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~ELEMENTAL~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~ETTIN~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~GIANT~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~LIZARDMAN~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~TREANT~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~BEAR_CAVE~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~BEAR_POLAR~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~SPIDER_PHASE~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~SPIDER_SWORD~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter2=HELD duration=1 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~state~ ~STATE_DEAD~) parameter2=138 duration=1 probability1=100 STR_VAR resource="jasm0103" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=174 target=2 power=1 timing=1 probability1=100 STR_VAR resource="CRE_P01" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=328 target=2 power=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_GRAPPLED~)) duration=7 probability1=100 special=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=176 target=2 power=1 parameter2=1 duration=7 probability1=100 END
@@ -95,29 +74,91 @@ COPY_EXISTING ~jasm0104.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-4" duration=7 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=144 duration=7 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=7 probability1=100 STR_VAR resource="rr#cnstr" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=328 target=9 power=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_GRAPPLING~)) duration=7 probability1=100 special=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=176 target=9 power=1 parameter2=1 duration=7 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=4 duration=6 probability1=100 STR_VAR resource="jasm0103" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 probability1=100 STR_VAR resource="jasm0105" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 timing=4 duration=6 probability1=100 STR_VAR resource="jasm0102" END
 	
 // Grab
-COPY_EXISTING "INAREA.pro" ~override/jasm0105.pro~
+COPY_EXISTING "INAREA.pro" ~override/jasm0104.pro~
 	READ_SHORT 0x08 type
 	PATCH_IF (%type% = 1) BEGIN
 		INSERT_BYTES 0x100 0x100
 	END
 	WRITE_SHORT 0x204 180
 	WRITE_SHORT 0x206 180
-ADD_PROJECTILE ~override/jasm0105.pro~ ~Grab release~
+ADD_PROJECTILE ~override/jasm0104.pro~ ~Grab release~
 
+CREATE SPL "jasm0104"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm0104.SPL~  ~override~
+	WRITE_LONG 0x8 "-1"
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10475)
+	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=5 range=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasm0104~)) + 1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jasm0103" END
+	
+// Grab
 CREATE SPL "jasm0105"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasm0105.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10471)
+	WRITE_LONG 0x8 "-1"
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11045)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=9 power=1 probability1=100 STR_VAR resource="jasm0105" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=328 target=9 power=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_GRAPPLING~)) duration=7 probability1=100 special=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=176 target=9 power=1 parameter2=1 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=1 target=9 power=1 parameter2=1 duration=7 probability1=100 END
+	
+// Grab
+CREATE SPL "jasm0106"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm0106.SPL~  ~override~
+	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@11046)
-	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=5 range=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasm0105~)) + 1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jasm0104" END
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 range=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jasm0105" END
+	
+// Grabbed
+CREATE SPL "jasm0107"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm0107.SPL~  ~override~
+	WRITE_LONG 0x8 "-1"
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11047)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~MIMIC~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SLIME~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~WILL-O-WISP~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~WYVERN~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~MIST~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SHADOW~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SPECTRAL_UNDEAD~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SPECTRE~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~WILL-O-WISP~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~WRAITH~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~SPECTRAL_TROLL~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~SPIDER_WRAITH~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~DRAGON~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~NEOTHELID~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~ANKHEG~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~ELEMENTAL~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~ETTIN~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~GIANT~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~LIZARDMAN~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~TREANT~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~BEAR_CAVE~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~BEAR_POLAR~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~SPIDER_PHASE~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~class~ ~SPIDER_SWORD~) parameter2=105 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter2=HELD duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~state~ ~STATE_DEAD~) parameter2=138 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~JA_GRAPPLED~) parameter2=76 duration=1 probability1=100 STR_VAR resource="jasm0107" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10470) probability1=100 END
 	
 // Mandibles
 CREATE ITM "jaim0100"
@@ -130,7 +171,7 @@ CREATE ITM "jaim0100"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10126)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IWOLF~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11047)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11048)
 	WRITE_LONG 0x60 2
 COPY_EXISTING ~jaim0100.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -147,20 +188,22 @@ COPY_EXISTING ~jaim0100.itm~ ~override~
 	WRITE_SHORT 0xa0 33
 	WRITE_SHORT 0xa2 33
 	WRITE_LONG 0x98 1
-	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jasm0101" END
+	LPF ADD_EFFECT INT_VAR opcode=12 target=2 parameter2=65536 probability1=100 dicesize=4 dicenumber=1 END
+	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jasm0107" END
 	LPF ADD_EFFECT INT_VAR opcode=146 target=2 parameter2=1 probability1=100 STR_VAR resource="jasm0103" END
 	END
 
 // Ankheg traits
 CREATE ITM "jaim0101"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11044)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@11044)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11043)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@11043)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11048)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11049)
 COPY_EXISTING ~jaim0101.itm~ ~override~
-	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=232 target=1 global=1 parameter2=16 timing=2 probability1=100 special=2 STR_VAR resource="jasm0105" END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=232 target=1 global=1 parameter2=16 timing=2 probability1=100 special=2 STR_VAR resource="jasm0104" END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=232 target=1 global=1 parameter2=12 timing=2 probability1=100 STR_VAR resource="jasm0106" END
 
 DEFINE_ACTION_FUNCTION jam01_patch
 STR_VAR file = ~~
@@ -182,7 +225,7 @@ BEGIN
 			LPF clear_proficiencies END
 			LPF patchCreature
 				INT_VAR
-					xpv=975
+					xpv=650
 					hp=80
 					ac=2
 					thac0=13
@@ -304,49 +347,49 @@ BEGIN
 				WRITE_LONG 0x14 0 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#XZEANS~) BEGIN 
-				WRITE_LONG 0x14 8000 // xpv
+				WRITE_LONG 0x14 6000 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BPANKHE1~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#NDC2~) BEGIN 
-				WRITE_LONG 0x14 7000 // xpv
-			END
-			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#MIMMI~) BEGIN 
-				WRITE_LONG 0x14 3000 // xpv
-			END
-			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#XZEANK~) BEGIN 
-				WRITE_LONG 0x14 8000 // xpv
-			END
-			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHDRANKH~) BEGIN 
 				WRITE_LONG 0x14 6000 // xpv
 			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#MIMMI~) BEGIN 
+				WRITE_LONG 0x14 2500 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~L#XZEANK~) BEGIN 
+				WRITE_LONG 0x14 6000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHDRANKH~) BEGIN 
+				WRITE_LONG 0x14 5000 // xpv
+			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~WIANKHE1~) BEGIN 
-				WRITE_LONG 0x14 975 // xpv
+				WRITE_LONG 0x14 650 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~ANKHEG~) BEGIN 
-				WRITE_LONG 0x14 975 // xpv
+				WRITE_LONG 0x14 650 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~ANKHEG01~) BEGIN 
-				WRITE_LONG 0x14 975 // xpv
+				WRITE_LONG 0x14 650 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~ANKHEGF~) BEGIN 
-				WRITE_LONG 0x14 975 // xpv
+				WRITE_LONG 0x14 650 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~ANKHEGG~) BEGIN 
-				WRITE_LONG 0x14 975 // xpv
+				WRITE_LONG 0x14 650 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~ANKHEGQ~) BEGIN 
-				WRITE_LONG 0x14 975 // xpv
+				WRITE_LONG 0x14 650 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDANKH01~) BEGIN 
-				WRITE_LONG 0x14 2000 // xpv
+				WRITE_LONG 0x14 1400 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDANKHEG~) BEGIN 
-				WRITE_LONG 0x14 975 // xpv
+				WRITE_LONG 0x14 650 // xpv
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~BDNEO~) BEGIN 
-				WRITE_LONG 0x14 975 // xpv
+				WRITE_LONG 0x14 650 // xpv
 			END
 		BUT_ONLY_IF_IT_CHANGES
 	END

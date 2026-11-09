@@ -203,8 +203,8 @@ class SirineEntry extends CreatureEntry<Fey> {
       // memorized/learnable ability, so it never gets its own Abilities entry (see
       // documentation.service.ts's getCreatureSpell, which requires a `memorized` match). Without
       // `doc: false` it falls into documentation.service.ts's "documented elsewhere" branch and
-      // the attack description drops the spell's description entirely, same mechanism ankheg's
-      // digestiveEnzyme relies on via addWeapon's castSpells (see attachSpellToWeapon).
+      // the attack description drops the spell's description entirely (the mechanism addWeapon's
+      // castSpells relies on, see attachSpellToWeapon).
       doc: false,
       description: "monster.fey.ability.touchOfTranquility.description",
       // options: { renew: 1 },

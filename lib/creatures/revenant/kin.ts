@@ -8,6 +8,7 @@ import { CreatureKin } from "../../src/model/creature/kin";
 import { Durations } from "../../src/model/game-data/durations";
 import type { ImmunityName } from "../../src/model/final/immunity";
 import {
+  AbilityDamageTypeEnum,
   EffectDamageTypeEnum,
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
@@ -97,8 +98,9 @@ export class RevenantKin extends CreatureKin {
 }
 
 /**
- * The revenant's grip: it hooks its claw-like hands around its victim's throat, 2d8 every round it
- * holds on. The hit only grabs, so the grip deals the damage. A revenant makes no other attack
+ * The revenant's grip: it hooks its claw-like hands around its victim's throat, 2d8 plus its
+ * Strength bonus every round it holds on. The hit strangles and seizes at once; the grip deals
+ * the damage of the following rounds. A revenant makes no other attack
  * while it holds; a body with a `freeHand` (an ettin revenant) keeps striking with the other.
  */
 export function createRevenantGrip(
@@ -108,12 +110,15 @@ export function createRevenantGrip(
   return creature.addNaturalWeapon("claws", {
     id: p.id,
     icon: MonsterItemIconEnum.Ghoul,
-    diceThrown: 0,
-    diceSize: 0,
+    diceThrown: 2,
+    diceSize: 8,
+    damageType: AbilityDamageTypeEnum.Crushing,
     speed: 5,
     slot: p.slot,
     grab: {
+      trigger: "probability",
       damagePerRound: { type: EffectDamageTypeEnum.Crushing, diceThrown: 2, diceSize: 8 },
+      addStrengthBonus: true,
       freeHand: p.freeHand,
     },
   });

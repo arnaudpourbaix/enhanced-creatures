@@ -1,20 +1,16 @@
 import { MonsterItemIconEnum } from "../config/item";
 import { SPELLS } from "../config/spells/spell-database";
 import { CommonTargetLists } from "../config/target/common";
-import effectFactory from "../src/factories/effect.factory";
 import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
 import { CreatureEntry } from "../src/model/creature/entry";
-import { Durations } from "../src/model/game-data/durations";
 import {
   AbilityDamageTypeEnum,
   EffectDamageTypeEnum,
   EffectFlagsEnum,
-  EffectTimingEnum,
   ItemAbilityFlagEnum,
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTypeEnum,
-  PortraitIconEnum,
   SaveTypeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
@@ -24,6 +20,8 @@ import { MonsterEnum } from "./monster";
 enum Ids {
   Stream,
 }
+
+const ENZYMES = { type: EffectDamageTypeEnum.Acid, diceThrown: 1, diceSize: 4 };
 
 class Ankheg extends Creature {
   /**
@@ -131,44 +129,19 @@ class AnkhegEntry extends CreatureEntry<Ankheg> {
           damageType: AbilityDamageTypeEnum.Crushing,
           speed: 5,
           abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
+          // acidic digestive enzymes
+          effects: [{ opcode: EffectTypeEnum.Damage, ...ENZYMES }],
         },
       },
-      grab: {},
-      castSpells: [
-        {
-          spell: {
-            name: "monster.ankheg.digestiveEnzyme.name",
-            description: "monster.ankheg.digestiveEnzyme.description",
-            secondaryType: ItemAbilitySecondaryTypeEnum.OffensiveDamage,
-            headers: [
-              {
-                type: ItemAbilityTypeEnum.Melee,
-                range: 5,
-                effects: [
-                  {
-                    opcode: EffectTypeEnum.DisplayPortraitIcon,
-                    icon: PortraitIconEnum.Acid,
-                    duration: 4 * Durations.round,
-                  },
-                  ...effectFactory.repeatEffect(4, [
-                    {
-                      opcode: EffectTypeEnum.Damage,
-                      type: EffectDamageTypeEnum.Acid,
-                      diceThrown: 1,
-                      diceSize: 4,
-                    },
-                  ]),
-                  {
-                    opcode: EffectTypeEnum.ProtectionFromSpell,
-                    duration: 4 * Durations.round,
-                    timing: EffectTimingEnum.InstantLimited,
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      ],
+      // a hit seizes the victim in the mandibles, crushed and dissolved every round it stays held
+      grab: {
+        trigger: "probability",
+        damagePerRound: [
+          { type: EffectDamageTypeEnum.Crushing, diceThrown: 3, diceSize: 6 },
+          ENZYMES,
+        ],
+        addStrengthBonus: true,
+      },
     });
     ankheg.setBehavior({
       abilities: { entries: [{ power: this.spell(Ids.Stream) }] },

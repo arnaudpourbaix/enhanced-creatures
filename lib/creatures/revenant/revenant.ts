@@ -78,7 +78,7 @@ export function revenant(entry: CreatureEntry<Creature>, kin: RevenantKin): Crea
     data: {
       level1: 8,
       strength: 18,
-      // its grip is its whole attack: 2d8, no strength bonus
+      // its grip is its whole attack: 2d8 plus its Strength bonus
       strength2e: { source: "MM revenant: damage 2-16, no strength" },
       dexterity: 14,
       constitution: 18,

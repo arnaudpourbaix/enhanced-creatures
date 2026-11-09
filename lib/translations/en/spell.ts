@@ -11,11 +11,14 @@ Grabbed creature will suffer these effects:
 - -4 AC (opponents get +4 bonus on their attack rolls against grabbed target)
 - -4 THAC0`,
     damage: "The grip deals {{damage}} damage every round it holds.",
+    damageNextRound:
+      "The grip deals {{damage}} damage every round it holds, from the round after the grab.",
     grabber: "The grabber can not move while holding its target.",
     grabberNoAttack:
       "The grabber can neither move nor attack while holding its target: the grip is its attack.",
     grabberFreeHand:
       "The grabber can not move while holding its target, but keeps attacking with its other hand.",
+    release: "Its grip ends when it dies: the creatures it holds are freed.",
   },
   callWoodlandBeeings: {
     name: "Call Woodland Beeings",

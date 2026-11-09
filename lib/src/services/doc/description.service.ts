@@ -6,6 +6,7 @@ import {
   BaseEffect,
   CastingTimeModifierEffect,
   CastSpellEffect,
+  CastSpellOnConditionEffect,
   CharmCreatureEffect,
   CurrentHPbonusEffect,
   DamageEffect,
@@ -164,6 +165,13 @@ class DescriptionService {
     return results;
   }
 
+  /** A contingency (a grabber's release on death): its spell's description, if it has one. */
+  private getCastSpellOnCondition(effect: CastSpellOnConditionEffect): string[] {
+    const spell = State.spells.find((s) => s.file === effect.resource);
+    const text = spell?.description ? translationService.from(spell.description) : "";
+    return text ? [text] : [];
+  }
+
   private getItemSpellDescription(effect: CastSpellEffect): string[] {
     const spell = State.spells.find((s) => s.file === effect.resource);
     const name = spell ? translationService.from(spell.name) : (effect.resource ?? "");
@@ -235,6 +243,8 @@ class DescriptionService {
         return this.getRegeneration(effect);
       case EffectTypeEnum.CastingTimeModifier:
         return this.getCastingTimeModifier(effect);
+      case EffectTypeEnum.CastSpellOnCondition:
+        return this.getCastSpellOnCondition(effect);
       default:
         if (this.getStatisticText(effect)) {
           return this.getStatisticModifier(effect as StatisticModifierEffect);

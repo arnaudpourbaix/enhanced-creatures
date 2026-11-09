@@ -8,6 +8,7 @@ import { CreatureAbility } from "../../model/creature/ability";
 import {
   EffectStatisticModifierEnum,
   EffectTargetEnum,
+  ItemAbilityFlagEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
   SpellTypeEnum,
@@ -543,6 +544,7 @@ function naturalWeapon(header: Partial<ItemHeader> = {}, item: Partial<Item> = {
       type: ItemAbilityTypeEnum.Melee,
       diceThrown: 1,
       diceSize: 4,
+      abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
       effects: [],
       ...header,
     },
@@ -1491,6 +1493,14 @@ describe("detectAttackAbilities", () => {
     expect(detectAttackAbilities({ creature })).toEqual([
       { ability: "roundDamage15", source: `${WEAPON} 15.5 = 15.5 a round` },
     ]);
+  });
+
+  it("a melee weapon without the strength flag adds no strength", () => {
+    const creature = fakeCreature({
+      data: { strength: 20 },
+      items: [naturalWeapon({ diceThrown: 3, diceSize: 4, abilityflags: [] })],
+    });
+    expect(detectAttackAbilities({ creature })).toEqual([]);
   });
 
   it("18/00 strength adds +6", () => {

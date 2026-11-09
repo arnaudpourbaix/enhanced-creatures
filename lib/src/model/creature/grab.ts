@@ -17,6 +17,8 @@ interface GrabSharedConfig {
   saveBonus: number;
 }
 
+export type GripDamage = Omit<DamageEffect, "opcode">;
+
 export interface GrabGlobalConfig extends GrabSharedConfig {
   grabbedState: string;
   grabbingState: string;
@@ -41,10 +43,18 @@ export interface CreatureGrabConfig extends Partial<GrabSharedConfig> {
   trigger?: "probability" | "save" | "both";
 
   /**
-   * Damage per round dealt by the grip itself, every round the victim stays held: the grabber
-   * then makes no attack while it holds (its attacks per round are set to 0)
+   * Damage per round dealt by the grip itself (one entry per damage type), every round the
+   * victim fails its save: the grabber then makes no attack while it holds (its attacks per
+   * round are set to 0). The check deals it, so a grab held at once on a hit (`trigger`
+   * "probability") deals it from the next round only: the hit deals the weapon's own damage.
    */
-  damagePerRound?: Omit<DamageEffect, "opcode">;
+  damagePerRound?: GripDamage | GripDamage[];
+
+  /**
+   * The grabber's Strength damage bonus adds to the grip's first damage, like a weapon with
+   * the AddStrengthBonus flag
+   */
+  addStrengthBonus?: boolean;
 
   /**
    * The grip takes one hand only: the grabber keeps its attacks while the grip deals its damage

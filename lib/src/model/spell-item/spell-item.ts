@@ -61,6 +61,11 @@ export interface BaseSpell {
    */
   power?: number;
   name?: StringReference;
+  /**
+   * The SPL file gets no name (-1), so casting it writes nothing in the combat log: a mechanism's
+   * inner spells (a grab's round). `name` still labels it in the docs and generated comments.
+   */
+  hideName?: boolean;
   /** See SpellReference.keywords */
   keywords?: SpellKeyword[];
   /** See SpellReference.range */
