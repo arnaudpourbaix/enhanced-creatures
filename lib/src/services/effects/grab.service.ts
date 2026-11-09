@@ -1,10 +1,12 @@
 import { GRAB_IMMUNE_CREATURES, HUGE_CREATURES, LARGE_CREATURES } from "../../../config/creatures";
-import effectFactory from "../../factories/effect.factory";
 import { Creature } from "../../model/creature/creature";
 import { CreatureGrabConfig, GRAB_DEFAULT_CONFIG } from "../../model/creature/grab";
 import { getCreatureSize } from "../../model/game-data/sizes";
+import { Durations } from "../../model/game-data/durations";
 import { Effect, IdsEffect } from "../../model/spell-item/effect";
 import {
+  AttackModifierTypeEnum,
+  CastSpellOnConditionTargetEnum,
   EffectBonusToEnum,
   EffectCastSpellTypeEnum,
   EffectModifierTypeEnum,
@@ -15,94 +17,157 @@ import {
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
   PortraitIconEnum,
+  RemoveEffectsByResourceTypeEnum,
+  SaveTypeEnum,
 } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
-import { Spell, Weapon } from "../../model/spell-item/spell-item";
+import { PartialSpell, Spell, Weapon } from "../../model/spell-item/spell-item";
 import creatureService from "../creature.service";
 import logService from "../log.service";
 import spellService from "../spell.service";
-import translationService from "../translation.service";
 import { getSpellFilename } from "../utils/misc.func";
 import effectService from "./effect.service";
 
+/** How far from a dying grabber its victims are released: 10 feet, well over its reach. */
+const RELEASE_RADIUS = 180;
+
+/**
+ * Seconds a round's hold outlasts the next check: the check and the hold it casts take a moment to
+ * land, and the victim must not walk free in between (in-game test). A victim who saves stays
+ * held that much longer.
+ */
+const HOLD_OVERLAP = 1;
+
+interface GrabSave {
+  saveTypes: SaveTypeEnum[];
+  saveBonus: number;
+}
+
+/**
+ * Grab, held one round at a time: a spell's identical saves are rolled once, so a save every round
+ * needs a new spell application every round.
+ * - check (the weapon's hit casts it, then the hold every round): the save, then the hold. A
+ *   success frees the victim: the hold isn't renewed and its effects run out. A grab on
+ *   probability only skips it the first round: the hit casts the hold.
+ * - hold (no save): removes the previous round's hold, then holds the victim a round (plus a
+ *   short overlap), deals the grip's damage, and casts the check at the victim one round later.
+ *   The grabber (the hold's original caster) can't move, nor attack when the grip deals the
+ *   damage. Another hit while held just gives another check, which renews the round on a failure.
+ * - release: the grabber's death contingency removes the hold, and its pending check, from the
+ *   creatures around it.
+ */
 class GrabService {
   attachGrabToWeapon(creature: Creature, weapon: Weapon, grab: CreatureGrabConfig) {
     grab.trigger ??= "both";
-    const spell = this.createGrabSpell(creature, grab);
-    this.updateWeapon(creature, grab, weapon, spell);
-  }
-
-  private createGrabSpell(creature: Creature, grab: CreatureGrabConfig): Spell {
-    const file = getSpellFilename(creature.spells.length + 1, creature.id);
-    const effectFile = effectService.getEffect({
-      opcode: EffectTypeEnum.ProtectionFromSpell,
-      resource: file,
-      duration: 1,
-    });
-    creature.effectFiles.push({ ...effectFile, file });
-    grab.rounds ??= GRAB_DEFAULT_CONFIG.rounds;
-    const description = translationService.interpolate("spell.grab.description", {
-      duration: grab.rounds,
-    });
-    const spell = spellService.getSpell(
-      {
-        name: GRAB_DEFAULT_CONFIG.grabStringRef,
-        description: translationService.addCustomTranslation([description]),
-        doc: false,
-        // a body's attack form, never a spell (user)
-        xpAbility: "specialAttack",
-        headers: [
-          {
-            type: ItemAbilityTypeEnum.Melee,
-            target: ItemAbilityTargetEnum.LivingActor,
-            range: 5,
-            effects: this.getGrabbedEffects(creature, grab, file),
-          },
-        ],
-      },
-      file,
+    const save = this.getSave(creature, grab);
+    // the spells reference each other: their files are known before they are built
+    const [check, hold, release] = [1, 2, 3].map((i) =>
+      getSpellFilename(creature.spells.length + i, creature.id),
     );
-    creature.spells.push(spell);
-    return spell;
+    const onHit = grab.trigger === "probability" ? hold : check;
+    this.addSpell(creature, check, this.getCheckSpell(hold, save, onHit === check));
+    this.addSpell(creature, hold, this.getHoldSpell(creature, grab, check, onHit === hold));
+    this.addSpell(creature, release, this.getReleaseSpell(hold));
+    weapon.header.effects.push(
+      effectService.getEffect({
+        opcode: EffectTypeEnum.CastSpell,
+        type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
+        probability1: grab.trigger === "save" ? 100 : (grab.probability ?? 100),
+        resource: onHit,
+      }),
+    );
+    creature.addTraitEffects([
+      {
+        opcode: EffectTypeEnum.CastSpellOnCondition,
+        conditionTarget: CastSpellOnConditionTargetEnum.Myself,
+        condition: "Die()",
+        special: 2,
+        timing: EffectTimingEnum.InstantWhileEquipped,
+        target: EffectTargetEnum.Self,
+        resource: release,
+      },
+    ]);
   }
 
-  private updateWeapon(
+  /** The victim's save vs. the grabber's Strength and size (harder for a prone victim). */
+  private getSave(creature: Creature, grab: CreatureGrabConfig): GrabSave {
+    const strModifier = creatureService.getStrengthBonus(creature.data).hit;
+    const sizeModifier = getCreatureSize(creature.data.size.value).grabModifier;
+    const calculated = -(strModifier + sizeModifier + (grab.onlyGrabProneTarget ? 4 : 0));
+    return {
+      saveTypes: [grab.saveType ?? GRAB_DEFAULT_CONFIG.saveType],
+      saveBonus: grab.saveBonus ?? calculated,
+    };
+  }
+
+  private addSpell(creature: Creature, file: string, spell: PartialSpell): Spell {
+    const result = spellService.getSpell(spell, file);
+    creature.spells.push(result);
+    return result;
+  }
+
+  /** What the weapon's hit casts: the grab's attack form, described to the player. */
+  private onHitSpell(): Partial<PartialSpell> {
+    return {
+      description: "spell.grab.description",
+      // a body's attack form, never a spell (user)
+      xpAbility: "specialAttack",
+    };
+  }
+
+  /** The round's save: failed, the victim is held one more round. */
+  private getCheckSpell(hold: string, save: GrabSave, onHit: boolean): PartialSpell {
+    return {
+      name: GRAB_DEFAULT_CONFIG.grabStringRef,
+      doc: false,
+      ...(onHit ? this.onHitSpell() : {}),
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          target: ItemAbilityTargetEnum.LivingActor,
+          range: 5,
+          effects: [
+            {
+              opcode: EffectTypeEnum.CastSpell,
+              type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
+              resource: hold,
+              ...save,
+            },
+          ],
+        },
+      ],
+    };
+  }
+
+  private getHoldSpell(
     creature: Creature,
     grab: CreatureGrabConfig,
-    weapon: Weapon,
-    spell: Spell,
-  ): void {
-    const strModifier = creatureService.getStrengthBonus(creature.data).hit;
-    const sizeEntry = getCreatureSize(creature.data.size.value);
-    const sizeModifier = sizeEntry.grabModifier;
-    const calculatedSaveBonus =
-      (strModifier + sizeModifier + (grab.onlyGrabProneTarget ? 4 : 0)) * -1;
-    const probability = grab.probability ?? GRAB_DEFAULT_CONFIG.probability;
-    const saveTypes = [grab.saveType ?? GRAB_DEFAULT_CONFIG.saveType];
-    const saveBonus = grab.saveBonus ?? calculatedSaveBonus;
-    const effect = effectService.getEffect({
-      opcode: EffectTypeEnum.CastSpell,
-      type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
-      probability1: grab.trigger === "save" ? 100 : probability,
-      saveTypes: grab.trigger === "probability" ? [] : saveTypes,
-      saveBonus: grab.trigger === "probability" ? 0 : saveBonus,
-      resource: spell.file,
-    });
-    weapon.header.effects.push(effect);
+    check: string,
+    onHit: boolean,
+  ): PartialSpell {
+    return {
+      name: GRAB_DEFAULT_CONFIG.grabbedStringRef,
+      doc: false,
+      ...(onHit ? this.onHitSpell() : {}),
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          target: ItemAbilityTargetEnum.LivingActor,
+          range: 5,
+          effects: this.getHoldEffects(creature, grab, check),
+        },
+      ],
+    };
   }
 
-  private getGrabbedEffects(creature: Creature, grab: CreatureGrabConfig, file: string): Effect[] {
-    const duration = (grab.rounds ?? GRAB_DEFAULT_CONFIG.rounds) * 6;
-    const grabEffects: Effect[] = [
+  private getHoldEffects(creature: Creature, grab: CreatureGrabConfig, check: string): Effect[] {
+    // outlasts the next check, so a failed save renews the hold before it runs out
+    const duration = Durations.round + HOLD_OVERLAP;
+    const victim: Effect[] = [
       {
         opcode: EffectTypeEnum.SetExtendedSpellState,
         state: GRAB_DEFAULT_CONFIG.grabbedState,
         duration,
-      },
-      {
-        opcode: EffectTypeEnum.DisplayString,
-        stringRef: GRAB_DEFAULT_CONFIG.grabbedStringRef,
-        timing: EffectTimingEnum.InstantPermanentUntilDeath,
       },
       {
         opcode: EffectTypeEnum.MovementRateBonus2,
@@ -134,17 +199,6 @@ class GrabService {
         duration,
       },
       {
-        opcode: EffectTypeEnum.PlaySound,
-        timing: EffectTimingEnum.InstantPermanentUntilDeath,
-        resource: GRAB_DEFAULT_CONFIG.startSound,
-      },
-      {
-        opcode: EffectTypeEnum.PlaySound,
-        timing: EffectTimingEnum.DelayPermanent,
-        resource: GRAB_DEFAULT_CONFIG.endSound,
-        duration,
-      },
-      {
         opcode: EffectTypeEnum.PlayVisualEffect,
         playWhere: EffectVisualEffectLocationEnum.OverTargetAttached,
         resource: GRAB_DEFAULT_CONFIG.visualEffect,
@@ -152,28 +206,107 @@ class GrabService {
       },
     ];
     if (grab.damagePerRound) {
-      grabEffects.push(
-        ...effectFactory.repeatEffect(grab.rounds ?? GRAB_DEFAULT_CONFIG.rounds, [
-          {
-            opcode: EffectTypeEnum.Damage,
-            type: grab.damagePerRound.type,
-            amount: grab.damagePerRound.amount,
-            diceSize: grab.damagePerRound.diceSize,
-            diceThrown: grab.damagePerRound.diceThrown,
-          },
-        ]),
-      );
+      victim.push({
+        opcode: EffectTypeEnum.Damage,
+        timing: EffectTimingEnum.InstantPermanent,
+        type: grab.damagePerRound.type,
+        amount: grab.damagePerRound.amount,
+        diceSize: grab.damagePerRound.diceSize,
+        diceThrown: grab.damagePerRound.diceThrown,
+      });
     }
-    grabEffects.push({
-      opcode: EffectTypeEnum.ProtectionFromSpell,
-      resource: file,
-      duration,
-    });
-    const immunityEffects = this.getGrabImmuneEffects(creature, file);
-    return [...immunityEffects, ...grabEffects];
+    // the grabber holds on: it stays where it is, and the grip is its attack when it deals damage
+    const grabber: Effect[] = [
+      {
+        opcode: EffectTypeEnum.SetExtendedSpellState,
+        state: GRAB_DEFAULT_CONFIG.grabbingState,
+        duration,
+      },
+      {
+        opcode: EffectTypeEnum.MovementRateBonus2,
+        type: EffectModifierTypeEnum.Set,
+        value: 0,
+        duration,
+      },
+      ...(grab.damagePerRound
+        ? [
+            {
+              opcode: EffectTypeEnum.ModifyAttacksPerRound,
+              type: AttackModifierTypeEnum.Set,
+              value: 0,
+              duration,
+            } satisfies Effect,
+          ]
+        : []),
+    ];
+    for (const effect of grabber) effect.target = EffectTargetEnum.OriginalCaster;
+    const effects: Effect[] = [
+      // first, so the previous round's hold doesn't stack with this one
+      {
+        opcode: EffectTypeEnum.RemoveEffectsByResource,
+        type: RemoveEffectsByResourceTypeEnum.Default,
+      },
+      ...this.getGrabImmuneEffects(creature),
+      {
+        opcode: EffectTypeEnum.DisplayString,
+        stringRef: GRAB_DEFAULT_CONFIG.grabbedStringRef,
+        timing: EffectTimingEnum.InstantPermanentUntilDeath,
+      },
+      {
+        opcode: EffectTypeEnum.PlaySound,
+        timing: EffectTimingEnum.InstantPermanentUntilDeath,
+        resource: GRAB_DEFAULT_CONFIG.startSound,
+      },
+      ...victim,
+      ...grabber,
+      {
+        opcode: EffectTypeEnum.CastSpell,
+        type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
+        timing: EffectTimingEnum.DelayPermanent,
+        resource: check,
+        duration: Durations.round,
+      },
+    ];
+    return effects;
   }
 
-  private getGrabImmuneEffects(creature: Creature, file: string): Effect[] {
+  /** The grabber's death frees its victims: their hold and its pending check are removed. */
+  private getReleaseSpell(hold: string): PartialSpell {
+    return {
+      name: GRAB_DEFAULT_CONFIG.grabStringRef,
+      doc: false,
+      // its grab's release, nothing of its own
+      xpAbility: null,
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Ranged,
+          target: ItemAbilityTargetEnum.Caster,
+          range: 1,
+          projectile: {
+            copyFromFile: "INAREA",
+            name: "Grab release",
+            areaEffectInfo: {
+              triggerRadius: RELEASE_RADIUS,
+              areaOfEffect: RELEASE_RADIUS,
+            },
+          },
+          effects: [
+            {
+              opcode: EffectTypeEnum.RemoveEffectsByResource,
+              type: RemoveEffectsByResourceTypeEnum.Default,
+              resource: hold,
+            },
+          ],
+        },
+      ],
+    };
+  }
+
+  /**
+   * Creatures the grabber can't hold (too big, incorporeal...): protected from the hold before
+   * its effects apply. The hold's file is the effect's own resource.
+   */
+  private getGrabImmuneEffects(creature: Creature): Effect[] {
     const list = [...GRAB_IMMUNE_CREATURES];
     // size is required by MainCreatureData, but defended anyway - see the "warns when the
     // creature has no size" test, which calls this directly with size unset.
@@ -194,7 +327,6 @@ class GrabService {
       idsEntry: i[1],
       duration: 1,
       target: EffectTargetEnum.PresetTarget,
-      resource: file,
     }));
     return effectService.getEffects(rawEffects);
   }

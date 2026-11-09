@@ -133,7 +133,7 @@ class AnkhegEntry extends CreatureEntry<Ankheg> {
           abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus],
         },
       },
-      grab: { rounds: 3 },
+      grab: {},
       castSpells: [
         {
           spell: {

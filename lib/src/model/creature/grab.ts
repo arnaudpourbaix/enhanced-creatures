@@ -9,13 +9,12 @@ interface GrabSharedConfig {
    */
   probability: number;
 
+  /**
+   * The save the victim makes every round, the grab's first round included unless `trigger` is
+   * "probability": a success frees it
+   */
   saveType: SaveTypeEnum;
   saveBonus: number;
-
-  /**
-   * Grab duration in rounds
-   */
-  rounds: number;
 }
 
 export interface GrabGlobalConfig extends GrabSharedConfig {
@@ -24,7 +23,6 @@ export interface GrabGlobalConfig extends GrabSharedConfig {
   grabStringRef: TranslationKey;
   grabbedStringRef: TranslationKey;
   startSound: string;
-  endSound: string;
   visualEffect: string;
 }
 
@@ -43,7 +41,8 @@ export interface CreatureGrabConfig extends Partial<GrabSharedConfig> {
   trigger?: "probability" | "save" | "both";
 
   /**
-   * Damage per round
+   * Damage per round dealt by the grip itself, every round the victim stays held: the grabber
+   * then makes no attack while it holds (its attacks per round are set to 0)
    */
   damagePerRound?: Omit<DamageEffect, "opcode">;
 }
@@ -68,12 +67,10 @@ export const GRAB_DEFAULT_CONFIG: GrabGlobalConfig = {
   probability: 100,
   grabbedState: SPELL_STATES.grabbed,
   grabbingState: SPELL_STATES.grabbing,
-  rounds: 2,
   saveType: SaveTypeEnum.ParalyzePoisonDeath,
   saveBonus: 99, // will be calculated
   grabStringRef: "spell.grab.grab",
   grabbedStringRef: "spell.grab.grabbed",
   startSound: "CRE_P01",
-  endSound: "EFF_M22A",
   visualEffect: "rr#cnstr",
 };

@@ -3,9 +3,12 @@ import { MonsterItemIconEnum } from "../../../config/item";
 import poisonService from "../../services/effects/poison.service";
 import {
   AbilityDamageTypeEnum,
+  EffectTargetEnum,
+  EffectTimingEnum,
   ItemAbilityFlagEnum,
   ItemAbilityTypeEnum,
 } from "../spell-item/effect.enums";
+import { EffectTypeEnum } from "../spell-item/effect.type";
 import { Weapon, WeaponCastSpell } from "../spell-item/spell-item";
 import { MainCreatureData } from "./data";
 import { Creature } from "./creature";
@@ -202,5 +205,51 @@ describe("addNaturalWeapon", () => {
       animationSwing,
       damageBonus: 4,
     });
+  });
+});
+
+describe("addTraitEffects", () => {
+  const regeneration = {
+    opcode: EffectTypeEnum.Regeneration,
+    amount: 1,
+  } as const;
+  const contingency = { opcode: EffectTypeEnum.PlaySound, resource: "EFF_P11" } as const;
+  const traitOf = (creature: Creature) => creature.items.find((i) => i.trait);
+  const named = () => Object.assign(fakeCreature(), { name: "monster.ankheg.name" as const });
+
+  it("adds to an existing trait", () => {
+    const creature = named();
+    creature.addTrait({ effects: [regeneration] });
+    creature.addTraitEffects([contingency]);
+    expect(traitOf(creature)?.effects.map((e) => e.opcode)).toEqual([
+      EffectTypeEnum.Regeneration,
+      EffectTypeEnum.PlaySound,
+    ]);
+    expect(traitOf(creature)?.effects[1]).toMatchObject({
+      timing: EffectTimingEnum.InstantWhileEquipped,
+      target: EffectTargetEnum.Self,
+    });
+  });
+
+  it("keeps them for a trait added later", () => {
+    const creature = named();
+    creature.addTraitEffects([contingency]);
+    expect(traitOf(creature)).toBeUndefined();
+    creature.addTrait({ effects: [regeneration] });
+    expect(traitOf(creature)?.effects.map((e) => e.opcode)).toEqual([
+      EffectTypeEnum.PlaySound,
+      EffectTypeEnum.Regeneration,
+    ]);
+    creature.finalizeTrait();
+    expect(creature.items.filter((i) => i.trait)).toHaveLength(1);
+  });
+
+  it("creates the trait at the end of the build when the entry adds none", () => {
+    const creature = named();
+    creature.finalizeTrait();
+    expect(traitOf(creature)).toBeUndefined();
+    creature.addTraitEffects([contingency]);
+    creature.finalizeTrait();
+    expect(traitOf(creature)?.effects.map((e) => e.opcode)).toEqual([EffectTypeEnum.PlaySound]);
   });
 });

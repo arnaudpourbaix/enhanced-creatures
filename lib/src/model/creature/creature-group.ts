@@ -219,6 +219,7 @@ export abstract class CreatureGroup<T extends Creature>
     logService.beginCapture();
     try {
       creature = build();
+      creature.finalizeTrait();
       this.afterBuild(creature);
       creatureTypeHooksService.afterBuild(creature);
       this.applyCsvSummonFiles(creature);

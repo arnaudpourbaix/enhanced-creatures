@@ -4,12 +4,13 @@ export default {
   grab: {
     grab: "Grab",
     grabbed: "Grabbed",
-    description: `Grab and hold your target for {{duration}} rounds.
+    description: `Grab and hold your target, until it breaks free with a successful saving throw: one every round, the first one when grabbed. The grip ends when the grabber dies.
 Grabbed creature will suffer these effects:
 - can not move
 - loose armor class from dexterity bonus
 - -4 AC (opponents get +4 bonus on their attack rolls against grabbed target)
-- -4 THAC0`,
+- -4 THAC0
+The grabber can not move while holding its target.`,
   },
   callWoodlandBeeings: {
     name: "Call Woodland Beeings",

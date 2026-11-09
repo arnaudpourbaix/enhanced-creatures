@@ -128,7 +128,6 @@ class VampiricWolfEntry extends CreatureEntry<VampiricWolf> {
       slot: "WEAPON2",
       grab: {
         onlyGrabProneTarget: true,
-        rounds: 5,
       },
       doc: false,
     });

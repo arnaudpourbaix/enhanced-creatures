@@ -5,6 +5,7 @@ import { TranslationKey } from "../../../translations/i18n";
 import creatureFactory from "../../factories/creature.factory";
 import targetService from "../../services/baf/target.service";
 import grabService from "../../services/effects/grab.service";
+import effectService from "../../services/effects/effect.service";
 import translationService from "../../services/translation.service";
 import logService from "../../services/log.service";
 import { ResourceScope } from "../../services/utils/misc.func";
@@ -126,6 +127,8 @@ export class Creature extends AbstractCreature implements BaseCreature {
   /** Its BAF scripts, planned at validation (see ScriptPlanService) */
   scripts: CreatureScript[] = [];
   effectFiles: EffectFile[] = [];
+  /** Effects added to the trait before it exists: addTrait() or finalizeTrait() takes them */
+  private pendingTraitEffects: Effect[] = [];
 
   /**
    * Immunity names pushed onto data.immunities purely to satisfy an engine restriction (e.g.
@@ -318,6 +321,29 @@ export class Creature extends AbstractCreature implements BaseCreature {
     });
   }
 
+  /**
+   * Effects a shared mechanism adds to the creature's trait (a grab's release on death), whether
+   * the entry adds its trait before or after: into the trait when there is one, else kept for
+   * addTrait(), or for the trait finalizeTrait() creates when the entry adds none.
+   */
+  addTraitEffects(effects: Effect[]): void {
+    const trait = this.items.find((i) => i.trait);
+    if (!trait) {
+      this.pendingTraitEffects.push(...effects);
+      return;
+    }
+    trait.effects.push(
+      ...effectService.getEffects(effects.map(traitEffect), {
+        file: trait.file,
+      }),
+    );
+  }
+
+  /** Creates the trait for the effects added to it when the entry adds no trait of its own. */
+  finalizeTrait(): void {
+    if (this.pendingTraitEffects.length && !this.items.some((i) => i.trait)) this.addTrait({});
+  }
+
   addTrait(payload: {
     description?: StringReference;
     immunities?: ImmunityName[];
@@ -340,23 +366,29 @@ export class Creature extends AbstractCreature implements BaseCreature {
     const item = this.addItem({
       stringRef,
       description: payload.description,
-      effects: (payload.effects ?? []).map((e) => ({
-        ...e,
-        timing: EffectTimingEnum.InstantWhileEquipped,
-        target: EffectTargetEnum.Self,
-      })),
+      effects: [...this.pendingTraitEffects, ...(payload.effects ?? [])].map(traitEffect),
       immunities: payload.immunities,
       equippedSlot: payload.equippedSlot ? [payload.equippedSlot] : JEWEL_SLOTS,
       category: ItemCategoryEnum.Rings,
       icon: MonsterItemIconEnum.Traits,
     });
     item.trait = true;
+    this.pendingTraitEffects = [];
     return item;
   }
 
   validate() {
     creatureFactory.validate(this);
   }
+}
+
+/** A trait's effects apply to its creature while equipped. */
+function traitEffect(effect: Effect): Effect {
+  return {
+    ...effect,
+    timing: EffectTimingEnum.InstantWhileEquipped,
+    target: EffectTargetEnum.Self,
+  };
 }
 
 export interface CreatureNewFile {

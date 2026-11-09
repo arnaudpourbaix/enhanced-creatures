@@ -1,5 +1,6 @@
 import { MonsterItemIconEnum } from "../../config/item";
 import { Creature } from "../../src/model/creature/creature";
+import { CreatureGrabConfig } from "../../src/model/creature/grab";
 import { ItemSlot, WeaponSlot } from "../../src/model/creature/item";
 import { Durations } from "../../src/model/game-data/durations";
 import { BaseEffect, Effect } from "../../src/model/spell-item/effect";
@@ -87,6 +88,7 @@ export function createClaws(
     effects?: Effect[];
     castSpell?: WeaponCastSpell;
     equipped?: boolean;
+    grab?: CreatureGrabConfig;
   },
 ) {
   return creature.addNaturalWeapon("claws", {
@@ -98,6 +100,7 @@ export function createClaws(
     effects: p.effects,
     slot: (p.equipped ?? true) ? "WEAPON1" : null,
     castSpells: p.castSpell ? [p.castSpell] : undefined,
+    grab: p.grab,
   });
 }
 

@@ -48,6 +48,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - XP: round damage tiers and refined DMG rows
 - Spells: spell schools, specialist spellbooks and thematic combos
 - Docs: sidebar sub-categories for entries sharing a base name
+- Grab: a save every round, release on the grabber's death
 
 ### Changed
 
