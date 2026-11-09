@@ -566,6 +566,32 @@ describe("handleScriptEdit (private)", () => {
   });
 });
 
+describe("handleScriptEdit prepend (private)", () => {
+  it("inserts the blocks at the top of the script, after the other edits", () => {
+    const lines: CodeLine[] = [];
+    service.handleScriptEdit(lines, {
+      files: ["JAM01"],
+      removeBlocks: ["FOO"],
+      prepend: "IF\n  True()\nTHEN\n  RESPONSE #100\n    NoAction()\nEND\n",
+    });
+    const result = codes(lines);
+    const sprint = result.findIndex((c) => c.startsWith("SPRINT ec_top ~IF"));
+    expect(sprint).toBeGreaterThan(result.indexOf("WHILE (ec_pos >= 0) BEGIN"));
+    expect(result[sprint]).toBe(
+      "SPRINT ec_top ~IF\r\n  True()\r\nTHEN\r\n  RESPONSE #100\r\n    NoAction()\r\nEND\r\n\r\n~",
+    );
+    expect(result[sprint + 1]).toBe("INSERT_BYTES 0 STRING_LENGTH ~%ec_top%~");
+    expect(result[sprint + 2]).toBe("WRITE_ASCIIE 0 ~%ec_top%~");
+    expect(result.indexOf("BUT_ONLY")).toBeGreaterThan(sprint);
+  });
+
+  it("refuses blocks WeiDU would misread", () => {
+    expect(() =>
+      service.handleScriptEdit([], { files: ["JAM01"], prepend: "IF ~x~ THEN END" }),
+    ).toThrow(/~ or %/);
+  });
+});
+
 describe("handleScriptEdit game scope (private)", () => {
   it("wraps the edit in the game's condition when it has one", () => {
     const lines: CodeLine[] = [];

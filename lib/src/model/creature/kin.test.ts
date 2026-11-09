@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { KinEnum } from "../../../creatures/kin";
 import logService from "../../services/log.service";
+import { EffectTargetEnum, EffectTimingEnum } from "../spell-item/effect.enums";
+import { EffectTypeEnum } from "../spell-item/effect.type";
 import { CreatureKin, kinOf } from "./kin";
 
 class TestKin extends CreatureKin {}
@@ -38,5 +40,21 @@ describe("kinOf", () => {
   it("throws when the kin is of another class", () => {
     const kins = new Map<KinEnum, CreatureKin>([[KinEnum.Fey, new OtherKin(KinEnum.Fey)]]);
     expect(() => kinOf(kins, KinEnum.Fey, TestKin)).toThrow("Kin Fey is not a TestKin");
+  });
+});
+
+describe("addSharedTrait", () => {
+  it("builds a trait several creatures equip, its effects on its wearer while equipped", () => {
+    const kin = new TestKin(KinEnum.Fey);
+    const trait = kin.addSharedTrait({
+      name: "monster.ankheg.name",
+      immunities: ["acid"],
+      effects: [{ opcode: EffectTypeEnum.Regeneration, amount: 1 }],
+    });
+    expect(trait).toMatchObject({ trait: true, shared: true, immunities: ["acid"] });
+    expect(trait.effects[0]).toMatchObject({
+      timing: EffectTimingEnum.InstantWhileEquipped,
+      target: EffectTargetEnum.Self,
+    });
   });
 });

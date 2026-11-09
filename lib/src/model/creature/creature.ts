@@ -21,11 +21,8 @@ import { ClassIdentifier } from "../ids/class";
 import { Effect, EffectFile } from "../spell-item/effect";
 import {
   AbilityDamageTypeEnum,
-  EffectTargetEnum,
-  EffectTimingEnum,
   ItemAbilityFlagEnum,
   ItemAbilityTypeEnum,
-  ItemCategoryEnum,
   PnPPoisonType,
 } from "../spell-item/effect.enums";
 import {
@@ -41,7 +38,7 @@ import { NATURAL_WEAPONS, NaturalWeaponKind } from "../../../config/natural-weap
 import poisonService from "../../services/effects/poison.service";
 import variantFactory from "../../factories/variant.factory";
 import type { TurnUndeadType } from "../../../creatures/types/turn-level";
-import { AbstractCreature } from "./abstract-creature";
+import { AbstractCreature, traitEffect } from "./abstract-creature";
 import { CreatureAdjustment, PartialCreatureAdjustment } from "./adjustment";
 import type { Variant, VariantInput } from "./variant";
 import { CreatureAttack, CreatureAttackAction, PartialCreatureAttack } from "./attack";
@@ -50,7 +47,7 @@ import { CreatureData, MainCreatureData } from "./data";
 import { CreatureFile } from "./game";
 import { InputCreatureData } from "./data-input";
 import { CreatureGrabConfig } from "./grab";
-import { ItemSlot, JEWEL_SLOTS } from "./item";
+import { ItemSlot } from "./item";
 import { AbilityEntry, CreatureAbility } from "./ability";
 import { State } from "../../state";
 import type { CreatureScript } from "../../services/baf/script-plan.service";
@@ -225,10 +222,10 @@ export class Creature extends AbstractCreature implements BaseCreature {
     return this.hasImmunity("seeInvisible");
   }
 
-  /** Immune to `name`, through its own immunities or its trait's (see addTrait) */
+  /** Immune to `name`, through its own immunities or its traits' (see addTrait, Item.shared) */
   hasImmunity(name: string): boolean {
-    const trait = this.items.find((item) => item.trait);
-    return utils.hasImmunity([...this.data.immunities, ...(trait?.immunities ?? [])], name);
+    const traits = this.traits.flatMap((trait) => trait.immunities);
+    return utils.hasImmunity([...this.data.immunities, ...traits], name);
   }
 
   override addSpell(spell: PartialSpell): Spell {
@@ -355,40 +352,52 @@ export class Creature extends AbstractCreature implements BaseCreature {
     ]);
     const traitItem = this.items.find((s) => s.trait);
     if (traitItem) throw new Error("Already has a trait defined");
+    // a copy's inherited trait (createFrom) gives way to its own; a shared one never does
     const traitIndex = this.data.items.equipped.findIndex((e) => {
       const i = State.items.find((i) => i.file === e.file);
-      return !!i && i.trait;
+      return !!i && i.trait && !i.shared;
     });
     if (traitIndex !== -1) {
       logService.warn(`Override existing trait: ${this.data.items.equipped[traitIndex].file}`);
       this.data.items.equipped.splice(traitIndex, 1);
     }
-    const item = this.addItem({
+    const item = this.createTraitItem({
       stringRef,
       description: payload.description,
-      effects: [...this.pendingTraitEffects, ...(payload.effects ?? [])].map(traitEffect),
+      effects: [...this.pendingTraitEffects, ...(payload.effects ?? [])],
       immunities: payload.immunities,
-      equippedSlot: payload.equippedSlot ? [payload.equippedSlot] : JEWEL_SLOTS,
-      category: ItemCategoryEnum.Rings,
-      icon: MonsterItemIconEnum.Traits,
+      equippedSlot: payload.equippedSlot,
     });
-    item.trait = true;
     this.pendingTraitEffects = [];
     return item;
+  }
+
+  /**
+   * Whether it wields a grabbing weapon: equipped by the base or one of its adjustments (a script
+   * view's adjustments are its files', so a variant's grip isn't its base script's).
+   */
+  wieldsGrab(): boolean {
+    const equipped = new Set(
+      [this.data.items.equipped, ...this.adjustments.map((a) => a.data.items.equipped)]
+        .flat()
+        .map((e) => e.file.toUpperCase()),
+    );
+    return this.items.some(
+      (item) =>
+        item.grab && (item.equippedSlot.length > 0 || equipped.has(item.file.toUpperCase())),
+    );
+  }
+
+  /** Its trait items: its own and the shared ones it equips (see Item.shared). */
+  get traits(): Item[] {
+    const equipped = new Set(this.data.items.equipped.map((e) => e.file.toUpperCase()));
+    const shared = State.items.filter((i) => i.shared && equipped.has(i.file.toUpperCase()));
+    return [...this.items.filter((item) => item.trait), ...shared];
   }
 
   validate() {
     creatureFactory.validate(this);
   }
-}
-
-/** A trait's effects apply to its creature while equipped. */
-function traitEffect(effect: Effect): Effect {
-  return {
-    ...effect,
-    timing: EffectTimingEnum.InstantWhileEquipped,
-    target: EffectTargetEnum.Self,
-  };
 }
 
 export interface CreatureNewFile {

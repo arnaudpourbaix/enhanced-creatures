@@ -183,6 +183,11 @@ export interface CreatureScriptEdit {
    * (`"RH#DOM"`, which also hits decompiled `// SPIN883.SPL` comments). Applied after `replaces`.
    */
   removeBlocks?: string[];
+  /**
+   * BAF blocks put before the script's own (it runs them first), e.g. a power the script's quest
+   * target needs. Applied after `replaces` and `removeBlocks`, so they never touch it.
+   */
+  prepend?: string;
   /** Only on this game's installs (where its creatures get patched); every game if unset */
   game?: Game;
 }

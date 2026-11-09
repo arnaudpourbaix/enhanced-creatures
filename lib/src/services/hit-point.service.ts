@@ -6,7 +6,9 @@ import { ConstitutionTable } from "../model/game-data/constitution";
 import { SizeBonusHitPointTable } from "../model/game-data/hp";
 import { CreatureSize } from "../model/game-data/sizes";
 import { ClassIdentifier, PLAYER_CLASS_IDENTIFIERS } from "../model/ids/class";
+import { ImmunityName } from "../model/final/immunity";
 import creatureTypeHooksService from "./creature-type-hooks.service";
+import creatureTypeService from "./creature-type.service";
 import logService from "./log.service";
 
 class HitPointService {
@@ -15,14 +17,22 @@ class HitPointService {
     creature: Creature;
     parent?: CreatureData;
   }): number {
-    const level = p.data.level1?.pnpValue;
+    // an adjustment's own types (a zombie ankheg is undead): their die and constitution rule
+    const added = p.parent
+      ? creatureTypeService.getAddedTypes(p.creature, p.data.immunities ?? [])
+      : [];
+    let level = p.data.level1?.pnpValue;
     if (!level && !p.parent)
       throw new Error(`Can't calculate hit points because level1 is unknown`);
-    else if (!level) return 0;
-    const constitutionBonus = this.getConstitutionBonus({ ...p, level });
+    // an adjustment keeps its base's hit points, unless its types change how they're rolled
+    if (!level && p.parent && this.rollsOtherwise(p.creature, added)) {
+      level = p.parent.level1?.pnpValue;
+    }
+    if (!level) return 0;
+    const constitutionBonus = this.getConstitutionBonus({ ...p, level, added });
     const hitPointBonus = this.getHitPointBonus({ ...p, level });
     const specialBonus = this.getSpecialBonus({ ...p, level });
-    const hitDice = this.getHitDiceSize(p.creature) + (p.data.bonusHpPerHitDie ?? 0);
+    const hitDice = this.getHitDiceSize(p.creature, added) + (p.data.bonusHpPerHitDie ?? 0);
     const baseHP = level * hitDice;
     const log = `${figureSet.arrowRight} Level: ${level}, HD: ${hitDice}, hit points: ${baseHP} (base) ${constitutionBonus.log}${hitPointBonus.log}${specialBonus.log}`;
     const value = baseHP + constitutionBonus.value + hitPointBonus.value + specialBonus.value;
@@ -35,6 +45,7 @@ class HitPointService {
     creature: Creature;
     level: number;
     parent?: CreatureData;
+    added: ImmunityName[];
   }): { value: number; log: string } {
     const constitution = p.data.constitution ?? p.parent?.constitution ?? 10;
     const constitutionHp = ConstitutionTable.find((t) => t.con === constitution);
@@ -47,7 +58,7 @@ class HitPointService {
     const hpPerLevel =
       PLAYER_CONFIG.constitutionAffectHitPoint &&
       !isPlayerClass &&
-      !creatureTypeHooksService.hasNoConstitutionHp(p.creature)
+      !creatureTypeHooksService.hasNoConstitutionHp(p.creature, p.added)
         ? constitutionHp.warriorHp
         : 0;
     const value = p.level * hpPerLevel;
@@ -122,8 +133,18 @@ class HitPointService {
   }
 
   /** The largest die among the creature's types (see lib/creatures/types/), else d8. */
-  private getHitDiceSize(creature: Creature): number {
-    return creatureTypeHooksService.getHitDie(creature) ?? 8;
+  private getHitDiceSize(creature: Creature, added: ImmunityName[] = []): number {
+    return creatureTypeHooksService.getHitDie(creature, added) ?? 8;
+  }
+
+  /** Types an adjustment adds that change the die or the constitution bonus of its base. */
+  private rollsOtherwise(creature: Creature, added: ImmunityName[]): boolean {
+    if (!added.length) return false;
+    return (
+      this.getHitDiceSize(creature, added) !== this.getHitDiceSize(creature) ||
+      creatureTypeHooksService.hasNoConstitutionHp(creature, added) !==
+        creatureTypeHooksService.hasNoConstitutionHp(creature)
+    );
   }
 }
 

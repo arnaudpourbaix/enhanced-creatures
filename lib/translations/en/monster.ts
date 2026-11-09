@@ -722,6 +722,15 @@ A vampire reduced to 0 hit points isn't destroyed either: it assumes gaseous for
       },
     },
   },
+  revenant: {
+    name: "Revenant",
+    ability: {
+      gaze: {
+        name: "Paralyzing Gaze",
+        description: `Those who stare into the revenant's eyes must save vs. spell or be paralyzed with terror for 2d4 rounds.`,
+      },
+    },
+  },
   wight: {
     name: "Wight",
     ability: {

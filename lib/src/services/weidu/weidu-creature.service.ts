@@ -84,12 +84,24 @@ class WeiduCreatureService extends AbstractWeiduService {
     for (const text of edit.removeBlocks ?? []) {
       this.removeBlocksContaining(lines, t + 4, text);
     }
+    if (edit.prepend) this.prependBlocks(lines, t + 4, edit.prepend);
     this.add(lines, `END`, t + 3);
     this.add(lines, `BUT_ONLY`, t + 2);
     this.add(lines, `END`, t + 1);
     this.add(lines, `END`, t);
     if (edit.game) this.add(lines, `END`, 0);
     this.add(lines, ``, 0);
+  }
+
+  /** Inserts BAF blocks at the top of the decompiled script. */
+  private prependBlocks(lines: CodeLine[], tab: number, baf: string) {
+    if (/[~%]/.test(baf)) {
+      throw new Error(`A prepended script block can't contain ~ or %: ${baf}`);
+    }
+    const text = `${baf.trim().split(/\r?\n/).join(CR)}${CR}${CR}`;
+    this.add(lines, `SPRINT ec_top ~${text}~`, tab);
+    this.add(lines, `INSERT_BYTES 0 STRING_LENGTH ~%ec_top%~`, tab);
+    this.add(lines, `WRITE_ASCIIE 0 ~%ec_top%~`, tab);
   }
 
   /**

@@ -8,7 +8,6 @@ import { TargetListName, TargetStatusName } from "../../../config/target/target-
 import triggerFactory from "../../factories/trigger.factory";
 import { PartialCreatureAttack } from "../../model/creature/attack";
 import { Creature } from "../../model/creature/creature";
-import { GRAB_DEFAULT_CONFIG } from "../../model/creature/grab";
 import { AlignIdentifier } from "../../model/ids/align";
 import { AllegianceIdentifier } from "../../model/ids/allegiance";
 import { ClassIdentifier } from "../../model/ids/class";
@@ -181,9 +180,7 @@ class TargetService {
   } {
     const allStatus = DEFAULT_STATUS_ORDER.filter((status) => {
       const statusDetails = this.getStatusDetails(status);
-      const validStatus =
-        status !== "Grabbed" ||
-        creature.spells.some((s) => s.name === GRAB_DEFAULT_CONFIG.grabStringRef);
+      const validStatus = status !== "Grabbed" || creature.wieldsGrab();
       const intelligence =
         !statusDetails.requireIntelligence ||
         (!!creature.data.intelligence && creature.data.intelligence >= 8);

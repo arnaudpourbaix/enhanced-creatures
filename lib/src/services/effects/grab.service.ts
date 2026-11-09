@@ -25,6 +25,8 @@ import { PartialSpell, Spell, Weapon } from "../../model/spell-item/spell-item";
 import creatureService from "../creature.service";
 import logService from "../log.service";
 import spellService from "../spell.service";
+import translationService from "../translation.service";
+import { TranslationKey } from "../../../translations/i18n";
 import { getSpellFilename } from "../utils/misc.func";
 import effectService from "./effect.service";
 
@@ -59,13 +61,14 @@ interface GrabSave {
 class GrabService {
   attachGrabToWeapon(creature: Creature, weapon: Weapon, grab: CreatureGrabConfig) {
     grab.trigger ??= "both";
+    weapon.grab = true;
     const save = this.getSave(creature, grab);
     // the spells reference each other: their files are known before they are built
     const [check, hold, release] = [1, 2, 3].map((i) =>
       getSpellFilename(creature.spells.length + i, creature.id),
     );
     const onHit = grab.trigger === "probability" ? hold : check;
-    this.addSpell(creature, check, this.getCheckSpell(hold, save, onHit === check));
+    this.addSpell(creature, check, this.getCheckSpell(grab, hold, save, onHit === check));
     this.addSpell(creature, hold, this.getHoldSpell(creature, grab, check, onHit === hold));
     this.addSpell(creature, release, this.getReleaseSpell(hold));
     weapon.header.effects.push(
@@ -107,20 +110,38 @@ class GrabService {
   }
 
   /** What the weapon's hit casts: the grab's attack form, described to the player. */
-  private onHitSpell(): Partial<PartialSpell> {
+  private onHitSpell(grab: CreatureGrabConfig): Partial<PartialSpell> {
     return {
-      description: "spell.grab.description",
+      description: this.getDescription(grab),
       // a body's attack form, never a spell (user)
       xpAbility: "specialAttack",
     };
   }
 
+  /** The grab's effects, the grip's damage, and what the grabber can still do while it holds. */
+  private getDescription(grab: CreatureGrabConfig): number {
+    const lines = [translationService.from("spell.grab.description")];
+    const damage = grab.damagePerRound;
+    let grabber: TranslationKey = "spell.grab.grabber";
+    if (damage) {
+      lines.push(translationService.interpolate("spell.grab.damage", { damage: diceText(damage) }));
+      grabber = grab.freeHand ? "spell.grab.grabberFreeHand" : "spell.grab.grabberNoAttack";
+    }
+    lines.push(translationService.from(grabber));
+    return translationService.addCustomTranslation(lines);
+  }
+
   /** The round's save: failed, the victim is held one more round. */
-  private getCheckSpell(hold: string, save: GrabSave, onHit: boolean): PartialSpell {
+  private getCheckSpell(
+    grab: CreatureGrabConfig,
+    hold: string,
+    save: GrabSave,
+    onHit: boolean,
+  ): PartialSpell {
     return {
       name: GRAB_DEFAULT_CONFIG.grabStringRef,
       doc: false,
-      ...(onHit ? this.onHitSpell() : {}),
+      ...(onHit ? this.onHitSpell(grab) : {}),
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -148,7 +169,7 @@ class GrabService {
     return {
       name: GRAB_DEFAULT_CONFIG.grabbedStringRef,
       doc: false,
-      ...(onHit ? this.onHitSpell() : {}),
+      ...(onHit ? this.onHitSpell(grab) : {}),
       headers: [
         {
           type: ItemAbilityTypeEnum.Melee,
@@ -216,6 +237,7 @@ class GrabService {
       });
     }
     // the grabber holds on: it stays where it is, and the grip is its attack when it deals damage
+    // (unless it grips with one hand and strikes with another)
     const grabber: Effect[] = [
       {
         opcode: EffectTypeEnum.SetExtendedSpellState,
@@ -228,7 +250,7 @@ class GrabService {
         value: 0,
         duration,
       },
-      ...(grab.damagePerRound
+      ...(grab.damagePerRound && !grab.freeHand
         ? [
             {
               opcode: EffectTypeEnum.ModifyAttacksPerRound,
@@ -334,3 +356,11 @@ class GrabService {
 
 const grabService = new GrabService();
 export default grabService;
+
+/** "2d8", "2d8+3" or "5": the grip's damage. */
+function diceText(damage: { diceThrown?: number; diceSize?: number; amount?: number }): string {
+  const dice =
+    damage.diceThrown && damage.diceSize ? `${damage.diceThrown}d${damage.diceSize}` : "";
+  if (!damage.amount) return dice;
+  return dice ? `${dice}+${damage.amount}` : `${damage.amount}`;
+}

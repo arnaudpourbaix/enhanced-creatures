@@ -80,7 +80,9 @@ function getTurnLevel(turnAs: TurnUndeadType | undefined, level1: Level, bonusHp
 }
 
 function isImmuneToTurning(creature: Creature): boolean {
-  return [...creature.data.immunities, ...creature.items.flatMap((i) => i.immunities)].includes(
-    "turnUndead",
-  );
+  return [
+    ...creature.data.immunities,
+    ...creature.items.flatMap((i) => i.immunities),
+    ...creature.traits.flatMap((i) => i.immunities),
+  ].includes("turnUndead");
 }

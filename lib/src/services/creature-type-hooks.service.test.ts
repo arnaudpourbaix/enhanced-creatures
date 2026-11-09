@@ -17,6 +17,7 @@ const creature = (
   ({
     data: { immunities },
     items: [],
+    traits: [],
     adjustments: adjustments.map((data) => ({ data })),
   }) as unknown as Creature;
 
@@ -33,6 +34,7 @@ describe("creatureTypeHooksService modules", () => {
     const spider = {
       data: { general: "MONSTER", immunities: ["undead"], level1: { pnpValue: 2, value: 2 } },
       items: [],
+      traits: [],
       adjustments: [],
     } as unknown as Creature;
     undead?.afterBuild?.(spider);

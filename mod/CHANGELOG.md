@@ -49,6 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Spells: spell schools, specialist spellbooks and thematic combos
 - Docs: sidebar sub-categories for entries sharing a base name
 - Grab: a save every round, release on the grabber's death
+- Revenant: Revenant and the SotSC ettin revenant
 
 ### Changed
 

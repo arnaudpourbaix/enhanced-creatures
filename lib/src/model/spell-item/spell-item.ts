@@ -188,6 +188,13 @@ export interface Item {
    * Creature's trait (use for documentation)
    */
   trait: boolean;
+  /**
+   * A trait a kin owns and several creatures equip as their own (a revenant's, risen in an
+   * ettin's body too): a creature's own trait never overrides it
+   */
+  shared?: boolean;
+  /** Its hit grabs (see GrabService) */
+  grab?: boolean;
 }
 
 export interface ItemSpellHeader {

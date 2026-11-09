@@ -590,6 +590,36 @@ class EffectFactory {
   }
 
   /**
+   * One outcome per total of `diceThrown`d`diceSize` (a 2d4-round duration), each the effects
+   * `build` gives for it, weighted like the dice: the engine rolls the probability once for all
+   * the effects of a spell, so exactly one outcome applies.
+   */
+  diceOutcomes(diceThrown: number, diceSize: number, build: (total: number) => Effect[]): Effect[] {
+    if (diceThrown < 1 || diceSize < 1) {
+      throw new Error(`Dice must be positive, got ${diceThrown}d${diceSize}`);
+    }
+    let counts = new Map<number, number>([[0, 1]]);
+    for (let i = 0; i < diceThrown; i++) {
+      const next = new Map<number, number>();
+      for (const [total, count] of counts) {
+        for (let face = 1; face <= diceSize; face++) {
+          next.set(total + face, (next.get(total + face) ?? 0) + count);
+        }
+      }
+      counts = next;
+    }
+    const combinations = diceSize ** diceThrown;
+    let cumulated = 0;
+    return [...counts].flatMap(([total, count]) => {
+      const probability2 = Math.round((100 * cumulated) / combinations);
+      cumulated += count;
+      const probability1 = Math.round((100 * cumulated) / combinations) - 1;
+      if (probability1 < probability2) return []; // too unlikely for a 1% step
+      return build(total).map((effect) => ({ ...effect, probability1, probability2 }));
+    });
+  }
+
+  /**
    * Split probabilities over a list of effect so each effect has an even chance to trigger
    */
   splitProbabilities(effects: Effect[]): Effect[] {

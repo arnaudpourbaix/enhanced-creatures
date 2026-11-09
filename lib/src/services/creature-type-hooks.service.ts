@@ -50,22 +50,25 @@ class CreatureTypeHooksService {
   }
 
   /**
-   * The largest hit die among the creature's own types, undefined when none has one. Types an
-   * adjustment adds don't count: adjustments keep their base creature's die.
+   * The largest hit die among the creature's own types and the ones an adjustment adds (`added`:
+   * a zombie ankheg rolls the undead's d12), undefined when none has one.
    */
-  getHitDie(creature: Creature): number | undefined {
-    const dice = creatureTypeService
-      .getCreatureTypes(creature)
+  getHitDie(creature: Creature, added: ImmunityName[] = []): number | undefined {
+    const dice = this.types(creature, added)
       .map((type) => this.modules.find((m) => m.type === type)?.hitDie)
       .filter((die) => die !== undefined);
     return dice.length ? Math.max(...dice) : undefined;
   }
 
-  /** Whether one of the creature's own types skips the constitution hit point bonus. */
-  hasNoConstitutionHp(creature: Creature): boolean {
-    return creatureTypeService
-      .getCreatureTypes(creature)
-      .some((type) => this.modules.find((m) => m.type === type)?.noConstitutionHp);
+  /** Whether one of its types (own or `added` by an adjustment) skips the constitution bonus. */
+  hasNoConstitutionHp(creature: Creature, added: ImmunityName[] = []): boolean {
+    return this.types(creature, added).some(
+      (type) => this.modules.find((m) => m.type === type)?.noConstitutionHp,
+    );
+  }
+
+  private types(creature: Creature, added: ImmunityName[]): ImmunityName[] {
+    return [...creatureTypeService.getCreatureTypes(creature), ...added];
   }
 }
 

@@ -16,6 +16,7 @@ function fake(p: {
   return {
     data: { general: p.general, immunities: p.immunities ?? [] },
     items: p.traitImmunities ? [{ trait: true, immunities: p.traitImmunities }] : [],
+    traits: [],
     adjustments: (p.adjustments ?? []).map(
       (data, i) => ({ files: [`ADJ${i}`], data }) as CreatureAdjustment,
     ),

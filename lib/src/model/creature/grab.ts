@@ -45,6 +45,12 @@ export interface CreatureGrabConfig extends Partial<GrabSharedConfig> {
    * then makes no attack while it holds (its attacks per round are set to 0)
    */
   damagePerRound?: Omit<DamageEffect, "opcode">;
+
+  /**
+   * The grip takes one hand only: the grabber keeps its attacks while the grip deals its damage
+   * (a huge ettin revenant grips with one hand and strikes with the club in the other)
+   */
+  freeHand?: boolean;
 }
 
 /**

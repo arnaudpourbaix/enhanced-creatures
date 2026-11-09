@@ -93,13 +93,31 @@ describe("hitPointService.getHitPoints", () => {
     expect(value).toBe(36); // 3 * 12
   });
 
-  it("keeps the base creature's die for an adjustment adding a type (zombie ankheg stays d10)", () => {
+  it("rolls the die of a type an adjustment adds (zombie ankheg: d12, not d10)", () => {
     const value = hitPointService.getHitPoints({
       data: { level1: { pnpValue: 15, value: 15, type: "none" }, immunities: ["undead"] },
       creature: fakeCreature({ immunities: ["magicalBeast"] }),
       parent: { immunities: ["magicalBeast"] } as unknown as CreatureData,
     });
-    expect(value).toBe(150); // 15 * 10
+    expect(value).toBe(180); // 15 * 12
+  });
+
+  it("recomputes at the base level an adjustment adding a type with another die (ettin revenant)", () => {
+    const value = hitPointService.getHitPoints({
+      data: { immunities: ["undead"] },
+      creature: fakeCreature(),
+      parent: { level1: { pnpValue: 10, value: 10, type: "none" }, constitution: 18 } as CreatureData,
+    });
+    expect(value).toBe(120); // 10 * 12, undead: no constitution bonus
+  });
+
+  it("leaves the hit points of an adjustment without a level or a new die to the base (0)", () => {
+    const value = hitPointService.getHitPoints({
+      data: { immunities: ["undead"] },
+      creature: fakeCreature({ immunities: ["undead"] }),
+      parent: { level1: { pnpValue: 10, value: 10, type: "none" } } as CreatureData,
+    });
+    expect(value).toBe(0);
   });
 
   it("adds a constitution bonus based on the creature's constitution score when not a player class", () => {

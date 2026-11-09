@@ -125,6 +125,28 @@ describe("scriptViewService.build", () => {
     expect(resources(creature)).toEqual([BASE_SPELL, NEW_SPELL, POWER]);
   });
 
+  it("only the views of files wielding the grab target the grabbed", () => {
+    const creature = fakeCreature([cast(BASE_SPELL), cast(NEW_SPELL)]);
+    const grip = creature.addItem({ equippedSlot: [] });
+    grip.grab = true;
+    creature.attack.targetPriorities = [
+      { targets: ["NearestEnemies"], status: ["Grabbed", "NoCheck"] },
+      { targets: ["Players"], status: ["Grabbed"] },
+    ];
+    creature.variant("necro", {
+      data: {
+        spells: { memorized: [{ file: NEW_SPELL }] },
+        items: { equipped: [{ file: grip.file, slot: "SHIELD" }] },
+      },
+      files: ["NECRO"],
+    });
+    const { base, necro } = views(creature);
+    expect(base.attack.targetPriorities).toEqual([
+      { targets: ["NearestEnemies"], status: ["NoCheck"] },
+    ]);
+    expect(necro.attack.targetPriorities).toEqual(creature.attack.targetPriorities);
+  });
+
   it("views don't share abilities", () => {
     const creature = fakeCreature([cast(BASE_SPELL), cast(NEW_SPELL)]);
     necromancer(creature);

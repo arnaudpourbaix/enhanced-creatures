@@ -16,7 +16,7 @@
     "dependsOn": []
   },
   "ettin": {
-    "kin": null,
+    "kin": "revenant",
     "dependsOn": []
   },
   "minotaur": {
@@ -439,6 +439,10 @@
   },
   "vampyre": {
     "kin": null,
+    "dependsOn": []
+  },
+  "revenant": {
+    "kin": "revenant",
     "dependsOn": []
   }
 }

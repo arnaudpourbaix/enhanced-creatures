@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, onTestFinished, vi } from "vitest";
 import { MonsterItemIconEnum } from "../../../config/item";
 import poisonService from "../../services/effects/poison.service";
 import {
@@ -13,6 +13,11 @@ import { Weapon, WeaponCastSpell } from "../spell-item/spell-item";
 import { MainCreatureData } from "./data";
 import { Creature } from "./creature";
 import { CreatureGrabConfig } from "./grab";
+import { JEWEL_SLOTS } from "./item";
+import { CreatureKin } from "./kin";
+import { KinEnum } from "../../../creatures/kin";
+import { State } from "../../state";
+import type { ImmunityConfig } from "../final/immunity";
 
 function fakeCreature(): Creature {
   const creature = new Creature(1);
@@ -251,5 +256,63 @@ describe("addTraitEffects", () => {
     creature.addTraitEffects([contingency]);
     creature.finalizeTrait();
     expect(traitOf(creature)?.effects.map((e) => e.opcode)).toEqual([EffectTypeEnum.PlaySound]);
+  });
+});
+
+describe("shared traits", () => {
+  class TestKin extends CreatureKin {}
+  const named = () => Object.assign(fakeCreature(), { name: "monster.ankheg.name" as const });
+
+  it("counts a shared trait it equips, and its own trait never overrides it", () => {
+    const saved = State.immunities;
+    State.immunities = [
+      { name: "acid", immunities: [] },
+      { name: "cloudSpells", immunities: [] },
+    ] as unknown as ImmunityConfig[];
+    onTestFinished(() => {
+      State.immunities = saved;
+    });
+    const shared = new TestKin(KinEnum.Fey).addSharedTrait({
+      name: "monster.ankheg.name",
+      immunities: ["cloudSpells"],
+    });
+    const creature = named();
+    creature.data.immunities = [];
+    creature.data.items.equipped.push({ file: shared.file, slot: JEWEL_SLOTS });
+    creature.addTrait({ immunities: ["acid"] });
+    expect(creature.data.items.equipped.map((e) => e.file)).toContain(shared.file);
+    expect(creature.traits).toContain(shared);
+    expect(creature.hasImmunity("cloudSpells")).toBe(true);
+    expect(creature.hasImmunity("acid")).toBe(true);
+  });
+});
+
+describe("wieldsGrab", () => {
+  const grabber = () => {
+    const creature = fakeCreature();
+    creature.adjustments = [];
+    const weapon = creature.addWeapon({
+      weapon: { equippedSlot: [], header: { type: ItemAbilityTypeEnum.Melee, effects: [] } },
+    });
+    weapon.grab = true;
+    return { creature, weapon };
+  };
+
+  it("is false when the grabbing weapon isn't equipped", () => {
+    expect(grabber().creature.wieldsGrab()).toBe(false);
+  });
+
+  it("is true when the base or one of its adjustments equips it", () => {
+    const base = grabber();
+    base.weapon.equippedSlot = ["WEAPON1"];
+    expect(base.creature.wieldsGrab()).toBe(true);
+    const adjusted = grabber();
+    adjusted.creature.adjustments = [
+      {
+        files: ["X"],
+        data: { items: { equipped: [{ file: adjusted.weapon.file, slot: "SHIELD" }] } },
+      },
+    ] as unknown as Creature["adjustments"];
+    expect(adjusted.creature.wieldsGrab()).toBe(true);
   });
 });

@@ -28,7 +28,16 @@ class CreatureTypeService {
   ): ImmunityName[] {
     // Test fixtures built with `as unknown as CreatureAdjustment` may omit immunities.
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    const found = this.collect(adjustment.data.immunities ?? []);
+    return this.getAddedTypes(creature, adjustment.data.immunities ?? [], own);
+  }
+
+  /** The types adjustment immunities give a creature that does not have them (see above). */
+  getAddedTypes(
+    creature: Creature,
+    immunities: ImmunityName[],
+    own: ImmunityName[] = this.getCreatureTypes(creature),
+  ): ImmunityName[] {
+    const found = this.collect(immunities);
     return TYPE_TRAITS.filter((t) => found.has(t) && !own.includes(t));
   }
 

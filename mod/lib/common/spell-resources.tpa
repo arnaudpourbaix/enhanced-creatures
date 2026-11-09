@@ -404,6 +404,7 @@ END
 
 DEFINE_ACTION_FUNCTION get_gaze_resources RET_ARRAY resources BEGIN
 	ACTION_DEFINE_ARRAY spells BEGIN
+		"jask0c00"
 		"jase0700"
 		"jase0705"
 	END
@@ -465,6 +466,7 @@ DEFINE_ACTION_FUNCTION get_hold_resources RET_ARRAY resources BEGIN
 		"SPPR208"
 		"SPPR305"
 		"SPCL742"
+		"jask0c00"
 		"jasm1s00"
 		"jasm1m00"
 		"jasm2400"

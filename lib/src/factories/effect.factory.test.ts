@@ -180,3 +180,36 @@ describe("levelDrain", () => {
     });
   });
 });
+
+describe("diceOutcomes", () => {
+  const build = (total: number): Effect[] => [
+    { opcode: EffectTypeEnum.DisplayPortraitIcon, icon: PortraitIconEnum.Held, duration: total },
+  ];
+
+  it("weights each total like the dice and covers the whole 0-99 roll", () => {
+    const effects = effectFactory.diceOutcomes(2, 4, build);
+    expect(effects.map((e) => [e.duration, e.probability2, e.probability1])).toEqual([
+      [2, 0, 5],
+      [3, 6, 18],
+      [4, 19, 37],
+      [5, 38, 62],
+      [6, 63, 80],
+      [7, 81, 93],
+      [8, 94, 99],
+    ]);
+  });
+
+  it("gives every effect of an outcome the same range", () => {
+    const effects = effectFactory.diceOutcomes(1, 2, (total) => [...build(total), ...build(total)]);
+    expect(effects.map((e) => [e.probability2, e.probability1])).toEqual([
+      [0, 49],
+      [0, 49],
+      [50, 99],
+      [50, 99],
+    ]);
+  });
+
+  it("refuses dice that aren't positive", () => {
+    expect(() => effectFactory.diceOutcomes(0, 4, build)).toThrow();
+  });
+});

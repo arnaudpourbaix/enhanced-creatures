@@ -1,7 +1,12 @@
 import { KinEnum } from "../../../creatures/kin";
+import { TranslationKey } from "../../../translations/i18n";
 import logService from "../../services/log.service";
+import translationService from "../../services/translation.service";
 import { ResourceScope } from "../../services/utils/misc.func";
 import utils from "../../services/utils/utils.service";
+import type { ImmunityName } from "../final/immunity";
+import { Effect } from "../spell-item/effect";
+import { Item } from "../spell-item/spell-item";
 import { AbstractCreature } from "./abstract-creature";
 
 /**
@@ -16,6 +21,27 @@ export abstract class CreatureKin extends AbstractCreature {
   constructor(id: KinEnum) {
     super(id);
     logService.header(`Creating kin ${KinEnum[id]}...`);
+  }
+
+  /**
+   * A trait several creatures equip as their own (see Item.shared): the monster's traits, worn by
+   * the monster and by the bodies it rises in. Named "<monster> Traits" like a creature's own.
+   */
+  addSharedTrait(payload: {
+    name: TranslationKey;
+    immunities?: ImmunityName[];
+    effects?: Effect[];
+  }): Item {
+    const stringRef = translationService.addCustomTranslation([
+      `${translationService.from(payload.name)} ${translationService.from("common.creatureTraits")}`,
+    ]);
+    const item = this.createTraitItem({
+      stringRef,
+      immunities: payload.immunities,
+      effects: payload.effects,
+    });
+    item.shared = true;
+    return item;
   }
 
   /** Mod-relative folder of its generated main.tpa, common.tpa and assets/. */

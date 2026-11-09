@@ -23,6 +23,7 @@ function fakeUndead(p: {
     turnAs: p.turnAs,
     data: { level1: p.level1, bonusHp: p.bonusHp, immunities: p.immunities ?? ["undead"] },
     items: p.traitImmunities ? [{ trait: true, immunities: p.traitImmunities }] : [],
+    traits: [],
     adjustments: (p.adjustments ?? []).map((data) => ({ data }) as CreatureAdjustment),
   } as unknown as Creature;
 }

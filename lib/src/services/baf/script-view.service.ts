@@ -58,6 +58,8 @@ class ScriptViewService {
     const files = new Set([...script.files, ...script.summonFiles]);
     const view = Object.create(creature) as Creature;
     view.adjustments = creature.adjustments.filter((a) => a.files.some((f) => files.has(f)));
+    // a grab only some files wield (a variant's grip): the others don't go for the grabbed
+    if (creature.wieldsGrab() && !view.wieldsGrab()) view.attack = this.withoutGrabbed(view);
     // its own copy: resolving and cooldowns change the abilities
     view.behavior = structuredClone(handWritten.behavior);
     view.pendingAbilityEntries = handWritten.entries && [...handWritten.entries];
@@ -66,6 +68,13 @@ class ScriptViewService {
     atWillService.applyCooldowns(view);
     this.dropUnmemorized(creature, view);
     return view;
+  }
+
+  private withoutGrabbed(view: Creature): Creature["attack"] {
+    const targetPriorities = view.attack.targetPriorities
+      .map((p) => ({ ...p, status: p.status.filter((s) => s !== "Grabbed") }))
+      .filter((p) => p.status.length);
+    return { ...view.attack, targetPriorities };
   }
 
   /**

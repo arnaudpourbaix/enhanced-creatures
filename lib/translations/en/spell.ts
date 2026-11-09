@@ -9,8 +9,13 @@ Grabbed creature will suffer these effects:
 - can not move
 - loose armor class from dexterity bonus
 - -4 AC (opponents get +4 bonus on their attack rolls against grabbed target)
-- -4 THAC0
-The grabber can not move while holding its target.`,
+- -4 THAC0`,
+    damage: "The grip deals {{damage}} damage every round it holds.",
+    grabber: "The grabber can not move while holding its target.",
+    grabberNoAttack:
+      "The grabber can neither move nor attack while holding its target: the grip is its attack.",
+    grabberFreeHand:
+      "The grabber can not move while holding its target, but keeps attacking with its other hand.",
   },
   callWoodlandBeeings: {
     name: "Call Woodland Beeings",

@@ -14,6 +14,7 @@ import {
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import { Spell, Weapon } from "../../model/spell-item/spell-item";
 import logService from "../log.service";
+import translationService from "../translation.service";
 import grabService from "./grab.service";
 
 interface GrabServicePrivate {
@@ -70,6 +71,27 @@ describe("attachGrabToWeapon", () => {
     expect(effect.resource).toBe(check.file);
     expect(effect.saveTypes ?? []).toEqual([]);
     expect(check.xpAbility).toBe("specialAttack");
+  });
+
+  it("describes the grip's damage and what the grabber can still do", () => {
+    const described = (grab: CreatureGrabConfig) =>
+      translationService.from(attach(grab).check.description ?? 0);
+    const strangle = {
+      damagePerRound: { type: EffectDamageTypeEnum.Crushing, diceThrown: 2, diceSize: 8 },
+    };
+    expect(described({})).toContain(translationService.from("spell.grab.grabber"));
+    expect(described({})).not.toContain("2d8");
+    expect(described(strangle)).toContain(
+      translationService.interpolate("spell.grab.damage", { damage: "2d8" }),
+    );
+    expect(described(strangle)).toContain(translationService.from("spell.grab.grabberNoAttack"));
+    expect(described({ ...strangle, freeHand: true })).toContain(
+      translationService.from("spell.grab.grabberFreeHand"),
+    );
+  });
+
+  it("marks the weapon as grabbing", () => {
+    expect(attach().weapon.grab).toBe(true);
   });
 
   it("creates the check, hold and release spells", () => {
@@ -144,6 +166,16 @@ describe("attachGrabToWeapon", () => {
     }).hold;
     expect(onGrabber(strangle)).toContain(EffectTypeEnum.ModifyAttacksPerRound);
     expect(effectsOf(strangle)).toContainEqual(
+      expect.objectContaining({ opcode: EffectTypeEnum.Damage, diceThrown: 2, diceSize: 8 }),
+    );
+
+    const oneHand = attach({
+      damagePerRound: { type: EffectDamageTypeEnum.Crushing, diceThrown: 2, diceSize: 8 },
+      freeHand: true,
+    }).hold;
+    expect(onGrabber(oneHand)).toContain(EffectTypeEnum.MovementRateBonus2);
+    expect(onGrabber(oneHand)).not.toContain(EffectTypeEnum.ModifyAttacksPerRound);
+    expect(effectsOf(oneHand)).toContainEqual(
       expect.objectContaining({ opcode: EffectTypeEnum.Damage, diceThrown: 2, diceSize: 8 }),
     );
   });

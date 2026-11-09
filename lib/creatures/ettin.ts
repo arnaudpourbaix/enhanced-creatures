@@ -1,6 +1,7 @@
 import { Creature } from "../src/model/creature/creature";
 import { CreatureEntry } from "../src/model/creature/entry";
 import { ItemSlot } from "../src/model/creature/item";
+import { CreatureKin, kinOf } from "../src/model/creature/kin";
 import {
   AbilityDamageTypeEnum,
   ItemAbilityFlagEnum,
@@ -11,7 +12,13 @@ import {
   ProficiencyTypeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EntryEnum } from "./entry";
+import { KinEnum } from "./kin";
 import { MonsterEnum } from "./monster";
+import { createRevenantGrip, RevenantKin, revenantNature } from "./revenant/kin";
+
+enum Ids {
+  RevenantGrip = 1,
+}
 
 class Ettin extends Creature {
   /**
@@ -42,8 +49,8 @@ class Ettin extends Creature {
 }
 
 class EttinEntry extends CreatureEntry<Ettin> {
-  constructor() {
-    super(EntryEnum.Ettin);
+  constructor(private readonly revenantKin: RevenantKin) {
+    super(EntryEnum.Ettin, revenantKin);
     this.addCreature(() => this.ettin());
   }
   createCreature(id: MonsterEnum): Ettin {
@@ -96,10 +103,36 @@ class EttinEntry extends CreatureEntry<Ettin> {
     });
     ettin.setAdjustments([
       { files: ["PLSHFG01", "PLSHFG02", "SAHOTY01", "D0QPSY10"], data: { level1: 12 } },
-      { files: ["BDETTIN"], data: { immunities: ["incorporeal"], script: { location: "None" } } },
+      {
+        files: ["BDETTIN"],
+        data: { immunities: ["undead", "incorporeal"], script: { location: "None" } },
+      },
     ]);
+    this.revenant(ettin);
     return ettin;
+  }
+
+  /**
+   * Ettin revenant (SotSC, the cave under the Ormyr graveyard): an ettin's body risen as a
+   * revenant. Its body stays an ettin's (Hit Dice, size, strength, the club in its main hand); the
+   * revenant brings its undead nature (d12 Hit Dice), regeneration, immunities and paralyzing
+   * gaze. Being huge, it grips with its off hand and keeps striking with the club (user).
+   */
+  private revenant(ettin: Ettin) {
+    const nature = revenantNature(this.revenantKin);
+    const grip = createRevenantGrip(ettin, { id: Ids.RevenantGrip, slot: null, freeHand: true });
+    ettin.variant("ettin revenant", {
+      files: ["L#ORMETT"],
+      data: {
+        ...nature,
+        items: {
+          equipped: [...(nature.items?.equipped ?? []), { file: grip.file, slot: "SHIELD" }],
+        },
+      },
+      behavior: { abilities: { entries: [{ power: this.revenantKin.gaze }] } },
+    });
   }
 }
 
-export const createEttinEntry = () => new EttinEntry();
+export const createEttinEntry = (kins: Map<KinEnum, CreatureKin>) =>
+  new EttinEntry(kinOf(kins, KinEnum.Revenant, RevenantKin));

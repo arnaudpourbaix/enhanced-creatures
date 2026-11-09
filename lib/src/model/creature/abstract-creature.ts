@@ -1,3 +1,4 @@
+import { MonsterItemIconEnum } from "../../../config/item";
 import effectService from "../../services/effects/effect.service";
 import itemService from "../../services/item.service";
 import spellService from "../../services/spell.service";
@@ -7,11 +8,14 @@ import {
   getSpellFilename,
   ResourceScope,
 } from "../../services/utils/misc.func";
-import { BaseEffect } from "../spell-item/effect";
+import { BaseEffect, Effect } from "../spell-item/effect";
+import type { ImmunityName } from "../final/immunity";
+import type { StringReference } from "../final/stringref";
 import {
   EffectCastSpellTypeEnum,
   EffectTargetEnum,
   EffectTimingEnum,
+  ItemCategoryEnum,
 } from "../spell-item/effect.enums";
 import { EffectTypeEnum } from "../spell-item/effect.type";
 import { PartialProjectile, Projectile } from "../spell-item/projectile";
@@ -26,6 +30,7 @@ import {
 } from "../spell-item/spell-item";
 import { WithRequired } from "../utility-types";
 import { RawCreatureAbility } from "./ability";
+import { ItemSlot, JEWEL_SLOTS } from "./item";
 
 export abstract class AbstractCreature {
   id: number;
@@ -88,6 +93,30 @@ export abstract class AbstractCreature {
     return result;
   }
 
+  /**
+   * A trait item: its immunities, and its effects applying to its wearer while equipped. Named
+   * from `stringRef` ("<Monster> Traits").
+   */
+  protected createTraitItem(payload: {
+    stringRef: number;
+    description?: StringReference;
+    immunities?: ImmunityName[];
+    effects?: Effect[];
+    equippedSlot?: ItemSlot;
+  }): Item {
+    const item = this.addItem({
+      stringRef: payload.stringRef,
+      description: payload.description,
+      effects: (payload.effects ?? []).map(traitEffect),
+      immunities: payload.immunities,
+      equippedSlot: payload.equippedSlot ? [payload.equippedSlot] : JEWEL_SLOTS,
+      category: ItemCategoryEnum.Rings,
+      icon: MonsterItemIconEnum.Traits,
+    });
+    item.trait = true;
+    return item;
+  }
+
   addItem(item: PartialItem, file?: string): Item {
     if (item.id !== undefined && this.items.some((i) => i.id === item.id)) {
       throw new Error(`Item id ${item.id} already defined`);
@@ -140,4 +169,13 @@ export abstract class AbstractCreature {
       );
     }
   }
+}
+
+/** A trait's effects apply to its wearer while equipped. */
+export function traitEffect(effect: Effect): Effect {
+  return {
+    ...effect,
+    timing: EffectTimingEnum.InstantWhileEquipped,
+    target: EffectTargetEnum.Self,
+  };
 }
