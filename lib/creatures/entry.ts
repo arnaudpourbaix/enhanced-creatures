@@ -139,3 +139,86 @@ export const ENTRY_NAMES: Partial<Record<EntryEnum, TranslationKey>> = {
 export const ENTRY_FOLDERS: Record<EntryEnum, string> = mapEntries((id) =>
   EntryEnum[id].replace(/(?<=[a-z0-9])([A-Z])/g, "-$1").toLowerCase(),
 );
+
+const group = (key: TranslationKey, entries: EntryEnum[]) =>
+  entries.map((entry) => [entry, key] as const);
+
+/**
+ * Docs sidebar sub-category of the entries whose names share a base ("Black Bear", "Cave Bear"
+ * list under "Bear"). An ungrouped entry stays a plain sidebar link.
+ */
+export const ENTRY_GROUPS: Partial<Record<EntryEnum, TranslationKey>> = Object.fromEntries([
+  ...group("doc.group.bear", [
+    EntryEnum.BlackBear,
+    EntryEnum.BrownBear,
+    EntryEnum.CaveBear,
+    EntryEnum.GrizzlyBear,
+    EntryEnum.PolarBear,
+  ]),
+  ...group("doc.group.dog", [
+    EntryEnum.WildDog,
+    EntryEnum.WarDog,
+    EntryEnum.BlinkDog,
+    EntryEnum.MoonDog,
+  ]),
+  ...group("doc.group.golem", [
+    EntryEnum.ClayGolem,
+    EntryEnum.StoneGolem,
+    EntryEnum.FleshGolem,
+    EntryEnum.SandGolem,
+    EntryEnum.IronGolem,
+    EntryEnum.BoneGolem,
+    EntryEnum.JuggernautGolem,
+    EntryEnum.SnowGolem,
+    EntryEnum.MagicGolem,
+    EntryEnum.AdamantiteGolem,
+    EntryEnum.WaxGolem,
+  ]),
+  ...group("doc.group.horror", [EntryEnum.HelmedHorror, EntryEnum.BattleHorror]),
+  ...group("doc.group.hound", [EntryEnum.SpectralHound, EntryEnum.HellHound]),
+  ...group("doc.group.jelly", [EntryEnum.MustardJelly, EntryEnum.OchreJelly]),
+  ...group("doc.group.lion", [EntryEnum.Lion, EntryEnum.MountainLion, EntryEnum.SpottedLion]),
+  ...group("doc.group.ogre", [
+    EntryEnum.Ogre,
+    EntryEnum.HalfOgre,
+    EntryEnum.OgreMage,
+    EntryEnum.OgreBerserker,
+    EntryEnum.OgreShaman,
+  ]),
+  ...group("doc.group.pudding", [EntryEnum.BlackPudding, EntryEnum.WhitePudding]),
+  ...group("doc.group.skeleton", [
+    EntryEnum.Skeleton,
+    EntryEnum.SpikeSkeleton,
+    EntryEnum.ArcherSkeleton,
+    EntryEnum.GiantSkeleton,
+    EntryEnum.SkeletonMonster,
+    EntryEnum.MageSkeleton,
+    EntryEnum.ClericSkeleton,
+    EntryEnum.SkeletonWarrior,
+  ]),
+  ...group("doc.group.slime", [
+    EntryEnum.FissionSlime,
+    EntryEnum.GreenSlime,
+    EntryEnum.OliveSlime,
+    EntryEnum.OliveSlimeCreature,
+  ]),
+  ...group("doc.group.spider", [
+    EntryEnum.GargantuanSpider,
+    EntryEnum.GhostwalkSpider,
+    EntryEnum.GiantSpider,
+    EntryEnum.HairySpider,
+    EntryEnum.HugeSpider,
+    EntryEnum.HuntingSpider,
+    EntryEnum.PhaseSpider,
+    EntryEnum.SwordSpider,
+    EntryEnum.VortexSpider,
+    EntryEnum.WraithSpider,
+  ]),
+  ...group("doc.group.wolf", [
+    EntryEnum.Wolf,
+    EntryEnum.DireWolf,
+    EntryEnum.DreadWolf,
+    EntryEnum.VampiricWolf,
+    EntryEnum.WinterWolf,
+  ]),
+]);

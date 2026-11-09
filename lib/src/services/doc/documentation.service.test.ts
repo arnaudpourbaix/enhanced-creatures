@@ -711,6 +711,9 @@ describe("entries", () => {
     "test.jujuZombie": "Juju Zombie",
     "test.ankheg": "Ankheg",
     "test.mummy": "Mummy",
+    "test.wolf": "Wolf",
+    "test.direWolf": "Dire Wolf",
+    "test.worg": "Worg",
     "doc.entry.zombie": "Zombie",
     "doc.entry.vampire": "Vampire",
   };
@@ -785,6 +788,36 @@ describe("entries", () => {
     expect(html.indexOf('id="e9"')).toBeLessThan(html.indexOf('id="m86"'));
     const sidebar = service.sidebar.join("");
     expect(sidebar.indexOf("#m1")).toBeLessThan(sidebar.indexOf('href="#e9">Zombie'));
+  });
+
+  it("lists grouped entries under a sidebar sub-category, the base name first", () => {
+    const wolf = (id: number, name: string, entry: EntryEnum) =>
+      documentationService.addGroup(group([member(id, name, { entry })]));
+    wolf(83, "test.direWolf", EntryEnum.DireWolf);
+    wolf(82, "test.wolf", EntryEnum.Wolf);
+    documentationService.addGroup(group([member(1, "test.ankheg")]));
+    documentationService.addGroup(group([member(2, "test.worg", { entry: EntryEnum.Worg })]));
+    service.renderEntries();
+
+    expect(service.sidebar).toHaveLength(3);
+    const [ankheg, wolves, worg] = service.sidebar;
+    expect(ankheg).toContain("#m1");
+    expect(wolves).toMatch(/^<li class="sidebar-group"><details><summary>Wolf/);
+    expect(wolves).toContain('<span class="group-count">2</span>');
+    expect(wolves.indexOf("#m82")).toBeLessThan(wolves.indexOf("#m83"));
+    expect(worg).toContain("#m2");
+    const html = service.monsters.join("");
+    expect(html.indexOf('id="m82"')).toBeLessThan(html.indexOf('id="m83"'));
+    expect(html.indexOf('id="m83"')).toBeLessThan(html.indexOf('id="m2"'));
+  });
+
+  it("keeps a group left with a single entry as a plain link", () => {
+    documentationService.addGroup(
+      group([member(83, "test.direWolf", { entry: EntryEnum.DireWolf })]),
+    );
+    service.renderEntries();
+
+    expect(service.sidebar.join("")).not.toContain("sidebar-group");
   });
 
   it("puts common parts in the entry box and omits them from member cards", () => {

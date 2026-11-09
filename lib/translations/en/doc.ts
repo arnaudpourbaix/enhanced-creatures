@@ -12,6 +12,21 @@ export default {
     wyvern: "Wyvern",
     zombie: "Zombie",
   },
+  group: {
+    bear: "Bear",
+    dog: "Dog",
+    golem: "Golem",
+    horror: "Horror",
+    hound: "Hound",
+    jelly: "Jelly",
+    lion: "Lion",
+    ogre: "Ogre",
+    pudding: "Pudding",
+    skeleton: "Skeleton",
+    slime: "Slime",
+    spider: "Spider",
+    wolf: "Wolf",
+  },
   types: {
     aberration: {
       name: "Aberration",

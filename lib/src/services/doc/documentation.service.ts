@@ -1,6 +1,6 @@
 import { AT_WILL } from "../../../config/common";
 import * as fs from "fs";
-import { ENTRY_NAMES, EntryEnum } from "../../../creatures/entry";
+import { ENTRY_GROUPS, ENTRY_NAMES, EntryEnum } from "../../../creatures/entry";
 import { TranslationKey } from "../../../translations/i18n";
 import { TYPE_TRAITS } from "../../../config/creature-types";
 import { SPELLBOOK_MODS } from "../../../config/mods";
@@ -31,7 +31,11 @@ import utils from "../utils/utils.service";
 import { toCode } from "../utils/misc.func";
 import adjustmentService, { documentedKit, EffectiveAdjustment } from "./adjustment.service";
 import { AbilityPart, CardOmissions, CardPart, CardParts, WeaponPart } from "./card-parts";
-import { ContingencyTarget, ContingencyTrigger, SpellCombo } from "../../model/spell-item/spell-combo";
+import {
+  ContingencyTarget,
+  ContingencyTrigger,
+  SpellCombo,
+} from "../../model/spell-item/spell-combo";
 import { SpellbookModName } from "../../../config/spells/spellbook-mod-name";
 import { readModVersion, stampVersion } from "./doc-version";
 import { getCommonKeys } from "./entry-common";
@@ -205,8 +209,8 @@ class DocumentationService {
   }
 
   // Groups the collected creatures into monster entries (a creature without entry is its own),
-  // sorted A-Z by name with members in declaration order, and renders the creature column, the
-  // sidebar menu and the type filter bar. An entry left with one valid member renders as a plain
+  // sorted A-Z by name (or by ENTRY_GROUPS sub-category) with members in declaration order, and
+  // renders the creature column, the sidebar menu and the type filter bar. An entry left with one valid member renders as a plain
   // card named after that creature.
   private getEntryName(entry: EntryEnum): TranslationKey {
     const name = ENTRY_NAMES[entry];
@@ -228,17 +232,58 @@ class DocumentationService {
         members.length > 1 && members[0].entry !== undefined
           ? translationService.from(this.getEntryName(members[0].entry))
           : translationService.from(members[0].name),
+      group: this.getEntryGroup(members[0].entry),
     }));
-    entries.sort((a, b) => a.name.localeCompare(b.name, "en"));
+    // A group left with a single entry is no sub-category: that entry stays a plain link.
+    const groupSizes = new Map<string, number>();
+    for (const { group } of entries) {
+      if (group) groupSizes.set(group, (groupSizes.get(group) ?? 0) + 1);
+    }
+    for (const entry of entries) {
+      if (entry.group && (groupSizes.get(entry.group) ?? 0) < 2) entry.group = undefined;
+    }
+    // A group sorts by its own name, its entries A-Z under it with the one named after the
+    // group first ("Wolf" before "Dire Wolf"); the cards follow the sidebar order.
+    const sortKey = (e: { name: string; group?: string }) =>
+      e.group ? [e.group, e.name === e.group ? "" : e.name] : [e.name, ""];
+    entries.sort((a, b) => {
+      const [ka, kb] = [sortKey(a), sortKey(b)];
+      return ka[0].localeCompare(kb[0], "en") || ka[1].localeCompare(kb[1], "en");
+    });
     const typeCounts = new Map<ImmunityName, number>();
-    for (const { members, name } of entries) {
+    let groupItems: string[] = [];
+    entries.forEach(({ members, name, group }, index) => {
       const types = members.map((m) => creatureTypeService.getCreatureTypes(m));
       for (const t of types.flat()) typeCounts.set(t, (typeCounts.get(t) ?? 0) + 1);
       if (members.length === 1) this.renderSingleEntry(members[0], types[0]);
       else this.renderMultiEntry(name, members, types);
-      this.sidebar.push(this.getEntryMenu(name, members, types));
-    }
+      const item = this.getEntryMenu(name, members, types);
+      if (!group) {
+        this.sidebar.push(item);
+        return;
+      }
+      groupItems.push(item);
+      if (entries[index + 1]?.group !== group) {
+        this.sidebar.push(this.getGroupMenu(group, groupItems));
+        groupItems = [];
+      }
+    });
     this.typeFilter = this.getTypeFilter(typeCounts);
+  }
+
+  private getEntryGroup(entry: EntryEnum | undefined): string | undefined {
+    const key = entry !== undefined ? ENTRY_GROUPS[entry] : undefined;
+    return key ? translationService.from(key) : undefined;
+  }
+
+  // A collapsible sidebar sub-category; docs/monsters.js hides it when the filters leave none of
+  // its links, and opens it while a filter is on.
+  private getGroupMenu(name: string, items: string[]): string {
+    return (
+      `<li class="sidebar-group"><details><summary>${name}` +
+      `<span class="group-count">${items.length}</span></summary>` +
+      `<ul>${items.join("")}</ul></details></li>`
+    );
   }
 
   private getTypeTags(types: ImmunityName[]): string {

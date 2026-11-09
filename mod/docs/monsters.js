@@ -26,6 +26,42 @@
     });
   }
 
+  // Expands or collapses every sidebar sub-category at once. The label follows the groups: once
+  // all are open it offers to collapse, otherwise to expand (opening one by hand counts too).
+  function initGroupsToggle() {
+    var button = document.querySelector(".groups-toggle");
+    var groups = document.querySelectorAll(".sidebar-group details");
+    if (!button) return;
+    if (!groups.length) {
+      button.hidden = true;
+      return;
+    }
+
+    function allOpen() {
+      return Array.prototype.every.call(groups, function (details) {
+        return details.open;
+      });
+    }
+
+    function refresh() {
+      var open = allOpen();
+      button.textContent = open ? "Collapse all" : "Expand all";
+      button.setAttribute("aria-expanded", String(open));
+    }
+
+    button.addEventListener("click", function () {
+      var open = !allOpen();
+      groups.forEach(function (details) {
+        details.open = open;
+      });
+      refresh();
+    });
+    groups.forEach(function (details) {
+      details.addEventListener("toggle", refresh);
+    });
+    refresh();
+  }
+
   function initSpellbookTabs() {
     // A mod-variant tab panel can itself contain a nested level-tabs group (a spellbook long
     // enough to need spell-level tabs inside a mod tab - see
@@ -420,6 +456,13 @@
         var target = link && document.getElementById(link.getAttribute("href").slice(1));
         li.hidden = !target || target.hidden;
       });
+      // a sub-category is hidden with its last link and opened while a filter is on, so its
+      // matches show; with the filters cleared it stays as the reader left it
+      var filtering = !!(state.type || state.query);
+      document.querySelectorAll(".sidebar-group").forEach(function (group) {
+        group.hidden = !group.querySelector("li[data-types]:not([hidden])");
+        if (filtering) group.querySelector("details").open = !group.hidden;
+      });
       if (noMatch) noMatch.hidden = anyVisible;
     }
 
@@ -457,6 +500,7 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     initSidebarToggle();
+    initGroupsToggle();
     initSpellbookTabs();
     initTraitPopover();
     initAdjustmentsPanel();

@@ -92,6 +92,66 @@
   color: var(--color-red);
 }
 
+.groups-toggle {
+  display: block;
+  margin: 0 0 8px auto;
+  padding: 1px 8px;
+  font: inherit;
+  font-size: 0.72rem;
+  color: var(--color-ink-soft);
+  background: transparent;
+  border: 1px solid var(--color-gold);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.groups-toggle:hover {
+  color: var(--color-red);
+  border-color: var(--color-red);
+}
+
+/* A sub-category of entries sharing a base name ("Bear"), collapsed until opened. */
+.sidebar-group summary {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 2px 0;
+  font-size: 0.82rem;
+  color: var(--color-ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.sidebar-group summary::-webkit-details-marker {
+  display: none;
+}
+
+/* The toggle sits at the row's end so the group name lines up with the plain links. */
+.sidebar-group summary::after {
+  content: "\25B8";
+  margin-left: auto;
+  color: var(--color-gold);
+}
+
+.sidebar-group details[open] > summary::after {
+  content: "\25BE";
+}
+
+.sidebar-group summary:hover {
+  color: var(--color-red);
+}
+
+.sidebar-group .group-count {
+  font-size: 0.72rem;
+  color: var(--color-ink-soft);
+}
+
+.sidebar-group ul {
+  padding-left: 10px;
+  border-left: 1px solid var(--color-gold);
+  margin: 0 0 4px;
+}
+
 .content {
   flex: 1 1 auto;
   min-width: 0;
