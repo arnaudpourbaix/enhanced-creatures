@@ -112,6 +112,7 @@ export enum EntryEnum {
   MageSkeleton = 104,
   ClericSkeleton = 105,
   Revenant = 106,
+  ShadowFiend = 107,
 }
 
 const entryIds = Object.values(EntryEnum).filter((v): v is EntryEnum => typeof v === "number");
@@ -156,6 +157,16 @@ export const ENTRY_GROUPS: Partial<Record<EntryEnum, TranslationKey>> = Object.f
     EntryEnum.GrizzlyBear,
     EntryEnum.PolarBear,
   ]),
+  ...group("doc.group.cat", [
+    EntryEnum.Cheetah,
+    EntryEnum.GiantLynx,
+    EntryEnum.Jaguar,
+    EntryEnum.Lion,
+    EntryEnum.MountainLion,
+    EntryEnum.SpottedLion,
+    EntryEnum.Leopard,
+    EntryEnum.WildTiger,
+  ]),
   ...group("doc.group.dog", [
     EntryEnum.WildDog,
     EntryEnum.WarDog,
@@ -178,7 +189,6 @@ export const ENTRY_GROUPS: Partial<Record<EntryEnum, TranslationKey>> = Object.f
   ...group("doc.group.horror", [EntryEnum.HelmedHorror, EntryEnum.BattleHorror]),
   ...group("doc.group.hound", [EntryEnum.SpectralHound, EntryEnum.HellHound]),
   ...group("doc.group.jelly", [EntryEnum.MustardJelly, EntryEnum.OchreJelly]),
-  ...group("doc.group.lion", [EntryEnum.Lion, EntryEnum.MountainLion, EntryEnum.SpottedLion]),
   ...group("doc.group.ogre", [
     EntryEnum.Ogre,
     EntryEnum.HalfOgre,

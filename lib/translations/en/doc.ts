@@ -12,14 +12,17 @@ export default {
     wyvern: "Wyvern",
     zombie: "Zombie",
   },
+  usage: {
+    fromHiding: "from hiding",
+  },
   group: {
     bear: "Bear",
+    cat: "Cat",
     dog: "Dog",
     golem: "Golem",
     horror: "Horror",
     hound: "Hound",
     jelly: "Jelly",
-    lion: "Lion",
     ogre: "Ogre",
     pudding: "Pudding",
     skeleton: "Skeleton",
