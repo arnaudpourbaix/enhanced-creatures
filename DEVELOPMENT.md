@@ -67,6 +67,10 @@ Whatever is kept also keeps what it needs: the kin of each kept entry and, trans
 
 Example: `npm run copy -- --bg2 --entry nereid --monster nereid`.
 
+Add `--install` to then install component 999 unattended with the game's own `weidu.exe` (`--force-install`, so an existing install is replaced; the log goes to the usual `SETUP-ENHANCED_CREATURES.DEBUG`). It needs exactly one game, `--bg1` or `--bg2`, and fails if WeiDU does. Example: `npm run copy -- --bg2 --entry nereid --install`.
+
+Add `--start` (with `--install`) to launch the game once the install succeeds: it runs the game's `InfinityLoader.exe`. The game runs detached, so the command returns at once. Example: `npm run copy -- --bg2 --install --start`.
+
 ## Adding a monster
 
 A monster is an **entry**: one monster in one or more versions (rank, age, size). Related entries can share material through a **kin**.

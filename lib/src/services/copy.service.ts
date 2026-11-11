@@ -1,3 +1,4 @@
+import childProcess from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import logService from "./log.service";
@@ -5,6 +6,12 @@ import logService from "./log.service";
 export interface CopyTargets {
   bg1: boolean;
   bg2: boolean;
+}
+
+/** What `copy` does after copying: install the mod with WeiDU, then start the game. */
+export interface CopyActions {
+  install?: boolean;
+  start?: boolean;
 }
 
 /**
@@ -35,6 +42,17 @@ const MOD_SUBFOLDER = "enhanced_creatures";
 const PNP_FOLDER = path.join("lib", "pnp-monster");
 const INDEX_REL = path.join(PNP_FOLDER, "index.tpa");
 const INDEX_JSON_REL = path.join(PNP_FOLDER, "index.json");
+const TP2_FILE = "enhanced_creatures.tp2";
+// The component `copy --install` installs (DESIGNATED in the tp2).
+const INSTALL_COMPONENT = "999";
+// WeiDU's own default log name for this tp2, so --install overwrites the usual one.
+const INSTALL_LOG = "SETUP-ENHANCED_CREATURES.DEBUG";
+
+// What --start runs: the EE launcher, which also loads EEex.
+const LAUNCHER = "InfinityLoader.exe";
+// Absolute, so --start never runs a cmd.exe found on PATH.
+const CMD = process.env.ComSpec ?? "C:\\Windows\\System32\\cmd.exe";
+
 // Group 3 is the folder under lib/pnp-monster: "kin/fey" for a kin, "dryad" for an entry.
 const GROUP_INCLUDE =
   /^([ \t]*)(INCLUDE "%MOD_FOLDER%\/lib\/pnp-monster\/((?:kin\/)?[^/"]+)\/main\.tpa"[^\r\n]*)$/gm;
@@ -47,14 +65,99 @@ class CopyService {
   configPath = path.join(this.repoRoot, "paths.local.json");
   exampleConfigPath = path.join(this.repoRoot, "paths.example.json");
 
-  async copy(targets: CopyTargets, filter?: CopyFilter): Promise<number> {
+  /**
+   * With `install`, WeiDU then installs component 999 in the copied game: that needs exactly one
+   * target, since each game is a separate install. `start` then launches that game, and needs
+   * `install` (a copy alone changes nothing in game).
+   */
+  async copy(
+    targets: CopyTargets,
+    filter?: CopyFilter,
+    { install = false, start = false }: CopyActions = {},
+  ): Promise<number> {
+    this.checkActions(targets, { install, start });
     const config = this.loadConfig();
     // Built from mod/ before copying anything, so a filter matching nothing fails early.
     const overrides = filter ? this.buildFilteredFiles(filter) : new Map<string, string>();
+    const chosen: [string, string | undefined][] = [];
+    if (targets.bg1) chosen.push(["BG1", config.bg1]);
+    if (targets.bg2) chosen.push(["BG2", config.bg2]);
     let copiedCount = 0;
-    if (targets.bg1 && (await this.copyToTarget("BG1", config.bg1, overrides))) copiedCount++;
-    if (targets.bg2 && (await this.copyToTarget("BG2", config.bg2, overrides))) copiedCount++;
+    for (const [label, destRoot] of chosen) {
+      if (!(await this.copyToTarget(label, destRoot, overrides))) continue;
+      copiedCount++;
+      // copyToTarget only succeeds with a configured, existing destRoot.
+      if (destRoot) this.runActions(label, destRoot, { install, start });
+    }
     return copiedCount;
+  }
+
+  private checkActions(targets: CopyTargets, { install, start }: CopyActions): void {
+    if (start && !install) {
+      throw new Error("--start needs --install");
+    }
+    if (install && targets.bg1 === targets.bg2) {
+      throw new Error("--install needs exactly one game: pass --bg1 or --bg2");
+    }
+  }
+
+  private runActions(label: string, gameRoot: string, { install, start }: CopyActions): void {
+    if (install) this.install(label, gameRoot);
+    if (start) this.start(label, gameRoot);
+  }
+
+  /** Runs the game's own weidu.exe on the copied tp2, (re)installing component 999 unattended. */
+  install(label: string, gameRoot: string): void {
+    const weidu = path.join(gameRoot, "weidu.exe");
+    if (!fs.existsSync(weidu)) {
+      throw new Error(`${label}: ${weidu} not found, cannot install`);
+    }
+    logService.header(`Installing component ${INSTALL_COMPONENT} in ${label}`);
+    const args = [
+      `${MOD_SUBFOLDER}/${TP2_FILE}`,
+      "--force-install",
+      INSTALL_COMPONENT,
+      "--language",
+      "0",
+      "--skip-at-view",
+      "--noautoupdate",
+      "--no-exit-pause",
+      "--log",
+      INSTALL_LOG,
+    ];
+    try {
+      // inherit: WeiDU's progress shows live in the terminal.
+      childProcess.execFileSync(weidu, args, { cwd: gameRoot, stdio: "inherit" });
+    } catch (e: unknown) {
+      throw new Error(`${label}: WeiDU install failed, see ${path.join(gameRoot, INSTALL_LOG)}`, {
+        cause: e,
+      });
+    }
+    logService.log(`Installed component ${INSTALL_COMPONENT} in ${label}`);
+  }
+
+  /**
+   * Launches the game with InfinityLoader.exe through `start`, like a double click: a plain
+   * detached spawn starts it without a console and it never opens the game. /D makes the game
+   * folder its working directory; the empty "" is start's window title.
+   */
+  start(label: string, gameRoot: string): void {
+    const launcher = path.join(gameRoot, LAUNCHER);
+    if (!fs.existsSync(launcher)) {
+      throw new Error(`${label}: ${launcher} not found, cannot start`);
+    }
+    logService.log(`Starting ${label} (${launcher})`);
+    const quote = (p: string) => `"${path.resolve(p)}"`;
+    // Verbatim, so Node doesn't re-escape the quotes cmd needs around paths with spaces.
+    const args = ["/c", "start", '""', "/D", quote(gameRoot), quote(launcher)];
+    const result = childProcess.spawnSync(CMD, args, {
+      cwd: gameRoot,
+      stdio: "ignore",
+      windowsVerbatimArguments: true,
+    });
+    if (result.error || result.status !== 0) {
+      throw new Error(`${label}: could not start ${launcher}`, { cause: result.error });
+    }
   }
 
   /** Returns the rewritten contents (keyed by path relative to mod/) of the files the filter changes. */

@@ -1,3 +1,4 @@
+import childProcess from "child_process";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
@@ -138,6 +139,147 @@ describe("CopyService", () => {
     await copyService.copy({ bg1: true, bg2: false });
 
     expect(fs.readFileSync(modPath(bg1Dir, TP2_FILE), "utf-8")).toBe(TP2_CONTENTS);
+  });
+
+  describe("install", () => {
+    function fakeWeidu(dest: string): void {
+      fs.writeFileSync(path.join(dest, "weidu.exe"), "");
+    }
+
+    it("refuses --install without exactly one game, before copying anything", async () => {
+      writeConfig({ bg1: bg1Dir, bg2: bg2Dir });
+
+      await expect(
+        copyService.copy({ bg1: true, bg2: true }, undefined, { install: true }),
+      ).rejects.toThrow("--install needs exactly one game");
+      expect(fs.existsSync(modPath(bg1Dir, TP2_FILE))).toBe(false);
+    });
+
+    it("runs the game's weidu.exe on the copied tp2 after copying, for component 999", async () => {
+      writeConfig({ bg1: bg1Dir, bg2: bg2Dir });
+      fakeWeidu(bg2Dir);
+      const exec = vi.spyOn(childProcess, "execFileSync").mockImplementation(() => {
+        expect(fs.existsSync(modPath(bg2Dir, TP2_FILE))).toBe(true);
+        return Buffer.from("");
+      });
+
+      await copyService.copy({ bg1: false, bg2: true }, undefined, { install: true });
+
+      expect(exec).toHaveBeenCalledTimes(1);
+      const [command, args, options] = exec.mock.calls[0];
+      expect(command).toBe(path.join(bg2Dir, "weidu.exe"));
+      expect(args).toEqual(
+        expect.arrayContaining([
+          `${MOD_SUBFOLDER}/${TP2_FILE}`,
+          "--force-install",
+          "999",
+          "--no-exit-pause",
+        ]),
+      );
+      expect(options).toEqual(expect.objectContaining({ cwd: bg2Dir }));
+    });
+
+    it("does not run WeiDU without --install", async () => {
+      writeConfig({ bg1: bg1Dir });
+      fakeWeidu(bg1Dir);
+      const exec = vi.spyOn(childProcess, "execFileSync");
+
+      await copyService.copy({ bg1: true, bg2: false });
+
+      expect(exec).not.toHaveBeenCalled();
+    });
+
+    it("explains a missing weidu.exe", async () => {
+      writeConfig({ bg1: bg1Dir });
+
+      await expect(
+        copyService.copy({ bg1: true, bg2: false }, undefined, { install: true }),
+      ).rejects.toThrow("weidu.exe not found");
+    });
+
+    it("reports a failed WeiDU run with its log", async () => {
+      writeConfig({ bg1: bg1Dir });
+      fakeWeidu(bg1Dir);
+      vi.spyOn(childProcess, "execFileSync").mockImplementation(() => {
+        throw new Error("exit 1");
+      });
+
+      await expect(
+        copyService.copy({ bg1: true, bg2: false }, undefined, { install: true }),
+      ).rejects.toThrow(/WeiDU install failed, see .*SETUP-ENHANCED_CREATURES\.DEBUG/);
+    });
+  });
+
+  describe("start", () => {
+    beforeEach(() => {
+      writeConfig({ bg1: bg1Dir });
+      fs.writeFileSync(path.join(bg1Dir, "weidu.exe"), "");
+      fs.writeFileSync(path.join(bg1Dir, "InfinityLoader.exe"), "");
+    });
+
+    it("refuses --start without --install, before copying anything", async () => {
+      await expect(
+        copyService.copy({ bg1: true, bg2: false }, undefined, { start: true }),
+      ).rejects.toThrow("--start needs --install");
+      expect(fs.existsSync(modPath(bg1Dir, TP2_FILE))).toBe(false);
+    });
+
+    const started = () => ({ status: 0 }) as unknown as ReturnType<typeof childProcess.spawnSync>;
+
+    it("starts InfinityLoader.exe through cmd start, in the game folder, after installing", async () => {
+      const exec = vi.spyOn(childProcess, "execFileSync").mockReturnValue(Buffer.from(""));
+      const spawn = vi.spyOn(childProcess, "spawnSync").mockReturnValue(started());
+
+      await copyService.copy({ bg1: true, bg2: false }, undefined, { install: true, start: true });
+
+      expect(spawn).toHaveBeenCalledTimes(1);
+      const [command, args, options] = spawn.mock.calls[0];
+      expect(command).toMatch(/cmd\.exe$/i);
+      expect(args).toEqual([
+        "/c",
+        "start",
+        '""',
+        "/D",
+        `"${path.resolve(bg1Dir)}"`,
+        `"${path.resolve(bg1Dir, "InfinityLoader.exe")}"`,
+      ]);
+      expect(options).toEqual(
+        expect.objectContaining({ cwd: bg1Dir, windowsVerbatimArguments: true }),
+      );
+      expect(exec.mock.invocationCallOrder[0]).toBeLessThan(spawn.mock.invocationCallOrder[0]);
+    });
+
+    it("reports a launch that cmd refuses", async () => {
+      vi.spyOn(childProcess, "execFileSync").mockReturnValue(Buffer.from(""));
+      vi.spyOn(childProcess, "spawnSync").mockReturnValue({
+        status: 1,
+      } as unknown as ReturnType<typeof childProcess.spawnSync>);
+
+      await expect(
+        copyService.copy({ bg1: true, bg2: false }, undefined, { install: true, start: true }),
+      ).rejects.toThrow("could not start");
+    });
+
+    it("does not start the game when the install fails", async () => {
+      vi.spyOn(childProcess, "execFileSync").mockImplementation(() => {
+        throw new Error("exit 1");
+      });
+      const spawn = vi.spyOn(childProcess, "spawnSync");
+
+      await expect(
+        copyService.copy({ bg1: true, bg2: false }, undefined, { install: true, start: true }),
+      ).rejects.toThrow("WeiDU install failed");
+      expect(spawn).not.toHaveBeenCalled();
+    });
+
+    it("explains a missing launcher", async () => {
+      fs.rmSync(path.join(bg1Dir, "InfinityLoader.exe"));
+      vi.spyOn(childProcess, "execFileSync").mockReturnValue(Buffer.from(""));
+
+      await expect(
+        copyService.copy({ bg1: true, bg2: false }, undefined, { install: true, start: true }),
+      ).rejects.toThrow("InfinityLoader.exe not found");
+    });
   });
 
   describe("filter", () => {

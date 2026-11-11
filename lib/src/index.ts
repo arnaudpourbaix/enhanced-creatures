@@ -55,6 +55,11 @@ program
       "combined with --entry/--kin it narrows those, alone it keeps every entry with a match",
     collectList,
   )
+  .option(
+    "--install",
+    "after copying, install component 999 with the game's weidu.exe (needs --bg1 or --bg2)",
+  )
+  .option("--start", "after installing, start the game (needs --install)")
   .action(async (opts: CopyOptions) => {
     try {
       await runCopy(opts);
@@ -89,6 +94,8 @@ interface CopyOptions {
   entry?: string[];
   kin?: string[];
   monster?: string[];
+  install?: boolean;
+  start?: boolean;
 }
 
 // Accepts both repeated/space-separated values and comma lists: --entry dryad,ogre
@@ -114,7 +121,10 @@ async function runCopy(opts: CopyOptions): Promise<void> {
   };
   logService.filePath = path.join(process.cwd(), "copy.log");
   logService.init();
-  const copiedCount = await copyService.copy(targets, filter);
+  const copiedCount = await copyService.copy(targets, filter, {
+    install: !!opts.install,
+    start: !!opts.start,
+  });
   logService.summary();
   if (logService.hasErrors()) {
     console.error(chalk.red(`\nCopy finished with errors, see copy.log`));
