@@ -11,6 +11,7 @@ interface AbstractWeiduServiceProtected {
     exclude: boolean,
   ): void;
   executeCodeWithIncludedFiles(lines: CodeLine[], tab: number, code: string, files: string[]): void;
+  write(lines: CodeLine[], offset: number, size: number, value: number | string | undefined): void;
 }
 
 const service = weiduItemService as unknown as AbstractWeiduServiceProtected;
@@ -30,6 +31,20 @@ describe("addConditionalSourceRes (protected)", () => {
     const lines: CodeLine[] = [];
     service.addConditionalSourceRes(lines, ["CODE1", "CODE2"], 0, ["FILE1"], false);
     expect(codes(lines)).toEqual(expect.arrayContaining(["CODE1", "CODE2"]));
+  });
+});
+
+describe("write (protected)", () => {
+  it("quotes a negative number so WeiDU does not read it as a subtraction", () => {
+    const lines: CodeLine[] = [];
+    service.write(lines, 0x86, 2, -4);
+    expect(codes(lines)).toEqual([`WRITE_SHORT 0x86 "-4"`]);
+  });
+
+  it("leaves a positive number bare", () => {
+    const lines: CodeLine[] = [];
+    service.write(lines, 0x8c, 2, 8);
+    expect(codes(lines)).toEqual(["WRITE_SHORT 0x8c 8"]);
   });
 });
 

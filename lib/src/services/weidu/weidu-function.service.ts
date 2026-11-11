@@ -96,7 +96,8 @@ class WeiduFunctionService extends AbstractWeiduService {
     sp: Exclude<SpellProtection, SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2>,
     file: string,
   ) {
-    let value = `value=${sp.value ?? -1}`;
+    // quoted: a bare negative (-1, the effect's own value) breaks the parse
+    let value = `value="${sp.value ?? -1}"`;
     if (typeof sp.value === "string" && !/\d+/.test(sp.value) && file) {
       this.add(lines, `OUTER_SET value=IDS_OF_SYMBOL (~${file}~ ~${sp.value}~)`, 1);
       value = "value";
@@ -133,14 +134,16 @@ class WeiduFunctionService extends AbstractWeiduService {
     } else {
       const file1 = utils.getIdsFileFromSpellProtectionStat(sp.row1.stat as SpellProtectionStat);
       this.generateValueProtectionSpells(lines, sp.row1, file1);
-      this.add(lines, `OUTER_SET row1=index`, 1);
+      // the row itself: ADD_SPLPROT_ENTRY returns it + 1
+      this.add(lines, `OUTER_SET row1=index - 1`, 1);
     }
     if (typeof sp.row2 === "string") {
       row2 = sp.row2;
     } else {
       const file2 = utils.getIdsFileFromSpellProtectionStat(sp.row2.stat as SpellProtectionStat);
       this.generateValueProtectionSpells(lines, sp.row2, file2);
-      this.add(lines, `OUTER_SET row2=index`, 1);
+      // the row itself: ADD_SPLPROT_ENTRY returns it + 1
+      this.add(lines, `OUTER_SET row2=index - 1`, 1);
     }
     this.add(
       lines,

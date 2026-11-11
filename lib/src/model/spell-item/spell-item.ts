@@ -200,6 +200,8 @@ export interface Item {
   shared?: boolean;
   /** Its hit grabs (see GrabService) */
   grab?: boolean;
+  /** Its hit trips (see TripService) */
+  trip?: boolean;
 }
 
 export interface ItemSpellHeader {

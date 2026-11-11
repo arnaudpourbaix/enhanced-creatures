@@ -10,8 +10,8 @@ interface GrabSharedConfig {
   probability: number;
 
   /**
-   * The save the victim makes every round, the grab's first round included unless `trigger` is
-   * "probability": a success frees it
+   * The victim's save: on the hit unless `trigger` is "probability" (a success avoids the grab),
+   * and every round with `escape` "save" (a success frees it)
    */
   saveType: SaveTypeEnum;
   saveBonus: number;
@@ -43,8 +43,16 @@ export interface CreatureGrabConfig extends Partial<GrabSharedConfig> {
   trigger?: "probability" | "save" | "both";
 
   /**
+   * How the victim breaks free (default "none"):
+   * - "save": a save every round, a success frees it
+   * - "strength": a Strength check every round, d20 at or under its Strength frees it
+   * - "none": never, the grip ends only when the grabber dies or kills it
+   */
+  escape?: "save" | "strength" | "none";
+
+  /**
    * Damage per round dealt by the grip itself (one entry per damage type), every round the
-   * victim fails its save: the grabber then makes no attack while it holds (its attacks per
+   * victim stays held (fails its save or Strength check, if it escapes by one): the grabber then makes no attack while it holds (its attacks per
    * round are set to 0). The check deals it, so a grab held at once on a hit (`trigger`
    * "probability") deals it from the next round only: the hit deals the weapon's own damage.
    */
@@ -61,6 +69,23 @@ export interface CreatureGrabConfig extends Partial<GrabSharedConfig> {
    * (a huge ettin revenant grips with one hand and strikes with the club in the other)
    */
   freeHand?: boolean;
+
+  /**
+   * The grip steals life: the grabber heals as much as each round's grip damage (vampiric wolf)
+   */
+  lifeDrain?: boolean;
+
+  /**
+   * The grip holds the victim's weapon arm: it can not attack (its attacks per round are set to
+   * 0) nor cast a wizard or priest spell (no gesture) while held. Innate abilities stay
+   */
+  victimNoAttack?: boolean;
+
+  /**
+   * The grab seizes a limb (an arm, a leg), not the whole body: it reaches a victim one size
+   * bigger than the grabber. Otherwise only a victim its own size or smaller.
+   */
+  limb?: boolean;
 }
 
 /**

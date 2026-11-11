@@ -2,6 +2,7 @@ export enum EffectTypeEnum {
   AcidResistanceModifier = 27,
   AllSavingThrowsBonus = 325,
   AnimationChange = 53,
+  ApplyEffectsList = 326,
   ArmorClassBonus = 0,
   AttackDamageBonus = 73,
   BackstabBonus = 263,

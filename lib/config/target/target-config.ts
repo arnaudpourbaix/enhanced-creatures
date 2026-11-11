@@ -1,5 +1,6 @@
 import { ScriptTarget } from "../../src/model/constants";
 import { GRAB_DEFAULT_CONFIG } from "../../src/model/creature/grab";
+import { TRIP_DEFAULT_CONFIG } from "../../src/model/creature/trip";
 import { ClassIdentifier } from "../../src/model/ids/class";
 import { TargetStatus } from "../../src/model/script/target";
 import { Triggers } from "../../src/model/script/triggers";
@@ -181,6 +182,7 @@ const NOT_ENGAGED: Triggers.Trigger[] = ["", "Second", "Third"].map((rank) => {
 
 export const DEFAULT_STATUS_ORDER: TargetStatusName[] = [
   "Grabbed",
+  "Prone",
   "HeldNearby",
   "StunnedNearby",
   "Wounded",
@@ -251,6 +253,18 @@ export const TARGET_STATUS: TargetStatus[] = [
       {
         name: "CheckSpellState",
         params: [ScriptTarget.token, GRAB_DEFAULT_CONFIG.grabbedState],
+      },
+    ],
+  },
+  {
+    status: "Prone",
+    canOnlyTargetPlayer: false,
+    requireIntelligence: false,
+    triggers: [],
+    targetTriggers: [
+      {
+        name: "CheckSpellState",
+        params: [ScriptTarget.token, TRIP_DEFAULT_CONFIG.proneState],
       },
     ],
   },

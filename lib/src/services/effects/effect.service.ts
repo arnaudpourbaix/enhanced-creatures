@@ -6,7 +6,7 @@ import {
   BaseEffect,
   DamageEffect,
   Effect,
-  ProtectionFromResourceEffect,
+  SpellProtectionCondition,
   ScriptingStateModifierEffect,
 } from "../../model/spell-item/effect";
 import {
@@ -22,6 +22,7 @@ import {
   ReplaceCreatureTypeEnum,
 } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
+import { STAT_IDS, StatsIdentifier } from "../../model/ids/stats";
 import {
   SpellProtection,
   SpellProtectionNotRow1AndNotRow2,
@@ -208,6 +209,7 @@ class EffectService {
         break;
       case EffectTypeEnum.ProtectionFromResource:
       case EffectTypeEnum.ProtectionFromResourceAndMessage:
+      case EffectTypeEnum.ApplyEffectsList:
         this.protectionFromResource(effect);
         break;
       case EffectTypeEnum.ScriptingStateModifier:
@@ -244,7 +246,9 @@ class EffectService {
         break;
       case EffectTypeEnum.Sleep:
       case EffectTypeEnum.Sleep20HP:
+        // EE: 0 wakes on damage, 1 doesn't
         effect.parameter2 = `${effect.wakeOnDamage ? 0 : 1}`;
+        if (effect.icon) effect.special = effect.icon;
         break;
       case EffectTypeEnum.CharmCreature:
       case EffectTypeEnum.CharmControlCreature:
@@ -387,7 +391,8 @@ class EffectService {
     effect.parameter2 = `${mode + (type << 16)}`;
   }
 
-  private protectionFromResource(effect: ProtectionFromResourceEffect) {
+  /** SPLPROT condition of op 318, 324 and 326: param1 the value, param2 the row */
+  private protectionFromResource(effect: BaseEffect & SpellProtectionCondition) {
     const isValueString = typeof effect.value === "string" && !/\d+/.test(effect.value);
     if (effect.value !== undefined && !isValueString) effect.parameter1 = `${effect.value}`;
     if (typeof effect.type === "string")
@@ -398,7 +403,7 @@ class EffectService {
   }
 
   private protectionFromResourceFromName(
-    effect: ProtectionFromResourceEffect,
+    effect: BaseEffect & SpellProtectionCondition,
     type: SpellProtectionName,
     isValueString: boolean,
   ) {
@@ -407,7 +412,7 @@ class EffectService {
   }
 
   private protectionFromResourceFromObject(
-    effect: ProtectionFromResourceEffect,
+    effect: BaseEffect & SpellProtectionCondition,
     type: Exclude<SpellProtection, SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2>,
     isValueString: boolean,
   ) {
@@ -415,8 +420,10 @@ class EffectService {
     // EXISTING_SPELL_PROTECTIONS's stat/relation fields are typed as plain string/number
     // (inferred, no `as const`) - widen type's enum-typed fields to match rather than loosen the
     // shared config table's inferred types.
+    // a STATS.IDS name ("STR") is its number in SPLPROT.2DA ("36")
+    const stat = `${STAT_IDS[type.stat as StatsIdentifier] ?? type.stat}`;
     const prot = EXISTING_SPELL_PROTECTIONS.find((p) => {
-      const statMatches = p.stat === (type.stat as string);
+      const statMatches = p.stat === stat;
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       const relationMatches = p.relation === (type.relation as number);
       return statMatches && relationMatches && p.value == type.value;

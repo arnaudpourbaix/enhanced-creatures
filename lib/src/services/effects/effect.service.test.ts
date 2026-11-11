@@ -17,6 +17,7 @@ import {
   EffectStatisticModifierEnum,
   EffectTargetEnum,
   EffectTimingEnum,
+  PortraitIconEnum,
   ProficiencyTypeEnum,
 } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
@@ -493,6 +494,20 @@ describe("getEffect", () => {
       effectService.getEffect(effect);
       expect(effect.special).toBeUndefined();
     });
+  });
+
+  it("writes wake on damage as 0 (1 sleeps on), with its icon in special", () => {
+    const wakes: Effect = {
+      opcode: EffectTypeEnum.Sleep,
+      wakeOnDamage: true,
+      icon: PortraitIconEnum.Sleep,
+    };
+    effectService.getEffect(wakes);
+    expect(wakes.parameter2).toBe("0");
+    expect(wakes.special).toBe(PortraitIconEnum.Sleep);
+    const sleepsOn: Effect = { opcode: EffectTypeEnum.Sleep, wakeOnDamage: false };
+    effectService.getEffect(sleepsOn);
+    expect(sleepsOn.parameter2).toBe("1");
   });
 
   it("fills parameter2 for SetAnimationSequence", () => {

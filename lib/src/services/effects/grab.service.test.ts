@@ -1,9 +1,18 @@
 import { describe, expect, it, vi } from "vitest";
 import { MonsterEnum } from "../../../creatures/monster";
-import { GRAB_IMMUNE_CREATURES, HUGE_CREATURES, LARGE_CREATURES } from "../../../config/creatures";
+import {
+  GARGANTUAN_CREATURES,
+  GRAB_IMMUNE_CREATURES,
+  HUGE_CREATURES,
+  LARGE_CREATURES,
+} from "../../../config/creatures";
 import { Creature } from "../../model/creature/creature";
 import { CreatureGrabConfig } from "../../model/creature/grab";
-import { CastSpellEffect, Effect, ProtectionFromResourceEffect } from "../../model/spell-item/effect";
+import {
+  CastSpellEffect,
+  Effect,
+  ProtectionFromResourceEffect,
+} from "../../model/spell-item/effect";
 import {
   EffectCastSpellTypeEnum,
   EffectDamageTypeEnum,
@@ -12,20 +21,21 @@ import {
   SaveTypeEnum,
 } from "../../model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
+import { SpellProtectionRelation } from "../../model/spell-item/spell-protection";
 import { Spell, Weapon } from "../../model/spell-item/spell-item";
 import logService from "../log.service";
 import translationService from "../translation.service";
 import grabService from "./grab.service";
 
 interface GrabServicePrivate {
-  getGrabImmuneEffects(creature: Creature): Effect[];
+  getGrabImmuneEffects(creature: Creature, grab: CreatureGrabConfig): Effect[];
 }
 const service = grabService as unknown as GrabServicePrivate;
 
 function fakeCreature(
   p: {
     strength?: number;
-    size?: "Large" | "Huge" | "Medium";
+    size?: "Small" | "Medium" | "Large" | "Huge";
   } = {},
 ): Creature & { traits: Effect[] } {
   const traits: Effect[] = [];
@@ -53,7 +63,8 @@ function attach(
 ) {
   const weapon = fakeWeapon();
   const creature = fakeCreature(p);
-  grabService.attachGrabToWeapon(creature, weapon, grab);
+  // most tests are about the escape save: the no-save tests ask for escape "none"
+  grabService.attachGrabToWeapon(creature, weapon, { escape: "save", ...grab });
   const [check, hold, release, grip, letGo] = creature.spells;
   return { weapon, creature, check, hold, release, grip, letGo };
 }
@@ -117,6 +128,163 @@ describe("attachGrabToWeapon", () => {
     );
   });
 
+  it("has no save by default: the round's check holds and deals the grip's damage", () => {
+    const weapon = fakeWeapon();
+    const creature = fakeCreature({ strength: 10, size: "Medium" });
+    grabService.attachGrabToWeapon(creature, weapon, {
+      trigger: "probability",
+      damagePerRound: { type: EffectDamageTypeEnum.Crushing, diceThrown: 2, diceSize: 8 },
+    });
+    const [check, hold] = creature.spells;
+    expect(casts(check).map((e) => e.resource)).toEqual([hold.file]);
+    expect(effectsOf(check).map((e) => e.opcode)).toContain(EffectTypeEnum.Damage);
+    expect(effectsOf(check).every((e) => !e.saveTypes?.length)).toBe(true);
+    expect(translationService.from(hold.description ?? 0)).toContain(
+      translationService.from("spell.grab.noEscape"),
+    );
+  });
+
+  it("puts a save on the hit in its own attempt when the victim can't escape", () => {
+    const { weapon, creature, check, hold } = attach({ escape: "none" });
+    expect(creature.spells).toHaveLength(6);
+    const attempt = creature.spells[5];
+    expect(weapon.header.effects).toEqual([
+      expect.objectContaining({ resource: attempt.file, probability1: 100 }),
+    ]);
+    expect(casts(attempt)[0]).toMatchObject({
+      resource: hold.file,
+      saveTypes: [SaveTypeEnum.ParalyzePoisonDeath],
+    });
+    expect(casts(check)[0].saveTypes ?? []).toEqual([]);
+    expect(attempt.xpAbility).toBe("specialAttack");
+    expect(check.xpAbility).toBeUndefined();
+    const description = translationService.from(attempt.description ?? 0);
+    expect(description).toContain(translationService.from("spell.grab.avoid"));
+    expect(description).toContain(translationService.from("spell.grab.noEscape"));
+  });
+
+  it("describes the escape save, and the hit's save only when the hit has one", () => {
+    const { check } = attach();
+    const withSave = translationService.from(check.description ?? 0);
+    expect(withSave).toContain(translationService.from("spell.grab.avoid"));
+    expect(withSave).toContain(translationService.from("spell.grab.escape"));
+    const { hold } = attach({ trigger: "probability" });
+    const onProbability = translationService.from(hold.description ?? 0);
+    expect(onProbability).not.toContain(translationService.from("spell.grab.avoid"));
+    expect(onProbability).toContain(translationService.from("spell.grab.escape"));
+  });
+
+  it("stops the victim from attacking and casting only when the grip holds its weapon arm", () => {
+    const apr = (spell: Spell) =>
+      effectsOf(spell).filter((e) => e.opcode === EffectTypeEnum.ModifyAttacksPerRound);
+    const spells = (spell: Spell) =>
+      effectsOf(spell).filter((e) => e.opcode === EffectTypeEnum.DisableSpellcasting);
+    expect(apr(attach().hold)).toEqual([]);
+    expect(spells(attach().hold)).toEqual([]);
+    const { hold, check } = attach({ victimNoAttack: true });
+    expect(apr(hold)).toEqual([
+      expect.objectContaining({ value: 0, duration: 7, target: EffectTargetEnum.PresetTarget }),
+    ]);
+    // wizard and priest spells, never innate abilities
+    expect(spells(hold).map((e) => [e.parameter2, e.duration])).toEqual([
+      ["0", 7],
+      ["1", 7],
+    ]);
+    expect(translationService.from(check.description ?? 0)).toContain(
+      translationService.from("spell.grab.victimNoAttack"),
+    );
+  });
+
+  it("escapes by a Strength check: 20 - Strength slices of one roll apply the check without a save", () => {
+    const weapon = fakeWeapon();
+    const creature = fakeCreature({ strength: 18, size: "Small" });
+    grabService.attachGrabToWeapon(creature, weapon, {
+      trigger: "probability",
+      escape: "strength",
+      damagePerRound: { type: EffectDamageTypeEnum.Piercing, amount: 8 },
+    });
+    expect(creature.spells).toHaveLength(8);
+    const [check, hold, , , , seize, failed, freed] = creature.spells;
+    expect(weapon.header.effects.map((e) => (e as CastSpellEffect).resource)).toEqual([
+      seize.file,
+      hold.file,
+    ]);
+    // the hold casts the Strength check every round
+    expect(casts(hold).map((e) => e.resource)).toContain(check.file);
+    // the effects of the check matching a victim's Strength
+    const matching = (strength: number) =>
+      effectsOf(check).filter((e) => {
+        const { type, value } = e as unknown as {
+          type: string | { relation: SpellProtectionRelation };
+          value: number;
+        };
+        return type === "STRENGTH_EQUAL" ? strength === value : strength >= value;
+      });
+    const chance = (e: Effect) => (e.probability1 ?? 100) - (e.probability2 ?? 0) + 1;
+    const of = (strength: number, file: string) =>
+      matching(strength).filter((e) => (e as { resource: string }).resource === file);
+    // held (20 - Strength) x 5% of the rounds, by a single effect: right whether the effects
+    // share the spell's roll or each roll their own
+    const held = (strength: number) => {
+      const failures = of(strength, failed.file);
+      expect(failures.length).toBeLessThanOrEqual(1);
+      return failures.length ? chance(failures[0]) : 0;
+    };
+    expect(held(18)).toBe(10);
+    expect(held(10)).toBe(50);
+    expect(held(5)).toBe(75);
+    expect(held(3)).toBe(85);
+    expect(held(20)).toBe(0);
+    expect(held(25)).toBe(0);
+    // with a shared roll, every roll gives exactly one outcome: held, or freed
+    for (const strength of [1, 5, 10, 18, 19, 20, 25]) {
+      for (let roll = 0; roll < 100; roll++) {
+        const outcomes = matching(strength).filter(
+          (e) => (e.probability2 ?? 0) <= roll && roll <= (e.probability1 ?? 100),
+        );
+        expect(outcomes).toHaveLength(1);
+      }
+    }
+    expect(of(5, freed.file)).toHaveLength(1);
+    // the success only says so
+    expect(effectsOf(freed)).toEqual([
+      expect.objectContaining({ opcode: EffectTypeEnum.DisplayString }),
+    ]);
+    // the failure holds and gnaws, without a save, and says so
+    expect(casts(failed).map((e) => e.resource)).toEqual([hold.file]);
+    expect(effectsOf(failed).map((e) => e.opcode)).toContain(EffectTypeEnum.Damage);
+    expect(effectsOf(failed).at(-1)).toEqual(
+      expect.objectContaining({ opcode: EffectTypeEnum.DisplayString }),
+    );
+    expect(effectsOf(failed).every((e) => !e.saveTypes?.length)).toBe(true);
+    expect(translationService.from(hold.description ?? 0)).toContain(
+      translationService.from("spell.grab.escapeStrength"),
+    );
+  });
+
+  it("heals the grabber as much as the grip's damage when it steals life, on the same save", () => {
+    const heals = (spell: Spell) =>
+      effectsOf(spell).filter((e) => e.opcode === EffectTypeEnum.CurrentHPbonus);
+    const strangle = {
+      damagePerRound: { type: EffectDamageTypeEnum.Piercing, amount: 8 },
+      addStrengthBonus: true,
+    };
+    expect(heals(attach(strangle).check)).toEqual([]);
+    const { check } = attach({ ...strangle, lifeDrain: true }, { strength: 18, size: "Small" });
+    const damage = effectsOf(check).find((e) => e.opcode === EffectTypeEnum.Damage);
+    expect(heals(check)).toEqual([
+      expect.objectContaining({
+        target: EffectTargetEnum.OriginalCaster,
+        value: 10,
+        saveTypes: damage?.saveTypes,
+        saveBonus: damage?.saveBonus,
+      }),
+    ]);
+    expect(translationService.from(check.description ?? 0)).toContain(
+      translationService.from("spell.grab.lifeDrain"),
+    );
+  });
+
   it("marks the weapon as grabbing", () => {
     expect(attach().weapon.grab).toBe(true);
   });
@@ -166,9 +334,7 @@ describe("attachGrabToWeapon", () => {
         resource: letGo.file,
       }),
     );
-    expect(effectsOf(hold).map((e) => e.opcode)).not.toContain(
-      EffectTypeEnum.CastSpellOnCondition,
-    );
+    expect(effectsOf(hold).map((e) => e.opcode)).not.toContain(EffectTypeEnum.CastSpellOnCondition);
   });
 
   it("computes the check's save from strength + size grab modifiers", () => {
@@ -308,39 +474,50 @@ describe("attachGrabToWeapon", () => {
   });
 
   it("always includes the base grab-immune creature list regardless of size", () => {
-    const { hold } = attach();
+    const { hold } = attach({}, { strength: 10, size: "Huge" });
     const entries = immuneEntries(hold);
     for (const [, entry] of GRAB_IMMUNE_CREATURES) {
       expect(entries).toContain(entry);
     }
-    expect(entries).not.toContain("GIANT"); // HUGE_CREATURES, not added without a size
     // protected from the hold itself, no EFF file
     expect(hold.effectFiles).toEqual([]);
   });
 
-  it("adds HUGE_CREATURES immunities for a Huge creature but not LARGE_CREATURES", () => {
-    const { hold } = attach({}, { strength: 10, size: "Huge" });
-    const entries = immuneEntries(hold);
-    for (const [, entry] of HUGE_CREATURES) {
+  it("can't grab a victim bigger than the grabber", () => {
+    const entries = immuneEntries(attach({}, { strength: 10, size: "Medium" }).hold);
+    for (const [, entry] of [...LARGE_CREATURES, ...HUGE_CREATURES, ...GARGANTUAN_CREATURES]) {
       expect(entries).toContain(entry);
     }
-    for (const [, entry] of LARGE_CREATURES) {
+  });
+
+  it("grabs a victim its own size", () => {
+    const entries = immuneEntries(attach({}, { strength: 10, size: "Huge" }).hold);
+    for (const [, entry] of [...LARGE_CREATURES, ...HUGE_CREATURES]) {
       expect(entries).not.toContain(entry);
     }
-  });
-
-  it("adds both HUGE_CREATURES and LARGE_CREATURES immunities for a Large creature", () => {
-    const { hold } = attach({}, { strength: 10, size: "Large" });
-    const entries = immuneEntries(hold);
-    for (const [, entry] of [...HUGE_CREATURES, ...LARGE_CREATURES]) {
+    for (const [, entry] of GARGANTUAN_CREATURES) {
       expect(entries).toContain(entry);
     }
   });
 
-  it("getGrabImmuneEffects (private) skips the size-based extras and warns when the creature has no size", () => {
+  it("reaches one size bigger on a limb", () => {
+    const entries = immuneEntries(attach({ limb: true }, { strength: 10, size: "Small" }).hold);
+    for (const [, entry] of LARGE_CREATURES) {
+      expect(entries).toContain(entry);
+    }
+    const medium = immuneEntries(attach({ limb: true }, { strength: 10, size: "Medium" }).hold);
+    for (const [, entry] of LARGE_CREATURES) {
+      expect(medium).not.toContain(entry);
+    }
+    for (const [, entry] of HUGE_CREATURES) {
+      expect(medium).toContain(entry);
+    }
+  });
+
+  it("getGrabImmuneEffects (private) skips the size limit and warns when the creature has no size", () => {
     const creature = fakeCreature({ strength: 10 });
     const consoleSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
-    const effects = service.getGrabImmuneEffects(creature);
+    const effects = service.getGrabImmuneEffects(creature, {});
     expect(consoleSpy).toHaveBeenCalled();
     expect(effects).toHaveLength(GRAB_IMMUNE_CREATURES.length);
     consoleSpy.mockRestore();

@@ -209,6 +209,7 @@ function fakeCreature(intelligence?: number): Creature {
     data: { intelligence },
     spells: [],
     wieldsGrab: () => false,
+    wieldsTrip: () => false,
   } as unknown as Creature;
 }
 

@@ -1,6 +1,6 @@
 # Vampiric Wolf Grab Plan
 
-**Status:** agreed 2026-11-09, not implemented yet.
+**Status:** implemented 2026-11-10, waiting for the in-game test.
 
 **Goal:** bring the vampiric wolf's attack pattern in line with PnP: a bite trips the prey, a called shot at -4 grasps a limb, the victim escapes only by a Strength check (one attempt per round), the wolf gnaws every round, and a grasped arm can't use a weapon.
 
@@ -22,23 +22,23 @@
 
 ### 1. Called-shot grab (vampiric wolf)
 
-- [ ] WEAPON2: `bonusToHit: -4`, grab `trigger: "probability"`, so a hit grasps with no save.
-- [ ] WEAPON2 grab: `damagePerRound` = the bite's damage, `addStrengthBonus: true`. The wolf stops attacking while it holds, like the ankheg.
-- [ ] Remove WEAPON3 and its `Grabbed` entry in `targetStatusWeaponSlot`. Keep the `Grabbed` target priority so the pack still converges on the held victim.
-- [ ] Update the vampiric wolf row in the "Current users" table of `docs/research/grab-mechanic.md`.
+- [x] WEAPON2: `bonusToHit: -4`, grab `trigger: "probability"`, so a hit grasps with no save.
+- [x] WEAPON2 grab: `damagePerRound` = the bite's damage, `addStrengthBonus: true`. The wolf stops attacking while it holds, like the ankheg.
+- [x] Remove WEAPON3 and its `Grabbed` entry in `targetStatusWeaponSlot`. Keep the `Grabbed` target priority so the pack still converges on the held victim.
+- [x] Update the vampiric wolf row in the "Current users" table of `docs/research/grab-mechanic.md`.
 
 ### 2. Arm grasp: victim can't attack (generic grab option)
 
-- [ ] New `CreatureGrabConfig` option (e.g. `victimNoAttack`): the hold sets the victim's attacks per round to 0, for the hold's duration. Reuse the opcode the grip already uses on the grabber (tested in game).
-- [ ] Vampiric wolf WEAPON2 uses it.
-- [ ] The grab's description mentions it.
-- [ ] Test in `grab.service.test.ts`.
+- [x] New `CreatureGrabConfig` option (e.g. `victimNoAttack`): the hold sets the victim's attacks per round to 0, for the hold's duration. Reuse the opcode the grip already uses on the grabber (tested in game).
+- [x] Vampiric wolf WEAPON2 uses it.
+- [x] The grab's description mentions it.
+- [x] Test in `grab.service.test.ts`.
 
 ### 3. Escape by Strength check (generic grab option)
 
 **Rule:** d20 ≤ Strength frees the victim, so the chance to stay held is (20 − STR) × 5%. STR 18: 10%, STR 10: 50%, STR 20+: always free.
 
-**Config:** `escape?: "save" | "strength"`, default `"save"`, so the ankheg, revenant and hell hound don't change.
+**Config:** a third value of the existing `escape` option (`"none"` by default, `"save"`): `"strength"`. The ankheg, revenant and hell hound keep `"none"`.
 
 **Mechanism:**
 
@@ -51,11 +51,11 @@
 
 **Tasks:**
 
-- [ ] `escape` option in `grab.ts`, built in `grab.service.ts` (check spell + fail spell).
-- [ ] The description says "Strength check" in place of the save.
-- [ ] Tests in `grab.service.test.ts`.
-- [ ] Vampiric wolf WEAPON2 uses `escape: "strength"`.
-- [ ] grab-mechanic.md: spell chain table and configuration table.
+- [x] `escape: "strength"` in `grab.ts`, built in `grab.service.ts` (check spell + fail spell).
+- [x] The description says "Strength check" in place of the save.
+- [x] Tests in `grab.service.test.ts`.
+- [x] Vampiric wolf WEAPON2 uses `escape: "strength"`.
+- [x] grab-mechanic.md: spell chain table and configuration table.
 
 **Details:**
 
@@ -64,9 +64,9 @@
 
 **In-game test (risk):** check that op 326 effects share the spell's single probability roll. If they don't, the fallback is one op 326 per STR value (SPLPROT "STR equals", the existing `ANALYZE_STRENGTH` row) with its own probability. That roll is per effect, but only one effect matches a given victim, so the odds come out the same.
 
-## Open question
+## Life stealing
 
-- The wolf gains 8 + Strength damage bonus HP on every bite. PnP only has the wolves drinking blood once the victim is helpless. Keep it on every bite, or only on bites against helpless victims (WEAPON2 and the grip damage)?
+- Every bite heals the wolf 8 + its Strength damage bonus, and so does the gnawing: the grip's `lifeDrain` heals the grabber as much as the grip's damage (user, 2026-11-10).
 
 ## Verification
 

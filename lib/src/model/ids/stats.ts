@@ -214,3 +214,8 @@ export type StatsIdentifier =
   | "LEVELDRAIN"
   | "DONOTDRAW"
   | "IGNOREDRAINDEATH";
+
+/** STATS.IDS numbers, for SPLPROT.2DA rows that name a stat by number */
+export const STAT_IDS: Partial<Record<StatsIdentifier, number>> = {
+  STR: 36,
+};

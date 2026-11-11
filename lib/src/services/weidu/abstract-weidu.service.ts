@@ -46,6 +46,8 @@ export class AbstractWeiduService extends AbstractCodeService {
     tab?: number,
   ) {
     if (!value) return;
+    // A bare negative literal parses as a subtraction from the offset (`0x86 -4`)
+    if (typeof value === "number" && value < 0) value = `"${value}"`;
     let code = `WRITE_BYTE 0x${offset.toString(16)} ${value}`;
     if (size === 2) code = `WRITE_SHORT 0x${offset.toString(16)} ${value}`;
     else if (size === 4) code = `WRITE_LONG 0x${offset.toString(16)} ${value}`;

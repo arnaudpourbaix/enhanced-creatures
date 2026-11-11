@@ -79,12 +79,17 @@ export const GARGANTUAN_CREATURES: [EffectIDSFileEnum, ClassIdentifier | RaceIde
   [EffectIDSFileEnum.CLASS, "NEOTHELID"],
 ];
 
+/** Never grabbed, whatever their size (too big ones: see getTooBigCreatures) */
 export const GRAB_IMMUNE_CREATURES: [EffectIDSFileEnum, ClassIdentifier | RaceIdentifier][] = [
   [EffectIDSFileEnum.RACE, "MIMIC"],
   [EffectIDSFileEnum.RACE, "SLIME"],
   ...FLYING_CREATURES,
   ...INCORPOREAL_CREATURES,
-  ...GARGANTUAN_CREATURES,
+];
+
+/** Never tripped, whatever their size: no legs to trip, or nothing to fall from */
+export const TRIP_IMMUNE_CREATURES: [EffectIDSFileEnum, ClassIdentifier | RaceIdentifier][] = [
+  ...GRAB_IMMUNE_CREATURES,
 ];
 
 export const HUGE_CREATURES: [EffectIDSFileEnum, ClassIdentifier | RaceIdentifier][] = [

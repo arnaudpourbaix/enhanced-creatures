@@ -5,6 +5,7 @@ import { TranslationKey } from "../../../translations/i18n";
 import creatureFactory from "../../factories/creature.factory";
 import targetService from "../../services/baf/target.service";
 import grabService from "../../services/effects/grab.service";
+import tripService from "../../services/effects/trip.service";
 import effectService from "../../services/effects/effect.service";
 import translationService from "../../services/translation.service";
 import logService from "../../services/log.service";
@@ -47,6 +48,7 @@ import { CreatureData, MainCreatureData } from "./data";
 import { CreatureFile } from "./game";
 import { InputCreatureData } from "./data-input";
 import { CreatureGrabConfig } from "./grab";
+import { CreatureTripConfig } from "./trip";
 import { ItemSlot } from "./item";
 import { AbilityEntry, CreatureAbility } from "./ability";
 import { State } from "../../state";
@@ -73,6 +75,7 @@ export interface NaturalWeaponOptions {
   castSpells?: WeaponCastSpell[];
   poison?: { poisonType: PnPPoisonType; saveBonus?: number };
   grab?: CreatureGrabConfig;
+  trip?: CreatureTripConfig;
 }
 
 // Drops undefined-valued keys, so a natural weapon carries no explicit undefined:
@@ -269,13 +272,16 @@ export class Creature extends AbstractCreature implements BaseCreature {
   override addWeapon({
     weapon,
     grab,
+    trip,
     castSpells,
   }: {
     weapon: PartialWeapon;
     grab?: CreatureGrabConfig;
+    trip?: CreatureTripConfig;
     castSpells?: WeaponCastSpell[];
   }) {
     const result = super.addWeapon({ weapon, castSpells });
+    if (trip) tripService.attachTripToWeapon(this, result, trip);
     if (grab) grabService.attachGrabToWeapon(this, result, grab);
     return result;
   }
@@ -314,6 +320,7 @@ export class Creature extends AbstractCreature implements BaseCreature {
         }),
       }),
       grab: o.grab,
+      trip: o.trip,
       castSpells,
     });
   }
@@ -393,6 +400,15 @@ export class Creature extends AbstractCreature implements BaseCreature {
    * view's adjustments are its files', so a variant's grip isn't its base script's).
    */
   wieldsGrab(): boolean {
+    return this.wields("grab");
+  }
+
+  /** Whether it wields a tripping weapon (see wieldsGrab). */
+  wieldsTrip(): boolean {
+    return this.wields("trip");
+  }
+
+  private wields(attack: "grab" | "trip"): boolean {
     const equipped = new Set(
       [this.data.items.equipped, ...this.adjustments.map((a) => a.data.items.equipped)]
         .flat()
@@ -400,7 +416,7 @@ export class Creature extends AbstractCreature implements BaseCreature {
     );
     return this.items.some(
       (item) =>
-        item.grab && (item.equippedSlot.length > 0 || equipped.has(item.file.toUpperCase())),
+        item[attack] && (item.equippedSlot.length > 0 || equipped.has(item.file.toUpperCase())),
     );
   }
 

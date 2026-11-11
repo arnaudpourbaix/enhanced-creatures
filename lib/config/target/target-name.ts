@@ -21,6 +21,7 @@ export type TargetStatusName =
   | "CharmedAlly" // charmed onto the creature's side: attacked once no enemy can be (see attack())
   | "Grabbed"
   | "Held"
+  | "Prone" // knocked down by a trip (see TripService): can still act
   | "HeldAndNotPoisoned"
   | "HeldNearby" // held within PLAYER_CONFIG.preferRange, while no able enemy engages the creature
   | "NoCheck"

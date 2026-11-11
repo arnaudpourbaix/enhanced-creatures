@@ -4,21 +4,39 @@ export default {
   grab: {
     grab: "Grab",
     grabbed: "Grabbed",
-    description: `Grab and hold your target, until it breaks free with a successful saving throw: one every round, the first one when grabbed. The grip ends when the grabber dies.
-Grabbed creature will suffer these effects:
+    description: "Grab and hold your target. The grip ends when the grabber dies.",
+    avoid: "A successful saving throw avoids the grab.",
+    escape: "The target breaks free with a successful saving throw, one every round.",
+    escapeStrength:
+      "The target breaks free with a successful Strength check (1d20 at or under its Strength), one every round.",
+    noEscape: "The target can not break free.",
+    strengthSuccess: "Strength check successful",
+    strengthFailure: "Strength check failed",
+    effects: `Grabbed creature will suffer these effects:
 - can not move
 - loose armor class from dexterity bonus
 - -4 AC (opponents get +4 bonus on their attack rolls against grabbed target)
 - -4 THAC0`,
+    victimNoAttack: "- can not attack nor cast spells (the grip holds its arm)",
     damage: "The grip deals {{damage}} damage every round it holds.",
     damageNextRound:
       "The grip deals {{damage}} damage every round it holds, from the round after the grab.",
+    lifeDrain: "The grabber heals as much as the grip's damage.",
     grabber: "The grabber can not move while holding its target.",
     grabberNoAttack:
       "The grabber can neither move nor attack while holding its target: the grip is its attack.",
     grabberFreeHand:
       "The grabber can not move while holding its target, but keeps attacking with its other hand.",
     release: "Its grip ends when it dies: the creatures it holds are freed.",
+  },
+  trip: {
+    trip: "Trip",
+    prone: "Tripped",
+    description: `A hit knocks the target down, unless it makes a saving throw. Prone for {{duration}} seconds:
+- can not act: it spends the round getting up, or until damage hurries it (creatures immune to sleep act and get up at once, but still can not move)
+- can not move
+- -4 AC (opponents get +4 bonus on their attack rolls against a prone target)
+Creatures bigger than the attacker can not be tripped.`,
   },
   callWoodlandBeeings: {
     name: "Call Woodland Beeings",

@@ -180,7 +180,9 @@ class TargetService {
   } {
     const allStatus = DEFAULT_STATUS_ORDER.filter((status) => {
       const statusDetails = this.getStatusDetails(status);
-      const validStatus = status !== "Grabbed" || creature.wieldsGrab();
+      const validStatus =
+        (status !== "Grabbed" || creature.wieldsGrab()) &&
+        (status !== "Prone" || creature.wieldsTrip());
       const intelligence =
         !statusDetails.requireIntelligence ||
         (!!creature.data.intelligence && creature.data.intelligence >= 8);

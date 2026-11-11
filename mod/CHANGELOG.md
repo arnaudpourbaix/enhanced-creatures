@@ -52,6 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Ankheg: its bite seizes the victim, crushed and dissolved by acid every round it stays held; the grip's damage comes with each round's failed save
 - Revenant: Revenant and the SotSC ettin revenant
 - Copy: --install runs WeiDU for component 999, --start launches the game
+- Grab: vampiric wolf trips and grasps, Strength check escape, generic trip
 
 ### Changed
 

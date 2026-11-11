@@ -1,4 +1,4 @@
-import { GRAB_IMMUNE_CREATURES, HUGE_CREATURES, LARGE_CREATURES } from "../../../config/creatures";
+import { GRAB_IMMUNE_CREATURES } from "../../../config/creatures";
 import { Creature } from "../../model/creature/creature";
 import { CreatureGrabConfig, GRAB_DEFAULT_CONFIG, GripDamage } from "../../model/creature/grab";
 import { getCreatureSize } from "../../model/game-data/sizes";
@@ -7,10 +7,10 @@ import { Effect } from "../../model/spell-item/effect";
 import {
   AttackModifierTypeEnum,
   CastSpellOnConditionTargetEnum,
+  DisableSpellcastingTypeEnum,
   EffectBonusToEnum,
   EffectCastSpellTypeEnum,
   EffectDamageTypeEnum,
-  EffectIDSFileEnum,
   EffectModifierTypeEnum,
   EffectStatisticModifierEnum,
   EffectTargetEnum,
@@ -29,12 +29,12 @@ import {
 } from "../../model/spell-item/spell-protection";
 import { PartialSpell, Spell, Weapon } from "../../model/spell-item/spell-item";
 import creatureService from "../creature.service";
-import logService from "../log.service";
 import spellService from "../spell.service";
 import translationService from "../translation.service";
 import { TranslationKey } from "../../../translations/i18n";
 import { getSpellFilename } from "../utils/misc.func";
 import effectService from "./effect.service";
+import { getProtectionEffects, getTooBigCreatures } from "./size-immunity";
 
 /** How far from a dying grabber its victims are released: 10 feet, well over its reach. */
 const RELEASE_RADIUS = 180;
@@ -59,6 +59,8 @@ interface GrabSave {
  *   effects run out. A grab on probability only skips it the first round: the hit casts the
  *   hold, so the grip deals its damage from the next round (the hit deals the weapon's own).
  *   Creatures immune to the hold still take the grip's damage from a check the hit casts.
+ *   Without an escape save the round's check has no save: the victim stays held until the
+ *   grabber dies or kills it. A save on the hit then goes in its own check (the attempt).
  * - hold (no save, none on a held victim, whom every attack hits): removes the previous round's
  *   hold, then holds the victim a round (plus a
  *   short overlap), casts the grip at the grabber (the hold's original caster), and casts the
@@ -77,14 +79,25 @@ class GrabService {
     grab.trigger ??= "both";
     weapon.grab = true;
     const save = this.getSave(creature, grab);
+    const escapeSave = grab.escape === "save";
     const damage = this.getGripDamage(creature, grab);
-    // the spells reference each other: their files are known before they are built
-    const [check, hold, release, grip, letGo, seize] = [1, 2, 3, 4, 5, 6].map((i) =>
-      getSpellFilename(creature.spells.length + i, creature.id),
+    // the spells reference each other: their files are known before they are built. The sixth
+    // is the seize (the hit holds at once) or the attempt (the hit's save, no escape save after);
+    // the seventh and eighth, the Strength check's failure and success
+    const [check, hold, release, grip, letGo, sixth, failed, freed] = [1, 2, 3, 4, 5, 6, 7, 8].map(
+      (i) => getSpellFilename(creature.spells.length + i, creature.id),
     );
     const files = { check, grip };
-    const onHit = grab.trigger === "probability" ? hold : check;
-    this.addSpell(creature, check, this.getCheckSpell(grab, damage, hold, save, onHit === check));
+    // the hit: holds at once, or casts a check with a save (the round's own check when it saves
+    // too, else the attempt)
+    const checkOnHit = escapeSave ? check : sixth;
+    const onHit = grab.trigger === "probability" ? hold : checkOnHit;
+    const roundSave = escapeSave ? save : undefined;
+    const roundCheck =
+      grab.escape === "strength"
+        ? this.getStrengthCheckSpell(failed, freed)
+        : this.getCheckSpell(grab, damage, hold, roundSave, onHit === check);
+    this.addSpell(creature, check, roundCheck);
     this.addSpell(creature, hold, this.getHoldSpell(creature, grab, damage, files, onHit === hold));
     this.addSpell(creature, release, this.getAreaRemovalSpell(hold));
     this.addSpell(creature, grip, this.getGripSpell(grab, damage.length > 0));
@@ -94,15 +107,33 @@ class GrabService {
     // Only when the hit holds at once (a check's save could still fail it); cast before the hold,
     // on the same roll, so a victim seized by this hit isn't grabbed yet
     if (onHit === hold) {
-      this.addSpell(creature, seize, this.getSeizeSpell(creature));
+      this.addSpell(creature, sixth, this.getSeizeSpell(creature, grab));
       weapon.header.effects.push(
         effectService.getEffect({
           opcode: EffectTypeEnum.CastSpell,
           type: EffectCastSpellTypeEnum.CastInstantlyAtCasterLevel,
-          resource: seize,
+          resource: sixth,
           probability1,
         }),
       );
+    } else if (onHit === sixth) {
+      this.addSpell(creature, sixth, this.getCheckSpell(grab, damage, hold, save, true));
+    }
+    // never escapes by a save, the sixth spell is always there: the seventh's file is free
+    if (grab.escape === "strength") {
+      const failure = this.addSpell(
+        creature,
+        failed,
+        this.getCheckSpell(grab, damage, hold, undefined, false),
+      );
+      // the victim learns it stays held, as it learns it broke free
+      failure.headers[0].effects.push(
+        effectService.getEffect({
+          opcode: EffectTypeEnum.DisplayString,
+          stringRef: "spell.grab.strengthFailure",
+        }),
+      );
+      this.addSpell(creature, freed, this.getFreedSpell());
     }
     weapon.header.effects.push(
       effectService.getEffect({
@@ -172,6 +203,15 @@ class GrabService {
   /** The grab's effects, the grip's damage, and what the grabber can still do while it holds. */
   private getDescription(grab: CreatureGrabConfig, damage: GripDamage[]): number {
     const lines = [translationService.from("spell.grab.description")];
+    if (grab.trigger !== "probability") lines.push(translationService.from("spell.grab.avoid"));
+    const escapeLines: Record<NonNullable<CreatureGrabConfig["escape"]>, TranslationKey> = {
+      save: "spell.grab.escape",
+      strength: "spell.grab.escapeStrength",
+      none: "spell.grab.noEscape",
+    };
+    lines.push(translationService.from(escapeLines[grab.escape ?? "none"]));
+    lines.push(translationService.from("spell.grab.effects"));
+    if (grab.victimNoAttack) lines.push(translationService.from("spell.grab.victimNoAttack"));
     let grabber: TranslationKey = "spell.grab.grabber";
     if (damage.length > 0) {
       const key: TranslationKey =
@@ -179,6 +219,7 @@ class GrabService {
       lines.push(
         translationService.interpolate(key, { damage: damage.map(damageText).join(" + ") }),
       );
+      if (grab.lifeDrain) lines.push(translationService.from("spell.grab.lifeDrain"));
       grabber = grab.freeHand ? "spell.grab.grabberFreeHand" : "spell.grab.grabberNoAttack";
     }
     lines.push(translationService.from(grabber));
@@ -187,13 +228,14 @@ class GrabService {
 
   /**
    * The round's save: failed, the grip deals its damage and the victim is held one more round.
-   * The damage shares the hold's save, so both roll once.
+   * The damage shares the hold's save, so both roll once. Without a save (no escape), the victim
+   * is held and takes the damage every round.
    */
   private getCheckSpell(
     grab: CreatureGrabConfig,
     damage: GripDamage[],
     hold: string,
-    save: GrabSave,
+    save: GrabSave | undefined,
     onHit: boolean,
   ): PartialSpell {
     return {
@@ -214,17 +256,103 @@ class GrabService {
               resource: hold,
               ...save,
             },
-            ...damage.map(
-              (d): Effect => ({
-                opcode: EffectTypeEnum.Damage,
-                timing: EffectTimingEnum.InstantPermanent,
-                type: d.type,
-                amount: d.amount,
-                diceSize: d.diceSize,
-                diceThrown: d.diceThrown,
-                ...save,
-              }),
-            ),
+            ...damage.map((d): Effect => ({
+              opcode: EffectTypeEnum.Damage,
+              timing: EffectTimingEnum.InstantPermanent,
+              type: d.type,
+              amount: d.amount,
+              diceSize: d.diceSize,
+              diceThrown: d.diceThrown,
+              ...save,
+            })),
+            // the life it steals heals the grabber, on the damage's save
+            ...(grab.lifeDrain
+              ? damage.map((d): Effect => ({
+                  opcode: EffectTypeEnum.CurrentHPbonus,
+                  target: EffectTargetEnum.OriginalCaster,
+                  timing: EffectTimingEnum.InstantPermanentUntilDeath,
+                  type: EffectModifierTypeEnum.Increment,
+                  value: d.amount ?? 0,
+                  diceSize: d.diceSize,
+                  diceThrown: d.diceThrown,
+                  ...save,
+                }))
+              : []),
+          ],
+        },
+      ],
+    };
+  }
+
+  /**
+   * The round's Strength check: d20 at or under its Strength frees the victim, so it stays held
+   * with a (20 - Strength) x 5% chance. One failure per Strength value, with that chance: only the
+   * victim's own Strength matches, so the odds hold whether or not the effects share the spell's
+   * roll (in game, they seemed not to: a Strength 5 victim broke free far too often from slices of
+   * one roll). A failure applies the check without a save: the hold and the grip's damage. The
+   * rest of the roll says the check succeeded, and the hold, not renewed, runs out.
+   */
+  private getStrengthCheckSpell(failed: string, freed: string): PartialSpell {
+    const perStrength = Array.from({ length: 19 }, (_, i): Effect[] => {
+      const strength = i + 1;
+      const held = (20 - strength) * 5;
+      const condition = { type: "STRENGTH_EQUAL" as const, value: strength };
+      return [
+        {
+          opcode: EffectTypeEnum.ApplyEffectsList,
+          ...condition,
+          resource: failed,
+          probability1: held - 1,
+          probability2: 0,
+        },
+        {
+          opcode: EffectTypeEnum.ApplyEffectsList,
+          ...condition,
+          resource: freed,
+          probability1: 99,
+          probability2: held,
+        },
+      ];
+    }).flat();
+    return {
+      name: GRAB_DEFAULT_CONFIG.grabStringRef,
+      doc: false,
+      hideName: true,
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          target: ItemAbilityTargetEnum.LivingActor,
+          range: 5,
+          effects: [
+            ...perStrength,
+            // Strength 20 and more: always a success
+            {
+              opcode: EffectTypeEnum.ApplyEffectsList,
+              type: { stat: "STR", relation: SpellProtectionRelation.GreaterOrEqual },
+              value: 20,
+              resource: freed,
+            },
+          ],
+        },
+      ],
+    };
+  }
+
+  /** A successful Strength check: the victim breaks free (its hold runs out), and it says so. */
+  private getFreedSpell(): PartialSpell {
+    return {
+      name: GRAB_DEFAULT_CONFIG.grabStringRef,
+      doc: false,
+      hideName: true,
+      // the grab's message, nothing of its own
+      xpAbility: null,
+      headers: [
+        {
+          type: ItemAbilityTypeEnum.Melee,
+          target: ItemAbilityTargetEnum.LivingActor,
+          range: 5,
+          effects: [
+            { opcode: EffectTypeEnum.DisplayString, stringRef: "spell.grab.strengthSuccess" },
           ],
         },
       ],
@@ -248,7 +376,7 @@ class GrabService {
           type: ItemAbilityTypeEnum.Melee,
           target: ItemAbilityTargetEnum.LivingActor,
           range: 5,
-          effects: this.getHoldEffects(creature, files),
+          effects: this.getHoldEffects(creature, grab, files),
         },
       ],
     };
@@ -256,6 +384,7 @@ class GrabService {
 
   private getHoldEffects(
     creature: Creature,
+    grab: CreatureGrabConfig,
     files: { check: string; grip: string },
   ): Effect[] {
     // outlasts the next check, so a failed save renews the hold before it runs out
@@ -290,6 +419,21 @@ class GrabService {
         value: -4,
         duration,
       },
+      // the grip holds its weapon arm: no attack, and no spell (a gesture): innate abilities stay
+      ...(grab.victimNoAttack
+        ? [
+            {
+              opcode: EffectTypeEnum.ModifyAttacksPerRound,
+              type: AttackModifierTypeEnum.Set,
+              value: 0,
+              duration,
+            } satisfies Effect,
+            ...[DisableSpellcastingTypeEnum.Wizard, DisableSpellcastingTypeEnum.Priest].map(
+              (type) =>
+                ({ opcode: EffectTypeEnum.DisableSpellcasting, type, duration }) satisfies Effect,
+            ),
+          ]
+        : []),
       {
         opcode: EffectTypeEnum.DisplayPortraitIcon,
         icon: PortraitIconEnum.Entangled,
@@ -308,7 +452,7 @@ class GrabService {
         opcode: EffectTypeEnum.RemoveEffectsByResource,
         type: RemoveEffectsByResourceTypeEnum.Default,
       },
-      ...this.getHoldSkipEffects(creature),
+      ...this.getHoldSkipEffects(creature, grab),
       {
         opcode: EffectTypeEnum.PlaySound,
         timing: EffectTimingEnum.InstantPermanentUntilDeath,
@@ -392,7 +536,7 @@ class GrabService {
    * Says "Grabbed" when the hit seizes its victim: never on a victim the hold skips (immune or
    * held), nor on one already grabbed (a hit while it holds just renews the round).
    */
-  private getSeizeSpell(creature: Creature): PartialSpell {
+  private getSeizeSpell(creature: Creature, grab: CreatureGrabConfig): PartialSpell {
     return {
       name: GRAB_DEFAULT_CONFIG.grabbedStringRef,
       doc: false,
@@ -405,7 +549,7 @@ class GrabService {
           target: ItemAbilityTargetEnum.LivingActor,
           range: 5,
           effects: [
-            ...this.getHoldSkipEffects(creature),
+            ...this.getHoldSkipEffects(creature, grab),
             {
               opcode: EffectTypeEnum.ProtectionFromResource,
               type: { stat: SpellProtectionStat.Splstate, relation: SpellProtectionRelation.Equal },
@@ -486,9 +630,9 @@ class GrabService {
   }
 
   /** The victims the hold skips: protected from the spell itself before its effects apply. */
-  private getHoldSkipEffects(creature: Creature): Effect[] {
+  private getHoldSkipEffects(creature: Creature, grab: CreatureGrabConfig): Effect[] {
     return [
-      ...this.getGrabImmuneEffects(creature),
+      ...this.getGrabImmuneEffects(creature, grab),
       // a held victim is helpless: every attack hits it, no need to grab it (and the grip's damage
       // would come with a save the hit doesn't have)
       {
@@ -508,33 +652,14 @@ class GrabService {
   }
 
   /**
-   * Creatures the grabber can't hold (too big, incorporeal...): protected from the hold (the
-   * effect's own spell) before its effects apply, by race or class.
+   * Creatures the grabber can't hold (incorporeal, shapeless, or bigger than it, one size more on a
+   * limb): protected from the hold (the effect's own spell) before its effects apply.
    */
-  private getGrabImmuneEffects(creature: Creature): Effect[] {
-    const list = [...GRAB_IMMUNE_CREATURES];
-    // size is required by MainCreatureData, but defended anyway - see the "warns when the
-    // creature has no size" test, which calls this directly with size unset.
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (!creature.data.size) {
-      logService.warn(`Creature size is needed to add grab immunities!`);
-    } else {
-      if (["Huge", "Large"].includes(creature.data.size.value)) {
-        list.push(...HUGE_CREATURES);
-      }
-      if (creature.data.size.value === "Large") {
-        list.push(...LARGE_CREATURES);
-      }
-    }
-    return list.map(([file, entry]) => ({
-      opcode: EffectTypeEnum.ProtectionFromResource,
-      type: {
-        stat: file === EffectIDSFileEnum.CLASS ? SpellProtectionStat.Class : SpellProtectionStat.Race,
-        relation: SpellProtectionRelation.Equal,
-      },
-      value: entry,
-      duration: 1,
-    }));
+  private getGrabImmuneEffects(creature: Creature, grab: CreatureGrabConfig): Effect[] {
+    return getProtectionEffects([
+      ...GRAB_IMMUNE_CREATURES,
+      ...getTooBigCreatures(creature, grab.limb ? 1 : 0),
+    ]);
   }
 }
 

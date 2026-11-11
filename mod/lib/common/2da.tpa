@@ -65,7 +65,7 @@ BEGIN
             PATCH_IF (~%value%~ STRING_EQUAL ~%curValue%~) BEGIN
               READ_2DA_ENTRY_FORMER table idx 3 curRelation
               PATCH_IF (~%relation%~ STRING_EQUAL ~%curRelation%~) BEGIN
-                SET index = idx
+                SET index = idx + 1 // like a new entry: callers take index - 1 (in game, a reused row was one off)
                 SET idx = table
               END
             END

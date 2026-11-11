@@ -280,11 +280,23 @@ export type PoisonResistanceModifierEffect = BaseEffect & {
   value: number;
 };
 
-export type ProtectionFromResourceEffect = BaseEffect & {
-  opcode: EffectTypeEnum.ProtectionFromResource | EffectTypeEnum.ProtectionFromResourceAndMessage;
+/** A SPLPROT.2DA condition: the row (`type`) and the value it compares with */
+export interface SpellProtectionCondition {
   type: SpellProtectionName | SpellProtection;
   value?: string | number;
-};
+}
+
+export type ProtectionFromResourceEffect = BaseEffect &
+  SpellProtectionCondition & {
+    opcode: EffectTypeEnum.ProtectionFromResource | EffectTypeEnum.ProtectionFromResourceAndMessage;
+  };
+
+/** Applies the spell `resource` to the target when it meets the condition */
+export type ApplyEffectsListEffect = BaseEffect &
+  SpellProtectionCondition & {
+    opcode: EffectTypeEnum.ApplyEffectsList;
+    resource: string;
+  };
 
 export type ScriptingStateModifierEffect = BaseEffect & {
   opcode: EffectTypeEnum.ScriptingStateModifier;
@@ -330,6 +342,11 @@ export type RegenerationEffect = BaseEffect & {
 export type SleepEffect = BaseEffect & {
   opcode: EffectTypeEnum.Sleep | EffectTypeEnum.Sleep20HP;
   wakeOnDamage: boolean;
+  /**
+   * Portrait icon (EE, in special). Set, the sleeper gets the PRONE spell state and stays
+   * targetable; unset, it moves to the back list, which most scripts can't see (NearestEnemyOf)
+   */
+  icon?: PortraitIconEnum;
 };
 
 export type CharmCreatureEffect = BaseEffect & {
@@ -607,6 +624,7 @@ export type Effect =
   | ProtectionFromSpellLevelsEffect
   | ProtectionFromProjectileEffect
   | ProtectionFromResourceEffect
+  | ApplyEffectsListEffect
   | ProtectionFromWeaponsEffect
   | RegenerationEffect
   | RemoveEffectsByResource

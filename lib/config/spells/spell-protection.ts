@@ -12,7 +12,8 @@ export type SpellProtectionName =
   | "NOT_MALE_HUMANOID"
   | "DEATH_IMMUNITY"
   | "UNDEAD_OR_GOLEM"
-  | "HELD";
+  | "HELD"
+  | "STRENGTH_EQUAL";
 
 /**
  * If value is not set, it will generate -1
@@ -47,6 +48,12 @@ export const SPELL_PROTECTIONS: SpellProtection[] = [
     stat: "HELD",
     value: 1,
     relation: SpellProtectionRelation.GreaterOrEqual,
+  },
+  // the value is the effect's: one row for every Strength (a grab's Strength check)
+  {
+    name: "STRENGTH_EQUAL",
+    stat: "STR",
+    relation: SpellProtectionRelation.Equal,
   },
   {
     name: "DEATH_IMMUNITY",

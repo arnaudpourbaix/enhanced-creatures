@@ -82,7 +82,7 @@ describe("callImmunityFunction", () => {
 });
 
 describe("generateProtectionSpells", () => {
-  it("defaults value to -1 when sp.value is undefined (documented behavior; no real config entry omits it)", () => {
+  it("defaults value to a quoted -1 when sp.value is undefined (a bare -1 breaks the install)", () => {
     SPELL_PROTECTIONS.push({
       name: "TEST_NO_VALUE",
       stat: "0x0",
@@ -92,7 +92,7 @@ describe("generateProtectionSpells", () => {
     try {
       const lines: CodeLine[] = [];
       weiduFunctionService.generateProtectionSpells(lines);
-      expect(lines.some((l) => l.code.includes("value=-1"))).toBe(true);
+      expect(lines.some((l) => l.code.includes('value="-1"'))).toBe(true);
     } finally {
       SPELL_PROTECTIONS.pop();
     }
@@ -154,5 +154,16 @@ describe("generateImmunities", () => {
       `DEFINE_PATCH_FUNCTION ${utils.getImmunityFunctionName(docOnly)}`,
     );
     expect(content).not.toContain("animal");
+  });
+});
+
+describe("generateProtectionSpells, union rows", () => {
+  it("points a union at its rows themselves (ADD_SPLPROT_ENTRY returns the row + 1)", () => {
+    const lines: CodeLine[] = [];
+    weiduFunctionService.generateProtectionSpells(lines);
+    const codes = lines.map((l) => l.code);
+    expect(codes).toContain("OUTER_SET row1=index - 1");
+    expect(codes).toContain("OUTER_SET row2=index - 1");
+    expect(codes).not.toContain("OUTER_SET row1=index");
   });
 });
