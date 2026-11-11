@@ -81,6 +81,9 @@ COPY_EXISTING ~jasm4002.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=15 target=2 power=1 parameter1=8 parameter2=1 duration=7 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=2 power=1 parameter1="-4" duration=7 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=278 target=2 power=1 parameter1="-4" duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=1 target=2 power=1 parameter2=1 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=145 target=2 power=1 duration=7 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=145 target=2 power=1 parameter2=1 duration=7 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=144 duration=7 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=215 target=2 power=1 parameter2=1 duration=7 probability1=100 STR_VAR resource="rr#cnstr" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 probability1=100 STR_VAR resource="jasm4004" END

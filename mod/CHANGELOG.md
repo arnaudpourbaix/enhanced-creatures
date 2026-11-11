@@ -53,6 +53,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Revenant: Revenant and the SotSC ettin revenant
 - Copy: --install runs WeiDU for component 999, --start launches the game
 - Grab: vampiric wolf trips and grasps, Strength check escape, generic trip
+- Revenant: a strangled victim can't attack nor cast
 
 ### Changed
 

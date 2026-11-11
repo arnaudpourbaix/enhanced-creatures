@@ -1419,6 +1419,7 @@ Grabbed creature will suffer these effects:
 - loose armor class from dexterity bonus
 - -4 AC (opponents get +4 bonus on their attack rolls against grabbed target)
 - -4 THAC0
+- can not attack nor cast spells (the grip holds its arm)
 The grip deals 2d8+9 crushing damage every round it holds, from the round after the grab.
 The grabber can not move while holding its target, but keeps attacking with its other hand.~
 @11073 = ~
@@ -1430,6 +1431,7 @@ Grabbed creature will suffer these effects:
 - loose armor class from dexterity bonus
 - -4 AC (opponents get +4 bonus on their attack rolls against grabbed target)
 - -4 THAC0
+- can not attack nor cast spells (the grip holds its arm)
 The grip deals 2d8+9 crushing damage every round it holds, from the round after the grab.
 The grabber can not move while holding its target, but keeps attacking with its other hand.
 Crushing damage: 2D8+9~
@@ -1469,6 +1471,7 @@ Grabbed creature will suffer these effects:
 - loose armor class from dexterity bonus
 - -4 AC (opponents get +4 bonus on their attack rolls against grabbed target)
 - -4 THAC0
+- can not attack nor cast spells (the grip holds its arm)
 The grip deals 2d8+9 crushing damage every round it holds, from the round after the grab.
 The grabber can not move while holding its target, but keeps attacking with its other hand.~
 @11081 = ~Minotaur traits~
@@ -2916,6 +2919,7 @@ Grabbed creature will suffer these effects:
 - loose armor class from dexterity bonus
 - -4 AC (opponents get +4 bonus on their attack rolls against grabbed target)
 - -4 THAC0
+- can not attack nor cast spells (the grip holds its arm)
 The grip deals 2d8+2 crushing damage every round it holds, from the round after the grab.
 The grabber can neither move nor attack while holding its target: the grip is its attack.~
 @11418 = ~Revenant traits~
@@ -2928,6 +2932,7 @@ Grabbed creature will suffer these effects:
 - loose armor class from dexterity bonus
 - -4 AC (opponents get +4 bonus on their attack rolls against grabbed target)
 - -4 THAC0
+- can not attack nor cast spells (the grip holds its arm)
 The grip deals 2d8+2 crushing damage every round it holds, from the round after the grab.
 The grabber can neither move nor attack while holding its target: the grip is its attack.
 Crushing damage: 2D8+2~
@@ -2952,6 +2957,7 @@ Grabbed creature will suffer these effects:
 - loose armor class from dexterity bonus
 - -4 AC (opponents get +4 bonus on their attack rolls against grabbed target)
 - -4 THAC0
+- can not attack nor cast spells (the grip holds its arm)
 The grip deals 2d8+2 crushing damage every round it holds, from the round after the grab.
 The grabber can neither move nor attack while holding its target: the grip is its attack.~
 @11424 = ~Immune to acid

@@ -120,6 +120,7 @@ export function createRevenantGrip(
       damagePerRound: { type: EffectDamageTypeEnum.Crushing, diceThrown: 2, diceSize: 8 },
       addStrengthBonus: true,
       freeHand: p.freeHand,
+      victimNoAttack: true,
     },
   });
 }
