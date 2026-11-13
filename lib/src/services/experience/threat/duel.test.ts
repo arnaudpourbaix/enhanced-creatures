@@ -31,6 +31,7 @@ function profile(overrides: Partial<CombatProfile> = {}): CombatProfile {
     powers: [],
     invisibleAtWill: false,
     flies: false,
+    closesIn: false,
     resist: { slashing: 0, piercing: 0, missile: 0, magic: 0 },
     weaponEnchantment: 0,
     regeneration: 0,
@@ -152,7 +153,16 @@ describe("rangedDuel", () => {
   });
 
   it("a melee monster as fast as the archer closes in", () => {
-    expect(rangedDuel(brute(12), referenceArcher(2)).notes[0]).toBe("closes in after a free round of arrows");
+    expect(rangedDuel(brute(12), referenceArcher(2)).notes[0]).toBe(
+      "closes in after a free round of arrows",
+    );
+  });
+
+  it("a slow monster closing in by a leap or a charge isn't kited", () => {
+    const leaper = { ...brute(6), closesIn: true };
+    expect(rangedDuel(leaper, referenceArcher(2)).notes[0]).toBe(
+      "closes in after a free round of arrows",
+    );
   });
 
   it("a fast melee monster reaches the archer", () => {

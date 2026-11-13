@@ -351,7 +351,8 @@ export type SleepEffect = BaseEffect & {
 
 export type CharmCreatureEffect = BaseEffect & {
   opcode: EffectTypeEnum.CharmCreature | EffectTypeEnum.CharmControlCreature;
-  generalType: GeneralIdentifier;
+  /** The creatures it affects; any creature when undefined */
+  generalType?: GeneralIdentifier;
   charmType: CharmTypeEnum;
 };
 

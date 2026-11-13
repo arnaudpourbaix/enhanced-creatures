@@ -53,6 +53,7 @@ class OgreMage extends Ogre {
         category: ItemCategoryEnum.Halberds,
         icon: "ISW1H44",
         proficiency: ProficiencyTypeEnum.PROFICIENCYHALBERD,
+        natural: false,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           animationSwing: { backhand: 50, overhand: 50, thrust: 0 },
@@ -242,6 +243,8 @@ class OgreMage extends Ogre {
       description: "monster.ogre.ability.gaseousForm.description",
       immunities: ["poison", "cold", "magicDamage", "physicalDamage"],
       flags: [ItemFlagEnum.Displayable],
+      // the gaseous form's empty hands: no damage at all
+      natural: true,
       header: {
         type: ItemAbilityTypeEnum.Melee,
       },

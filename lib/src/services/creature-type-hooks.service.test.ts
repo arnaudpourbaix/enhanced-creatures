@@ -80,6 +80,17 @@ describe("creatureTypeHooksService.afterBuild", () => {
     expect(creatureTypeHooksService.getHitDie(dreadWolf)).toBe(12);
   });
 
+  it("runs the undead hook for a creature turned as undead without being one (shadow fiend)", () => {
+    const calls: string[] = [];
+    const service = creatureTypeHooksService.withModules([
+      { type: "undead", afterBuild: () => calls.push("undead") },
+    ]);
+    const fiend = { ...creature(["outsider"]), turnedAsUndead: true } as unknown as Creature;
+    service.afterBuild(fiend);
+    expect(calls).toEqual(["undead"]);
+    expect(creatureTypeHooksService.getHitDie(fiend)).toBeUndefined();
+  });
+
   it("runs the hook of a type only an adjustment adds", () => {
     const calls: string[] = [];
     const service = creatureTypeHooksService.withModules([

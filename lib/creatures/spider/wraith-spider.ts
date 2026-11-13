@@ -78,7 +78,7 @@ class WraithSpiderEntry extends CreatureEntry<Spider> {
           type: EffectDamageTypeEnum.Cold,
           diceThrown: 1,
           diceSize: 4,
-          amount: creatureService.getStrengthBonus(wraith.data).damage,
+          amount: creatureService.naturalStrengthDamage(wraith.data),
         },
         ...effectFactory.levelDrain({ levels: 1 }),
       ],

@@ -44,6 +44,9 @@ class CreatureTypeHooksService {
         types.add(type);
       }
     }
+    // Turned as undead without being undead (PnP "special": a shadow fiend): the undead hooks
+    // give it General UNDEAD and its turn level, its own type still giving the rest
+    if (creature.turnedAsUndead) types.add("undead");
     for (const type of TYPE_TRAITS.filter((t) => types.has(t))) {
       this.modules.find((m) => m.type === type)?.afterBuild?.(creature);
     }

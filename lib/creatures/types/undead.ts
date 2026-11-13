@@ -14,7 +14,7 @@ import { WeaponCastSpell } from "../../src/model/spell-item/spell-item";
 import type { CreatureTypeModule } from "../../src/services/creature-type-hooks.service";
 import creatureTypeService from "../../src/services/creature-type.service";
 import logService from "../../src/services/log.service";
-import { applyTurnLevel } from "./turn-level";
+import { applyTurnLevel, isTurnedAsUndead } from "./turn-level";
 
 /**
  * Undead type: d12 Hit Dice, General UNDEAD and the turn level of every undead creature (and of
@@ -35,12 +35,13 @@ export const undeadType: CreatureTypeModule = {
  * Turn Undead only affects creatures whose CRE General is UNDEAD (tested in game), and the mod
  * writes General over the game's: an undead creature gets UNDEAD and, for a creature that isn't
  * undead, so does each adjustment making it undead (zombie ankhegs). Undead only by a type trait or
- * trait item (Wraith Spider, Dread Wolf) counts. Adjustments never set a General: one that sets
- * another one on an undead is reported, not overwritten.
+ * trait item (Wraith Spider, Dread Wolf) counts, and so does a creature turned as undead without
+ * being one (a shadow fiend). Adjustments never set a General: one that sets another one on an
+ * undead is reported, not overwritten.
  */
 export function applyUndeadGeneral(creature: Creature): void {
   const own = creatureTypeService.getCreatureTypes(creature);
-  const undead = own.includes("undead");
+  const undead = isTurnedAsUndead(creature, own);
   if (undead) creature.data.general = "UNDEAD";
   for (const adjustment of creature.adjustments) {
     const data = adjustment.data;

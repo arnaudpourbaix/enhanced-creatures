@@ -1,5 +1,12 @@
 import { ExperienceReportData } from "./experience-report";
 import { renderStrengthCard, StrengthRow } from "./strength-report";
+import {
+  AttackStrengthRow,
+  renderAttackStrengthCard,
+  renderUnsureWeaponsCard,
+  unsureWeapons,
+} from "./attack-strength-report";
+import { renderStrengthAuditCard, STRENGTH_AUDIT_STYLE, StrengthAuditRow } from "./strength-audit";
 import { EXPERIENCE_SCRIPT, EXPERIENCE_STYLE, renderExperienceTab } from "./experience-report-html";
 import {
   escapeHtml,
@@ -10,10 +17,10 @@ import {
 } from "./stats-report-html";
 
 // HTML rendering for scripts/dashboard.ts: a page of the mod docs (mod/docs/dashboard.html, shares
-// the site nav and main.css with the other docs pages; its own CSS + JS are inline) with three
-// tabs - Overview (creatures.csv and monster counts), Stats report (scripts/lib/stats-report-html.ts)
-// and Missing monsters (creatures.csv rows per missing, file-less or unvalidated MonsterEnum
-// member). The active tab is kept in the url hash. Content follows the OS light/dark preference.
+// the site nav and main.css with the other docs pages; its own CSS + JS are inline) with five
+// tabs - Overview (creatures.csv and monster counts), Stats report (scripts/lib/stats-report-html.ts),
+// Experience, Strength (2e strengths, strength on attacks and the weapons to review) and Missing
+// monsters (creatures.csv rows per missing, file-less or unvalidated MonsterEnum member). The active tab is kept in the url hash. Content follows the OS light/dark preference.
 
 /** creatures.csv rows grouped by MonsterId status. */
 export interface CsvSummary {
@@ -48,8 +55,12 @@ export interface DashboardData {
   };
   stats: StatsReportData;
   experience: ExperienceReportData;
-  /** The 2e strengths recorded (Overview tab) */
+  /** The 2e strengths recorded (Strength tab) */
   strength: StrengthRow[];
+  /** Which attacks add strength, by edition (Strength tab) */
+  attackStrength: AttackStrengthRow[];
+  /** Strength damage against the game (Strength tab); gameRead false without a BG2 install */
+  strengthAudit: { rows: StrengthAuditRow[]; gameRead: boolean };
 }
 
 function pct(part: number, total: number): string {
@@ -144,8 +155,7 @@ ${stat(experience.lowered.length, "XP lowered", experience.lowered.length ? "war
 ${stat(experience.conflicts.length, "base XP conflicts", experience.conflicts.length ? "bad" : "")}
 </div>
 <p><a href="#experience">See experience →</a></p>
-</section>
-${renderStrengthCard(d.strength)}`;
+</section>`;
 }
 
 function renderCountRow(m: MonsterRowCount, max: number): string {
@@ -296,7 +306,7 @@ code { font-family: ui-monospace, Consolas, monospace; font-size: 12px; }
 `;
 
 const SCRIPT = `
-const tabs = ["overview", "stats", "experience", "missing"];
+const tabs = ["overview", "stats", "experience", "strength", "missing"];
 function showTab() {
   const hash = location.hash.slice(1);
   let current = tabs.includes(hash) ? hash : "overview";
@@ -360,7 +370,7 @@ export function renderDashboard(d: DashboardData): string {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
 <link href="main.css" rel="stylesheet" type="text/css">
-<style>${STATS_STYLE}${STYLE}${EXPERIENCE_STYLE}</style>
+<style>${STATS_STYLE}${STYLE}${EXPERIENCE_STYLE}${STRENGTH_AUDIT_STYLE}</style>
 </head>
 <body>
 <header class="site-nav">
@@ -377,6 +387,7 @@ export function renderDashboard(d: DashboardData): string {
 <a href="#overview">Overview</a>
 <a href="#stats">Stats report<span class="badge">${d.stats.flagged.reduce((s, r) => s + r.flagged.length, 0)}</span></a>
 <a href="#experience">Experience<span class="badge">${d.experience.lowered.length}</span></a>
+<a href="#strength">Strength<span class="badge">${unsureWeapons(d.attackStrength).length}</span></a>
 <a href="#missing">Missing monsters<span class="badge">${d.monsters.missing.length}</span></a>
 </div>
 <span class="generated muted">Generated ${generated} UTC</span>
@@ -392,6 +403,12 @@ interesting to see what is done and what is coming. Terms such as <code>creature
 <section class="tab-panel" id="tab-overview"><div class="page">${renderOverview(d)}</div></section>
 <section class="tab-panel" id="tab-stats">${renderStatsBody(d.stats)}</section>
 <section class="tab-panel" id="tab-experience">${renderExperienceTab(d.experience)}</section>
+<section class="tab-panel" id="tab-strength"><div class="page">
+${renderStrengthAuditCard(d.strengthAudit.rows, d.strengthAudit.gameRead)}
+${renderUnsureWeaponsCard(d.attackStrength)}
+${renderAttackStrengthCard(d.attackStrength)}
+${renderStrengthCard(d.strength)}
+</div></section>
 <section class="tab-panel" id="tab-missing"><div class="page">${renderMissing(d)}</div></section>
 <script>${STATS_SCRIPT}${SCRIPT}${EXPERIENCE_SCRIPT}</script>
 </body>

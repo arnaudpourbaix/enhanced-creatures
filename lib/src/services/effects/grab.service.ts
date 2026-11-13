@@ -179,7 +179,8 @@ class GrabService {
   private getGripDamage(creature: Creature, grab: CreatureGrabConfig): GripDamage[] {
     const list = [grab.damagePerRound ?? []].flat().map((d) => ({ ...d }));
     if (grab.addStrengthBonus && list.length > 0) {
-      const bonus = creatureService.getStrengthBonus(creature.data).damage;
+      // a grip is a natural attack: no bonus under the "3e+ weapons" strength edition
+      const bonus = creatureService.naturalStrengthDamage(creature.data);
       list[0].amount = (list[0].amount ?? 0) + bonus;
     }
     return list;

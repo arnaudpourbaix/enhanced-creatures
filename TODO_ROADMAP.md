@@ -148,6 +148,15 @@ strength found is recorded as `strength2e` (ogres, minotaur, vampire ages, death
 `PLAYER_CONFIG.strengthEdition` (`"3e+"` by default, `"2e"`) picks which plays; the dashboard
 Overview lists them.
 
+Measured (2026-11-13): the dashboard's **Strength** tab compares each monster's Strength damage
+with the original game. The game applies Strength to nearly every monster attack (its items carry
+the "add Strength bonus" flag), so `"3e+"` is +14% damage vs the game on average (ordinary
+members only, 59 monsters), while a third edition, `"3e+ weapons"` (natural attacks drop Strength,
+`Item.natural`), is -26%: kept as an option, not the default. Outliers reviewed and kept as they
+are: the mod's Strength scores follow PnP, so a monster strong in PnP (bears, wyverns, greater
+basilisk) hits harder than the game. Only change: Greater Clay Golem 22 → 21 (its boss file keeps
+22). Hand-classified weapons are listed under "Weapons to review" on the same tab.
+
 Still to do:
 
 - Compare in game with `"2e"` (ogres, the juju zombie, skeleton warriors), then pick the default.

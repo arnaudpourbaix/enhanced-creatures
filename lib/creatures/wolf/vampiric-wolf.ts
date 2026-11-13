@@ -7,8 +7,8 @@ import { CreatureKin } from "../../src/model/creature/kin";
 import { Effect } from "../../src/model/spell-item/effect";
 import {
   AbilityDamageTypeEnum,
-  EffectDamageTypeEnum,
   EffectColorLocationEnum,
+  EffectDamageTypeEnum,
   EffectModifierTypeEnum,
   EffectTargetEnum,
   EffectTimingEnum,
@@ -37,6 +37,7 @@ class VampiricWolf extends Wolf {
         icon: MonsterItemIconEnum.Jaws,
         equippedSlot: [p.slot],
         doc: p.doc,
+        natural: true,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           damageType: AbilityDamageTypeEnum.Piercing,
@@ -50,7 +51,7 @@ class VampiricWolf extends Wolf {
               opcode: EffectTypeEnum.CurrentHPbonus,
               target: EffectTargetEnum.Self,
               timing: EffectTimingEnum.InstantPermanentUntilDeath,
-              value: 8 + creatureService.getStrengthBonus(this.data).damage,
+              value: 8 + creatureService.naturalStrengthDamage(this.data),
               type: EffectModifierTypeEnum.Increment,
             },
             {

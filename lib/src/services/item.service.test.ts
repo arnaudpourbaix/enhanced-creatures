@@ -1,9 +1,15 @@
-import { describe, expect, it, afterEach } from "vitest";
+import { describe, expect, it, afterEach, vi } from "vitest";
+import { PLAYER_CONFIG } from "../../config/player-config";
 import { EquippedItem, ItemSlot } from "../model/creature/item";
-import { ItemAbilityTypeEnum, ProficiencyTypeEnum } from "../model/spell-item/effect.enums";
+import {
+  ItemAbilityFlagEnum,
+  ItemAbilityTypeEnum,
+  ProficiencyTypeEnum,
+} from "../model/spell-item/effect.enums";
 import { Item, ItemHeader } from "../model/spell-item/spell-item";
 import { State } from "../state";
 import itemService from "./item.service";
+import logService from "./log.service";
 
 function fakeEquippedItem(slot: EquippedItem["slot"]): EquippedItem {
   return { file: "wpn01", slot };
@@ -182,5 +188,44 @@ describe("isSlotIncluded", () => {
   it("returns false when the slot isn't present on any equipped item", () => {
     const equipped = [fakeEquippedItem("LRING")];
     expect(itemService.isSlotIncluded(equipped, "RRING")).toBe(false);
+  });
+});
+
+describe("getItem - natural attacks and strength", () => {
+  const STRENGTH = [ItemAbilityFlagEnum.AddStrengthBonus];
+  const weapon = (natural?: boolean) =>
+    itemService.getItem(
+      { natural, header: { type: ItemAbilityTypeEnum.Melee, abilityflags: STRENGTH } },
+      "TESTNAT",
+    );
+
+  const edition = PLAYER_CONFIG.strengthEdition;
+  afterEach(() => {
+    PLAYER_CONFIG.strengthEdition = edition;
+    vi.restoreAllMocks();
+  });
+
+  it("a natural attack drops the strength bonus under 3e+ weapons", () => {
+    PLAYER_CONFIG.strengthEdition = "3e+ weapons";
+    expect(weapon(true).header?.abilityflags).toEqual([]);
+  });
+
+  it("a manufactured weapon keeps it under 3e+ weapons", () => {
+    PLAYER_CONFIG.strengthEdition = "3e+ weapons";
+    expect(weapon(false).header?.abilityflags).toEqual(STRENGTH);
+  });
+
+  it("a natural attack keeps it under 3e+ and 2e", () => {
+    for (const edition of ["3e+", "2e"] as const) {
+      PLAYER_CONFIG.strengthEdition = edition;
+      expect(weapon(true).header?.abilityflags).toEqual(STRENGTH);
+    }
+  });
+
+  it("a melee weapon neither natural nor manufactured is reported", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
+    weapon(undefined);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0][0]).toContain("TESTNAT");
   });
 });

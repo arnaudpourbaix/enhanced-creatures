@@ -66,6 +66,7 @@ class CarrionCrawlerEntry extends CreatureEntry<Crawler> {
         stringRef: "monster.carrionCrawler.weapon",
         icon: MonsterItemIconEnum.Jelly,
         equippedSlot: ["WEAPON1"],
+        natural: true,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           diceThrown: 1,

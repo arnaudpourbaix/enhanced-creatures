@@ -2,7 +2,7 @@ import { spawnSync } from "child_process";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { PLAYER_CONFIG } from "../lib/config/player-config";
+import { PLAYER_CONFIG, StrengthEdition } from "../lib/config/player-config";
 import { buildAllCreatures } from "../lib/creatures";
 import { MonsterEnum } from "../lib/creatures/monster";
 import { parseCsv } from "./lib/csv";
@@ -16,6 +16,9 @@ import stateService from "../lib/src/services/state.service";
 import { buildExperienceReport } from "./lib/experience-report";
 import { DmgScore, EditionScores, STRENGTH_EDITIONS } from "./lib/experience-proposals";
 import { buildStrengthReport } from "./lib/strength-report";
+import { buildAttackStrengthReport } from "./lib/attack-strength-report";
+import { buildStrengthAudit, ItemSource } from "./lib/strength-audit";
+import { ResourceReader } from "./lib/spell-saves";
 import { buildStatsReport, loadStatsCsv } from "./lib/stats-report";
 
 // Builds every creature once and renders a single dashboard page with:
@@ -70,14 +73,21 @@ function summarizeCsv(rows: Record<string, string>[]): {
 }
 
 /**
- * The base creatures' DMG scores under the strength edition the settings don't play, from its own
- * build (scripts/dmg-edition.ts, a child process: the builders keep global state). Undefined, with
- * a warning, when that build fails: the proposals then show the current edition only.
+ * The base creatures' DMG scores under each strength edition the settings don't play, each from its
+ * own build (scripts/dmg-edition.ts, a child process: the builders keep global state). An edition
+ * whose build fails is left out, with a warning.
  */
-function otherEditionScores(): EditionScores | undefined {
-  const edition = STRENGTH_EDITIONS.find((e) => e !== PLAYER_CONFIG.strengthEdition);
-  if (!edition) return undefined;
-  const out = path.join(os.tmpdir(), `dmg-edition-${process.pid}.json`);
+function otherEditionsScores(): EditionScores[] {
+  return STRENGTH_EDITIONS.filter((e) => e !== PLAYER_CONFIG.strengthEdition).flatMap(
+    (edition) => editionScores(edition) ?? [],
+  );
+}
+
+function editionScores(edition: StrengthEdition): EditionScores | undefined {
+  const out = path.join(
+    os.tmpdir(),
+    `dmg-edition-${process.pid}-${edition.replace(/\W/g, "")}.json`,
+  );
   const tsNode = require.resolve("ts-node/dist/bin.js");
   const script = path.join(__dirname, "dmg-edition.ts");
   const result = spawnSync(process.execPath, [tsNode, script, edition, out], { stdio: "inherit" });
@@ -93,12 +103,37 @@ function otherEditionScores(): EditionScores | undefined {
   return { edition, scores };
 }
 
+/** ITM resource type in chitin.key */
+const ITM_TYPE = 0x3ed;
+
+/**
+ * The BG1 and BG2 installs' items (override first, as the engine reads them), from
+ * paths.local.json; undefined, with a warning, without a BG2 one: the strength audit then has no
+ * game side. A missing BG1 install only leaves out the creatures met in BG1 alone.
+ */
+function gameItems(): ItemSource | undefined {
+  const config = path.join(process.cwd(), "paths.local.json");
+  const paths = fs.existsSync(config)
+    ? (JSON.parse(fs.readFileSync(config, "utf-8")) as { bg1?: string; bg2?: string })
+    : {};
+  const reader = (dir: string | undefined) =>
+    dir && fs.existsSync(path.join(dir, "chitin.key")) ? new ResourceReader(dir) : undefined;
+  const readers = { bg1: reader(paths.bg1), bg2: reader(paths.bg2) };
+  if (!readers.bg2) {
+    console.warn("No BG2 install in paths.local.json: the strength audit has no game side");
+    return undefined;
+  }
+  return (file, game) => readers[game]?.read(file, ITM_TYPE, "itm");
+}
+
 async function main() {
   const { assetsDir } = parseArgs();
   await initBuildPipeline();
   const creatures = buildAllCreatures();
 
   const csv = parseCsv(fs.readFileSync(path.join(assetsDir, "creatures.csv"), "utf-8"));
+  const attackStrength = buildAttackStrengthReport(creatures);
+  const items = gameItems();
   requireCsvColumns(csv.header, ["MonsterId", "ValidatedMonsterId"], "creatures.csv");
   const { summary, byMonster } = summarizeCsv(csv.rows);
   const counts = (monster: string): MonsterRowCount =>
@@ -108,7 +143,7 @@ async function main() {
 
   const experience = buildExperienceReport(creatures, {
     current: PLAYER_CONFIG.strengthEdition,
-    other: otherEditionScores(),
+    others: otherEditionsScores(),
   });
   const html = renderDashboard({
     generatedAt: new Date(),
@@ -123,7 +158,12 @@ async function main() {
     },
     stats: buildStatsReport(creatures, loadStatsCsv(assetsDir)),
     strength: buildStrengthReport(creatures),
+    strengthAudit: {
+      rows: buildStrengthAudit(creatures, attackStrength, csv.rows, items),
+      gameRead: !!items,
+    },
     experience,
+    attackStrength,
   });
 
   if (unknown.length) console.warn(`Unknown MonsterId in creatures.csv: ${unknown.join(", ")}`);

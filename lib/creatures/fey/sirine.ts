@@ -410,6 +410,7 @@ class SirineEntry extends CreatureEntry<Fey> {
         stringRef: "monster.fey.weapon.sirineTouch",
         equippedSlot: ["WEAPON1"],
         icon: MonsterItemIconEnum.Fist,
+        natural: true,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           diceThrown: 1,

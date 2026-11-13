@@ -45,13 +45,13 @@ export interface EditionScores {
   scores: Map<string, DmgScore>;
 }
 
-/** The edition this build plays, and the other one's scores when its build ran */
+/** The edition this build plays, and the other ones' scores whose build ran */
 export interface ProposalEditions {
   current: StrengthEdition;
-  other?: EditionScores;
+  others?: EditionScores[];
 }
 
-export const STRENGTH_EDITIONS: StrengthEdition[] = ["2e", "3e+"];
+export const STRENGTH_EDITIONS: StrengthEdition[] = ["2e", "3e+", "3e+ weapons"];
 
 export interface ProposalRow {
   monster: string;
@@ -137,7 +137,7 @@ function duelNotes(label: string, duel: DuelResult): string {
   return `${label}: ${decimals(duel.ratio)}${notes}`;
 }
 
-/** The current edition's DMG score, and the other edition's when its build gave one */
+/** The current edition's DMG score, and the other editions' when their builds gave one */
 function dmgByEdition(
   monster: string,
   base: DmgScore,
@@ -146,8 +146,10 @@ function dmgByEdition(
   const dmg: Partial<Record<StrengthEdition, DmgScore>> = {
     [editions.current]: { xp: base.xp, breakdown: base.breakdown },
   };
-  const other = editions.other?.scores.get(monster);
-  if (editions.other && other) dmg[editions.other.edition] = other;
+  for (const other of editions.others ?? []) {
+    const score = other.scores.get(monster);
+    if (score) dmg[other.edition] = score;
+  }
   return dmg;
 }
 
@@ -303,7 +305,8 @@ function rowHtml(r: ProposalRow): string {
     `<tr data-search="${search}" data-monster="${escapeHtml(r.monster)}" ` +
     `data-files="${r.files}" data-ingame="${r.inGameXp ?? -1}" data-book="${r.bookXp ?? -1}" ` +
     `data-formula="${r.formulaXp}" data-dmg2e="${r.dmg["2e"]?.xp ?? -1}" ` +
-    `data-dmg3e="${r.dmg["3e+"]?.xp ?? -1}" data-dmgdiff="${dmgDiff(r) ?? 0}" data-mrm="${r.melee.monster}" data-mrf="${r.melee.fighter}" ` +
+    `data-dmg3e="${r.dmg["3e+"]?.xp ?? -1}" data-dmgweapons="${r.dmg["3e+ weapons"]?.xp ?? -1}" ` +
+    `data-dmgdiff="${dmgDiff(r) ?? 0}" data-mrm="${r.melee.monster}" data-mrf="${r.melee.fighter}" ` +
     `data-rrm="${r.ranged.monster}" data-rrf="${r.ranged.fighter}" data-threat="${r.threat}" ` +
     `data-threatxp="${r.threatXp}">` +
     `<td class="monster-name">${escapeHtml(r.monster)}</td><td class="num">${r.files}</td>` +
@@ -347,6 +350,7 @@ ${referenceTable("Reference archer (ranged duel)", referenceArcher)}
 <th data-sort="ingame" class="num" rowspan="2">In-game</th><th data-sort="book" class="num" rowspan="2">2e</th>
 <th data-sort="dmg2e" class="num" rowspan="2">DMG, 2e Str</th>
 <th data-sort="dmg3e" class="num" rowspan="2">DMG, 3e+ Str</th>
+<th data-sort="dmgweapons" class="num" rowspan="2" title="3e+ strength on manufactured weapons only">DMG, 3e+ weapons Str</th>
 <th data-sort="dmgdiff" class="num" rowspan="2" title="DMG 3e+ Str minus 2e Str, and its share of the 2e XP">Diff</th>
 <th colspan="2">Melee</th><th colspan="2">Ranged</th>
 <th data-sort="threat" class="num" rowspan="2">T</th>

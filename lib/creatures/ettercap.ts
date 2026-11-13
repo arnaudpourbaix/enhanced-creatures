@@ -63,6 +63,7 @@ class EttercapEntry extends CreatureEntry<Ettercap> {
         stringRef: "common.naturalWeapon.claws",
         icon: MonsterItemIconEnum.Wolf,
         equippedSlot: ["WEAPON1"],
+        natural: true,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           diceThrown: 1,
@@ -78,6 +79,7 @@ class EttercapEntry extends CreatureEntry<Ettercap> {
         stringRef: "common.naturalWeapon.jaws",
         icon: MonsterItemIconEnum.Jaws,
         equippedSlot: ["SHIELD"],
+        natural: true,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           diceThrown: 1,

@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, onTestFinished, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it, onTestFinished, vi } from "vitest";
 import { MonsterItemIconEnum } from "../../../config/item";
 import poisonService from "../../services/effects/poison.service";
 import {
@@ -18,6 +18,16 @@ import { CreatureKin } from "./kin";
 import { KinEnum } from "../../../creatures/kin";
 import { State } from "../../state";
 import type { ImmunityConfig } from "../final/immunity";
+import { PLAYER_CONFIG } from "../../../config/player-config";
+
+// Natural attacks add strength unless the edition is "3e+ weapons": these tests play "3e+"
+const edition = PLAYER_CONFIG.strengthEdition;
+beforeAll(() => {
+  PLAYER_CONFIG.strengthEdition = "3e+";
+});
+afterAll(() => {
+  PLAYER_CONFIG.strengthEdition = edition;
+});
 
 function fakeCreature(): Creature {
   const creature = new Creature(1);
@@ -127,6 +137,7 @@ describe("addNaturalWeapon", () => {
     expect(weapon.header.damageType).toBe(AbilityDamageTypeEnum.Piercing);
     expect(weapon.header.type).toBe(ItemAbilityTypeEnum.Melee);
     expect(weapon.header.abilityflags).toContain(ItemAbilityFlagEnum.AddStrengthBonus);
+    expect(weapon.natural).toBe(true);
     expect(weapon.header.speed).toBe(3);
     expect(weapon.header.diceThrown).toBe(1);
     expect(weapon.header.diceSize).toBe(6);

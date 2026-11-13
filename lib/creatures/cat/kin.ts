@@ -1,20 +1,11 @@
-import { SPELLS } from "../../config/spells/spell-database";
-import { ScriptTarget } from "../../src/model/constants";
 import { Creature } from "../../src/model/creature/creature";
 import { CreatureKin } from "../../src/model/creature/kin";
-import { Durations } from "../../src/model/game-data/durations";
 import { Effect } from "../../src/model/spell-item/effect";
-import {
-  AttackModifierTypeEnum,
-  EffectDamageTypeEnum,
-  EffectTargetEnum,
-  EffectTimingEnum,
-  ItemAbilityTypeEnum,
-  WingBuffetDirectionEnum,
-} from "../../src/model/spell-item/effect.enums";
+import { EffectDamageTypeEnum } from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import creatureService from "../../src/services/creature.service";
 import { KinEnum } from "../kin";
+import { addLeap, leapAttackEffects } from "../leap";
 
 export enum CatIds {
   CheetahLeap,
@@ -29,16 +20,24 @@ export enum CatIds {
 }
 
 export class Cat extends Creature {
+  /**
+   * The paws: one forepaw a hit, its claw/claw attacks being two hits a round. With `rear` (the
+   * leap's weapon), all four claws on one hit: both forepaws and both rear claws. Each dice and
+   * bonus is one claw's, as PnP prints it (a wild tiger's 1d4+1), Strength apart.
+   */
   createPaws(p: {
     id?: number;
     diceThrown: number;
     diceSize: number;
+    damageBonus?: number;
     rear?: {
       diceThrown: number;
       diceSize: number;
+      damageBonus?: number;
     };
   }) {
-    const amount = creatureService.getStrengthBonus(this.data).damage;
+    const amount = creatureService.naturalStrengthDamage(this.data);
+    const forepaws = p.rear ? 2 : 1;
     const effects: Effect[] = [];
     if (p.rear) {
       effects.push({
@@ -46,7 +45,7 @@ export class Cat extends Creature {
         type: EffectDamageTypeEnum.Slashing,
         diceThrown: p.rear.diceThrown * 2,
         diceSize: p.rear.diceSize,
-        amount: amount * 2,
+        amount: (amount + (p.rear.damageBonus ?? 0)) * 2,
       });
     }
     return this.addNaturalWeapon("claws", {
@@ -54,8 +53,9 @@ export class Cat extends Creature {
       stringRef: "common.naturalWeapon.paws",
       id: p.id,
       slot: p.id === undefined ? "WEAPON1" : null,
-      diceThrown: p.diceThrown * 2,
+      diceThrown: p.diceThrown * forepaws,
       diceSize: p.diceSize,
+      ...(p.damageBonus ? { damageBonus: p.damageBonus * forepaws } : {}),
       speed: 5,
     });
   }
@@ -72,54 +72,11 @@ export class Cat extends Creature {
   /**
    * Leap
    */
-  createLeap(p: {
-    id: number;
-    range: number;
-    diceThrown: number;
-    diceSize: number;
-    rear: {
-      diceThrown: number;
-      diceSize: number;
-    };
-    effects: Effect[];
-  }) {
-    const effects: Effect[] = [
-      {
-        opcode: EffectTypeEnum.WingBuffet,
-        target: EffectTargetEnum.Self,
-        speed: 150,
-        direction: WingBuffetDirectionEnum.TowardsTargetPoint,
-        duration: 2,
-      },
-      ...p.effects,
-    ];
-    return this.addSpell({
-      id: p.id,
+  createLeap(p: { id: number; range: number; effects: Effect[] }) {
+    return addLeap(this, {
+      ...p,
       name: "monster.cat.ability.leap.name",
-      xpAbility: "specialAttack",
-      role: "damage",
       description: "monster.cat.ability.leap.description",
-      icon: SPELLS.Wizard.DimensionDoor.file,
-      memorizedCount: 1,
-      options: { renew: 2 },
-      headers: [
-        {
-          type: ItemAbilityTypeEnum.Melee,
-          range: p.range,
-          effects,
-        },
-      ],
-      ability: {
-        targets: [{ name: "FarthestEnemies", randomOrder: true }],
-        minRange: 5,
-        range: p.range,
-        spell: {
-          type: "force",
-          isAttack: true,
-        },
-        disableInterrupt: true,
-        actionsAfter: [{ name: "AttackOneRound", params: [ScriptTarget.lastSeen] }],
-      },
     });
   }
 
@@ -131,36 +88,17 @@ export class Cat extends Creature {
     range: number;
     diceThrown: number;
     diceSize: number;
+    damageBonus?: number;
     rear: {
       diceThrown: number;
       diceSize: number;
+      damageBonus?: number;
     };
   }) {
     this.createPaws(p);
     return this.createLeap({
       ...p,
-      effects: [
-        {
-          opcode: EffectTypeEnum.ModifyAttacksPerRound,
-          type: AttackModifierTypeEnum.Set,
-          value: 1,
-          target: EffectTargetEnum.Self,
-          timing: EffectTimingEnum.InstantLimited,
-          duration: Durations.round,
-        },
-        {
-          opcode: EffectTypeEnum.CreateWeapon,
-          amount: 1,
-          resource: this.item(p.id).file,
-          target: EffectTargetEnum.Self,
-          timing: EffectTimingEnum.InstantLimited,
-          duration: Durations.round,
-        },
-        {
-          opcode: EffectTypeEnum.DisplayString,
-          stringRef: "monster.cat.ability.leap.attack",
-        },
-      ],
+      effects: leapAttackEffects(this.item(p.id), "monster.cat.ability.leap.attack"),
     });
   }
 }

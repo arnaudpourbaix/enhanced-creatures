@@ -1,4 +1,5 @@
 import { StringReference } from "../model/final/stringref";
+import { GeneralIdentifier } from "../model/ids/general";
 import { Durations } from "../model/game-data/durations";
 import { RaceIdentifier } from "../model/ids/race";
 import {
@@ -287,6 +288,8 @@ class EffectFactory {
   charm(payload: {
     charmType: CharmTypeEnum;
     duration: number;
+    /** The creatures it affects (humanoids by default); null for any creature */
+    generalType?: GeneralIdentifier | null;
     saveType?: SaveTypeEnum;
     saveBonus?: number;
     dispelResistance?: EffectDispelResistanceEnum;
@@ -294,7 +297,8 @@ class EffectFactory {
     const effects: Effect[] = [
       {
         opcode: EffectTypeEnum.CharmCreature,
-        generalType: "HUMANOID",
+        generalType:
+          payload.generalType === undefined ? "HUMANOID" : (payload.generalType ?? undefined),
         charmType: payload.charmType,
         timing: EffectTimingEnum.InstantLimited,
         duration: payload.duration,

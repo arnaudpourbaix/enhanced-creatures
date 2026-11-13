@@ -29,7 +29,7 @@ import { Actions } from "../model/script/actions";
 import { ItemAbilityLocationEnum, ProficiencyTypeEnum } from "../model/spell-item/effect.enums";
 import { Weapon } from "../model/spell-item/spell-item";
 import hitPointService from "./hit-point.service";
-import strengthEditionService from "./strength-edition.service";
+import strengthEditionService, { naturalAttacksAddStrength } from "./strength-edition.service";
 import itemService from "./item.service";
 import kitService from "./kit.service";
 import logService from "./log.service";
@@ -514,6 +514,19 @@ class CreatureService {
       throw new Error(`strength not found in table: ${data.strength}/${exStrength}`);
     }
     return item;
+  }
+
+  /**
+   * Whether natural attacks (claws, bites, slams, a grip) add the strength damage bonus: not under
+   * the "3e+ weapons" strength edition, where only manufactured weapons do
+   */
+  naturalAttacksAddStrength(): boolean {
+    return naturalAttacksAddStrength(PLAYER_CONFIG.strengthEdition);
+  }
+
+  /** The strength damage bonus a natural attack adds by hand (an extra claw, a grip): 0 if none */
+  naturalStrengthDamage(data: Partial<CreatureData>): number {
+    return this.naturalAttacksAddStrength() ? this.getStrengthBonus(data).damage : 0;
   }
 
   // Melee THAC0 a player actually faces: the engine applies the strength to-hit bonus on top of

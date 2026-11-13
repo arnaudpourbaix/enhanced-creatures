@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { MonsterEnum } from "../../../creatures/monster";
 import {
   GARGANTUAN_CREATURES,
@@ -26,6 +26,16 @@ import { Spell, Weapon } from "../../model/spell-item/spell-item";
 import logService from "../log.service";
 import translationService from "../translation.service";
 import grabService from "./grab.service";
+import { PLAYER_CONFIG } from "../../../config/player-config";
+
+// Natural attacks add strength unless the edition is "3e+ weapons": these tests play "3e+"
+const edition = PLAYER_CONFIG.strengthEdition;
+beforeAll(() => {
+  PLAYER_CONFIG.strengthEdition = "3e+";
+});
+afterAll(() => {
+  PLAYER_CONFIG.strengthEdition = edition;
+});
 
 interface GrabServicePrivate {
   getGrabImmuneEffects(creature: Creature, grab: CreatureGrabConfig): Effect[];

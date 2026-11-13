@@ -15,12 +15,14 @@ function fakeUndead(p: {
   level1: Level;
   bonusHp?: number;
   turnAs?: TurnUndeadType;
+  turnedAsUndead?: boolean;
   immunities?: ImmunityName[];
   traitImmunities?: ImmunityName[];
   adjustments?: Partial<CreatureData>[];
 }): Creature {
   return {
     turnAs: p.turnAs,
+    turnedAsUndead: p.turnedAsUndead,
     data: { level1: p.level1, bonusHp: p.bonusHp, immunities: p.immunities ?? ["undead"] },
     items: p.traitImmunities ? [{ trait: true, immunities: p.traitImmunities }] : [],
     traits: [],
@@ -51,6 +53,24 @@ describe("applyTurnLevel", () => {
     const undead = fakeUndead({ level1: level(3), turnAs: "spectre" });
     applyTurnLevel(undead);
     expect(undead.data.level1).toEqual({ pnpValue: 3, value: 8, type: "turn" });
+  });
+
+  it("turns a creature turned as undead without being one (shadow fiend: special)", () => {
+    const fiend = fakeUndead({
+      level1: level(7),
+      bonusHp: 3,
+      turnAs: "special",
+      turnedAsUndead: true,
+      immunities: ["outsider"],
+    });
+    applyTurnLevel(fiend);
+    expect(fiend.data.level1).toEqual({ pnpValue: 7, value: 12, type: "turn" });
+  });
+
+  it("leaves a creature that isn't undead nor turned as one alone, whatever its turnAs row", () => {
+    const fiend = fakeUndead({ level1: level(3), turnAs: "special", immunities: ["outsider"] });
+    applyTurnLevel(fiend);
+    expect(fiend.data.level1).toEqual({ pnpValue: 3, value: 3, type: "none" });
   });
 
   it("keeps the Hit Dice when they are harder than the turnAs row (no cap)", () => {

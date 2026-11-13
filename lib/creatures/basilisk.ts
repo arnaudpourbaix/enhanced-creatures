@@ -159,6 +159,7 @@ class BasiliskEntry extends CreatureEntry<Basilisk> {
         stringRef: "common.naturalWeapon.claws",
         equippedSlot: ["WEAPON1"],
         icon: MonsterItemIconEnum.Wolf,
+        natural: true,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           diceThrown: 1,

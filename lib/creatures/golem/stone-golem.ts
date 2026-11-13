@@ -105,9 +105,7 @@ class StoneGolemEntry extends CreatureEntry<Golem> {
         ],
       },
     });
-    lesserStone.setAdjustments([
-      { files: ["ARGHH", "UGHH"], data: { level1: 14, strength: 22 } },
-    ]);
+    lesserStone.setAdjustments([{ files: ["ARGHH", "UGHH"], data: { level1: 14, strength: 22 } }]);
     return lesserStone;
   }
 }

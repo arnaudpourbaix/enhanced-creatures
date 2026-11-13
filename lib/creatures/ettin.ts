@@ -34,6 +34,7 @@ class Ettin extends Creature {
         category: ItemCategoryEnum.Clubs,
         icon: "IBLUN13",
         proficiency: ProficiencyTypeEnum.PROFICIENCYCLUB,
+        natural: false,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           animationSwing: { backhand: 50, overhand: 50, thrust: 0 },

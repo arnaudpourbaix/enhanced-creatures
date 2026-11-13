@@ -3,6 +3,7 @@ import { Creature } from "../../../model/creature/creature";
 import { CreatureData } from "../../../model/creature/data";
 import { ImmunityConfig, ImmunityName } from "../../../model/final/immunity";
 import {
+  ItemAbilityFlagEnum,
   ItemAbilityTypeEnum,
   PoisonTypeEnum,
   RegenerationTypeEnum,
@@ -166,10 +167,16 @@ describe("combatProfile", () => {
     expect(combatProfile({ creature }).attacks[0].average).toBeCloseTo(3.55);
   });
 
-  it("strength damage adds to a melee hit", () => {
-    const creature = fakeCreature({ data: { strength: 18 }, items: [naturalWeapon()] });
+  it("strength damage adds to a melee hit flagged for it", () => {
+    const flagged = naturalWeapon({ abilityflags: [ItemAbilityFlagEnum.AddStrengthBonus] });
+    const creature = fakeCreature({ data: { strength: 18 }, items: [flagged] });
     // 1d4 = 2.5, + 2 for strength 18
     expect(combatProfile({ creature }).attacks[0].average).toBe(4.5);
+  });
+
+  it("strength damage doesn't add to a melee hit without the flag (a 3e+ weapons claw)", () => {
+    const creature = fakeCreature({ data: { strength: 18 }, items: [naturalWeapon()] });
+    expect(combatProfile({ creature }).attacks[0].average).toBe(2.5);
   });
 
   it("the effects of a cast spell carry the cast's chance", () => {

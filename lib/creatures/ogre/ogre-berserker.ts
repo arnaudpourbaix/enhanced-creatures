@@ -34,6 +34,7 @@ class OgreBerserker extends Ogre {
         category: ItemCategoryEnum.Flails,
         icon: "IBLUN13",
         proficiency: ProficiencyTypeEnum.PROFICIENCYFLAILMORNINGSTAR,
+        natural: false,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           animationSwing: { backhand: 50, overhand: 50, thrust: 0 },

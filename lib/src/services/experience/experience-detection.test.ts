@@ -6,6 +6,7 @@ import { ImmunityConfig, ImmunityName } from "../../model/final/immunity";
 import { EffectTypeEnum } from "../../model/spell-item/effect.type";
 import { CreatureAbility } from "../../model/creature/ability";
 import {
+  AttackModifierTypeEnum,
   EffectStatisticModifierEnum,
   EffectTargetEnum,
   ItemAbilityFlagEnum,
@@ -1532,6 +1533,82 @@ describe("detectAttackAbilities", () => {
     });
     // 4.5 x 3 = 13.5
     expect(detectAttackAbilities({ creature })).toEqual([]);
+  });
+});
+
+describe("round weapon powers (a leap's weapon for its round)", () => {
+  /**
+   * Two 2d6 legs a round (7 + 7 = 14), and a leap giving an 8d6 weapon (28) for the round of the
+   * leap, a single attack then: renewed every `renew` rounds, at `range` feet
+   */
+  function leaper(p: {
+    renew?: number;
+    range?: number;
+    movement?: number;
+    triggers?: object[];
+  }): Creature {
+    return fakeCreature({
+      data: {
+        apr: 2,
+        movement: { pnpValue: p.movement ?? 12 },
+        ...equipped("LEGS", "WEAPON1"),
+        spells: { memorized: [{ file: SPELL, memorizedCount: 1 }] },
+      } as never,
+      items: [
+        naturalWeapon({ diceThrown: 2, diceSize: 6 }, { file: "LEGS", equippedSlot: ["WEAPON1"] }),
+        naturalWeapon({ diceThrown: 8, diceSize: 6 }, { file: "LEAPW" }),
+      ],
+      spells: [
+        {
+          file: SPELL,
+          options: p.renew === undefined ? undefined : { renew: p.renew },
+          ability: p.triggers ? ({ triggers: p.triggers } as never) : undefined,
+          headers: [
+            {
+              range: p.range ?? 30,
+              effects: [
+                effect(EffectTypeEnum.ModifyAttacksPerRound, {
+                  type: AttackModifierTypeEnum.Set,
+                  value: 1,
+                  duration: 6,
+                }),
+                effect(EffectTypeEnum.CreateWeapon, { resource: "LEAPW", duration: 6 }),
+              ],
+            },
+          ] as never,
+        },
+      ],
+    });
+  }
+  const damage = (creature: Creature) =>
+    detectAttackAbilities({ creature }).filter((a) => a.ability.startsWith("roundDamage"));
+
+  it("the weapon a power gives for its round isn't an everyday attack", () => {
+    // without a renewal it is the power's alone: legs 14, under the 15+ tier
+    expect(damage(leaper({}))).toEqual([]);
+  });
+
+  it("a power renewed every 2 rounds makes one round in 2 its own", () => {
+    expect(damage(leaper({ renew: 2 }))).toEqual([
+      {
+        ability: "roundDamage15",
+        source: `LEGS 7 + LEGS 7 = 14, ${SPELL} every 2 rounds LEAPW 28 = 28: 21 a round`,
+      },
+    ]);
+  });
+
+  it("a power with script conditions of its own stays a special attack (a leap from hiding)", () => {
+    const hidden = leaper({ renew: 2, triggers: [{ name: "StateCheck" }] });
+    expect(damage(hidden)).toEqual([]);
+  });
+
+  it("a slow creature leaping 20 feet or more every 2 rounds or less isn't slow", () => {
+    const slow = (p: { renew?: number; range?: number }) =>
+      detectStatAbilities({ creature: leaper({ movement: 6, ...p }) }).map((a) => a.ability);
+    expect(slow({ renew: 1 })).not.toContain("slowMovement");
+    expect(slow({ renew: 2, range: 20 })).not.toContain("slowMovement");
+    expect(slow({ renew: 3 })).toContain("slowMovement");
+    expect(slow({ renew: 1, range: 15 })).toContain("slowMovement");
   });
 });
 

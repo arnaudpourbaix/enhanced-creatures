@@ -77,6 +77,15 @@ describe("applyUndeadGeneral", () => {
     expect(warn).toHaveBeenCalledTimes(1);
   });
 
+  it("makes UNDEAD a creature turned as undead without being one (shadow fiend)", () => {
+    const fiend = {
+      ...fake({ general: "MONSTER", immunities: ["outsider"] }),
+      turnedAsUndead: true,
+    };
+    applyUndeadGeneral(fiend as Creature);
+    expect(fiend.data.general).toBe("UNDEAD");
+  });
+
   it("leaves a creature that isn't undead alone", () => {
     const wolf = fake({ general: "ANIMAL", immunities: ["animal"] });
     applyUndeadGeneral(wolf);

@@ -17,7 +17,7 @@ export default {
   },
   group: {
     bear: "Bear",
-    cat: "Cat",
+    cat: "Great Cat",
     dog: "Dog",
     golem: "Golem",
     horror: "Horror",

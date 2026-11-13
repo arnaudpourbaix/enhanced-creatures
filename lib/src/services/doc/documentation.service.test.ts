@@ -1504,6 +1504,21 @@ describe("getCreatureSpell", () => {
     expect(html).toBe('<div class="ability-entry"><h5>Test Spell (3/day)</h5></div>');
     expect(html).not.toContain("trait-link");
   });
+
+  it("shows the spell's docUsage in place of its renewal (a leap only from hiding)", () => {
+    const name = translationService.addCustomTranslation(["Test Leap"]);
+    const docUsage = translationService.addCustomTranslation(["from hiding"]);
+    State.spells = [
+      { file: "SPPR101", doc: "name", name, docUsage, options: { renew: 2 } },
+    ] as unknown as typeof State.spells;
+    const html = documentationService.getCreatureSpell(
+      fakeAbility("SPPR101"),
+      [{ file: "SPPR101", memorizedCount: 1 }],
+      "m1-ability-0",
+    );
+
+    expect(html).toBe('<div class="ability-entry"><h5>Test Leap (from hiding)</h5></div>');
+  });
 });
 
 describe("getCreatureSpells", () => {

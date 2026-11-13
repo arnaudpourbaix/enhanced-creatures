@@ -122,6 +122,7 @@ class AnkhegEntry extends CreatureEntry<Ankheg> {
         stringRef: "monster.ankheg.weapon",
         equippedSlot: ["WEAPON1"],
         icon: MonsterItemIconEnum.Wolf,
+        natural: true,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           diceThrown: 3,

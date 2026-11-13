@@ -103,6 +103,7 @@ class DisplacerBeastEntry extends CreatureEntry<Cat> {
         stringRef: "monster.cat.weapon.tentacles",
         icon: MonsterItemIconEnum.Jelly,
         equippedSlot: ["WEAPON1"],
+        natural: true,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           range: 5,

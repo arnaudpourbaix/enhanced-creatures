@@ -6,8 +6,13 @@ import { Game } from "../../model/creature/game";
 import { ItemSlot } from "../../model/creature/item";
 import { ImmunityName } from "../../model/final/immunity";
 import { StringReference } from "../../model/final/stringref";
-import { Effect } from "../../model/spell-item/effect";
 import {
+  CreateWeaponEffect,
+  Effect,
+  ModifyAttacksPerRoundEffect,
+} from "../../model/spell-item/effect";
+import {
+  AttackModifierTypeEnum,
   EffectStatisticModifierEnum,
   EffectTargetEnum,
   ItemAbilityFlagEnum,
@@ -21,6 +26,7 @@ import { getAllSpells, spellFiles } from "../../model/spell-item/spell-reference
 import { State } from "../../state";
 import { AT_WILL } from "../../../config/common";
 import { AttackPerRoundTable } from "../../model/game-data/attack-per-round";
+import { Durations } from "../../model/game-data/durations";
 import { SPELLS } from "../../../config/spells/spell-database";
 import creatureService from "../creature.service";
 import spellService from "../spell.service";
@@ -170,7 +176,8 @@ export function detectStatAbilities(scope: ExperienceScope): DetectedAbility[] {
   }
   // Not in the DMG (user): one step of 3 from a player's 12
   const movement = effective.movement.value;
-  if (movement <= SLOW_MOVEMENT) {
+  // a leap onto its prey every round or two isn't kited, whatever its feet (a sword spider)
+  if (movement <= SLOW_MOVEMENT && !closesInByPower(scope.creature, effective, apr)) {
     detected.push({ ability: "slowMovement", source: `movement ${movement}` });
   } else if (movement >= FAST_MOVEMENT) {
     detected.push({ ability: "fastMovement", source: `movement ${movement}` });
@@ -245,11 +252,13 @@ export function detectAttackAbilities(scope: ExperienceScope): DetectedAbility[]
   addOnHitAbilities(scope.creature, effective, weapons, add);
   addSpellLevelAbility(scope, effective, add);
   addMissileAbility(scope, effective, add);
+  const apr = attacksPerRound(scope, effective);
   addDamageAbilities(
     scope.creature,
     weapons,
-    attacksPerRound(scope, effective),
+    apr,
     strengthDamage(effective),
+    roundWeaponPowers(scope.creature, effective, apr),
     add,
   );
 
@@ -664,13 +673,95 @@ export const CAST_OPCODES: ReadonlySet<EffectTypeEnum> = new Set([
  * `noWeapon`. The trait item holds the creature's permanent traits, not attacks.
  */
 export function wieldedItems(scope: ExperienceScope, effective: EffectiveAdjustment): Item[] {
+  const created = powerCreatedWeapons(scope.creature);
   const unslottedNatural = (item: Item): boolean =>
-    !effective.noWeapon && !item.equippedSlot.length && diceOf(scope.creature, item) !== undefined;
+    !effective.noWeapon &&
+    !item.equippedSlot.length &&
+    !created.has(item.file.toUpperCase()) &&
+    diceOf(scope.creature, item) !== undefined;
   const own = scope.creature.items.filter((item) => !item.trait && unslottedNatural(item));
   const equipped = effective.equipped
     .map((e) => equippedItem(scope.creature, e.item.file))
     .filter((item): item is Item => item !== undefined && !item.trait);
   return [...new Set([...own, ...equipped])];
+}
+
+/**
+ * The weapons a power gives for a while (opcode 111: a leap's claws, a form's jaws), no weapon
+ * switching ever picks: the power counts them, not the creature's round.
+ */
+function powerCreatedWeapons(creature: Creature): Set<string> {
+  return new Set(
+    allSpells(creature)
+      .flatMap((spell) => [...spell.effects, ...spell.headers.flatMap((h) => h.effects)])
+      .flatMap((effect) =>
+        effect.opcode === EffectTypeEnum.CreateWeapon && effect.resource
+          ? [effect.resource.toUpperCase()]
+          : [],
+      ),
+  );
+}
+
+/** A power giving a weapon for the round it is used (a leap's claws), used every `every` rounds */
+export interface RoundWeaponPower {
+  name: string;
+  weapon: Item;
+  every: number;
+  /** How far it reaches, in feet */
+  range: number;
+  /** Its round's attacks: those the power sets, else the creature's */
+  apr: number;
+}
+
+/**
+ * The powers giving a weapon for their round (opcode 111 lasting a round), renewed every few
+ * rounds and used whenever a target is in reach: one round in `every` is theirs (a sword spider
+ * leaps every 2 rounds, 4 legs' damage in place of its 2 legs: as if it had 3). A power with
+ * script conditions of its own (a shadow fiend's leap, only from hiding) is rare: its special
+ * attack alone counts it.
+ */
+export function roundWeaponPowers(
+  creature: Creature,
+  effective: EffectiveAdjustment,
+  apr: number,
+): RoundWeaponPower[] {
+  return ownSpells(creature, effective).flatMap((spell) => {
+    const every = spell.options?.renew;
+    if (!every || spell.ability?.triggers?.length) return [];
+    const effects = [...spell.effects, ...spell.headers.flatMap((h) => h.effects)];
+    const created = effects.find(
+      (e): e is CreateWeaponEffect =>
+        e.opcode === EffectTypeEnum.CreateWeapon && (e.duration ?? 0) <= Durations.round,
+    );
+    const weapon = created?.resource ? equippedItem(creature, created.resource) : undefined;
+    if (!weapon) return [];
+    const set = effects.find(
+      (e): e is ModifyAttacksPerRoundEffect =>
+        e.opcode === EffectTypeEnum.ModifyAttacksPerRound && e.type === AttackModifierTypeEnum.Set,
+    );
+    const range = Math.max(0, ...spell.headers.map((h) => h.range ?? 0));
+    return [
+      { weapon, every, range, name: labelOf(spell.file, spell.name), apr: set?.value ?? apr },
+    ];
+  });
+}
+
+/** A power reaching this far, at least this often, closes in on a kiting enemy (user) */
+const CLOSING_RANGE = 20;
+const CLOSING_EVERY = 2;
+
+/**
+ * Whether a round weapon power (a leap, a charge) brings it onto its prey however slow its feet:
+ * one reaching 20 feet or more, every 2 rounds or less. Such a creature is never kited (user).
+ */
+export function closesInByPower(
+  creature: Creature,
+  effective: EffectiveAdjustment,
+  apr: number,
+): boolean {
+  return roundWeaponPowers(creature, effective, apr).some(
+    (power) => power.range >= CLOSING_RANGE && power.every <= CLOSING_EVERY,
+  );
 }
 
 function collectSpell(
@@ -994,36 +1085,66 @@ function oneDecimal(value: number): string {
   return String(Math.round(value * 10) / 10);
 }
 
-/** The round damage tier from the wielded items whose dice are known. */
+interface RoundAttack {
+  file: string;
+  max: number;
+  average: number;
+}
+
+function roundAttackOf(creature: Creature, item: Item, strength: number): RoundAttack | undefined {
+  const dice = diceOf(creature, item);
+  if (!dice) return undefined;
+  // A melee hit adds the strength damage bonus (a juju zombie's 3d4 at 20 strength: 3d4+8),
+  // unless the weapon goes without it
+  const str = addsStrength(item) ? strength : 0;
+  const max = dice.thrown * dice.size + dice.bonus + str + onHitDamage(creature, item);
+  const average =
+    (dice.thrown * (dice.size + 1)) / 2 + dice.bonus + str + onHitAverage(creature, item);
+  return { file: labelOf(item.file, item.stringRef), max, average };
+}
+
+/** A round's attacks (roundAttacks: ranked by maximum), counted at average */
+function describeRound(attacks: RoundAttack[], apr: number): { total: number; parts: string } {
+  const round = roundAttacks(attacks, apr);
+  return {
+    total: round.reduce((sum, a) => sum + a.average, 0),
+    parts: round.map((a) => `${a.file} ${oneDecimal(a.average)}`).join(" + "),
+  };
+}
+
+/**
+ * The round damage tier from the wielded items whose dice are known, one round in `every` being
+ * a round weapon power's (the strongest such blend).
+ */
 function addDamageAbilities(
   creature: Creature,
   items: Item[],
   apr: number,
   strength: number,
+  powers: RoundWeaponPower[],
   add: (ability: XpAbility, source: string) => void,
 ): void {
-  const attacks: { file: string; max: number; average: number }[] = [];
-  for (const item of items) {
-    const dice = diceOf(creature, item);
-    if (!dice) continue;
-    // A melee hit adds the strength damage bonus (a juju zombie's 3d4 at 20 strength: 3d4+8),
-    // unless the weapon goes without it
-    const str = addsStrength(item) ? strength : 0;
-    const max = dice.thrown * dice.size + dice.bonus + str + onHitDamage(creature, item);
-    const average =
-      (dice.thrown * (dice.size + 1)) / 2 + dice.bonus + str + onHitAverage(creature, item);
-    attacks.push({ file: labelOf(item.file, item.stringRef), max, average });
+  const attacks = items.flatMap((item) => roundAttackOf(creature, item, strength) ?? []);
+  const normal = describeRound(attacks, apr);
+  let total = normal.total;
+  let source = `${normal.parts} = ${oneDecimal(normal.total)} a round`;
+  for (const power of powers) {
+    const attack = roundAttackOf(creature, power.weapon, strength);
+    const own = describeRound(attack ? [attack] : [], power.apr);
+    const blended = (normal.total * (power.every - 1) + own.total) / power.every;
+    if (attack && blended > total) {
+      total = blended;
+      source =
+        `${normal.parts} = ${oneDecimal(normal.total)}, ${power.name} every ${power.every} ` +
+        `rounds ${own.parts} = ${oneDecimal(own.total)}: ${oneDecimal(blended)} a round`;
+    }
   }
-  // Ranked by maximum, as the round is built (roundAttacks), then counted at average
-  const round = roundAttacks(attacks, apr);
-  const total = round.reduce((sum, a) => sum + a.average, 0);
   const tier = ROUND_DAMAGE_TIERS.find(([threshold]) => total >= threshold);
-  if (!tier) return;
-  const parts = round.map((a) => `${a.file} ${oneDecimal(a.average)}`).join(" + ");
-  add(tier[1], `${parts} = ${oneDecimal(total)} a round`);
+  if (tier) add(tier[1], source);
 }
 
-function addsStrength(item: Item): boolean {
+/** Whether a hit adds the strength damage bonus: a melee weapon flagged for it */
+export function addsStrength(item: Item): boolean {
   return (
     item.header?.type === ItemAbilityTypeEnum.Melee &&
     (item.header.abilityflags ?? []).includes(ItemAbilityFlagEnum.AddStrengthBonus)

@@ -318,7 +318,8 @@ function confusionChance(p: CombatProfile, archer: ReferenceCombatant, rounds: n
 /** The ranged duel against the reference archer: kited, closing in, or shooting back */
 export function rangedDuel(p: CombatProfile, archer: ReferenceCombatant): DuelResult {
   const resist = Math.max(p.resist.piercing, p.resist.missile);
-  const fast = p.movement >= KITING_MOVEMENT;
+  // a leap or a charge closes in as fast feet do
+  const fast = p.movement >= KITING_MOVEMENT || p.closesIn;
   const closing = () => {
     const result = duel(p, archer, meleeAttacks(p), p.powers, { resist, freeRound: true });
     result.notes.unshift("closes in after a free round of arrows");

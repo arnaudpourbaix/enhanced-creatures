@@ -1763,7 +1763,9 @@ class DocumentationService {
     const infiniteUse = ability.infiniteUse ? 1 : undefined;
     if (spell && spell.doc && memorized) {
       const rounds = spell.options?.renew ?? infiniteUse;
-      const quantity = this.getSpellQuantity(memorized.memorizedCount, rounds);
+      const quantity = spell.docUsage
+        ? translationService.from(spell.docUsage)
+        : this.getSpellQuantity(memorized.memorizedCount, rounds);
       const name = translationService.from(spell.name);
       const description =
         spell.doc !== "name" ? translationService.fromOptional(spell.description) : "";

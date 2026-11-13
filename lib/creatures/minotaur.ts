@@ -35,6 +35,7 @@ class Minotaur extends Creature {
         category: ItemCategoryEnum.Halberds,
         icon: "IAX1H17",
         proficiency: ProficiencyTypeEnum.PROFICIENCYHALBERD,
+        natural: false,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           animationSwing: { backhand: 50, overhand: 50, thrust: 0 },
@@ -57,6 +58,7 @@ class Minotaur extends Creature {
       stringRef: "monster.minotaur.weapon.headbutt.name",
       id: Ids.Headbutt,
       icon: "IHELM14",
+      natural: true,
       header: {
         type: ItemAbilityTypeEnum.Melee,
         diceThrown: 4,

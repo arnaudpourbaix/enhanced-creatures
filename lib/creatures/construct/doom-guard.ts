@@ -36,6 +36,7 @@ class DoomGuardEntry extends CreatureEntry<Construct> {
         category: ItemCategoryEnum.LargeSwords,
         proficiency: ProficiencyTypeEnum.PROFICIENCYLONGSWORD,
         enchantment: 1,
+        natural: false,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           animationSwing: { backhand: 50, overhand: 50, thrust: 0 },

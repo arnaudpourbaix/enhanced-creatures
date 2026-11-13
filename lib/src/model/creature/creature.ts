@@ -161,6 +161,11 @@ export class Creature extends AbstractCreature implements BaseCreature {
   handWrittenAbilities?: CreatureAbility[];
   /** Undead (or made undead by an adjustment): PnP "turned as" row, when harder to turn than its Hit Dice. */
   turnAs?: TurnUndeadType;
+  /**
+   * Turned like an undead without being one (PnP "special": a shadow fiend, a fiend of the Lower
+   * Planes): General UNDEAD and the turn level of its `turnAs` row, none of the undead type's traits.
+   */
+  turnedAsUndead?: boolean;
   /** XP of each creature file scope, by status (see ExperienceService). Set after validation. */
   experience: ExperienceRow[] = [];
   /** The base creature's book XP against its formula score; set only when they disagree. */
@@ -305,6 +310,8 @@ export class Creature extends AbstractCreature implements BaseCreature {
         equippedSlot: slot === null ? [] : [slot],
         immunities: o.immunities,
         doc: o.doc,
+        natural: true,
+        naturalWeaponKind: kind,
         header: definedOnly<PartialWeapon["header"]>({
           type: ItemAbilityTypeEnum.Melee,
           diceThrown: o.diceThrown,

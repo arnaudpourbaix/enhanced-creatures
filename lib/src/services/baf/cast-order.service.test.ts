@@ -370,7 +370,10 @@ describe("coveredPlan", () => {
       profile("BUFF", { role: "buff", tier: "great", duration: "short" }),
       profile("HEAL", { role: "reactive", level: 1, keywords: ["friendly", "cureWounds"] }),
     ]);
-    expect(planned.map((c) => `${c.file}:${c.healing}`)).toEqual(["HEAL:undefined", "BUFF:undefined"]);
+    expect(planned.map((c) => `${c.file}:${c.healing}`)).toEqual([
+      "HEAL:undefined",
+      "BUFF:undefined",
+    ]);
   });
 
   it("casts the most valuable first, and at an equal value mid before short", () => {

@@ -157,6 +157,11 @@ class ExperienceService {
     return GAMES.filter((g) => rows.some((r) => r.game === g));
   }
 
+  /** Whether the adjustment is an XP patch `apply` appended, not one the creature declares */
+  isXpPatch(adjustment: CreatureAdjustment): boolean {
+    return this.synthetic.has(adjustment);
+  }
+
   private inGameXp(file: string, game: Game | undefined): number | undefined {
     const rows = monsterFilesService.getCreatureRows(file, game);
     return rows.length ? pickCreatureRow(rows, game)?.xpv : undefined;
@@ -165,7 +170,7 @@ class ExperienceService {
   private rowOf(creature: Creature, scope: XpScope, base: ExperienceScore): ExperienceRow {
     const score = this.score({ creature, file: scope.file, game: scope.game });
     const matching = matchingAdjustments({ creature, file: scope.file, game: scope.game }).filter(
-      (a) => !this.synthetic.has(a),
+      (a) => !this.isXpPatch(a),
     );
     const { inGameXp } = scope;
     const row = (status: ExperienceStatus, reason: string, newXp: number): ExperienceRow => ({

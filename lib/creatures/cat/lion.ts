@@ -59,9 +59,11 @@ class LionEntry extends CreatureEntry<Cat> {
       id: CatIds.LionLeap,
       ...dices,
       range: 30,
+      // rear claws 1d6+1 each
       rear: {
         diceThrown: 1,
         diceSize: 6,
+        damageBonus: 1,
       },
     });
     lion.setBehavior({

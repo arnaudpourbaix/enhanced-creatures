@@ -5,7 +5,7 @@ import type { CreatureData } from "../../lib/src/model/creature/data";
 import { escapeHtml } from "./stats-report-html";
 
 // The 2e strengths creatures record (CreatureData.strength2e) next to the strength that plays,
-// for the dashboard's Overview tab. See docs/superpowers/specs/2026-11-07-strength-2e-design.md.
+// for the dashboard's Strength tab. See docs/superpowers/specs/2026-11-07-strength-2e-design.md.
 
 export interface StrengthRow {
   monster: string;

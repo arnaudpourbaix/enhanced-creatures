@@ -444,5 +444,9 @@
   "revenant": {
     "kin": "revenant",
     "dependsOn": []
+  },
+  "shadow-fiend": {
+    "kin": null,
+    "dependsOn": []
   }
 }

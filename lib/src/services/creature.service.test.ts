@@ -553,6 +553,25 @@ describe("getSavingThrows (private)", () => {
   });
 });
 
+describe("natural attacks and strength", () => {
+  const edition = PLAYER_CONFIG.strengthEdition;
+  afterEach(() => {
+    PLAYER_CONFIG.strengthEdition = edition;
+  });
+
+  it("add it in the 3e+ and 2e editions", () => {
+    for (const edition of ["3e+", "2e"] as const) {
+      PLAYER_CONFIG.strengthEdition = edition;
+      expect(creatureService.naturalStrengthDamage({ strength: 19 })).toBe(7);
+    }
+  });
+
+  it("don't add it in the 3e+ weapons edition: the dice are the whole hit", () => {
+    PLAYER_CONFIG.strengthEdition = "3e+ weapons";
+    expect(creatureService.naturalStrengthDamage({ strength: 19 })).toBe(0);
+  });
+});
+
 describe("getStrengthBonus", () => {
   it("returns zero bonus when strength is undefined", () => {
     expect(creatureService.getStrengthBonus({})).toEqual({

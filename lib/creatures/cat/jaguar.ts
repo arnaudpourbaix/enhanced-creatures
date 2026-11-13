@@ -60,9 +60,11 @@ class JaguarEntry extends CreatureEntry<Cat> {
       id: CatIds.JaguarLeap,
       ...dices,
       range: 30,
+      // rear claws 1d4+1 each
       rear: {
         diceThrown: 1,
         diceSize: 4,
+        damageBonus: 1,
       },
     });
     jaguar.setBehavior({

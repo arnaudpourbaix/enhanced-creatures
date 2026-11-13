@@ -3,15 +3,20 @@ import { SpellCheckConfig } from "./spells/spell-check-config";
 // Gameplay choices: how the generated creatures play. Build toggles live in build-config.ts,
 // values that never change (file paths, script variable names) in constants.ts.
 
-/** Which strength plays: today's 3e/5e scores, or the 2e ones a creature records (strength2e) */
-export type StrengthEdition = "3e+" | "2e";
+/**
+ * Which strength plays: today's 3e/5e scores, the same added to manufactured weapons only, or the
+ * 2e ones a creature records (strength2e)
+ */
+export type StrengthEdition = "3e+" | "3e+ weapons" | "2e";
 
 export interface PlayerConfig {
   /** The checks a spell's target must pass before the AI casts it (see SpellCheckConfig) */
   spellChecks: SpellCheckConfig;
   /**
    * "2e": creatures, variants and adjustments with a `strength2e` play it (see
-   * strength-edition.service.ts); "3e+": today's strengths everywhere. Spec:
+   * strength-edition.service.ts); "3e+": today's strengths everywhere; "3e+ weapons": today's
+   * strengths, but natural attacks (claws, bites, slams) deal their dice alone, as a 2e monster's
+   * dice are its whole hit (user, 2026-11-13): only manufactured weapons add it. Spec:
    * docs/superpowers/specs/2026-11-07-strength-2e-design.md
    */
   strengthEdition: StrengthEdition;

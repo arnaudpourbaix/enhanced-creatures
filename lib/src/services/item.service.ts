@@ -3,10 +3,14 @@ import {
   AbilityDamageTypeEnum,
   EffectTargetEnum,
   EffectTimingEnum,
+  ItemAbilityFlagEnum,
   ItemAbilityLocationEnum,
   ItemAbilityTargetEnum,
+  ItemAbilityTypeEnum,
   ProficiencyTypeEnum,
 } from "../model/spell-item/effect.enums";
+import { PLAYER_CONFIG } from "../../config/player-config";
+import { naturalAttacksAddStrength } from "./strength-edition.service";
 import { PartialProjectile } from "../model/spell-item/projectile";
 import { Item, ItemHeader, PartialItem, PartialItemHeader } from "../model/spell-item/spell-item";
 import { State } from "../state";
@@ -34,6 +38,8 @@ class ItemService {
       equippedSlot: item.equippedSlot ?? [],
       projectiles: [],
       trait: false,
+      natural: item.natural,
+      naturalWeaponKind: item.naturalWeaponKind,
     };
     result.equippedSlot = this.getItemSlots(result.equippedSlot);
     result.effects = effectService.getEffects(result.effects, {
@@ -43,7 +49,10 @@ class ItemService {
         timing: EffectTimingEnum.InstantWhileEquipped,
       },
     });
-    if (item.header) this.setHeader(result, item.header, file);
+    if (item.header) {
+      this.setHeader(result, item.header, file);
+      this.applyNaturalStrength(result);
+    }
     State.items.push(result);
     return result;
   }
@@ -71,6 +80,26 @@ class ItemService {
       this.addProjectile(result, result.header, header.projectile);
     }
     return result;
+  }
+
+  /**
+   * A natural attack doesn't add the strength bonus under the "3e+ weapons" edition: its dice are
+   * the whole hit. A mod melee weapon must say which it is (`natural`): left unset, it's reported.
+   */
+  private applyNaturalStrength(item: Item): void {
+    const header = item.header;
+    if (header?.type !== ItemAbilityTypeEnum.Melee || item.copyFrom) return;
+    if (item.natural === undefined) {
+      logService.warn(
+        `Weapon ${item.file} (${translationService.fromOptional(item.stringRef)}) is neither natural nor manufactured: set its \`natural\``,
+      );
+      return;
+    }
+    if (item.natural && !naturalAttacksAddStrength(PLAYER_CONFIG.strengthEdition)) {
+      header.abilityflags = (header.abilityflags ?? []).filter(
+        (flag) => flag !== ItemAbilityFlagEnum.AddStrengthBonus,
+      );
+    }
   }
 
   private addProjectile(item: Item, header: ItemHeader, projectile: PartialProjectile) {

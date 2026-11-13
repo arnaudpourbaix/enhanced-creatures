@@ -44,6 +44,11 @@ export interface BaseSpell {
   secondaryRoles?: SpellRole[];
   /** See SpellReference.worthLevel */
   worthLevel?: number;
+  /**
+   * How often the docs say it is used, in place of its count ("1/day", "every 2 rounds"): for a
+   * power its conditions limit more than its count does (a leap only from hiding)
+   */
+  docUsage?: StringReference;
   /** See SpellTier - decent when unset */
   tier?: SpellTier;
   /** An area spell hitting the caster's allies too (scripts/extract-spell-profile.ts) */
@@ -193,6 +198,18 @@ export interface Item {
    * Creature's trait (use for documentation)
    */
   trait: boolean;
+  /**
+   * A weapon's kind: true for a natural attack (claws, a bite, a slam), false for a manufactured
+   * weapon (a sword, a club). Under the "3e+ weapons" strength edition, a natural one doesn't add
+   * the strength bonus (itemService). A melee weapon left unset is reported.
+   */
+  natural?: boolean;
+  /**
+   * The natural weapon kind it was made as (claws, jaws: Creature.addNaturalWeapon), making it
+   * natural without doubt; a hand-built weapon's `natural` is a judgment, listed for review on
+   * the dashboard
+   */
+  naturalWeaponKind?: string;
   /**
    * A trait a kin owns and several creatures equip as their own (a revenant's, risen in an
    * ettin's body too): a creature's own trait never overrides it

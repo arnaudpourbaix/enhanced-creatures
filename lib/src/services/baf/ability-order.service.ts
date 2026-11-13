@@ -24,7 +24,8 @@ interface OrderedAbility {
 }
 
 /** A `spell` entry's file: its registry entry's, or the file itself */
-const entryFile = (spell: SpellReference | string) => (typeof spell === "string" ? spell : spell.file);
+const entryFile = (spell: SpellReference | string) =>
+  typeof spell === "string" ? spell : spell.file;
 
 class AbilityOrderService {
   resolve(creature: Creature): RawCreatureAbility[] {

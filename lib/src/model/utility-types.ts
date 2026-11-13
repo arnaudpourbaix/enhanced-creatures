@@ -6,8 +6,7 @@ export type DeepPartial<T> = T extends object
 
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-export type DeepPartialBy<T, K extends keyof T> = Omit<T, K> &
-  DeepPartial<Pick<T, K>>;
+export type DeepPartialBy<T, K extends keyof T> = Omit<T, K> & DeepPartial<Pick<T, K>>;
 
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
@@ -21,9 +20,7 @@ export type Join<K, P> = K extends string | number
 
 export type Paths<T> = T extends object
   ? {
-      [K in keyof T]-?: K extends string | number
-        ? `${K}` | Join<K, Paths<T[K]>>
-        : never;
+      [K in keyof T]-?: K extends string | number ? `${K}` | Join<K, Paths<T[K]>> : never;
     }[keyof T]
   : "";
 

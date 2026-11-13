@@ -48,6 +48,7 @@ export class ConstructKin extends CreatureKin {
         animation: ItemAnimationEnum.TwoHandedSword,
         category: ItemCategoryEnum.Greatswords,
         proficiency: ProficiencyTypeEnum.PROFICIENCYTWOHANDEDSWORD,
+        natural: false,
         header: {
           type: ItemAbilityTypeEnum.Melee,
           icon: "IFLAMS01",

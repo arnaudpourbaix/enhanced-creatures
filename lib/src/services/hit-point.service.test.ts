@@ -106,7 +106,10 @@ describe("hitPointService.getHitPoints", () => {
     const value = hitPointService.getHitPoints({
       data: { immunities: ["undead"] },
       creature: fakeCreature(),
-      parent: { level1: { pnpValue: 10, value: 10, type: "none" }, constitution: 18 } as CreatureData,
+      parent: {
+        level1: { pnpValue: 10, value: 10, type: "none" },
+        constitution: 18,
+      } as CreatureData,
     });
     expect(value).toBe(120); // 10 * 12, undead: no constitution bonus
   });

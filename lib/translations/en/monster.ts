@@ -3,6 +3,8 @@
 // Same displayed ability name shared by the dread wolf, ghoul, and mummy below - each has its own
 // mechanical description, but the in-game ability name is identical.
 const ROTTING_DISEASE_NAME = "Rotting Disease";
+// The leap attack of cats, spiders and the shadow fiend
+const LEAP_ATTACK_NAME = "Leap Attack";
 
 // Shared between ooze.ability.split (the in-game spell/ability text) and ooze.trait.split (the
 // docs-only trait entry, which also folds in the creature's immunity bullets - see the puddings'
@@ -88,7 +90,7 @@ It must repeat the saving throw on the next round. On a success, the effect ends
       leap: {
         name: "Leap",
         description: `Leap on its target and strike with both forepaws and both rear claws.`,
-        attack: "Leap Attack",
+        attack: LEAP_ATTACK_NAME,
       },
     },
     weapon: { tentacles: "Tentacles" },
@@ -384,7 +386,7 @@ True sight`,
         description: "Leaps horizontally as far as 30 feet.",
       },
       leapAttack: {
-        name: "Leap Attack",
+        name: LEAP_ATTACK_NAME,
         description: `Leaps horizontally as far as 30 feet.
 Gains Impaling Attack ability for one round.
 If the attack is successful, the victim is struck by 4 legs. 
@@ -803,6 +805,21 @@ In 2 rounds, the slain creature rises as a zombie under the zombie lord's comman
         name: "Foul Toxin",
         description: `The vampyre's bite inflicts 1d6 piercing damage, and its saliva carries a foul toxin.
 Those bitten must save vs. poison or be charmed for 1 turn, at a -1 penalty for every 2 points of damage done by the bite (rounded up).`,
+      },
+    },
+  },
+  shadowFiend: {
+    name: "Shadow Fiend",
+    ability: {
+      leap: {
+        name: "Leap",
+        description: `When it surprises its victim from the shadows, the shadow fiend springs on it from up to 30 feet away and strikes with its four claws (1d6 each). It can't bite during the leap.`,
+        attack: LEAP_ATTACK_NAME,
+      },
+      magicJar: {
+        name: "Magic Jar",
+        description: `Once per encounter, the shadow fiend tries to take control of a creature within 30 feet. The target must save vs. spell or be dominated for 5 turns.
+If the target saves, the shadow fiend is stunned for 1d3 rounds.`,
       },
     },
   },

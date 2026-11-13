@@ -1,6 +1,14 @@
 import type { StrengthEdition } from "../../config/player-config";
 import type { CreatureData, Strength2e } from "../model/creature/data";
 
+/**
+ * Whether natural attacks (claws, bites, slams, a grip) add the strength damage bonus: not under
+ * the "3e+ weapons" strength edition, where only manufactured weapons do (user, 2026-11-13)
+ */
+export function naturalAttacksAddStrength(edition: StrengthEdition): boolean {
+  return edition !== "3e+ weapons";
+}
+
 /** What a 2e "no strength bonus" plays: 2e's 8-15 all give +0/+0, and monsters fight like fighters */
 export const NO_BONUS_STRENGTH = 15;
 

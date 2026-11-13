@@ -73,26 +73,32 @@ describe("experience proposals", () => {
     expect(html).not.toContain("√(B × F)");
   });
 
-  it("shows the DMG XP in both strength editions, the other one from its own build", () => {
-    const other = {
-      edition: "3e+" as const,
-      scores: new Map([["Ankheg", { xp: 650, breakdown: "3e+ breakdown" }]]),
-    };
-    const p = buildProposals(creatures, threatOf, fit, {
-      current: "2e",
-      other,
-    });
+  it("shows the DMG XP in every strength edition, the other ones from their own builds", () => {
+    const others = [
+      {
+        edition: "3e+" as const,
+        scores: new Map([["Ankheg", { xp: 650, breakdown: "3e+ breakdown" }]]),
+      },
+      {
+        edition: "3e+ weapons" as const,
+        scores: new Map([["Ankheg", { xp: 420, breakdown: "weapons breakdown" }]]),
+      },
+    ];
+    const p = buildProposals(creatures, threatOf, fit, { current: "2e", others });
     const ankheg = p.rows.find((r) => r.monster === "Ankheg")!;
     expect(ankheg.dmg).toEqual({
       "2e": { xp: 270, breakdown: "" },
       "3e+": { xp: 650, breakdown: "3e+ breakdown" },
+      "3e+ weapons": { xp: 420, breakdown: "weapons breakdown" },
     });
-    expect(p.totals.dmg).toEqual({ "2e": 270, "3e+": 650 });
+    expect(p.totals.dmg).toEqual({ "2e": 270, "3e+": 650, "3e+ weapons": 420 });
     const html = renderProposals(p);
     expect(html).toContain("DMG, 2e Str");
     expect(html).toContain("DMG, 3e+ Str");
+    expect(html).toContain("DMG, 3e+ weapons Str");
     const ankhegRow = html.match(/<tr[^>]*data-monster="Ankheg".*?<\/tr>/)![0];
     expect(ankhegRow).toContain('data-dmg3e="650"');
+    expect(ankhegRow).toContain('data-dmgweapons="420"');
     // 3e+ minus 2e, sortable, with its share of the 2e value
     expect(ankhegRow).toContain('data-dmgdiff="380"');
     expect(ankhegRow).toContain(">+380 <span");
@@ -100,7 +106,7 @@ describe("experience proposals", () => {
     expect(html).toContain('data-sort="dmgdiff"');
   });
 
-  it("without the other edition's build, only the current edition has a DMG XP", () => {
+  it("without the other editions' builds, only the current edition has a DMG XP", () => {
     const p = buildProposals(creatures, threatOf, fit, { current: "3e+" });
     expect(p.rows.find((r) => r.monster === "Ankheg")!.dmg).toEqual({
       "3e+": { xp: 270, breakdown: "" },

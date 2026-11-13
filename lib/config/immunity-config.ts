@@ -1029,6 +1029,9 @@ export const TRAITS: (AtLeast<ImmunityConfig, TraitImmunityKeys> & {
     immunities: [
       "backstab",
       "criticalHit",
+      "hold",
+      "stun",
+      "petrification",
       "fireResistance",
       "coldResistance",
       "lightningResistance",

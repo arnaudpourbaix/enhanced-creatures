@@ -44,6 +44,9 @@ import {
   spellLabel,
   strengthDamage,
   targetEffects,
+  addsStrength,
+  closesInByPower,
+  roundWeaponPowers,
   wieldedItems,
 } from "../experience-detection";
 import { hitDiceValue } from "../experience-table";
@@ -97,6 +100,8 @@ export interface CombatProfile {
   powers: ProfilePower[];
   invisibleAtWill: boolean;
   flies: boolean;
+  /** A leap or a charge brings it onto its prey however slow its feet (closesInByPower) */
+  closesIn: boolean;
   /** Shares (0..1) of the damage the creature ignores */
   resist: { slashing: number; piercing: number; missile: number; magic: number };
   /** The weapon enchantment needed to hurt it, 0 for any weapon */
@@ -194,6 +199,17 @@ const DUEL_ROUNDS = 30;
 /** Above this range a power reaches past melee (touch powers have 1 to 5) */
 const MELEE_RANGE = 5;
 
+/**
+ * A round of melee attacks without any strength bonus: the dice (and on-hit damage) alone, its
+ * attacks per round apart (the dashboard's strength audit adds each edition's strength to it)
+ */
+export function diceRound(scope: ExperienceScope): { damage: number; apr: number } {
+  const effective = effectiveOf(scope);
+  const apr = attacksPerRound(scope, effective);
+  const melee = roundOf(scope, effective, apr, 0).filter((a) => !a.ranged);
+  return { damage: melee.reduce((sum, a) => sum + a.average, 0), apr };
+}
+
 export function combatProfile(scope: ExperienceScope): CombatProfile {
   const effective = effectiveOf(scope);
   const immunities = new Set(immunitiesOf(scope, effective));
@@ -214,6 +230,7 @@ export function combatProfile(scope: ExperienceScope): CombatProfile {
     powers: [...ownPowers(scope.creature, effective), ...gamePowers(scope.creature, effective)],
     invisibleAtWill: invisibleAtWill(scope.creature, effective),
     flies: immunities.has("hover"),
+    closesIn: closesInByPower(scope.creature, effective, apr),
     resist: resistances(scope, immunities),
     weaponEnchantment: Math.max(
       0,
@@ -228,27 +245,68 @@ export function combatProfile(scope: ExperienceScope): CombatProfile {
   };
 }
 
-/** The XP round (roundAttacks): each weapon at its average damage, ranked by its maximum. */
+/**
+ * The XP round (roundAttacks): each weapon at its average damage, ranked by its maximum. With a
+ * round weapon power (roundWeaponPowers, the strongest one), one round in `every` is the power's:
+ * both rounds' attacks, weighted (the duel adds attacks up, so the weights blend them).
+ */
 function roundOf(
   scope: ExperienceScope,
   effective: EffectiveAdjustment,
   apr: number,
+  strength = strengthDamage(effective),
 ): ProfileAttack[] {
   const { creature } = scope;
-  const strength = strengthDamage(effective);
   const quiver = new Set(quiverFiles(effective));
   const candidates = wieldedItems(scope, effective)
     .filter((item) => !quiver.has(item.file.toUpperCase()))
-    .flatMap((item) => {
-      const dice = diceOf(creature, item);
-      if (!dice) return [];
-      const melee = item.header?.type === ItemAbilityTypeEnum.Melee;
-      const str = melee ? strength : 0;
-      const max = dice.thrown * dice.size + dice.bonus + str + onHitDamage(creature, item);
-      const average = diceAverage(dice.thrown, dice.size) + dice.bonus + str;
-      return [{ max, attack: weaponAttack(creature, item, average, !melee) }];
-    });
-  return roundAttacks(candidates, apr).map((c) => c.attack);
+    .flatMap((item) => candidateOf(creature, item, strength));
+  const normal = roundAttacks(candidates, apr).map((c) => c.attack);
+  const powers = roundWeaponPowers(creature, effective, apr).map((power) => ({
+    every: power.every,
+    attacks: roundAttacks(candidateOf(creature, power.weapon, strength), power.apr).map(
+      (c) => c.attack,
+    ),
+  }));
+  const best = powers
+    .map((p) => ({
+      ...p,
+      blended: (damageOf(normal) * (p.every - 1) + damageOf(p.attacks)) / p.every,
+    }))
+    .filter((p) => p.blended > damageOf(normal))
+    .sort((a, b) => b.blended - a.blended)
+    .at(0);
+  if (!best) return normal;
+  return [
+    ...normal.map((a) => weighted(a, (best.every - 1) / best.every)),
+    ...best.attacks.map((a) => weighted(a, 1 / best.every)),
+  ];
+}
+
+function candidateOf(
+  creature: Creature,
+  item: Item,
+  strength: number,
+): { max: number; attack: ProfileAttack }[] {
+  const dice = diceOf(creature, item);
+  if (!dice) return [];
+  const melee = item.header?.type === ItemAbilityTypeEnum.Melee;
+  // as the XP round: only a hit flagged for it adds strength (not a "3e+ weapons" natural attack)
+  const str = addsStrength(item) ? strength : 0;
+  const max = dice.thrown * dice.size + dice.bonus + str + onHitDamage(creature, item);
+  const average = diceAverage(dice.thrown, dice.size) + dice.bonus + str;
+  return [{ max, attack: weaponAttack(creature, item, average, !melee) }];
+}
+
+const damageOf = (attacks: ProfileAttack[]) => attacks.reduce((sum, a) => sum + a.average, 0);
+
+/** An attack landing in a share of the rounds: its damage and its effects' chances scaled */
+function weighted(attack: ProfileAttack, share: number): ProfileAttack {
+  return {
+    ...attack,
+    average: attack.average * share,
+    effects: attack.effects.map((e) => ({ ...e, chance: e.chance * share })),
+  };
 }
 
 function weaponAttack(

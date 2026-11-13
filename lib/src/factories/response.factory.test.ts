@@ -7,15 +7,11 @@ import responseFactory from "./response.factory";
 describe("response", () => {
   it("wraps the given actions in a single weighted response, defaulting weight to 100", () => {
     const action: Actions.Action = { name: "Continue" };
-    expect(responseFactory.response([action])).toEqual([
-      { weight: 100, actions: [action] },
-    ]);
+    expect(responseFactory.response([action])).toEqual([{ weight: 100, actions: [action] }]);
   });
 
   it("uses the provided weight", () => {
-    expect(responseFactory.response([], 42)).toEqual([
-      { weight: 42, actions: [] },
-    ]);
+    expect(responseFactory.response([], 42)).toEqual([{ weight: 42, actions: [] }]);
   });
 });
 
@@ -61,9 +57,7 @@ describe("attackResponses", () => {
   });
 
   it("prepends optActions before the weapon selection", () => {
-    const optActions: Actions.Action[] = [
-      { name: "Continue" },
-    ];
+    const optActions: Actions.Action[] = [{ name: "Continue" }];
     const responses = responseFactory.attackResponses({
       attacks: [{ weaponSlot: "WEAPON1" }],
       oncePerRound: true,
@@ -85,10 +79,7 @@ describe("attackResponses", () => {
   });
 
   it("uses each attack's own responseWeight, defaulting to 100", () => {
-    const attacks: CreatureAttackAction[] = [
-      { responseWeight: 30 },
-      {},
-    ];
+    const attacks: CreatureAttackAction[] = [{ responseWeight: 30 }, {}];
     const responses = responseFactory.attackResponses({
       attacks,
       oncePerRound: true,

@@ -26,6 +26,7 @@ class MagicGolem extends Golem {
         stringRef: "monster.golem.weapon.magicalBlast",
         icon: MonsterItemIconEnum.FireElemental,
         equippedSlot: ["WEAPON1"],
+        natural: true,
         header: {
           range: 50,
           diceThrown: 0,

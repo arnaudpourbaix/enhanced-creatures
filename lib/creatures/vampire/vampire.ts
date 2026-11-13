@@ -732,6 +732,7 @@ function animalForm(group: AbstractCreature, form: AnimalForm) {
       description: form.description,
       immunities: form.immunities,
       equippedSlot: [],
+      natural: true,
       header: {
         type: ItemAbilityTypeEnum.Melee,
         diceThrown: form.damage.diceThrown,
@@ -921,6 +922,8 @@ function mistForm(cre: Creature, age: VampireAge, forms: Spell[]) {
     // only fire harms a vapor: fire spells, and the fire damage of a weapon's hits (the weapon
     // itself does nothing). Gas floats: no ground spells, web or entangle
     immunities: ["poison", "cold", "lightning", "acid", "magicDamage", "physicalDamage", "hover"],
+    // the mist's empty hands: no damage at all
+    natural: true,
     header: { type: ItemAbilityTypeEnum.Melee },
     effects: [
       {

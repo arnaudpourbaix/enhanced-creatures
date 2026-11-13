@@ -47,13 +47,14 @@ const TURN_ROW_HIT_DICE: Record<TurnUndeadType, number> = {
  * changes its Hit Dice, or, for a creature that is not undead, for each adjustment making it
  * undead (zombie ankhegs). The table rows read "type *or* Hit Dice", so the harder one wins: the
  * `turnAs` row, or the Hit Dice ("+3" or more rounding up, as a 4+3 HD wight is in the 5 HD row).
- * Spellcasters keep their caster level, and creatures immune to turning are left alone.
+ * A creature turned as undead without being one (PnP "special": a shadow fiend) is turned like
+ * one. Spellcasters keep their caster level, and creatures immune to turning are left alone.
  */
 export function applyTurnLevel(creature: Creature): void {
   if (isImmuneToTurning(creature)) return;
   const base = creature.data;
   const own = creatureTypeService.getCreatureTypes(creature);
-  const undead = own.includes("undead");
+  const undead = isTurnedAsUndead(creature, own);
   if (undead) base.level1 = getTurnLevel(creature.turnAs, base.level1, base.bonusHp);
   const turned = creature.adjustments.filter(
     (a) => undead || creatureTypeService.getAdjustmentTypes(creature, a, own).includes("undead"),
@@ -77,6 +78,17 @@ function getTurnLevel(turnAs: TurnUndeadType | undefined, level1: Level, bonusHp
     creatureService.getEffectiveHitDice(level1.pnpValue, bonusHp),
   );
   return { value, pnpValue: level1.pnpValue, type: value === level1.pnpValue ? "none" : "turn" };
+}
+
+/**
+ * Whether the creature itself (not only an adjustment) is turned: undead, or turned as undead
+ * without being one (PnP "special": a shadow fiend).
+ */
+export function isTurnedAsUndead(
+  creature: Creature,
+  own = creatureTypeService.getCreatureTypes(creature),
+): boolean {
+  return own.includes("undead") || creature.turnedAsUndead === true;
 }
 
 function isImmuneToTurning(creature: Creature): boolean {

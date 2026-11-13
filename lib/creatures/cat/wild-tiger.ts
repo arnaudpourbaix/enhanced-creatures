@@ -49,9 +49,11 @@ class WildTigerEntry extends CreatureEntry<Cat> {
         immunities: ["cat", "animal"],
       },
     });
+    // claws 1d4+1 each
     const dices = {
       diceThrown: 1,
       diceSize: 4,
+      damageBonus: 1,
     };
     wildTiger.createPaws(dices);
     wildTiger.createJaws(1, 10);

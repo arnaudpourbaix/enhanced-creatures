@@ -43,6 +43,7 @@ class SwordSpider extends Spider {
       stringRef: p.impale ? "monster.spider.ability.impale.name" : "monster.spider.weapon.leg",
       icon: MonsterItemIconEnum.Wolf,
       equippedSlot: p.equipped ? ["WEAPON1"] : undefined,
+      natural: true,
       header: {
         type: ItemAbilityTypeEnum.Melee,
         diceThrown: p.impale ? 8 : 2,

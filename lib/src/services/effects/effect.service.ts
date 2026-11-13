@@ -252,7 +252,9 @@ class EffectService {
         break;
       case EffectTypeEnum.CharmCreature:
       case EffectTypeEnum.CharmControlCreature:
-        effect.parameter1 = `IDS_OF_SYMBOL (~GENERAL~ ~${effect.generalType}~)`;
+        effect.parameter1 = effect.generalType
+          ? `IDS_OF_SYMBOL (~GENERAL~ ~${effect.generalType}~)`
+          : "0";
         effect.parameter2 = `${effect.charmType}`;
         break;
       case EffectTypeEnum.ProtectionFromProjectile:

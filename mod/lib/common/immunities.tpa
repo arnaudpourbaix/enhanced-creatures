@@ -31,6 +31,11 @@ DEFINE_ACTION_MACRO load_splprot BEGIN
 	ACTION_IF (index >= 0) BEGIN
 		OUTER_SET STRENGTH_EQUAL=index - 1
 	END
+	OUTER_SET value=IDS_OF_SYMBOL (~state~ ~STATE_CHARMED~)
+	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x111 STR_VAR value relation="9" RET index END
+	ACTION_IF (index >= 0) BEGIN
+		OUTER_SET NOT_CHARMED=index - 1
+	END
 	OUTER_SET value=IDS_OF_SYMBOL (~splstate~ ~DEATH_WARD~)
 	LAF ADD_SPLPROT_ENTRY INT_VAR stat=0x112 STR_VAR value relation="1" RET index END
 	ACTION_IF (index >= 0) BEGIN
@@ -600,6 +605,9 @@ BEGIN
 	LPF ADD_EFFECT_CRE_ITM_SPL INT_VAR resist_dispel duration opcode=278 parameter1=4 parameter2=0 END
 	LPF backstab_immunity INT_VAR resist_dispel duration END
 	LPF criticalHit_immunity INT_VAR resist_dispel duration END
+	LPF hold_immunity INT_VAR resist_dispel duration END
+	LPF stun_immunity INT_VAR resist_dispel duration END
+	LPF petrification_immunity INT_VAR resist_dispel duration END
 	LPF fireResistance_resistance INT_VAR resist_dispel duration END
 	LPF coldResistance_resistance INT_VAR resist_dispel duration END
 	LPF lightningResistance_resistance INT_VAR resist_dispel duration END

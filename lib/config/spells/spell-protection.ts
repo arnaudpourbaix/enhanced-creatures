@@ -13,7 +13,8 @@ export type SpellProtectionName =
   | "DEATH_IMMUNITY"
   | "UNDEAD_OR_GOLEM"
   | "HELD"
-  | "STRENGTH_EQUAL";
+  | "STRENGTH_EQUAL"
+  | "NOT_CHARMED";
 
 /**
  * If value is not set, it will generate -1
@@ -54,6 +55,12 @@ export const SPELL_PROTECTIONS: SpellProtection[] = [
     name: "STRENGTH_EQUAL",
     stat: "STR",
     relation: SpellProtectionRelation.Equal,
+  },
+  {
+    name: "NOT_CHARMED",
+    stat: SpellProtectionStat.State,
+    value: "STATE_CHARMED",
+    relation: SpellProtectionRelation.BinaryNotMatch,
   },
   {
     name: "DEATH_IMMUNITY",
