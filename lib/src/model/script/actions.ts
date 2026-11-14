@@ -91,6 +91,7 @@ export namespace Actions {
     | "Continue"
     | "Wait"
     | "SmallWait"
+    | "CreateVisualEffectObject"
     | "SetInterrupt"
     | "FaceObject"
     | "StartDialogueNoSet"
@@ -397,6 +398,11 @@ export namespace Actions {
     params: [number];
   }
 
+  export interface CreateVisualEffectObject {
+    name: "CreateVisualEffectObject";
+    params: [string, ParamObject];
+  }
+
   export interface SetInterrupt {
     name: "SetInterrupt";
     params: ["TRUE" | "FALSE"];
@@ -524,6 +530,7 @@ export namespace Actions {
     | Continue
     | Wait
     | SmallWait
+    | CreateVisualEffectObject
     | SetInterrupt
     | FaceObject
     | StartDialogueNoSet
@@ -1093,6 +1100,13 @@ export namespace Actions {
       parameters: "I:Time*",
       description:
         "This action is similar to Wait(), it causes a delay in script processing. The time is measured in AI updates (which default to 15 per second)",
+      section: "Misc",
+    },
+    {
+      name: "CreateVisualEffectObject",
+      parameters: "S:DialogFile*,O:Target*",
+      description:
+        "This action plays the specified visual effect (a VVC or BAM file) on the specified object.",
       section: "Misc",
     },
     {

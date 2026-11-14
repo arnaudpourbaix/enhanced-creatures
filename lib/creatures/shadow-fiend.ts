@@ -1,3 +1,4 @@
+import { MonsterItemIconEnum } from "../config/item";
 import { CHARM_TARGET_LISTS } from "../config/presets/charm-presets";
 import { SPELLS } from "../config/spells/spell-database";
 import actionFactory from "../src/factories/action.factory";
@@ -7,6 +8,7 @@ import triggerFactory from "../src/factories/trigger.factory";
 import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
+import { JEWEL_SLOTS } from "../src/model/creature/item";
 import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { Durations } from "../src/model/game-data/durations";
 import { PartialCustomCode } from "../src/model/script/script";
@@ -16,20 +18,26 @@ import {
   EffectStatisticModifierEnum,
   EffectTargetEnum,
   EffectTimingEnum,
+  ItemAbilityPrimaryTypeEnum,
   ItemAbilitySecondaryTypeEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
+  ItemCategoryEnum,
   SaveTypeEnum,
+  SpellTypeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
+import { StringRefUtils } from "../src/services/utils/string-ref.utils";
 import { EntryEnum } from "./entry";
 import { addLeap, leapAttackEffects } from "./leap";
 import { MonsterEnum } from "./monster";
+import { createClaws } from "./types/undead";
 
 enum Ids {
   Leap,
   MagicJar,
   MagicJarBackfire,
+  DrainingTouch,
 }
 
 /**
@@ -112,8 +120,92 @@ export function shadowFiend(entry: CreatureEntry<Creature>): Creature {
   });
   fiend.turnedAsUndead = true;
   fiend.turnAs = "special";
-  fiend.setAdjustments([{ files: [] }]);
+  fiend.setAdjustments([{ files: ["SDSHADFI"], data: { level1: 12 } }]);
+  shadowCreatureVariant(fiend);
+  // the Shadow Creature's Demishadow Monsters (OHRDEMI): full fiends, worth no XP
+  fiend.variant("Demishadow", {
+    files: ["OHRSHFIE"],
+    adjust: [{ files: ["OHRSHFIE"], summon: true }],
+    behavior: { customCodes: [APPEAR_FROM_SHADOWS] },
+  });
   return fiend;
+}
+
+/**
+ * The Shadow Creature and its demishadows rise from the shadows: their own scripts' (OHRSHAD1)
+ * visual on creation, OHRSHFIE.VVC
+ */
+const APPEAR_FROM_SHADOWS: PartialCustomCode = {
+  location: "destroyUponDeath",
+  type: "insertBefore",
+  statements: [
+    {
+      comment: "Rise from the shadows",
+      triggers: [{ name: "OnCreation" }],
+      responses: responseFactory.response([
+        { name: "SmallWait", params: [5] },
+        { name: "CreateVisualEffectObject", params: ["OHRSHFIE", ScriptTarget.myself] },
+      ]),
+    },
+  ],
+};
+
+/**
+ * Rasaad's quest boss, a game-only elite shadow fiend, never below its own files: 110 HP, AC -3,
+ * THAC0 9, Strength 16, immune to acid and to weapons below +2. It keeps its own Demishadow
+ * Monsters (OHRDEMI, summoning two OHRSHFIE). OHRSHAD2 is the neutral one met in dialog: its MINHP1
+ * stays, as the story needs it alive. As a boss, one more attack than an ordinary fiend (4: three
+ * claws and a bite), its claws draining a level as a wraith's do (its file's WRAITH1).
+ */
+function shadowCreatureVariant(fiend: Creature) {
+  const touch = fiend.addSpell({
+    name: "monster.shadowFiend.ability.touch.name",
+    description: "monster.shadowFiend.ability.touch.description",
+    id: Ids.DrainingTouch,
+    secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
+    keywords: ["levelDrain"],
+    headers: [
+      {
+        type: ItemAbilityTypeEnum.Melee,
+        range: 5,
+        effects: [...effectFactory.levelDrain({ levels: 1 })],
+      },
+    ],
+  });
+  const drainingClaws = createClaws(fiend, {
+    diceThrown: 1,
+    diceSize: 6,
+    equipped: false,
+    castSpell: { spell: touch.file },
+  });
+  const bossTrait = fiend.addItem({
+    stringRef: fiend.items.find((i) => i.trait)?.stringRef,
+    immunities: ["acid", "plusOneWeapons"],
+    effects: [],
+    category: ItemCategoryEnum.Rings,
+    icon: MonsterItemIconEnum.Traits,
+  }).file;
+  return fiend.variant("Shadow Creature", {
+    data: {
+      level1: 14, // 115 HP: its file's 110 at least
+      ac: 0, // -3 with incorporeal's +3, as its file
+      apr: 3, // and the off-hand bite: its file's 4
+      strength: 16,
+      morale: 18,
+      items: {
+        remove: ["immune2", "wraith1"],
+        equipped: [
+          { file: drainingClaws.file, slot: "WEAPON1" },
+          { file: bossTrait, slot: JEWEL_SLOTS },
+        ],
+      },
+      spells: {
+        memorized: [{ file: SPELLS.Innate.ShadowCreatureDemiShadow.file, memorizedCount: 1 }],
+      },
+    },
+    files: ["OHRSHAD1", "OHRSHAD2", "OHRSHAD3"],
+    behavior: { customCodes: [APPEAR_FROM_SHADOWS] },
+  });
 }
 
 /**
@@ -183,15 +275,24 @@ function magicJar(fiend: Creature) {
         type: ItemAbilityTypeEnum.Melee,
         target: ItemAbilityTargetEnum.LivingActor,
         range: 30,
-        effects: effectFactory.splitProbabilities(
-          [1, 2, 3].map((rounds) => ({
-            opcode: EffectTypeEnum.PauseTarget,
+        effects: [
+          ...effectFactory.splitProbabilities(
+            [1, 2, 3].map((rounds) => ({
+              opcode: EffectTypeEnum.PauseTarget,
+              target: EffectTargetEnum.OriginalCaster,
+              timing: EffectTimingEnum.InstantLimited,
+              duration: rounds * Durations.round,
+              dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+            })),
+          ),
+          // PnP's status, though a pause in the game
+          {
+            opcode: EffectTypeEnum.DisplayString,
             target: EffectTargetEnum.OriginalCaster,
-            timing: EffectTimingEnum.InstantLimited,
-            duration: rounds * Durations.round,
-            dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
-          })),
-        ),
+            stringRef: StringRefUtils.getString("Stunned"),
+            timing: EffectTimingEnum.InstantPermanentUntilDeath,
+          },
+        ],
       },
     ],
   });
@@ -201,8 +302,9 @@ function magicJar(fiend: Creature) {
     description: "monster.shadowFiend.ability.magicJar.description",
     memorizedCount: 1,
     role: "disable",
-    // the 5th level wizard spell
-    worthLevel: 5,
+    type: SpellTypeEnum.Wizard,
+    level: 5,
+    primaryType: ItemAbilityPrimaryTypeEnum.Necromancer,
     icon: SPELLS.Wizard.Domination.file,
     secondaryType: ItemAbilitySecondaryTypeEnum.Disabling,
     keywords: ["charm", "magicResistance"],

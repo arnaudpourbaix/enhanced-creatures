@@ -5270,6 +5270,17 @@ const INNATE_SPELLS = {
     castingTime: 3,
     excludeStatsChecks: ["TRUE_SIGHT"],
   },
+  // Rasaad's quest: the Shadow Creature's own (RASAAD.BIF), summoning two OHRSHFIE for 66 seconds
+  ShadowCreatureDemiShadow: {
+    file: "OHRDEMI",
+    level: 5,
+    school: ItemAbilityPrimaryTypeEnum.Illusionist,
+    role: "summon",
+    castingTime: 4,
+    name: "spell.DemiShadowMonsters.name",
+    duration: "short",
+    keywords: ["friendly"],
+  },
   ShapeshiftWolf: {
     file: "SPIN110",
     level: 1,

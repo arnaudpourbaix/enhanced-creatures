@@ -821,6 +821,10 @@ Those bitten must save vs. poison or be charmed for 1 turn, at a -1 penalty for 
         description: `Once per encounter, the shadow fiend tries to take control of a creature within 30 feet. The target must save vs. spell or be dominated for 5 turns.
 If the target saves, the shadow fiend is stunned for 1d3 rounds.`,
       },
+      touch: {
+        name: "Draining Touch",
+        description: `Its claws drain one life energy level from the victim.`,
+      },
     },
   },
 };

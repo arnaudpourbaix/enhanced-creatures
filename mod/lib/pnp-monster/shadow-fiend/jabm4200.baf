@@ -487,6 +487,7 @@ END
 
 // Magic Jar
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -503,6 +504,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -521,6 +527,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -537,6 +544,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -555,6 +567,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -571,6 +584,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -589,6 +607,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -605,6 +624,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -623,6 +647,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -639,6 +664,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -657,6 +687,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -673,6 +704,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -691,6 +727,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -707,6 +744,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -725,6 +767,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -741,6 +784,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -759,6 +807,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -775,6 +824,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -794,6 +848,7 @@ END
 
 // Magic Jar
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -810,6 +865,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -827,6 +887,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -843,6 +904,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -860,6 +926,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -876,6 +943,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -893,6 +965,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -909,6 +982,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -926,6 +1004,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -942,6 +1021,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -959,6 +1043,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -975,6 +1060,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -992,6 +1082,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1008,6 +1099,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1025,6 +1121,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1041,6 +1138,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1058,6 +1160,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1074,6 +1177,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1092,6 +1200,7 @@ END
 
 // Magic Jar
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1108,6 +1217,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -1126,6 +1240,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1142,6 +1257,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -1160,6 +1280,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1176,6 +1297,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -1194,6 +1320,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1210,6 +1337,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -1228,6 +1360,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1244,6 +1377,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -1262,6 +1400,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1278,6 +1417,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -1296,6 +1440,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1312,6 +1457,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -1330,6 +1480,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1346,6 +1497,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -1364,6 +1520,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1380,6 +1537,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -1398,6 +1560,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1414,6 +1577,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -1433,6 +1601,7 @@ END
 
 // Magic Jar
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1449,6 +1618,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1466,6 +1640,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1482,6 +1657,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1499,6 +1679,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1515,6 +1696,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1532,6 +1718,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1548,6 +1735,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1565,6 +1757,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1581,6 +1774,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1598,6 +1796,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1614,6 +1813,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1631,6 +1835,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1647,6 +1852,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1664,6 +1874,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1680,6 +1891,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1697,6 +1913,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1713,6 +1930,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -1730,6 +1952,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1746,6 +1969,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
@@ -2988,6 +3216,7 @@ END
 
 // Magic Jar
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3004,6 +3233,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -3022,6 +3256,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3038,6 +3273,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -3056,6 +3296,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3072,6 +3313,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -3090,6 +3336,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3106,6 +3353,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -3124,6 +3376,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3140,6 +3393,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -3158,6 +3416,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3174,6 +3433,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -3192,6 +3456,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3208,6 +3473,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -3226,6 +3496,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3242,6 +3513,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)
@@ -3260,6 +3536,7 @@ THEN
 END
 
 IF
+	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3276,6 +3553,11 @@ IF
 	CheckStatLT(LastSeenBy(Myself),50,RESISTMAGIC)
 	!CheckSpellState(LastSeenBy(Myself),CHAOTIC_COMMANDS)
 	!CheckSpellState(LastSeenBy(Myself),CHARM_IMMUNITY)
+	!ImmuneToSpellLevel(LastSeenBy(Myself),5)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TURNING)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_TRAP)
+	!CheckStatGT(LastSeenBy(Myself),0,WIZARD_SPELL_DEFLECTION)
+	!CheckStatGT(LastSeenBy(Myself),0,CLERIC_SHIELD_OF_THE_ARCHONS)
 	CheckStatGT(LastSeenBy(Myself),0,SAVEVSSPELL)
 	!Race(LastSeenBy(Myself),ELF)
 	!Race(LastSeenBy(Myself),HALF_ELF)

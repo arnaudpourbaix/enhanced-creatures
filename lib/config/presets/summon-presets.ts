@@ -78,6 +78,7 @@ export const SUMMON_PRESETS: AbilityPreset[] = [
       SPELLS.Wizard.ConjureWaterElemental,
       SPELLS.Wizard.CreateBoneguard,
       SPELLS.Wizard.DemiShadowMonsters,
+      SPELLS.Innate.ShadowCreatureDemiShadow,
       SPELLS.Wizard.Gate,
       SPELLS.Wizard.InvisibleStalker,
       SPELLS.Wizard.MordenkainensSword,

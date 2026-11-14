@@ -56,6 +56,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Revenant: a strangled victim can't attack nor cast
 - Docs: Cat sidebar group replaces Lion
 - Shadow-fiend: Shadow Fiend, PnP cat +1s, Strength tab on the dashboard
+- Shadow-fiend: Shadow Creature boss variant, demishadow summons
 
 ### Changed
 
