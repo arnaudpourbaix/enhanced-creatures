@@ -97,6 +97,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - XP: the threat system is a comparison only
 - Skeleton: Skeleton Archer, Mage and Cleric names
 - Plan: vampiric wolf grab rework
+- Shade: drop class-level TODOs (level 10 is the caster level)
 
 ### Fixed
 

@@ -129,7 +129,6 @@ function blackheartsShades(shade: Creature) {
   shade.variant("Chaos Shadow", {
     data: {
       ...BLACKHEARTS_SHADE,
-      // TODO: class levels
       spells: {
         memorized: [
           { file: SPELLS.Wizard.ShadowDoor.file, memorizedCount: 1 },
@@ -143,7 +142,6 @@ function blackheartsShades(shade: Creature) {
     behavior: { abilities: { entries: [{ power: chaosImages }] } },
   });
   shade.variant("Slaughter Shade", {
-    // TODO: class levels
     data: {
       ...BLACKHEARTS_SHADE,
       apr: 2,
