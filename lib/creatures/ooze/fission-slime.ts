@@ -9,6 +9,7 @@ import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Slime, SlimeIds } from "./kin";
+import effectFactory from "../../src/factories/effect.factory";
 
 class FissionSlimeEntry extends CreatureEntry<Slime> {
   constructor(kin?: CreatureKin) {
@@ -64,13 +65,7 @@ class FissionSlimeEntry extends CreatureEntry<Slime> {
       description: "monster.ooze.trait.fission",
       immunities: ["lightning", "nonMagicalWeapons", "magicMissile", "coldResistance"],
       // 5e: Immunity to magic damage
-      effects: [
-        {
-          opcode: EffectTypeEnum.MagicResistanceModifier,
-          value: 10,
-          type: EffectStatisticModifierEnum.Set,
-        },
-      ],
+      effects: [effectFactory.magicResistance(10)],
     });
     fission.createPseudopod({
       diceThrown: 3,

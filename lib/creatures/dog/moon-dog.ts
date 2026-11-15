@@ -83,14 +83,7 @@ class MoonDogEntry extends CreatureEntry<Dog> {
     moon.createJaws({ diceThrown: 3, diceSize: 4 });
     moon.addTrait({
       immunities: ["backstab", "infravision", "plusOneWeapons", "fear"],
-      effects: [
-        {
-          opcode: EffectTypeEnum.MagicResistanceModifier,
-          type: EffectStatisticModifierEnum.Increment,
-          value: 25,
-        },
-        ...effectFactory.physicalResistance(38),
-      ],
+      effects: [effectFactory.magicResistance(25), ...effectFactory.physicalResistance(38)],
     });
     // Moon dogs prefer to attack with their keening howl.
     // This baying is harmful to evil creatures only.

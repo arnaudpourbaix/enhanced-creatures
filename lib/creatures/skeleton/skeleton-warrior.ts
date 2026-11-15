@@ -12,6 +12,7 @@ import { Creature } from "../../src/model/creature/creature";
 import type { CreatureEntry } from "../../src/model/creature/entry";
 import { EntryEnum } from "../entry";
 import { SimpleEntry } from "../../src/model/creature/simple-entry";
+import effectFactory from "../../src/factories/effect.factory";
 
 enum Ids {
   SkeletonWarriorFearAura,
@@ -70,11 +71,7 @@ export function skeletonWarrior(entry: CreatureEntry<Creature>): Creature {
   warrior.addTrait({
     immunities: ["skeletal", "nonMagicalWeapons", "turnUndead"],
     effects: [
-      {
-        opcode: EffectTypeEnum.MagicResistanceModifier,
-        value: 90,
-        type: EffectStatisticModifierEnum.Set,
-      },
+      effectFactory.magicResistance(90),
       {
         // Skeleton warriors make all weapon attacks with a +3 bonus to their attack roll
         opcode: EffectTypeEnum.Thac0Bonus,

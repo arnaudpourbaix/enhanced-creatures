@@ -36,6 +36,7 @@ import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { EntryEnum } from "./entry";
 import { SimpleEntry } from "../src/model/creature/simple-entry";
+import effectFactory from "../src/factories/effect.factory";
 
 enum Ids {
   DeathKnightFearAura,
@@ -279,15 +280,8 @@ export function deathKnight(entry: CreatureEntry<Creature>): Creature {
   fireball(knight);
   knight.addTrait({
     immunities: ["turnUndead"],
-    effects: [
-      {
-        // Its magic resistance is 75%,
-        // and if an 11 or lower is rolled on the percentile roll, the spell is reflected back at the caster
-        opcode: EffectTypeEnum.MagicResistanceModifier,
-        value: 75,
-        type: EffectStatisticModifierEnum.Set,
-      },
-    ],
+    // magic resistance is 75% and if an 11 or lower is rolled on the percentile roll, the spell is reflected back at the caster
+    effects: [effectFactory.magicResistance(75)],
   });
   knight.setBehavior({
     restHeal: true,

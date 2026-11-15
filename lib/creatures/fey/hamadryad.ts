@@ -2,6 +2,7 @@ import { GARGANTUAN_CREATURES, INCORPOREAL_CREATURES, NEW_CREATURES } from "../.
 import { SPELLS } from "../../config/spells/spell-database";
 import { BafExistingStringReference } from "../../config/stringRef";
 import actionFactory from "../../src/factories/action.factory";
+import effectFactory from "../../src/factories/effect.factory";
 import responseFactory from "../../src/factories/response.factory";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { ScriptTarget } from "../../src/model/constants";
@@ -233,13 +234,7 @@ class HamadryadEntry extends CreatureEntry<Fey> {
     });
     hamadryad.addTrait({
       immunities: ["entangle"],
-      effects: [
-        {
-          opcode: EffectTypeEnum.MagicResistanceModifier,
-          value: 75,
-          type: EffectStatisticModifierEnum.Set,
-        },
-      ],
+      effects: [effectFactory.magicResistance(75)],
     });
     hamadryad.setBehavior({
       restHeal: true,

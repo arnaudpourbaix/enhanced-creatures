@@ -373,11 +373,7 @@ export function greaterMummy(entry: CreatureEntry<Creature>): Creature {
   greater.addTrait({
     immunities: ["physicalDamageResistance", "cold", "plusTwoWeapons"],
     effects: [
-      {
-        opcode: EffectTypeEnum.MagicResistanceModifier,
-        type: EffectStatisticModifierEnum.Set,
-        value: 20,
-      },
+      effectFactory.magicResistance(20),
       {
         opcode: EffectTypeEnum.FireResistanceModifier,
         type: EffectStatisticModifierEnum.Set,

@@ -1480,11 +1480,7 @@ export function vampireTrait(
     });
   }
   if (age.magicResistance) {
-    effects.push({
-      opcode: EffectTypeEnum.MagicResistanceModifier,
-      type: EffectStatisticModifierEnum.Set,
-      value: age.magicResistance,
-    });
+    effects.push(effectFactory.magicResistance(age.magicResistance));
   }
   effects.push(...(age.extraEffects ?? []));
   return {

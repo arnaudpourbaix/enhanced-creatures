@@ -9,6 +9,7 @@ import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Cat } from "./kin";
+import effectFactory from "../../src/factories/effect.factory";
 
 class HellcatEntry extends CreatureEntry<Cat> {
   constructor(kin?: CreatureKin) {
@@ -65,11 +66,7 @@ class HellcatEntry extends CreatureEntry<Cat> {
     hellcat.addTrait({
       immunities: ["mindSpells", "nonMagicalWeapons", "planarEssence"],
       effects: [
-        {
-          opcode: EffectTypeEnum.MagicResistanceModifier,
-          value: 20,
-          type: EffectStatisticModifierEnum.Set,
-        },
+        effectFactory.magicResistance(20),
         {
           opcode: EffectTypeEnum.Invisibility,
           type: InvisibilityTypeEnum.Improved,

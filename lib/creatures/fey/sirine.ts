@@ -397,13 +397,7 @@ class SirineEntry extends CreatureEntry<Fey> {
     });
     sirine.addTrait({
       immunities: ["cloudSpells"],
-      effects: [
-        {
-          opcode: EffectTypeEnum.MagicResistanceModifier,
-          value: 20,
-          type: EffectStatisticModifierEnum.Set,
-        },
-      ],
+      effects: [effectFactory.magicResistance(20)],
     });
     sirine.addWeapon({
       weapon: {

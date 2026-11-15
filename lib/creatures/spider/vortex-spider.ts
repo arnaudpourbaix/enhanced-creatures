@@ -8,6 +8,7 @@ import { CreatureKin } from "../../src/model/creature/kin";
 import { EntryEnum } from "../entry";
 import { KinEnum } from "../kin";
 import { Spider } from "./kin";
+import effectFactory from "../../src/factories/effect.factory";
 
 class VortexSpiderEntry extends CreatureEntry<Spider> {
   constructor(kin?: CreatureKin) {
@@ -61,13 +62,7 @@ class VortexSpiderEntry extends CreatureEntry<Spider> {
       },
     });
     vortex.addTrait({
-      effects: [
-        {
-          opcode: EffectTypeEnum.MagicResistanceModifier,
-          value: 15,
-          type: EffectStatisticModifierEnum.Set,
-        },
-      ],
+      effects: [effectFactory.magicResistance(15)],
     });
     vortex.createJaws({
       diceThrown: 2,

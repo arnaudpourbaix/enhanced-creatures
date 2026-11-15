@@ -61,13 +61,7 @@ class WraithSpiderEntry extends CreatureEntry<Spider> {
     });
     wraith.addTrait({
       immunities: ["cold", "nonSilverNonMagicalWeapons"],
-      effects: [
-        {
-          opcode: EffectTypeEnum.MagicResistanceModifier,
-          value: 15,
-          type: EffectStatisticModifierEnum.Set,
-        },
-      ],
+      effects: [effectFactory.magicResistance(15)],
     });
     wraith.createJaws({
       diceThrown: 0,
