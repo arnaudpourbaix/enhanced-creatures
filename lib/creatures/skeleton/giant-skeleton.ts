@@ -1,5 +1,8 @@
 import { SPELLS } from "../../config/spells/spell-database";
-import { EffectStatisticModifierEnum } from "../../src/model/spell-item/effect.enums";
+import {
+  AbilityDamageTypeEnum,
+  EffectStatisticModifierEnum,
+} from "../../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
 import { MonsterEnum } from "../monster";
 import { Creature } from "../../src/model/creature/creature";
@@ -28,6 +31,9 @@ export function giantSkeleton(entry: CreatureEntry<Creature>, base: Creature): C
     size: { value: "Large", tall: true, long: false },
     class: "CLERIC_MAGE",
     xpv2e: 975,
+    items: {
+      remove: ["s1-12m2", "ring95"],
+    },
     spells: {
       memorized: [{ file: SPELLS.Wizard.Fireball.file, memorizedCount: 1 }],
     },
@@ -44,7 +50,20 @@ export function giantSkeleton(entry: CreatureEntry<Creature>, base: Creature): C
     ],
   });
   // This flaming sphere can be hurled as if it were a fireball that delivers 8d6 points of damage.
-  // Each blow that lands inflicts 1d12 points of damage.
+  giant.addNaturalWeapon("claws", {
+    diceThrown: 1,
+    diceSize: 12,
+    damageType: AbilityDamageTypeEnum.Crushing,
+    speed: 5,
+    slot: "WEAPON1",
+  });
+  giant.setAdjustments([
+    {
+      files: ["BDSKGR03", "BDTEAM61"],
+      data: { level1: 9 },
+      stringRef: "monster.skeleton.name.giant",
+    },
+  ]);
   return giant;
 }
 

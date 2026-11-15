@@ -1637,6 +1637,7 @@ function creatureWith(p: {
   itemsEquipped?: { slot: string; file: string }[];
   scriptRemove?: string[];
   scriptLocation?: string;
+  scriptEdits?: { files: string[]; game?: Game }[];
   adjustments?: {
     files: string[];
     game?: Game;
@@ -1655,7 +1656,7 @@ function creatureWith(p: {
       level1:
         p.level1 === undefined ? undefined : { pnpValue: p.level1, value: p.level1, type: "none" },
       items: { remove: p.itemsRemove ?? [], equipped: p.itemsEquipped ?? [] },
-      script: { remove: p.scriptRemove ?? [], location: p.scriptLocation },
+      script: { remove: p.scriptRemove ?? [], location: p.scriptLocation, edits: p.scriptEdits },
     },
     adjustments: (p.adjustments ?? []).map((a) => ({
       files: a.files,
@@ -1952,6 +1953,32 @@ describe("creatureService.findOriginalScripts", () => {
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3 });
     expect(creatureService.findOriginalScripts(cre)).toEqual([
       { file: "AAA", game: undefined, check: "scripts", detail: OVERRIDE_0X1DG_DETAIL },
+    ]);
+  });
+
+  it("is cleared when the script is edited (case-insensitive)", () => {
+    mockRows(
+      csvRow({ file: "AAA", game: "bg2", scripts: [{ slot: "overrideScript", value: "0x1dg" }] }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      scriptEdits: [{ files: ["0X1DG"], game: "bg2" }],
+    });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([]);
+  });
+
+  it("still reports a script whose edit only runs on another game", () => {
+    mockRows(
+      csvRow({ file: "AAA", game: "bg1", scripts: [{ slot: "overrideScript", value: "0X1DG" }] }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      scriptEdits: [{ files: ["0X1DG"], game: "bg2" }],
+    });
+    expect(creatureService.findOriginalScripts(cre)).toEqual([
+      { file: "AAA", game: "bg1", check: "scripts", detail: OVERRIDE_0X1DG_DETAIL },
     ]);
   });
 

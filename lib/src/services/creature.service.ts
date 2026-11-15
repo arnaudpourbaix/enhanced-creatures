@@ -868,10 +868,16 @@ class CreatureService {
     ) {
       return undefined;
     }
+    // A removed script is handled, and so is an edited one: the edit is the review of what of it
+    // stays (only edits that run on this row's game count).
+    const scripts = [creature.data.script, ...adjustments.map((a) => a.data.script)];
     const removed = new Set(
-      [...creature.data.script.remove, ...adjustments.flatMap((a) => a.data.script.remove)].map(
-        (s) => s.toUpperCase(),
-      ),
+      [
+        ...scripts.flatMap((s) => s.remove),
+        ...scripts.flatMap((s) =>
+          (s.edits ?? []).filter((e) => gamesOverlap(e.game, row.game)).flatMap((e) => e.files),
+        ),
+      ].map((s) => s.toUpperCase()),
     );
     const kept = row.scripts.filter((s) => {
       const v = s.value.toUpperCase();

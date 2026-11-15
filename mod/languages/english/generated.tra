@@ -2653,19 +2653,25 @@ A bonebat's bite also paralyzes all living creatures except elves for 6 rounds, 
 @11364 = ~Skeletal
 Immune to fire
 Missiles Resistance: 90%~
-@11365 = ~Skeleton Warrior traits~
-@11366 = ~Skeletal
+@11365 = ~Claws
+
+Melee damage: 1D12 (Crushing)
+Speed Factor: 5
+Enchantment: 1
+Range: 3 feet~
+@11366 = ~Skeleton Warrior traits~
+@11367 = ~Skeletal
 Immune to non-magical weapons
 Immune to turn undead
 Magic Resistance: 90%
 Thac0: +3~
-@11367 = ~Death Knight traits~
-@11368 = ~Immune to turn undead
+@11368 = ~Death Knight traits~
+@11369 = ~Immune to turn undead
 Magic Resistance: 75%~
-@11369 = ~Spectre traits~
-@11370 = ~Immune to cold
+@11370 = ~Spectre traits~
+@11371 = ~Immune to cold
 Incorporeal~
-@11371 = ~Claws
+@11372 = ~Claws
 
 Melee damage: 1D8 (Slashing)
 Speed Factor: 5
@@ -2674,18 +2680,18 @@ Range: 2 feet
 
 Cast spell Specter's Touch:
 Their touch drains two life energy levels from the victim.~
-@11372 = ~Ghost traits~
-@11373 = ~Immune to cold
+@11373 = ~Ghost traits~
+@11374 = ~Immune to cold
 Incorporeal~
-@11374 = ~Claws
+@11375 = ~Claws
 
 Enchantment: 3
 Range: 2 feet
 
 Cast spell Ghost's Touch:
 Their touch drains two life energy levels from the victim.~
-@11375 = ~Wight traits~
-@11376 = ~Claws
+@11376 = ~Wight traits~
+@11377 = ~Claws
 
 Melee damage: 1D4 (Slashing)
 Speed Factor: 5
@@ -2694,12 +2700,12 @@ Range: 2 feet
 
 Cast spell Wight's Touch:
 Their touch drains one life energy level from the victim.~
-@11377 = ~Immune to cold
+@11378 = ~Immune to cold
 Immune to non-magical and non-silver weapons~
-@11378 = ~Wraith traits~
-@11379 = ~Immune to cold
+@11379 = ~Wraith traits~
+@11380 = ~Immune to cold
 Immune to non-magical and non-silver weapons~
-@11380 = ~Claws
+@11381 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
@@ -2708,17 +2714,17 @@ Range: 2 feet
 
 Cast spell Wraith's Touch:
 Their touch drains one life energy level from the victim.~
-@11381 = ~Zombie traits~
-@11382 = ~Immune to cold~
-@11383 = ~Claws
+@11382 = ~Zombie traits~
+@11383 = ~Immune to cold~
+@11384 = ~Claws
 
 Melee damage: 1D8 (Slashing)
 Speed Factor: 5
 Range: 2 feet~
-@11384 = ~Strength: -3 for 6 turns
+@11385 = ~Strength: -3 for 6 turns
 Thac0: -3 for 6 turns
 Damage: -1 for 6 turns~
-@11385 = ~Disease: -1 strength for 3 turns.
+@11386 = ~Disease: -1 strength for 3 turns.
 Disease: -1 strength for an hour.
 Disease: -1 strength for 2 hours.
 Disease: -1 strength for 3 hours.
@@ -2736,21 +2742,21 @@ Disease: -1 strength for 14 hours.
 Disease: -1 strength for 15 hours.
 Disease: -1 strength for 16 hours.
 Disease: -1 strength for 17 hours.~
-@11386 = ~Disease: -1 constitution for .~
-@11387 = ~Disease: -2 strength for .
+@11387 = ~Disease: -1 constitution for .~
+@11388 = ~Disease: -2 strength for .
 Disease: -2 dexterity for .
 Disease: -2 charisma for .
 Thac0: -2~
-@11388 = ~~
-@11389 = ~Kill target.~
-@11390 = ~Claws
+@11389 = ~~
+@11390 = ~Kill target.~
+@11391 = ~Claws
 
 Melee damage: 2D4 (Slashing)
 Speed Factor: 5
 Enchantment: 1
 Range: 2 feet~
-@11391 = ~Ju-ju Zombie traits~
-@11392 = ~Immune to cold
+@11392 = ~Ju-ju Zombie traits~
+@11393 = ~Immune to cold
 Immune to non-magical weapons
 Resistance to crushing damage (50%)
 Resistance to piercing damage (50%)
@@ -2758,18 +2764,18 @@ Resistance to missile damage (50%)
 Resistance to fire (50%)
 Immune to lightning
 Immune to magic missiles spell~
-@11393 = ~Claws
+@11394 = ~Claws
 
 Melee damage: 3D4 (Slashing)
 Speed Factor: 5
 Range: 2 feet~
-@11394 = ~Sea Zombie traits~
-@11395 = ~Resistance to fire (50%)
+@11395 = ~Sea Zombie traits~
+@11396 = ~Resistance to fire (50%)
 Immune to turn undead
 Cold Resistance: -100%
 Magical Cold Resistance: -100%
 Electricity Resistance: -100%~
-@11396 = ~Claws
+@11397 = ~Claws
 
 Melee damage: 1D10 (Slashing)
 Speed Factor: 5
@@ -2779,105 +2785,105 @@ Range: 3 feet
 Cast spell Disease (10%):
 The putrid water that drips from the drowned ones contains many bacteria, causing a severe disease in the victim.
  The character's rotting skin and systemic infection cause constant agony. They suffer a -2 penalty to their Armor Class and a -2 penalty to all attack rolls due to extreme physical weakness.~
-@11397 = ~Fledgling Vampire traits~
-@11398 = ~Claws
+@11398 = ~Fledgling Vampire traits~
+@11399 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
 Enchantment: 3
 Range: 2 feet
 Drain 2 levels from target.~
-@11399 = ~Immune to non-magical weapons
+@11400 = ~Immune to non-magical weapons
 Resistance to cold (50%)
 Resistance to lightning (50%)
 Regeneration: 3 hp/round~
-@11400 = ~Mature Vampire traits~
-@11401 = ~Claws
+@11401 = ~Mature Vampire traits~
+@11402 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
 Enchantment: 3
 Range: 2 feet
 Drain 2 levels from target.~
-@11402 = ~Immune to non-magical weapons
+@11403 = ~Immune to non-magical weapons
 Resistance to cold (50%)
 Resistance to lightning (50%)
 Regeneration: 3 hp/round
 Magic Resistance: 5%~
-@11403 = ~Old Vampire traits~
-@11404 = ~Claws
+@11404 = ~Old Vampire traits~
+@11405 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
 Enchantment: 3
 Range: 2 feet
 Drain 2 levels from target.~
-@11405 = ~Immune to all weapons of +1 or less enchantment
+@11406 = ~Immune to all weapons of +1 or less enchantment
 Resistance to cold (50%)
 Resistance to lightning (50%)
 Regeneration: 3 hp/round
 Magic Resistance: 10%~
-@11406 = ~Very Old Vampire traits~
-@11407 = ~Claws
+@11407 = ~Very Old Vampire traits~
+@11408 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
 Enchantment: 4
 Range: 2 feet
 Drain 2 levels from target.~
-@11408 = ~Immune to all weapons of +1 or less enchantment
+@11409 = ~Immune to all weapons of +1 or less enchantment
 Resistance to cold (50%)
 Resistance to lightning (50%)
 Regeneration: 4 hp/round
 Magic Resistance: 15%~
-@11409 = ~Ancient Vampire traits~
-@11410 = ~Claws
+@11410 = ~Ancient Vampire traits~
+@11411 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
 Enchantment: 4
 Range: 2 feet
 Drain 2 levels from target.~
-@11411 = ~Immune to all weapons of +2 or less enchantment
+@11412 = ~Immune to all weapons of +2 or less enchantment
 Resistance to cold (50%)
 Resistance to lightning (50%)
 Regeneration: 4 hp/round
 Magic Resistance: 20%~
-@11412 = ~Eminent Vampire traits~
-@11413 = ~Claws
+@11413 = ~Eminent Vampire traits~
+@11414 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
 Enchantment: 4
 Range: 2 feet
 Drain 2 levels from target.~
-@11414 = ~Immune to all weapons of +2 or less enchantment
+@11415 = ~Immune to all weapons of +2 or less enchantment
 Resistance to cold (50%)
 Resistance to lightning (50%)
 Regeneration: 4 hp/round
 Magic Resistance: 25%~
-@11415 = ~Patriarch Vampire traits~
-@11416 = ~Claws
+@11416 = ~Patriarch Vampire traits~
+@11417 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
 Enchantment: 4
 Range: 2 feet
 Drain 2 levels from target.~
-@11417 = ~Immune to all weapons of +3 or less enchantment
+@11418 = ~Immune to all weapons of +3 or less enchantment
 Resistance to cold (50%)
 Resistance to lightning (50%)
 Regeneration: 5 hp/round
 Magic Resistance: 30%~
-@11418 = ~Abomination Vampire traits~
-@11419 = ~Claws
+@11419 = ~Abomination Vampire traits~
+@11420 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
 Enchantment: 4
 Range: 2 feet
 Drain 3 levels from target.~
-@11420 = ~Immune to all weapons of +3 or less enchantment
+@11421 = ~Immune to all weapons of +3 or less enchantment
 Resistance to cold (50%)
 Resistance to lightning (50%)
 Immune to cold
@@ -2892,14 +2898,14 @@ Slashing Resistance: 10%
 Crushing Resistance: 10%
 Piercing Resistance: 10%
 Missiles Resistance: 10%~
-@11421 = ~Claws
+@11422 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
 Enchantment: 4
 Range: 2 feet
 Drain 5 levels from target.~
-@11422 = ~Claws
+@11423 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
@@ -2907,13 +2913,13 @@ Enchantment: 4
 Range: 2 feet
 Drain 5 levels from target.
 Maximum HP: +4 for a turn~
-@11423 = ~Claws
+@11424 = ~Claws
 
 Melee damage: 1D4 (Slashing)
 Speed Factor: 5
 Enchantment: 3
 Range: 2 feet~
-@11424 = ~Jaws
+@11425 = ~Jaws
 
 Enchantment: 3
 Range: 2 feet
@@ -2921,7 +2927,7 @@ Range: 2 feet
 Cast spell Foul Toxin:
 The vampyre's bite inflicts 1d6 piercing damage, and its saliva carries a foul toxin.
 Those bitten must save vs. poison or be charmed for 1 turn, at a -1 penalty for every 2 points of damage done by the bite (rounded up).~
-@11425 = ~Grab and hold your target. The grip ends when the grabber dies.
+@11426 = ~Grab and hold your target. The grip ends when the grabber dies.
 The target can not break free.
 Grabbed creature will suffer these effects:
 - can not move
@@ -2931,8 +2937,8 @@ Grabbed creature will suffer these effects:
 - can not attack nor cast spells (the grip holds its arm)
 The grip deals 2d8+2 crushing damage every round it holds, from the round after the grab.
 The grabber can neither move nor attack while holding its target: the grip is its attack.~
-@11426 = ~Revenant traits~
-@11427 = ~
+@11427 = ~Revenant traits~
+@11428 = ~
 Cast spell Grabbed:
 Grab and hold your target. The grip ends when the grabber dies.
 The target can not break free.
@@ -2945,10 +2951,10 @@ Grabbed creature will suffer these effects:
 The grip deals 2d8+2 crushing damage every round it holds, from the round after the grab.
 The grabber can neither move nor attack while holding its target: the grip is its attack.
 Crushing damage: 2D8+2~
-@11428 = ~Movement rate:0 for 7 seconds~
-@11429 = ~~
+@11429 = ~Movement rate:0 for 7 seconds~
 @11430 = ~~
-@11431 = ~Claws
+@11431 = ~~
+@11432 = ~Claws
 
 Melee damage: 2D8 (Crushing)
 Speed Factor: 5
@@ -2969,37 +2975,37 @@ Grabbed creature will suffer these effects:
 - can not attack nor cast spells (the grip holds its arm)
 The grip deals 2d8+2 crushing damage every round it holds, from the round after the grab.
 The grabber can neither move nor attack while holding its target: the grip is its attack.~
-@11432 = ~Immune to acid
+@11433 = ~Immune to acid
 Immune to cloud spells
 Immune to turn undead
 Regeneration: 3 hp/round
 Its grip ends when it dies: the creatures it holds are freed.~
-@11433 = ~Shadow Fiend traits~
-@11434 = ~~
-@11435 = ~Planar Essence
+@11434 = ~Shadow Fiend traits~
+@11435 = ~~
+@11436 = ~Planar Essence
 Immune to fire
 Immune to cold
 Immune to lightning
 Thac0: +2~
-@11436 = ~Claws
+@11437 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5
 Enchantment: 2
 Range: 2 feet~
-@11437 = ~Jaws
+@11438 = ~Jaws
 
 Melee damage: 1D8 (Piercing)
 Speed Factor: 3
 Enchantment: 2
 Range: 2 feet~
-@11438 = ~Claws
+@11439 = ~Claws
 
 Melee damage: 4D6 (Slashing)
 Speed Factor: 5
 Enchantment: 2
 Range: 2 feet~
-@11439 = ~Claws
+@11440 = ~Claws
 
 Melee damage: 1D6 (Slashing)
 Speed Factor: 5

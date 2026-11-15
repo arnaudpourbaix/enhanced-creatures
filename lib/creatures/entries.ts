@@ -98,7 +98,7 @@ import { createGiantSkeletonEntry } from "./skeleton/giant-skeleton";
 import { createSkeletonMonsterEntry } from "./skeleton/skeleton-monster";
 import { createMageSkeletonEntry } from "./skeleton/mage-skeleton";
 import { createClericSkeletonEntry } from "./skeleton/cleric-skeleton";
-import { createSkeletonWarriorEntry } from "./skeleton-warrior";
+import { createSkeletonWarriorEntry } from "./skeleton/skeleton-warrior";
 import { createDeathKnightEntry } from "./death-knight";
 import { createSpectreEntry } from "./spectre";
 import { createGhostEntry } from "./ghost";

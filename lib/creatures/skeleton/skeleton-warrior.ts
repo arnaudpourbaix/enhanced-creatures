@@ -1,17 +1,17 @@
-import { createFearAura } from "../spells/fear_aura";
-import { Variant } from "../src/model/creature/variant";
-import { Durations } from "../src/model/game-data/durations";
+import { createFearAura } from "../../spells/fear_aura";
+import { Variant } from "../../src/model/creature/variant";
+import { Durations } from "../../src/model/game-data/durations";
 import {
   EffectStatisticModifierEnum,
   ProficiencyTypeEnum,
   SaveTypeEnum,
-} from "../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
-import { MonsterEnum } from "./monster";
-import { Creature } from "../src/model/creature/creature";
-import type { CreatureEntry } from "../src/model/creature/entry";
-import { EntryEnum } from "./entry";
-import { SimpleEntry } from "../src/model/creature/simple-entry";
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import { MonsterEnum } from "../monster";
+import { Creature } from "../../src/model/creature/creature";
+import type { CreatureEntry } from "../../src/model/creature/entry";
+import { EntryEnum } from "../entry";
+import { SimpleEntry } from "../../src/model/creature/simple-entry";
 
 enum Ids {
   SkeletonWarriorFearAura,

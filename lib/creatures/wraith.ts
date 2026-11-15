@@ -40,7 +40,7 @@ export function wraith(entry: CreatureEntry<Creature>): Creature {
   const wraith = entry.create({
     monster: MonsterEnum.Wraith,
     name: "monster.wraith.name",
-    files: [],
+    files: ["OHHBURIC"],
     data: {
       level1: 5,
       bonusHp: 3,
@@ -64,7 +64,19 @@ export function wraith(entry: CreatureEntry<Creature>): Creature {
       movement: 24, // 12, FI 24 (B)
       immunities: ["undead"],
       items: {
-        remove: ["wraith1", "ring95", "immune1", "immchs", "s1-8", "undtype", "dvwraith"],
+        remove: [
+          "wraith1",
+          "ring95",
+          "immune1",
+          "immchs",
+          "s1-8",
+          "undtype",
+          "dvwraith",
+          "ohhwrsw",
+        ],
+      },
+      script: {
+        edits: [{ files: ["OHHBURIC"], game: "bg2", removeBlocks: ["AttackReevaluate"] }],
       },
     },
   });
@@ -88,6 +100,10 @@ export function wraith(entry: CreatureEntry<Creature>): Creature {
         },
       },
     },
+    {
+      files: ["OHHBURIC"],
+      data: { level1: 6 },
+    },
   ]);
   greaterWraithVariant(wraith);
   return wraith;
@@ -100,7 +116,6 @@ function greaterWraithVariant(base: Creature): Variant {
       ac: 2,
     },
     files: ["AC#DT30W", "FIRWRA01"],
-    adjust: [],
   });
 }
 

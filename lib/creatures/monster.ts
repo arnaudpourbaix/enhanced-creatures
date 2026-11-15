@@ -169,4 +169,9 @@ export enum MonsterEnum {
   Vampyre = 167,
   VampireAbomination = 168,
   ClericSkeleton = 169,
+  Gnoll = 170,
+  WillOMist = 171,
+  MistHorror = 172,
+  VampiricMist = 173,
+  Alhoon = 174,
 }

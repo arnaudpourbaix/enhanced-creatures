@@ -611,7 +611,10 @@ export function zombie(entry: CreatureEntry<Creature>): Creature {
     diceThrown: 1,
     diceSize: 8,
   });
-  zombie.setAdjustments([{ files: ["L#DEERZO"], data: { apr: 2 } }]);
+  zombie.setAdjustments([
+    { files: ["L#DEERZO"], data: { apr: 2 } },
+    { files: ["L#RVBBBH"], data: { level1: 9 } },
+  ]);
   return zombie;
 }
 
@@ -664,6 +667,7 @@ export function jujuZombie(entry: CreatureEntry<Creature>): Creature {
       },
     },
     { files: ["ESXSERM"], data: { level1: 15, apr: 3, ac: -2 } },
+    { files: ["AC#W80BR"], data: { level1: 6 } },
   ]);
   juju.turnAs = "spectre";
   return juju;
