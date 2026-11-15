@@ -49,6 +49,12 @@ export interface BaseSpell {
    * power its conditions limit more than its count does (a leap only from hiding)
    */
   docUsage?: StringReference;
+  /**
+   * The base creature's spell (file) this one specializes for a variant: the same power, reworked
+   * for that variant (a copy of itself it summons). Variant cards don't list it when the base
+   * memorizes the spell it specializes: the base card already shows that power.
+   */
+  specializes?: string;
   /** See SpellTier - decent when unset */
   tier?: SpellTier;
   /** An area spell hitting the caster's allies too (scripts/extract-spell-profile.ts) */

@@ -31,6 +31,8 @@ export function addLeap(
     triggers?: Triggers.Trigger[];
     /** See BaseSpell.docUsage */
     docUsage?: TranslationKey;
+    /** A variant's own leap: not memorized by the base creature (the variant memorizes it) */
+    variantOnly?: boolean;
   },
 ) {
   const effects: Effect[] = [
@@ -50,7 +52,7 @@ export function addLeap(
     role: "damage",
     description: p.description,
     icon: SPELLS.Wizard.DimensionDoor.file,
-    memorizedCount: 1,
+    ...(p.variantOnly ? {} : { memorizedCount: 1 }),
     options: { renew: 2 },
     ...(p.docUsage ? { docUsage: p.docUsage } : {}),
     headers: [

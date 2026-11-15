@@ -34,6 +34,7 @@ interface DocumentationServicePrivate {
   fileIndex: FileIndexEntry[];
   replace(template: { text: string }, key: string, value: string | number | undefined): void;
   getResourceAbilities(creature: Creature): CreatureAbility[];
+  specializesBaseSpell(creature: Creature, file: string): boolean;
 }
 const service = documentationService as unknown as DocumentationServicePrivate;
 
@@ -1402,6 +1403,34 @@ describe("getResourceAbilities (private)", () => {
       "JABAT",
       "JAWOLF",
     ]);
+  });
+});
+
+describe("specializesBaseSpell (private)", () => {
+  const originalSpells = State.spells;
+  beforeEach(() => {
+    State.spells = [
+      { file: "JABASE" },
+      { file: "JAOWN", specializes: "JABASE" },
+    ] as unknown as typeof State.spells;
+  });
+  afterEach(() => {
+    State.spells = originalSpells;
+  });
+
+  it("is true for a variant's version of a power the base memorizes", () => {
+    const creature = fakeCreatureForSpells({}, { memorized: [{ file: "JABASE" }] });
+    expect(service.specializesBaseSpell(creature, "JAOWN")).toBe(true);
+  });
+
+  it("is false when the base doesn't memorize the specialized power", () => {
+    const creature = fakeCreatureForSpells({}, { memorized: [] });
+    expect(service.specializesBaseSpell(creature, "JAOWN")).toBe(false);
+  });
+
+  it("is false for a spell specializing nothing", () => {
+    const creature = fakeCreatureForSpells({}, { memorized: [{ file: "JABASE" }] });
+    expect(service.specializesBaseSpell(creature, "JABASE")).toBe(false);
   });
 });
 

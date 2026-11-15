@@ -38,6 +38,7 @@ enum Ids {
   MagicJar,
   MagicJarBackfire,
   DrainingTouch,
+  DemishadowLeap,
 }
 
 /**
@@ -105,8 +106,8 @@ export function shadowFiend(entry: CreatureEntry<Creature>): Creature {
   });
   fiend.addNaturalWeapon("claws", { diceThrown: 1, diceSize: 6, speed: 5, slot: "WEAPON1" });
   fiend.addNaturalWeapon("jaws", { diceThrown: 1, diceSize: 8, speed: 3, slot: "SHIELD" });
-  leap(fiend);
-  magicJar(fiend);
+  const fiendLeap = leap(fiend).file;
+  const jar = magicJar(fiend);
   fiend.setBehavior({
     restHeal: true,
     abilities: {
@@ -122,13 +123,49 @@ export function shadowFiend(entry: CreatureEntry<Creature>): Creature {
   fiend.turnAs = "special";
   fiend.setAdjustments([{ files: ["SDSHADFI"], data: { level1: 12 } }]);
   shadowCreatureVariant(fiend);
-  // the Shadow Creature's Demishadow Monsters (OHRDEMI): full fiends, worth no XP
+  demishadowVariant(fiend, { magicJar: jar.file, leap: fiendLeap });
+  return fiend;
+}
+
+/**
+ * The Shadow Creature's Demishadow Monsters (OHRDEMI, two OHRSHFIE for 11 rounds): quasi-real
+ * fiends, as disbelieved demishadow monsters (the engine has no per-observer save): AC 8, 40% of
+ * the fiend's hit points (it arrives wounded, as its file's 30/50) and 40% of its damage (1d2 claws
+ * for 1d6, a 1d3 bite for 1d8). They keep the fiend's trait (its core nature) and its leap (a
+ * movement, not a spell) but cast nothing: no darkness nor magic jar. Worth no XP.
+ */
+function demishadowVariant(fiend: Creature, base: { magicJar: string; leap: string }) {
+  // 40% of the leap's four claws too: 4d2 for 4d6
+  const demishadowLeap = leap(fiend, { id: Ids.DemishadowLeap, diceSize: 2, variantOnly: true });
+  const claws = fiend.addNaturalWeapon("claws", {
+    diceThrown: 1,
+    diceSize: 2,
+    speed: 5,
+    slot: null,
+  });
+  const jaws = fiend.addNaturalWeapon("jaws", { diceThrown: 1, diceSize: 3, speed: 3, slot: null });
   fiend.variant("Demishadow", {
+    data: {
+      ac: 8,
+      currentHpPercent: 40,
+      items: {
+        equipped: [
+          { file: claws.file, slot: "WEAPON1" },
+          { file: jaws.file, slot: "SHIELD" },
+        ],
+      },
+      spells: {
+        removeMemorized: [SPELLS.Wizard.Darkness15Radius.file, base.magicJar, base.leap],
+        memorized: [{ file: demishadowLeap.file, memorizedCount: 1 }],
+      },
+    },
     files: ["OHRSHFIE"],
     adjust: [{ files: ["OHRSHFIE"], summon: true }],
-    behavior: { customCodes: [APPEAR_FROM_SHADOWS] },
+    behavior: {
+      abilities: { entries: [{ power: demishadowLeap, insertFirst: true }] },
+      customCodes: [APPEAR_FROM_SHADOWS],
+    },
   });
-  return fiend;
 }
 
 /**
@@ -237,17 +274,25 @@ const WAIT_HIDDEN: PartialCustomCode = {
  * When it surprises its victim (hidden), it springs on it: it leaps up to 30 feet and strikes with
  * its four claws (1d6 each), but can't bite during the leap.
  */
-function leap(fiend: Creature) {
+function leap(
+  fiend: Creature,
+  {
+    id = Ids.Leap,
+    diceSize = 6,
+    variantOnly = false,
+  }: { id?: Ids; diceSize?: number; variantOnly?: boolean } = {},
+) {
   // the four claws in one hit
   const claws = fiend.addNaturalWeapon("claws", {
-    id: Ids.Leap,
+    id,
+    diceSize,
     slot: null,
     diceThrown: 4,
-    diceSize: 6,
     speed: 5,
   });
   return addLeap(fiend, {
-    id: Ids.Leap,
+    id,
+    variantOnly,
     range: 30,
     name: "monster.shadowFiend.ability.leap.name",
     description: "monster.shadowFiend.ability.leap.description",

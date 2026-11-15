@@ -332,6 +332,19 @@ THEN
 		ForceSpellRES("jasm4301",Myself)
 END
 
+// Quasi-Real Images
+IF
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	ActionListEmpty()
+	HaveSpellRES("jasm4303")
+	RandomNumGT(801,200)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm4303",Myself)
+		RemoveSpellRES("jasm4303")
+END
+
 // Shadow Blink
 IF
 	ActionListEmpty()

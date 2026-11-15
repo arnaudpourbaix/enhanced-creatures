@@ -19,6 +19,7 @@ import {
   SummonCreatureModeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
+import type { Spell } from "../src/model/spell-item/spell-item";
 import { EntryEnum } from "./entry";
 import { MonsterEnum } from "./monster";
 
@@ -26,7 +27,7 @@ enum Ids {
   ShadowImages,
   Invisibility,
   Blink,
-  ChaosQuasiRealImages,
+  QuasiRealImages,
   SlaughterQuasiRealImages,
 }
 
@@ -83,17 +84,21 @@ export function shade(entry: CreatureEntry<Creature>): Creature {
   shadowImages(shade);
   invisibility(shade);
   blink(shade);
+  // summoning copies of itself: the base power makes the Chaos Shadow's, the Slaughter Shade
+  // specializes it to make its own
+  const images = quasiRealImages(shade, Ids.QuasiRealImages, NEW_CREATURES.ShadeImageChaos);
   shade.setBehavior({
     abilities: {
       entries: [
         { power: entry.spell(Ids.ShadowImages) },
         { power: entry.spell(Ids.Invisibility) },
         { power: entry.spell(Ids.Blink) },
+        { power: images },
       ],
     },
   });
   shade.addNaturalWeapon("fists", { diceThrown: 1, diceSize: 8, speed: 1, slot: "WEAPON1" });
-  blackheartsShades(shade);
+  blackheartsShades(shade, images);
   return shade;
 }
 
@@ -112,19 +117,15 @@ const BLACKHEARTS_SHADE = {
  * Prophet, is never cast. The Slaughter Shade only keeps its file's two attacks; its SHDWKILL
  * script (quest kill count) stays.
  */
-function blackheartsShades(shade: Creature) {
+function blackheartsShades(shade: Creature, images: Spell) {
   // the Red Woman creates them: summons, declared here untagged (only Blackhearts has the files),
   // since variant scripts don't support creatures.csv's game-tagged summon files
   shade.setAdjustments([{ files: ["WIBHSHA1", "WIBHSHA2"], summon: true }]);
-  const chaosImages = quasiRealImages(
-    shade,
-    Ids.ChaosQuasiRealImages,
-    NEW_CREATURES.ShadeImageChaos,
-  );
   const slaughterImages = quasiRealImages(
     shade,
     Ids.SlaughterQuasiRealImages,
     NEW_CREATURES.ShadeImageSlaughter,
+    images.file,
   );
   shade.variant("Chaos Shadow", {
     data: {
@@ -133,19 +134,20 @@ function blackheartsShades(shade: Creature) {
         memorized: [
           { file: SPELLS.Wizard.ShadowDoor.file, memorizedCount: 1 },
           { file: SPELLS.Wizard.WavesOfFatigue.file, memorizedCount: 1 },
-          { file: chaosImages.file, memorizedCount: 1 },
         ],
       },
       script: { remove: ["WIBHSHA1"] },
     },
     files: ["WIBHSHA1"],
-    behavior: { abilities: { entries: [{ power: chaosImages }] } },
   });
   shade.variant("Slaughter Shade", {
     data: {
       ...BLACKHEARTS_SHADE,
       apr: 2,
-      spells: { memorized: [{ file: slaughterImages.file, memorizedCount: 1 }] },
+      spells: {
+        removeMemorized: [images.file],
+        memorized: [{ file: slaughterImages.file, memorizedCount: 1 }],
+      },
     },
     files: ["WIBHSHA2"],
     behavior: { abilities: { entries: [{ power: slaughterImages }] } },
@@ -155,11 +157,13 @@ function blackheartsShades(shade: Creature) {
 
 /**
  * Quasi-real images, once an hour (once a fight): 1d4 duplicates of the shade, as demishadow
- * monsters at its level, under its control. `image` is the duplicate file of this shade.
+ * monsters at its level, under its control. `image` is the duplicate file of this shade; without
+ * `specializes`, the base shade's power (memorized), else a variant's version of that one.
  */
-function quasiRealImages(shade: Creature, id: Ids, image: string) {
+function quasiRealImages(shade: Creature, id: Ids, image: string, specializes?: string) {
   return shade.addSpell({
     id,
+    ...(specializes ? { specializes } : { memorizedCount: 1 }),
     name: "monster.shade.ability.quasiRealImages.name",
     description: "monster.shade.ability.quasiRealImages.description",
     icon: SPELLS.Wizard.DemiShadowMonsters.file,
@@ -184,7 +188,8 @@ function quasiRealImages(shade: Creature, id: Ids, image: string) {
       },
     ],
     ability: {
-      spell: { type: "force", castOnSelf: true },
+      // once a fight: the cast uses up its memorized slot
+      spell: { type: "force", castOnSelf: true, remove: true },
       requireVocal: false,
     },
   });

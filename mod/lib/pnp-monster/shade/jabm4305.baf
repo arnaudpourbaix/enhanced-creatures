@@ -335,13 +335,31 @@ END
 // Quasi-Real Images
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!GlobalTimerNotExpired("SUMMON_WAIT","LOCALS")
 	ActionListEmpty()
-	HaveSpellRES("jasm4304")
+	HaveSpellRES("jasm4303")
 	RandomNumGT(801,200)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
+		ForceSpellRES("jasm4303",Myself)
+		RemoveSpellRES("jasm4303")
+		SetGlobalTimer("SUMMON_WAIT","LOCALS",12)
+END
+
+// Quasi-Real Images
+IF
+	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
+	!GlobalTimerNotExpired("SUMMON_WAIT","LOCALS")
+	ActionListEmpty()
+	HaveSpellRES("jasm4304")
+	RandomNumGT(802,201)
+THEN
+	RESPONSE #100
+		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		ForceSpellRES("jasm4304",Myself)
+		RemoveSpellRES("jasm4304")
+		SetGlobalTimer("SUMMON_WAIT","LOCALS",12)
 END
 
 // Shadow Blink

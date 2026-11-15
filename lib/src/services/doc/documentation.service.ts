@@ -1325,6 +1325,12 @@ class DocumentationService {
   }
 
   // Diff view: only abilities whose memorized count this adjustment changed.
+  /** A variant's own version of a power the base card already shows (see BaseSpell.specializes) */
+  private specializesBaseSpell(creature: Creature, file: string): boolean {
+    const base = State.spells.find((s) => s.file === file)?.specializes;
+    return !!base && creature.data.spells.memorized.some((m) => m.file === base);
+  }
+
   private getAdjustmentSpells(
     creature: Creature,
     effective: EffectiveAdjustment,
@@ -1334,7 +1340,7 @@ class DocumentationService {
     const entries: { ability?: CreatureAbility; html: string }[] = [];
     this.getResourceAbilities(creature).forEach((ability, index) => {
       const entry = effective.memorized.find((m) => m.spell.file === ability.resource);
-      if (!entry?.changed) return;
+      if (!entry?.changed || this.specializesBaseSpell(creature, entry.spell.file)) return;
       const html = this.getCreatureSpell(
         ability,
         memorizedList,

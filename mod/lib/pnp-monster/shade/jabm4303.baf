@@ -358,6 +358,7 @@ THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		ForceSpellRES("jasm4303",Myself)
+		RemoveSpellRES("jasm4303")
 END
 
 // Waves of Fatigue

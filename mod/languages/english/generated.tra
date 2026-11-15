@@ -619,7 +619,9 @@ Those bitten must save vs. poison or be charmed for 1 turn, at a -1 penalty for 
 @10470 = ~Invisibility~
 @10471 = ~Shadow Blink~
 @10472 = ~Quasi-Real Images~
-@10473 = ~Once an hour, the shade creates 1d4 duplicates of itself, as a demishadow monsters spell cast at its level, under its mental control. Drawn from the Plane of Shadow, they are partly real: they attack and deal real damage, but have only 40% of the shade's hit points, 40% of its damage and Armor Class 8, and none of its abilities.~
+@10473 = ~The shade creates 1d4 duplicates of itself, as a demishadow monsters spell cast at its level, under its mental control. 
+Drawn from the Plane of Shadow, they are partly real: they attack and deal real damage, but have only 40% of the shade's hit points, 40% of its damage and Armor Class 8. 
+They share the shade's nature, but none of its spell-like abilities.~
 @10474 = ~Shadow Fiend~
 @10475 = ~Leap~
 @10476 = ~When it surprises its victim from the shadows, the shadow fiend springs on it from up to 30 feet away and strikes with its four claws (1d6 each). It can't bite during the leap.~
@@ -3021,10 +3023,28 @@ Range: 2 feet
 
 Cast spell Draining Touch:
 Its claws drain one life energy level from the victim.~
-@11448 = ~Shade traits~
-@11449 = ~Invisibility~
-@11450 = ~Teleport to target~
-@11451 = ~Infravision
+@11448 = ~Claws
+
+Melee damage: 4D2 (Slashing)
+Speed Factor: 5
+Enchantment: 2
+Range: 2 feet~
+@11449 = ~Claws
+
+Melee damage: 1D2 (Slashing)
+Speed Factor: 5
+Enchantment: 2
+Range: 2 feet~
+@11450 = ~Jaws
+
+Melee damage: 1D3 (Piercing)
+Speed Factor: 3
+Enchantment: 2
+Range: 2 feet~
+@11451 = ~Shade traits~
+@11452 = ~Invisibility~
+@11453 = ~Teleport to target~
+@11454 = ~Infravision
 True sight
 Magic Resistance: 30%
 Regeneration: 3 hp/round
@@ -3040,13 +3060,13 @@ Slashing Resistance: 30%
 Piercing Resistance: 30%
 Missiles Resistance: 30%
 Crushing Resistance: 30%~
-@11452 = ~Fists
+@11455 = ~Fists
 
 Melee damage: 1D8 (Crushing)
 Speed Factor: 1
 Enchantment: 3
 Range: 2 feet~
-@11453 = ~Fists
+@11456 = ~Fists
 
 Melee damage: 1D3 (Crushing)
 Speed Factor: 1
