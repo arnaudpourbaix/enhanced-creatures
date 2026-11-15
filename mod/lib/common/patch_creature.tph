@@ -7,6 +7,7 @@ INT_VAR
   movement=999          // movement rate
   xpv=0                 // XP value
   hp=0                  // hit point value
+  currentHpPercent=0    // current hit points as a percentage of the maximum (0: unchanged)
   ac=99                 // Armor Class value
   crushingAC=99         // Armor Class value vs crushing attack
   missileAC=99          // Armor Class value vs missile attack
@@ -143,6 +144,9 @@ BEGIN
   END
   PATCH_IF maxHP < hp OR (enforce = 1 AND hp != 0) BEGIN
     WRITE_SHORT 0x26 hp // maximum hit points
+  END
+  PATCH_IF currentHpPercent > 0 BEGIN
+    WRITE_SHORT 0x24 (SHORT_AT 0x26 * currentHpPercent / 100) // current hit points, a wounded arrival
   END
   PATCH_IF naturalAC > ac OR (enforce = 1 AND ac != 99) BEGIN
     WRITE_SHORT 0x46 ac // natural Armor Class

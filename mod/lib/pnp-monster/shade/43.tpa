@@ -1,0 +1,320 @@
+// Generated file (don't edit)
+
+// Shade
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/shade/jabm4300.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/shade/jabm4301.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/shade/jabm4302.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/shade/jabm4303.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/shade/jabm4304.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/shade/jabm4305.baf~
+
+// Shadow Images
+CREATE SPL "jasm4300"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm4300.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10468)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI212C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10469)
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 speed=1 STR_VAR icon="SPWI212B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=159 target=1 power=1 parameter1=4 duration=180 probability1=24 probability2=0 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=159 target=1 power=1 parameter1=5 duration=180 probability1=49 probability2=25 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=159 target=1 power=1 parameter1=6 duration=180 probability1=74 probability2=50 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=159 target=1 power=1 parameter1=7 duration=180 probability1=99 probability2=75 END
+	LPF CHANGE_SPELL INT_VAR    renew=10 END
+	
+// Invisibility
+CREATE SPL "jasm4301"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm4301.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10470)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI206C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11449)
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 speed=1 STR_VAR icon="SPWI206B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=20 target=1 power=1 duration=300 probability1=100 END
+	LPF CHANGE_SPELL INT_VAR    renew=10 END
+	
+// Shadow Blink
+CREATE SPL "jasm4302"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm4302.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10471)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI402C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11450)
+	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 STR_VAR icon="SPWI402B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=124 target=1 power=1 probability1=100 END
+	LPF CHANGE_SPELL INT_VAR    renew=2 END
+	
+// Quasi-Real Images
+CREATE SPL "jasm4303"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm4303.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10472)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI527C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10473)
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 speed=1 STR_VAR icon="SPWI527B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=24 probability2=0 STR_VAR resource="jacm4300" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=49 probability2=25 STR_VAR resource="jacm4300" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=49 probability2=25 STR_VAR resource="jacm4300" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=74 probability2=50 STR_VAR resource="jacm4300" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=74 probability2=50 STR_VAR resource="jacm4300" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=74 probability2=50 STR_VAR resource="jacm4300" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=99 probability2=75 STR_VAR resource="jacm4300" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=99 probability2=75 STR_VAR resource="jacm4300" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=99 probability2=75 STR_VAR resource="jacm4300" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=99 probability2=75 STR_VAR resource="jacm4300" END
+	
+// Quasi-Real Images
+CREATE SPL "jasm4304"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jasm4304.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10472)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI527C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10473)
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 speed=1 STR_VAR icon="SPWI527B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=24 probability2=0 STR_VAR resource="jacm4301" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=49 probability2=25 STR_VAR resource="jacm4301" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=49 probability2=25 STR_VAR resource="jacm4301" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=74 probability2=50 STR_VAR resource="jacm4301" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=74 probability2=50 STR_VAR resource="jacm4301" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=74 probability2=50 STR_VAR resource="jacm4301" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=99 probability2=75 STR_VAR resource="jacm4301" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=99 probability2=75 STR_VAR resource="jacm4301" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=99 probability2=75 STR_VAR resource="jacm4301" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=67 target=1 power=1 parameter2=3 duration=60 probability1=99 probability2=75 STR_VAR resource="jacm4301" END
+	
+// Shade traits
+CREATE ITM "jaim4300"
+	WRITE_LONG 0x64 0x72
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11448)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@11448)
+	WRITE_SHORT 0x1c 10
+	WRITE_ASCII 0x3a ~IRING15~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11451)
+COPY_EXISTING ~jaim4300.itm~ ~override~
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=166 target=1 global=1 parameter1=30 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=98 target=1 global=1 parameter1=2 parameter2=3 timing=2 probability1=100 special=42 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=33 target=1 global=1 parameter1=3 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=34 target=1 global=1 parameter1=3 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=35 target=1 global=1 parameter1=3 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=36 target=1 global=1 parameter1=3 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=37 target=1 global=1 parameter1=3 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=278 target=1 global=1 parameter1=3 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=73 target=1 global=1 parameter1=3 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=0 target=1 global=1 parameter1=3 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=86 target=1 global=1 parameter1=30 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=88 target=1 global=1 parameter1=30 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=89 target=1 global=1 parameter1=30 parameter2=1 timing=2 probability1=100 END
+	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=87 target=1 global=1 parameter1=30 parameter2=1 timing=2 probability1=100 END
+	LPF infravision_trait END
+	LPF seeInvisible_trait END
+
+// Fists
+CREATE ITM "jaim4301"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10003)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10003)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IFIST~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11452)
+	WRITE_LONG 0x60 3
+COPY_EXISTING ~jaim4301.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IFIST~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 2
+		WRITE_BYTE 0x84 1
+		WRITE_BYTE 0x88 8
+		WRITE_BYTE 0x8a 1
+		WRITE_SHORT 0x8e 2
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+
+// Fists
+CREATE ITM "jaim4302"
+	WRITE_LONG 0x64 0x72
+	INSERT_BYTES 0x72 0x38
+	WRITE_SHORT 0x68 1
+	WRITE_SHORT 0x72 1
+	WRITE_LONG 0x6a 0xaa
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10003)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@10003)
+	WRITE_LONG 0x18 64
+	WRITE_ASCII 0x3a ~IFIST~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11453)
+	WRITE_LONG 0x60 3
+COPY_EXISTING ~jaim4302.itm~ ~override~
+	READ_SHORT 0x68 abicount
+	PATCH_IF (%abicount% > 0) BEGIN
+		WRITE_BYTE 0x74 1
+		WRITE_ASCII 0x76 ~IFIST~ #8
+		WRITE_BYTE 0x7e 1
+		WRITE_SHORT 0x80 2
+		WRITE_BYTE 0x84 1
+		WRITE_BYTE 0x88 3
+		WRITE_BYTE 0x8a 1
+		WRITE_SHORT 0x8e 2
+	WRITE_SHORT 0x9e 34
+	WRITE_SHORT 0xa0 33
+	WRITE_SHORT 0xa2 33
+	WRITE_LONG 0x98 1
+	END
+
+COPY_EXISTING ~WIBHSHA1.cre~ ~override/jacm4300.cre~
+COPY_EXISTING ~WIBHSHA2.cre~ ~override/jacm4301.cre~
+DEFINE_ACTION_FUNCTION jam43_patch
+STR_VAR file = ~~
+BEGIN
+	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
+		COPY_EXISTING ~%file%.cre~ ~override~
+			LPF FJ_CRE_VALIDITY END
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~WIBHSHA1~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~WIBHSHA2~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~JACM4300~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~JACM4301~ BEGIN
+				LPF REMOVE_MOST_CRE_EFFECTS END
+			END
+			REMOVE_KNOWN_SPELLS
+			REMOVE_MEMORIZED_SPELLS
+			REMOVE_CRE_ITEM ~immune1~
+			REMOVE_CRE_ITEM ~ring95~
+			REMOVE_CRE_ITEM ~s1-8~
+			ADD_CRE_ITEM ~jaim4300~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			REPLACE_CRE_ITEM ~jaim4301~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+			ADD_CRE_ITEM ~jaic000h~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
+			LPF GET_CRE_ITEM_IN_SLOT INT_VAR slot = 0 RET item END
+			PATCH_IF "%item%" STRING_EQUAL_CASE "" BEGIN
+				REPLACE_CRE_ITEM ~jaic0003~ #0 #0 #0 ~UNDROPPABLE~ ~HELMET~ 
+			END
+			ADD_MEMORIZED_SPELL ~jasm4300~ #0 ~innate~ (1) // Shadow Images
+			ADD_MEMORIZED_SPELL ~jasm4301~ #0 ~innate~ (1) // Invisibility
+			ADD_MEMORIZED_SPELL ~jasm4302~ #0 ~innate~ (1) // Shadow Blink
+			LPF clear_proficiencies END
+			LPF patchCreature
+				INT_VAR
+					xpv=10000
+					hp=150
+					ac=10
+					thac0=11
+					apr=1
+					saveDeath=8
+					saveWand=10
+					savePolymorph=9
+					saveBreath=9
+					saveSpell=11
+					level1=10
+					gender=IDS_OF_SYMBOL (~gender~ ~NIETHER~)
+					strength=6
+					intelligence=15
+					wisdom=10
+					dexterity=14
+					constitution=13
+					charisma=8
+					morale=14
+					general=IDS_OF_SYMBOL (~general~ ~UNDEAD~)
+					race=IDS_OF_SYMBOL (~race~ ~SHADOW~)
+					class=IDS_OF_SYMBOL (~class~ ~SHADOW~)
+					alignment=IDS_OF_SYMBOL (~align~ ~CHAOTIC_EVIL~)
+					movement=14
+					enforce=1
+			END
+			// Assigning jabm4300
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY skipFiles BEGIN JACM4300 JACM4301 WIBHSHA1 WIBHSHA2 END
+			CLEAR_ARRAY forceFiles
+			PATCH_DEFINE_ARRAY forceFiles BEGIN jacm4300 jacm4301 END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4300 END
+			// Assigning jabm4301
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN WIBHSHA1 SHDWKILL BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY files BEGIN JACM4300 JACM4301 END
+			CLEAR_ARRAY forceFiles
+			PATCH_DEFINE_ARRAY forceFiles BEGIN jacm4300 jacm4301 END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4301 END
+			// Assigning jabm4303
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN WIBHSHA1 BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY files BEGIN WIBHSHA1 END
+			CLEAR_ARRAY forceFiles
+			PATCH_DEFINE_ARRAY forceFiles BEGIN jacm4300 jacm4301 END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4303 END
+			// Assigning jabm4305
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY files BEGIN WIBHSHA2 END
+			CLEAR_ARRAY forceFiles
+			PATCH_DEFINE_ARRAY forceFiles BEGIN jacm4300 jacm4301 END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts forceFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4305 END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~WIBHSHA1~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~WIBHSHA2~) BEGIN 
+				WRITE_LONG 0x14 0 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~WIBHSHA1~) BEGIN 
+				WRITE_BYTE 0x5b 100 // resistElectricity
+				ADD_MEMORIZED_SPELL ~SPWI505~ #4 ~wizard~ (1) 
+				ADD_MEMORIZED_SPELL ~SPWI508~ #4 ~wizard~ (1) 
+				ADD_MEMORIZED_SPELL ~jasm4303~ #0 ~innate~ (1) // Quasi-Real Images
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~WIBHSHA2~) BEGIN 
+				WRITE_BYTE 0x53 2 // apr
+				WRITE_BYTE 0x5b 100 // resistElectricity
+				ADD_MEMORIZED_SPELL ~jasm4304~ #0 ~innate~ (1) // Quasi-Real Images
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JACM4300~) BEGIN 
+				WRITE_LONG 0x14 0 // xpv
+				WRITE_SHORT 0x46 8 // ac
+				WRITE_SHORT 0x48 8 // ac
+				WRITE_SHORT 0x24 (SHORT_AT 0x26 * 40 / 100) // currentHpPercent
+				REPLACE_CRE_ITEM ~jaim4302~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+				REMOVE_MEMORIZED_SPELLS
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~JACM4301~) BEGIN 
+				WRITE_LONG 0x14 0 // xpv
+				WRITE_SHORT 0x46 8 // ac
+				WRITE_SHORT 0x48 8 // ac
+				WRITE_BYTE 0x53 2 // apr
+				WRITE_SHORT 0x24 (SHORT_AT 0x26 * 40 / 100) // currentHpPercent
+				REPLACE_CRE_ITEM ~jaim4302~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
+				REMOVE_MEMORIZED_SPELLS
+			END
+		BUT_ONLY_IF_IT_CHANGES
+	END
+END
+
+ACTION_FOR_EACH ~file~ IN
+	"JACM4300"
+	"JACM4301"
+BEGIN
+	LAF jam43_patch STR_VAR file END
+END
+ACTION_IF GAME_IS ~bgee~ BEGIN
+	ACTION_FOR_EACH ~file~ IN
+		"WIBHSHA1"
+		"WIBHSHA2"
+	BEGIN
+		LAF jam43_patch STR_VAR file END
+	END
+END

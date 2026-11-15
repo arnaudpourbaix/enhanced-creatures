@@ -648,14 +648,19 @@ class WeiduCreatureService extends AbstractWeiduService {
     const newFiles = [...new Set(creature.newFiles.flatMap((f) => f.files))];
     const scriptName = this.getScriptName(creature, {});
     const summonScriptName = this.getScriptName(creature, { summon: true });
+    const baseSkipFiles = new Set(
+      [...allSummonFiles, ...locationFiles, ...noScriptFiles, ...variantFiles].map((f) =>
+        f.toUpperCase(),
+      ),
+    );
     this.patchScript({
       lines,
       tab,
       script: scriptName,
       slot: creature.data.script.location,
-      removeScripts: creature.data.script.remove,
+      removeScripts: this.removeScriptsFor(creature, (f) => !baseSkipFiles.has(f)),
       files: [],
-      skipFiles: [...allSummonFiles, ...locationFiles, ...noScriptFiles, ...variantFiles],
+      skipFiles: [...baseSkipFiles],
       forceFiles: newFiles,
       logging: creature.logging,
     });
@@ -665,7 +670,7 @@ class WeiduCreatureService extends AbstractWeiduService {
         tab,
         script: summonScriptName,
         slot: creature.data.script.location,
-        removeScripts: creature.data.script.remove,
+        removeScripts: this.removeScriptsFor(creature, summonFiles),
         files: summonFiles,
         skipFiles: [],
         forceFiles: newFiles,
@@ -681,7 +686,7 @@ class WeiduCreatureService extends AbstractWeiduService {
           script,
           tab: tab + 1,
           slot: creature.data.script.location,
-          removeScripts: creature.data.script.remove,
+          removeScripts: this.removeScriptsFor(creature, files),
           skipFiles: [],
           forceFiles: newFiles,
           logging: creature.logging,
@@ -756,12 +761,27 @@ class WeiduCreatureService extends AbstractWeiduService {
           forceFiles,
           script: name,
           slot: creature.data.script.location,
-          removeScripts: creature.data.script.remove,
+          removeScripts: this.removeScriptsFor(creature, files),
           skipFiles: [],
           logging: creature.logging,
         });
       }
     }
+  }
+
+  /**
+   * Scripts to remove from `files` (a list, or a test for the base assignment's files): the
+   * creature's, plus those of every adjustment (variants included) touching one of them.
+   */
+  private removeScriptsFor(creature: Creature, files: string[] | ((file: string) => boolean)) {
+    const touches =
+      typeof files === "function"
+        ? files
+        : (f: string) => files.some((file) => file.toUpperCase() === f);
+    const scripts = creature.adjustments
+      .filter((a) => a.files.some((f) => touches(f.toUpperCase())))
+      .flatMap((a) => a.data.script.remove);
+    return [...new Set([...creature.data.script.remove, ...scripts])];
   }
 
   private patchScript(p: {
@@ -926,6 +946,13 @@ class WeiduCreatureService extends AbstractWeiduService {
       // scripts and targeting rely on - never overwrite it with the creature's regular gender.
       if (p.summon && data.key === "gender") continue;
       this.writeCreatureDataField(p.lines, p.tab, p.data, data);
+    }
+    if (p.data.currentHpPercent !== undefined) {
+      this.add(
+        p.lines,
+        `WRITE_SHORT 0x24 (SHORT_AT 0x26 * ${p.data.currentHpPercent} / 100) // currentHpPercent`,
+        p.tab,
+      );
     }
     this.removeItems(p.lines, p.tab, p.data);
     this.addItemSlots({

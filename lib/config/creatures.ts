@@ -20,6 +20,8 @@ export const NEW_CREATURES = {
   GreenSlime: "jacm1f00",
   OliveSlimeCreature: "jacm1g00",
   Zombie: "jacm2e00",
+  ShadeImageChaos: "jacm4300",
+  ShadeImageSlaughter: "jacm4301",
 };
 
 export const VAPOR_IMMUNE_CREATURES: [

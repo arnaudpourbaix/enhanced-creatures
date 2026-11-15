@@ -548,6 +548,14 @@ class EffectFactory {
     }));
   }
 
+  magicResistance(value: number): Effect {
+    return {
+      opcode: EffectTypeEnum.MagicResistanceModifier,
+      value,
+      type: EffectStatisticModifierEnum.Set,
+    };
+  }
+
   physicalResistance(value: number): Effect[] {
     const opcodes: StatisticModifierOpcode[] = [
       EffectTypeEnum.SlashingResistanceModifier,

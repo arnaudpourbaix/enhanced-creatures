@@ -1,7 +1,10 @@
 import { NEW_CREATURES } from "../config/creatures";
 import effectFactory from "../src/factories/effect.factory";
 import { Creature } from "../src/model/creature/creature";
+import { InputCreatureData } from "../src/model/creature/data-input";
 import { CreatureEntry } from "../src/model/creature/entry";
+import { VariantInput } from "../src/model/creature/variant";
+import { TranslationKey } from "../translations/i18n";
 import { EntryEnum } from "./entry";
 import { MonsterEnum } from "./monster";
 
@@ -15,6 +18,23 @@ class Plant extends Creature {
       slot: equip ? "WEAPON1" : null,
     });
   }
+
+  /** A smaller treant's branch, as variant data */
+  branch(diceThrown: number, diceSize: number): InputCreatureData {
+    const file = this.createBranch(diceThrown, diceSize).file;
+    return { items: { equipped: [{ file, slot: "WEAPON1" }] } };
+  }
+}
+
+/** Template CRE shipped in the treant assets, copied to every treant the mod creates */
+const TEMPLATE_CRE = "jacm1904";
+
+/** A summonable treant the mod creates (Call Woodland Beings), as variant input */
+function summoned(file: string, stringRef: TranslationKey): VariantInput {
+  return {
+    newFiles: [{ files: [file], copyFrom: TEMPLATE_CRE, stringRef }],
+    adjust: [{ files: [file], summon: true }],
+  };
 }
 
 class TreantEntry extends CreatureEntry<Plant> {
@@ -34,32 +54,12 @@ class TreantEntry extends CreatureEntry<Plant> {
     const treant = this.create({
       monster: MonsterEnum.Treant,
       name: "monster.treant.name.treant",
-      files: [
-        NEW_CREATURES.Treant11hd,
-        NEW_CREATURES.Treant9hd,
-        NEW_CREATURES.Treant7hd,
-        NEW_CREATURES.Treant5hd,
-      ],
+      files: [NEW_CREATURES.Treant11hd],
       newFiles: [
         {
           files: [NEW_CREATURES.Treant11hd],
-          copyFrom: "jacm1904",
+          copyFrom: TEMPLATE_CRE,
           stringRef: "monster.treant.name.hd11",
-        },
-        {
-          files: [NEW_CREATURES.Treant9hd],
-          copyFrom: "jacm1904",
-          stringRef: "monster.treant.name.hd9",
-        },
-        {
-          files: [NEW_CREATURES.Treant7hd],
-          copyFrom: "jacm1904",
-          stringRef: "monster.treant.name.hd7",
-        },
-        {
-          files: [NEW_CREATURES.Treant5hd],
-          copyFrom: "jacm1904",
-          stringRef: "monster.treant.name.hd5",
         },
       ],
       data: {
@@ -87,51 +87,26 @@ class TreantEntry extends CreatureEntry<Plant> {
         },
       },
     });
+    // Elder treant (11-12 HD, 4d6) is the base; younger ones are variants.
     treant.createBranch(4, 6, true);
-    const wp9 = treant.createBranch(3, 6).file;
-    const wp7 = treant.createBranch(2, 8).file;
-    const wp5 = treant.createBranch(2, 6).file;
+    treant.setAdjustments([{ files: [NEW_CREATURES.Treant11hd], summon: true }]);
+    treant.variant("middle-aged treant", {
+      files: ["BDTREANT", "WITREANT"],
+      ...summoned(NEW_CREATURES.Treant9hd, "monster.treant.name.hd9"),
+      data: { level1: 9, strength: 21, constitution: 20, ...treant.branch(3, 6) },
+    });
+    treant.variant("young treant", {
+      ...summoned(NEW_CREATURES.Treant7hd, "monster.treant.name.hd7"),
+      data: { level1: 7, strength: 20, constitution: 20, ...treant.branch(2, 8) },
+    });
+    // Below the PnP range (young treants start at 7 HD): Call Woodland Beings' weakest summon
+    treant.variant("sapling treant", {
+      ...summoned(NEW_CREATURES.Treant5hd, "monster.treant.name.hd5"),
+      data: { level1: 5, strength: 19, constitution: 19, ...treant.branch(2, 6) },
+    });
     treant.addTrait({
       effects: effectFactory.fireResistance(-25),
     });
-    treant.setAdjustments([
-      {
-        files: [
-          NEW_CREATURES.Treant11hd,
-          NEW_CREATURES.Treant9hd,
-          NEW_CREATURES.Treant7hd,
-          NEW_CREATURES.Treant5hd,
-        ],
-        summon: true,
-      },
-      {
-        files: [NEW_CREATURES.Treant9hd, "BDTREANT", "WITREANT"],
-        data: {
-          level1: 9,
-          strength: 21,
-          constitution: 20,
-          items: { equipped: [{ file: wp9, slot: "WEAPON1" }] },
-        },
-      },
-      {
-        files: [NEW_CREATURES.Treant7hd],
-        data: {
-          level1: 7,
-          strength: 20,
-          constitution: 20,
-          items: { equipped: [{ file: wp7, slot: "WEAPON1" }] },
-        },
-      },
-      {
-        files: [NEW_CREATURES.Treant5hd],
-        data: {
-          level1: 5,
-          strength: 19,
-          constitution: 19,
-          items: { equipped: [{ file: wp5, slot: "WEAPON1" }] },
-        },
-      },
-    ]);
     return treant;
   }
 }

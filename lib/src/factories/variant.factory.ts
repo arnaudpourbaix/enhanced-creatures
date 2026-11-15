@@ -1,6 +1,6 @@
 import deepmerge from "deepmerge";
 import { PartialCreatureAdjustment } from "../model/creature/adjustment";
-import { Creature } from "../model/creature/creature";
+import { Creature, CreatureNewFile } from "../model/creature/creature";
 import { InputCreatureData } from "../model/creature/data-input";
 import { Game, gamesOverlap } from "../model/creature/game";
 import { Variant, VariantInput } from "../model/creature/variant";
@@ -12,8 +12,9 @@ import creatureFactory from "./creature.factory";
 class VariantFactory {
   add(cre: Creature, label: string, input: VariantInput, parent?: Variant): Variant {
     creatureFactory.checkValidation(cre);
+    const created = addNewFiles(cre, input.newFiles ?? []);
 
-    const members = [...new Set((input.files ?? []).map((f) => f.toUpperCase()))];
+    const members = [...new Set([...(input.files ?? []), ...created].map((f) => f.toUpperCase()))];
     const adjustFiles = (input.adjust ?? []).flatMap((a) => a.files.map((f) => f.toUpperCase()));
     assertFiles(cre, label, members, adjustFiles);
 
@@ -54,7 +55,8 @@ function buildAdjustments(
   const fullyAdjusted = new Set(
     (input.adjust ?? []).filter((a) => !a.game).flatMap((a) => a.files.map((f) => f.toUpperCase())),
   );
-  const groupedFiles = (input.files ?? []).filter((f) => !fullyAdjusted.has(f.toUpperCase()));
+  const files = [...(input.files ?? []), ...(input.newFiles ?? []).flatMap((n) => n.files)];
+  const groupedFiles = files.filter((f) => !fullyAdjusted.has(f.toUpperCase()));
   if (groupedFiles.length && hasKeys(base)) {
     adjustments.push({ files: groupedFiles, data: base, autoGenerate: input.autoGenerate });
   } else if (groupedFiles.length && !hasKeys(base)) {
@@ -164,6 +166,16 @@ function adjustSpellErrors(
       `variant "${label}": '${adjustment.files.join(", ")}' adds spells ${added.join(", ")} - declare a sub-variant`,
     ];
   });
+}
+
+/** Register a variant's own new files on the creature; returns their names. */
+function addNewFiles(cre: Creature, newFiles: CreatureNewFile[]): string[] {
+  const names = newFiles.flatMap((n) => n.files);
+  cre.newFiles.push(...newFiles);
+  for (const name of names.map((f) => f.toUpperCase())) {
+    if (!cre.fileNames.includes(name)) cre.files.push({ name });
+  }
+  return names;
 }
 
 function linkToParent(cre: Creature, variant: Variant, members: string[]): void {

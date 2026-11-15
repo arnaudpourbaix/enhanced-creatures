@@ -1,4 +1,5 @@
 import { EXISTING_ITEMS } from "../config/item";
+import { SPELLS } from "../config/spells/spell-database";
 import { JEWEL_SLOTS } from "../src/model/creature/item";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { MonsterEnum } from "./monster";

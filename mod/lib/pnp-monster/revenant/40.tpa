@@ -10,7 +10,7 @@ COPY_EXISTING ~jasm4001.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11428)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11435)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 probability1=100 STR_VAR resource="jasm4002" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=2 timing=9 probability1=100 dicesize=8 dicenumber=2 END
@@ -22,7 +22,7 @@ COPY_EXISTING ~jasm4002.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11426)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11433)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jasm4002" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~MIMIC~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm4002" END
@@ -105,7 +105,7 @@ COPY_EXISTING ~jasm4003.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10492)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10499)
 	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=5 range=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasm4003~)) + 1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jasm4002" END
 	
@@ -116,7 +116,7 @@ COPY_EXISTING ~jasm4004.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11429)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11436)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=9 power=1 probability1=100 STR_VAR resource="jasm4004" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=328 target=9 power=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_GRAPPLING~)) duration=7 probability1=100 special=1 END
@@ -130,7 +130,7 @@ COPY_EXISTING ~jasm4005.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11430)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11437)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 range=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jasm4004" END
 	
@@ -141,7 +141,7 @@ COPY_EXISTING ~jasm4006.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11431)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11438)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~MIMIC~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm4006" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SLIME~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm4006" END
@@ -194,7 +194,7 @@ COPY_EXISTING ~jasm4006.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter2=HELD duration=1 probability1=100 STR_VAR resource="jasm4006" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~state~ ~STATE_DEAD~) parameter2=138 duration=1 probability1=100 STR_VAR resource="jasm4006" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~JA_GRAPPLED~) parameter2=76 duration=1 probability1=100 STR_VAR resource="jasm4006" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10478) probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10485) probability1=100 END
 	
 // Claws
 CREATE ITM "jaim4000"
@@ -207,7 +207,7 @@ CREATE ITM "jaim4000"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10001)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~IGHOUL~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11432)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11439)
 	WRITE_LONG 0x60 2
 COPY_EXISTING ~jaim4000.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -231,11 +231,11 @@ COPY_EXISTING ~jaim4000.itm~ ~override~
 // Revenant traits
 CREATE ITM "jaim4001"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11427)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@11427)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11434)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@11434)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11433)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11440)
 COPY_EXISTING ~jaim4001.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=98 target=1 global=1 parameter1=2 parameter2=3 timing=2 probability1=100 special=42 END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=232 target=1 global=1 parameter2=16 timing=2 probability1=100 special=2 STR_VAR resource="jasm4003" END

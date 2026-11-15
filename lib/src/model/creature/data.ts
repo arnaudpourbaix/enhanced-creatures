@@ -67,6 +67,11 @@ export interface CreatureData {
    * without needing to be recomputed by hand for each one.
    */
   bonusHpPerHitDie?: number;
+  /**
+   * Current hit points as a percentage of the maximum, written after it: a creature arriving
+   * wounded, like a quasi-real shadow copy (the game's demishadow fiend OHRSHFIE has 30 of 50).
+   */
+  currentHpPercent?: number;
   ac?: number;
   thac0?: number;
   apr?: number;
@@ -667,6 +672,11 @@ export const CREATURE_DATA_FIELDS: {
   },
   {
     key: "bonusHpPerHitDie",
+  },
+  {
+    // after the maximum: patchCreature's currentHpPercent, or an adjustment's own write
+    key: "currentHpPercent",
+    value: (data) => weiduUtils.getIntegerValue(data.currentHpPercent),
   },
   {
     key: "script",

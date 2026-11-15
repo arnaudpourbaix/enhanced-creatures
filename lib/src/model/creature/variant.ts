@@ -1,6 +1,6 @@
 import { PartialCreatureAdjustment } from "./adjustment";
 import type { PartialCreatureBehavior } from "./behavior";
-import type { Creature, CreatureAutoGenerate } from "./creature";
+import type { Creature, CreatureAutoGenerate, CreatureNewFile } from "./creature";
 import { InputCreatureData } from "./data-input";
 
 /**
@@ -20,6 +20,11 @@ export interface VariantInput {
   data?: InputCreatureData;
   /** Member files that carry only the merged variant data. */
   files?: string[];
+  /**
+   * Files the mod creates for this variant (copies, see Creature.newFiles): registered on the
+   * creature and members of the variant, so they don't go in {@link files} too.
+   */
+  newFiles?: CreatureNewFile[];
   /**
    * Member files needing more than the shared profile: each is a full adjustment (its own
    * `data`, `noWeapon`, `scriptName`, `stringRef`, `game`, ...), with its `data` layered on top

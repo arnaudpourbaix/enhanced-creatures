@@ -185,6 +185,34 @@ describe("variantFactory.add", () => {
   });
 });
 
+describe("variant newFiles", () => {
+  const NEW_FILE = "JACM9999";
+
+  it("registers the new file on the creature and makes it a member", () => {
+    const get = captureAdjustments();
+    const creature = fakeCreature();
+    const variant = variantFactory.add(creature, "young", {
+      data: { level1: 7 },
+      files: ["GRON"],
+      newFiles: [{ files: [NEW_FILE.toLowerCase()], copyFrom: "GRON" }],
+    });
+    expect(creature.fileNames).toContain(NEW_FILE);
+    expect(creature.newFiles).toEqual([{ files: [NEW_FILE.toLowerCase()], copyFrom: "GRON" }]);
+    expect(variant.files).toEqual(["GRON", NEW_FILE]);
+    expect(get()).toEqual([{ files: ["GRON", NEW_FILE.toLowerCase()], data: { level1: 7 } }]);
+  });
+
+  it("lets an adjust entry target a new file", () => {
+    const get = captureAdjustments();
+    variantFactory.add(fakeCreature(), "young", {
+      data: { level1: 7 },
+      newFiles: [{ files: [NEW_FILE], copyFrom: "GRON" }],
+      adjust: [{ files: [NEW_FILE], summon: true }],
+    });
+    expect(get()).toEqual([{ files: [NEW_FILE], summon: true, data: { level1: 7 } }]);
+  });
+});
+
 describe("derived variant (Variant.variant)", () => {
   it("merges the parent's data underneath the child's, in one adjustment", () => {
     const spy = vi.spyOn(creatureFactory, "setAdjustments").mockImplementation(() => undefined);

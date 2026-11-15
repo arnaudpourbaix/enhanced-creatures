@@ -41,6 +41,15 @@ interface WeiduCreatureServicePrivate {
     creature: Creature;
   }): void;
   patchCreatures(lines: CodeLine[], tab: number, creature: Creature): void;
+  patchCreatureAdjustement(p: {
+    lines: CodeLine[];
+    tab: number;
+    data: Partial<CreatureData>;
+    autoGenerate: Partial<CreatureAutoGenerate>;
+    summon: boolean;
+    creature: Creature;
+  }): void;
+  removeScriptsFor(creature: Creature, files: string[] | ((file: string) => boolean)): string[];
   patchScripts(lines: CodeLine[], tab: number, creature: Creature): void;
   handleAdjustments(lines: CodeLine[], tab: number, creature: Creature): void;
   handleAdjustment(
@@ -147,6 +156,51 @@ describe("patchCreatures (private)", () => {
     const firstGameIsIdx = out.findIndex((c) => c.includes("GAME_IS"));
     expect(bothIdx).toBeGreaterThanOrEqual(0);
     expect(firstGameIsIdx).toBeGreaterThan(bothIdx);
+  });
+});
+
+describe("removeScriptsFor (private)", () => {
+  const creature = () =>
+    fakeCreature({
+      data: { script: { remove: ["BASE"] } } as Partial<CreatureData>,
+      adjustments: [
+        fakeAdjustment({
+          files: ["VAR1"],
+          data: { script: { remove: ["VARSCRIPT"] } } as Partial<CreatureData>,
+        }),
+        fakeAdjustment({
+          files: ["OTHER"],
+          data: { script: { remove: ["OTHERSCRIPT"] } } as Partial<CreatureData>,
+        }),
+      ],
+    });
+
+  it("adds the removals of the adjustments touching the files, case-insensitively", () => {
+    expect(service.removeScriptsFor(creature(), ["var1"])).toEqual(["BASE", "VARSCRIPT"]);
+  });
+
+  it("takes a file test for the base assignment", () => {
+    expect(service.removeScriptsFor(creature(), (f) => f !== "VAR1")).toEqual([
+      "BASE",
+      "OTHERSCRIPT",
+    ]);
+  });
+});
+
+describe("patchCreatureAdjustement (private)", () => {
+  it("writes currentHpPercent as a share of the maximum hit points", () => {
+    const lines: CodeLine[] = [];
+    service.patchCreatureAdjustement({
+      lines,
+      tab: 0,
+      data: { ...fullBaseData(), currentHpPercent: 40 },
+      autoGenerate: {},
+      summon: false,
+      creature: fakeCreature(),
+    });
+    expect(codes(lines)).toContain(
+      "WRITE_SHORT 0x24 (SHORT_AT 0x26 * 40 / 100) // currentHpPercent",
+    );
   });
 });
 

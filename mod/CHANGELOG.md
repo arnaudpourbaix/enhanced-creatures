@@ -58,6 +58,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Shadow-fiend: Shadow Fiend, PnP cat +1s, Strength tab on the dashboard
 - Shadow-fiend: Shadow Creature boss variant, demishadow summons
 - Undead: giant skeleton, wraith and zombie file reviews; edited scripts count as handled
+- Shade: Blackhearts shades, quasi-real images, currentHpPercent
 
 ### Changed
 

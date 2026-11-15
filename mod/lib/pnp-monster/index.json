@@ -448,5 +448,9 @@
   "shadow-fiend": {
     "kin": null,
     "dependsOn": []
+  },
+  "shade": {
+    "kin": null,
+    "dependsOn": []
   }
 }

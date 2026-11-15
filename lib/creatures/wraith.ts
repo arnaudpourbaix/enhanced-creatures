@@ -68,11 +68,13 @@ export function wraith(entry: CreatureEntry<Creature>): Creature {
           "wraith1",
           "ring95",
           "immune1",
+          "immune2",
           "immchs",
           "s1-8",
           "undtype",
           "dvwraith",
           "ohhwrsw",
+          "chwraith",
         ],
       },
       script: {
