@@ -820,7 +820,7 @@ Those bitten must save vs. poison or be charmed for 1 turn, at a -1 penalty for 
       quasiRealImages: {
         name: "Quasi-Real Images",
         description: `The shade creates 1d4 duplicates of itself, as a demishadow monsters spell cast at its level, under its mental control. 
-Drawn from the Plane of Shadow, they are partly real: they attack and deal real damage, but have only 40% of the shade's hit points, 40% of its damage and Armor Class 8. 
+Drawn from the Plane of Shadow, they are partly real: they have only 40% of the shade's hit points, and deal 40% of its damage to those who see through them, its full damage to those who believe them (a save vs. spell when first hit).
 They share the shade's nature, but none of its spell-like abilities.`,
       },
     },

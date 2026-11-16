@@ -334,19 +334,16 @@ THEN
 		NoAction()
 END
 
-// Shadow Door
+// Shadow Images
 IF
-	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	HaveSpell(WIZARD_SHADOW_DOOR)
-	Detect(NearestEnemyOf(Myself))
-	HPLT(Myself,75)
-	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
+	HaveSpellRES("jasm4300")
+	!StateCheck(Myself,STATE_MIRRORIMAGE)
+	RandomNumGT(800,320)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		Spell(Myself,WIZARD_SHADOW_DOOR)
+		ForceSpellRES("jasm4300",Myself)
 END
 
 // Invisibility
@@ -354,7 +351,7 @@ IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpellRES("jasm4301")
 	!StateCheck(Myself,STATE_INVISIBLE)
-	RandomNumGT(800,320)
+	RandomNumGT(801,320)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -365,7 +362,7 @@ END
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	HaveSpellRES("jasm4303")
-	RandomNumGT(801,200)
+	RandomNumGT(802,201)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
@@ -1028,18 +1025,6 @@ THEN
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
 		ForceSpellRES("jasm4302",LastSeenBy(Myself))
 		AttackOneRound(LastSeenBy(Myself))
-END
-
-// Shadow Images
-IF
-	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	HaveSpellRES("jasm4300")
-	!StateCheck(Myself,STATE_MIRRORIMAGE)
-	RandomNumGT(704,106)
-THEN
-	RESPONSE #100
-		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4300",Myself)
 END
 
 // Attack HeldNearby enemy

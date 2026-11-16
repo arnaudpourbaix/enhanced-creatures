@@ -5,6 +5,8 @@ export const SPELL_STATES = {
   prone: "JA_PRONE",
   gaseousForm: "JA_GASEOUSFORM",
   animalForm: "JA_ANIMALFORM",
+  /** Believes the quasi-real shadow attacking it: takes its full damage (lib/creatures/quasi-real.ts) */
+  believesShadow: "JA_BELIEVESHADOW",
 } as const;
 
 /**

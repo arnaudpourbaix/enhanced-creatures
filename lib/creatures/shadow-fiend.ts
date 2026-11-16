@@ -31,6 +31,7 @@ import { StringRefUtils } from "../src/services/utils/string-ref.utils";
 import { EntryEnum } from "./entry";
 import { addLeap, leapAttackEffects } from "./leap";
 import { MonsterEnum } from "./monster";
+import { addQuasiRealDamage } from "./quasi-real";
 import { createClaws } from "./types/undead";
 
 enum Ids {
@@ -106,7 +107,7 @@ export function shadowFiend(entry: CreatureEntry<Creature>): Creature {
   });
   fiend.addNaturalWeapon("claws", { diceThrown: 1, diceSize: 6, speed: 5, slot: "WEAPON1" });
   fiend.addNaturalWeapon("jaws", { diceThrown: 1, diceSize: 8, speed: 3, slot: "SHIELD" });
-  const fiendLeap = leap(fiend).file;
+  const fiendLeap = leap(fiend).spell.file;
   const jar = magicJar(fiend);
   fiend.setBehavior({
     restHeal: true,
@@ -129,14 +130,16 @@ export function shadowFiend(entry: CreatureEntry<Creature>): Creature {
 
 /**
  * The Shadow Creature's Demishadow Monsters (OHRDEMI, two OHRSHFIE for 11 rounds): quasi-real
- * fiends, as disbelieved demishadow monsters (the engine has no per-observer save): AC 8, 40% of
- * the fiend's hit points (it arrives wounded, as its file's 30/50) and 40% of its damage (1d2 claws
- * for 1d6, a 1d3 bite for 1d8). They keep the fiend's trait (its core nature) and its leap (a
- * movement, not a spell) but cast nothing: no darkness nor magic jar. Worth no XP.
+ * fiends: 40% of the fiend's hit points (it arrives wounded, as its file's 30/50), their own AC.
+ * Their attacks deal 40% of its damage (1d2 claws for 1d6, a 1d3 bite for 1d8) to those who see
+ * through them, the full damage to those who believe them (one save each, see
+ * addQuasiRealDamage). They keep the fiend's trait (its core nature) and its leap (a movement, not
+ * a spell) but cast nothing: no darkness nor magic jar. Worth no XP.
  */
 function demishadowVariant(fiend: Creature, base: { magicJar: string; leap: string }) {
-  // 40% of the leap's four claws too: 4d2 for 4d6
-  const demishadowLeap = leap(fiend, { id: Ids.DemishadowLeap, diceSize: 2, variantOnly: true });
+  // the leap's four claws too: 4d2 for 4d6
+  const demishadow = leap(fiend, { id: Ids.DemishadowLeap, diceSize: 2, variantOnly: true });
+  const demishadowLeap = demishadow.spell;
   const claws = fiend.addNaturalWeapon("claws", {
     diceThrown: 1,
     diceSize: 2,
@@ -144,9 +147,17 @@ function demishadowVariant(fiend: Creature, base: { magicJar: string; leap: stri
     slot: null,
   });
   const jaws = fiend.addNaturalWeapon("jaws", { diceThrown: 1, diceSize: 3, speed: 3, slot: null });
+  addQuasiRealDamage(
+    fiend,
+    [
+      { weapon: claws, extra: { diceThrown: 1, diceSize: 3 } },
+      { weapon: jaws, extra: { diceThrown: 1, diceSize: 4 } },
+      { weapon: demishadow.claws, extra: { diceThrown: 4, diceSize: 3 } },
+    ],
+    11 * Durations.round,
+  );
   fiend.variant("Demishadow", {
     data: {
-      ac: 8,
       currentHpPercent: 40,
       items: {
         equipped: [
@@ -290,7 +301,7 @@ function leap(
     diceThrown: 4,
     speed: 5,
   });
-  return addLeap(fiend, {
+  const spell = addLeap(fiend, {
     id,
     variantOnly,
     range: 30,
@@ -301,6 +312,7 @@ function leap(
     docUsage: "doc.usage.fromHiding",
     triggers: [{ name: "StateCheck", params: [ScriptTarget.myself, "STATE_INVISIBLE"] }],
   });
+  return { spell, claws };
 }
 
 /**

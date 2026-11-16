@@ -38,6 +38,12 @@ export default {
 - -4 AC (opponents get +4 bonus on their attack rolls against a prone target)
 Creatures bigger than the attacker can not be tripped.`,
   },
+  quasiReal: {
+    name: "Quasi-Real",
+    believes: "Believes the shadow",
+    seesThrough: "Sees through the shadow",
+    description: `Partly real: those who believe it take {{damage}} more damage, its full damage. A victim saves vs. spell once, on the first hit: believing it or seeing through it lasts {{duration}} rounds.`,
+  },
   callWoodlandBeeings: {
     name: "Call Woodland Beeings",
     description: `Call Woodland Beings

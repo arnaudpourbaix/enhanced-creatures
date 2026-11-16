@@ -22,6 +22,7 @@ import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import type { Spell } from "../src/model/spell-item/spell-item";
 import { EntryEnum } from "./entry";
 import { MonsterEnum } from "./monster";
+import { addQuasiRealDamage } from "./quasi-real";
 
 enum Ids {
   ShadowImages,
@@ -131,10 +132,7 @@ function blackheartsShades(shade: Creature, images: Spell) {
     data: {
       ...BLACKHEARTS_SHADE,
       spells: {
-        memorized: [
-          { file: SPELLS.Wizard.ShadowDoor.file, memorizedCount: 1 },
-          { file: SPELLS.Wizard.WavesOfFatigue.file, memorizedCount: 1 },
-        ],
+        memorized: [{ file: SPELLS.Wizard.WavesOfFatigue.file, memorizedCount: 1 }],
       },
       script: { remove: ["WIBHSHA1"] },
     },
@@ -150,7 +148,9 @@ function blackheartsShades(shade: Creature, images: Spell) {
       },
     },
     files: ["WIBHSHA2"],
-    behavior: { abilities: { entries: [{ power: slaughterImages }] } },
+    behavior: {
+      abilities: { entries: [{ power: slaughterImages }] },
+    },
   });
   shadeImages(shade);
 }
@@ -196,10 +196,11 @@ function quasiRealImages(shade: Creature, id: Ids, image: string, specializes?: 
 }
 
 /**
- * The quasi-real duplicates: as disbelieved demishadow monsters (the engine has no per-observer
- * save), AC 8, 40% of the shade's hit points (it arrives wounded) and 40% of its damage (1d3 for
- * 1d8). They keep the shade's trait (its core nature) but cast nothing: no spells, nor their
- * file's script (SHDWKILL counts the quest's kills).
+ * The quasi-real duplicates, as demishadow monsters: 40% of the shade's hit points (it arrives
+ * wounded), their own AC. Their fists deal 40% of its damage (1d3 for 1d8) to those who see
+ * through them, the full damage (1d4 more) to those who believe them (one save each, see
+ * addQuasiRealDamage). They keep the shade's trait (its core nature) but cast nothing: no spells,
+ * nor their file's script (SHDWKILL counts the quest's kills).
  */
 function shadeImages(shade: Creature) {
   const fists = shade.addNaturalWeapon("fists", {
@@ -208,9 +209,13 @@ function shadeImages(shade: Creature) {
     speed: 1,
     slot: null,
   });
+  addQuasiRealDamage(
+    shade,
+    [{ weapon: fists, extra: { diceThrown: 1, diceSize: 4 } }],
+    SHADE_LEVEL * Durations.round,
+  );
   shade.variant("Shade image", {
     data: {
-      ac: 8,
       currentHpPercent: 40,
       items: {
         equipped: [{ file: fists.file, slot: "WEAPON1" }],
@@ -262,6 +267,8 @@ function shadowImages(shade: Creature) {
     icon: SPELLS.Wizard.MirrorImages.file,
     worthLevel: 2,
     role: "protection",
+    // as Mirror Image, with more images: an opener
+    tier: "great",
     memorizedCount: 1,
     options: { renew: Durations.turn / Durations.round },
     headers: [
