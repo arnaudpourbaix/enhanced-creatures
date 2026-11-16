@@ -836,7 +836,9 @@ They share the shade's nature, but none of its spell-like abilities.`,
       magicJar: {
         name: "Magic Jar",
         description: `Once per encounter, the shadow fiend tries to take control of a creature within 30 feet. The target must save vs. spell or be dominated for 5 turns.
-If the target saves, the shadow fiend is stunned for 1d3 rounds.`,
+If the target saves, the shadow fiend is stunned for 1 round.`,
+        // not the game's "Stunned": its stun immunity hides those
+        stunned: "Stunned!",
       },
       touch: {
         name: "Draining Touch",

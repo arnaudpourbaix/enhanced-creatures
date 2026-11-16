@@ -27,7 +27,6 @@ import {
   SpellTypeEnum,
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
-import { StringRefUtils } from "../src/services/utils/string-ref.utils";
 import { EntryEnum } from "./entry";
 import { addLeap, leapAttackEffects } from "./leap";
 import { MonsterEnum } from "./monster";
@@ -317,9 +316,9 @@ function leap(
 
 /**
  * Magic jar, once a week: in the game a domination, as the victim's body serves the fiend. A
- * victim saving vs. spell leaves the fiend stunned for 1d3 rounds: a second after the attempt,
- * a victim that isn't charmed casts the backfire, landing on the fiend. A pause, not a stun: being
- * incorporeal, it is immune to stun (and hold).
+ * victim saving vs. spell leaves the fiend stunned (PnP 1d3 rounds, 1 round in the game: a longer
+ * pause felt broken): a second after the attempt, a victim that isn't charmed casts the backfire,
+ * landing on the fiend. A pause, not a stun: being incorporeal, it is immune to stun (and hold).
  */
 function magicJar(fiend: Creature) {
   const backfire = fiend.addSpell({
@@ -333,20 +332,19 @@ function magicJar(fiend: Creature) {
         target: ItemAbilityTargetEnum.LivingActor,
         range: 30,
         effects: [
-          ...effectFactory.splitProbabilities(
-            [1, 2, 3].map((rounds) => ({
-              opcode: EffectTypeEnum.PauseTarget,
-              target: EffectTargetEnum.OriginalCaster,
-              timing: EffectTimingEnum.InstantLimited,
-              duration: rounds * Durations.round,
-              dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
-            })),
-          ),
-          // PnP's status, though a pause in the game
+          {
+            opcode: EffectTypeEnum.PauseTarget,
+            target: EffectTargetEnum.OriginalCaster,
+            timing: EffectTimingEnum.InstantLimited,
+            duration: Durations.round,
+            dispelResistance: EffectDispelResistanceEnum.NaturalNonMagical,
+          },
+          // PnP's status, though a pause in the game. Its own string: the stun immunity blocks the
+          // game's "Stunned" strings (op 267)
           {
             opcode: EffectTypeEnum.DisplayString,
             target: EffectTargetEnum.OriginalCaster,
-            stringRef: StringRefUtils.getString("Stunned"),
+            stringRef: "monster.shadowFiend.ability.magicJar.stunned",
             timing: EffectTimingEnum.InstantPermanentUntilDeath,
           },
         ],

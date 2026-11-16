@@ -119,6 +119,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Vampire: the abomination extends the Ravenloft age table
 - Treants
 - Copy monster issue with spaces
+- Shadow-fiend: hiding works, magic jar backfire is a 1-round "Stunned!" pause
 
 ## [0.4.0] - 2026-10-09
 

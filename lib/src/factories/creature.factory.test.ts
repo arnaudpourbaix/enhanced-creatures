@@ -138,6 +138,22 @@ describe("setAdjustments", () => {
   });
 });
 
+describe("getData", () => {
+  it("gives move silently the hide in shadows value", () => {
+    expect(creatureFactory.getData(undefined, { hideShadow: 90 }, false).moveSilent).toBe(90);
+    expect(creatureFactory.getData(undefined, { hideShadow: 90 }, true).moveSilent).toBe(90);
+  });
+
+  it("keeps an explicit move silently", () => {
+    const data = creatureFactory.getData(undefined, { hideShadow: 90, moveSilent: 40 }, false);
+    expect(data.moveSilent).toBe(40);
+  });
+
+  it("leaves move silently alone without hide in shadows", () => {
+    expect(creatureFactory.getData(undefined, { level1: 3 }, false).moveSilent).toBeUndefined();
+  });
+});
+
 describe("setBehavior", () => {
   it("stores entries as pendingAbilityEntries without resolving them immediately", () => {
     const creature = fakeCreature();

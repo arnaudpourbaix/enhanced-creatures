@@ -59,6 +59,11 @@ class CreatureFactory {
         (data as unknown as Record<string, unknown>)[field.key] = input[field.key];
       }
     }
+    // The game's hiding needs both skills (Beamdog's own hiding monsters have the same value in
+    // each): hide in shadows also sets move silently unless given.
+    if (input.hideShadow !== undefined && input.moveSilent === undefined) {
+      data.moveSilent = input.hideShadow;
+    }
     // Not CREATURE_DATA_FIELDS entries (they never reach CRE files), so copied by hand.
     if (input.xpAbilities !== undefined) data.xpAbilities = [...input.xpAbilities];
     if (input.strength2e !== undefined) data.strength2e = { ...input.strength2e };
