@@ -489,6 +489,14 @@ describe("CopyService", () => {
       expect(readCopied("lib", "pnp-monster", "vampire", "main.tpa")).toBe(VAMPIRE_MAIN);
     });
 
+    it("--monster ignores spaces and punctuation in creature names", async () => {
+      await run({ entries: ["vampire"], monsters: ["patriarchVampire"] });
+
+      const vampire = readCopied("lib", "pnp-monster", "vampire", "main.tpa");
+      expect(vampire).toContain(`${include("vampire/4m.tpa")} // Patriarch Vampire`);
+      expect(vampire).toContain(`// ${include("vampire/4c.tpa")} // Fledgling Vampire`);
+    });
+
     it("--monster narrows the creatures of the --entry entries", async () => {
       await run({ entries: ["vampire", "dryad"], monsters: ["patriarch"] });
 

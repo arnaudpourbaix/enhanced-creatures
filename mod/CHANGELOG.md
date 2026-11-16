@@ -118,6 +118,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Doc: hide the engine's TRUECLASS kit
 - Vampire: the abomination extends the Ravenloft age table
 - Treants
+- Copy monster issue with spaces
 
 ## [0.4.0] - 2026-10-09
 

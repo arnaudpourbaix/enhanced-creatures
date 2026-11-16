@@ -16,8 +16,9 @@ export interface CopyActions {
 
 /**
  * Narrows what the copied mod installs, to speed up testing. Entries and kins are matched against
- * their pnp-monster folder names, monsters as case-insensitive substrings of the creature name
- * comment in each entry's main.tpa (so "vampire" keeps every vampire age). Whatever is kept pulls
+ * their pnp-monster folder names, monsters as substrings of the creature name comment in each
+ * entry's main.tpa, ignoring case, spaces and punctuation (so "vampire" keeps every vampire age,
+ * and "shadowFiend" or "shadow-fiend" matches "Shadow Fiend"). Whatever is kept pulls
  * in what it needs: the kin of every kept entry and the entries it depends on (index.json).
  */
 export interface CopyFilter {
@@ -192,7 +193,9 @@ class CopyService {
     const wanted = (names: string[]) => names.map((n) => n.toLowerCase());
     const entryNames = wanted(filter.entries);
     const kinNames = wanted(filter.kins);
-    const monsters = wanted(filter.monsters);
+    // Creature names are compared on letters and digits only: "shadowFiend" matches "Shadow Fiend".
+    const squash = (name: string) => name.toLowerCase().replace(/[^0-9a-z]/g, "");
+    const monsters = filter.monsters.map(squash).filter((m) => m);
     if (!entryNames.length && !kinNames.length && !monsters.length) return files;
 
     const index = this.readIndex();
@@ -222,7 +225,7 @@ class CopyService {
         const content = fs
           .readFileSync(mainPath, "utf-8")
           .replace(CREATURE_INCLUDE, (line: string, _include: string, name: string) => {
-            if (monsters.some((m) => name.toLowerCase().includes(m))) {
+            if (monsters.some((m) => squash(name).includes(m))) {
               keptNames.push(name);
               return line;
             }
