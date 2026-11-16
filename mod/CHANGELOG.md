@@ -117,6 +117,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Docs: creature search finds monsters with adjustments
 - Doc: hide the engine's TRUECLASS kit
 - Vampire: the abomination extends the Ravenloft age table
+- Treants
 
 ## [0.4.0] - 2026-10-09
 

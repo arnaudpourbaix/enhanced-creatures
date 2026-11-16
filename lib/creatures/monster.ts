@@ -175,4 +175,5 @@ export enum MonsterEnum {
   VampiricMist = 173,
   Alhoon = 174,
   Goblin = 175,
+  DeathHeadTree = 176,
 }

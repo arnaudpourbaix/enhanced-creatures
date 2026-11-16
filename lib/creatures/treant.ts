@@ -83,17 +83,21 @@ class TreantEntry extends CreatureEntry<Plant> {
         movement: 12,
         immunities: ["plant"],
         items: {
-          remove: ["BDTREANT", "BDPLANT", "IPSION"],
+          remove: ["BDTREANT", "BDPLANT", "IPSION", "cbtreant", "golsto", "immune1", "ring95"],
         },
       },
     });
     // Elder treant (11-12 HD, 4d6) is the base; younger ones are variants.
     treant.createBranch(4, 6, true);
-    treant.setAdjustments([{ files: [NEW_CREATURES.Treant11hd], summon: true }]);
+    treant.setAdjustments([
+      { files: [NEW_CREATURES.Treant11hd], summon: true },
+      { files: ["L0TREE"], data: { level1: 12, alignment: "CHAOTIC_EVIL" } },
+    ]);
     treant.variant("middle-aged treant", {
       files: ["BDTREANT", "WITREANT"],
       ...summoned(NEW_CREATURES.Treant9hd, "monster.treant.name.hd9"),
       data: { level1: 9, strength: 21, constitution: 20, ...treant.branch(3, 6) },
+      adjust: [{ files: ["BDTREANT"], data: { alignment: "CHAOTIC_EVIL" } }],
     });
     treant.variant("young treant", {
       ...summoned(NEW_CREATURES.Treant7hd, "monster.treant.name.hd7"),
