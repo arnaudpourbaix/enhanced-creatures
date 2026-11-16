@@ -69,6 +69,19 @@ program
   });
 
 program
+  .command("uninstall")
+  .description("Uninstall component 999 from one local game with its weidu.exe (nothing is copied)")
+  .option("--bg1", "uninstall from the configured BG1 folder")
+  .option("--bg2", "uninstall from the configured BG2 folder")
+  .action((opts: Partial<CopyTargets>) => {
+    try {
+      runUninstall(opts);
+    } catch (e: unknown) {
+      handleError(e);
+    }
+  });
+
+program
   .command("release")
   .description("Validate, bump, regenerate, and publish a GitHub release")
   .argument("<version>", "release version, e.g. 1.2.0")
@@ -136,6 +149,19 @@ async function runCopy(opts: CopyOptions): Promise<void> {
   }
   logService.log("Finished!");
   console.log(chalk.green(`\nFinished!`));
+}
+
+function runUninstall(opts: Partial<CopyTargets>): void {
+  logService.filePath = path.join(process.cwd(), "copy.log");
+  logService.init();
+  // Without `--`, npm keeps --bg1/--bg2 for itself and passes them as npm_config_* instead.
+  const fromNpm = (name: string) => process.env[`npm_config_${name}`] === "true";
+  copyService.uninstall({ bg1: !!opts.bg1 || fromNpm("bg1"), bg2: !!opts.bg2 || fromNpm("bg2") });
+  logService.log("Finished!");
+  console.log(
+    chalk.green(`
+Finished!`),
+  );
 }
 
 async function runRelease(version: string): Promise<void> {

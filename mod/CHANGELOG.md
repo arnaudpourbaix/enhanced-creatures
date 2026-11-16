@@ -60,6 +60,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Undead: giant skeleton, wraith and zombie file reviews; edited scripts count as handled
 - Shade: Blackhearts shades, quasi-real images, currentHpPercent
 - Shadow-fiend: quasi-real demishadow fiends; shade images as a base power
+- Copy: uninstall command for component 999
 
 ### Changed
 

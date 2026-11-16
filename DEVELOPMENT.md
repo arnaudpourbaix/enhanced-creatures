@@ -71,6 +71,8 @@ Add `--install` to then install component 999 unattended with the game's own `we
 
 Add `--start` (with `--install`) to launch the game once the install succeeds: it runs the game's `InfinityLoader.exe`. The game runs detached, so the command returns at once. Example: `npm run copy -- --bg2 --install --start`.
 
+To remove component 999 again, run `npm run uninstall -- --bg1` or `npm run uninstall -- --bg2` (the `--` can be left out). It runs the game's own `weidu.exe` with `--force-uninstall` on the tp2 a previous copy left in the game folder, copies nothing, and needs exactly one game.
+
 ## Adding a monster
 
 A monster is an **entry**: one monster in one or more versions (rank, age, size). Related entries can share material through a **kin**.

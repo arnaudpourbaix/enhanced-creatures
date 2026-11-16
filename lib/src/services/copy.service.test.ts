@@ -210,6 +210,86 @@ describe("CopyService", () => {
     });
   });
 
+  describe("uninstall", () => {
+    function fakeInstall(dest: string): void {
+      fs.writeFileSync(path.join(dest, "weidu.exe"), "");
+      fs.mkdirSync(modPath(dest), { recursive: true });
+      fs.writeFileSync(modPath(dest, TP2_FILE), TP2_CONTENTS);
+    }
+
+    it("refuses without exactly one game", () => {
+      writeConfig({ bg1: bg1Dir, bg2: bg2Dir });
+
+      expect(() => copyService.uninstall({ bg1: true, bg2: true })).toThrow(
+        "uninstall needs exactly one game",
+      );
+      expect(() => copyService.uninstall({ bg1: false, bg2: false })).toThrow(
+        "uninstall needs exactly one game",
+      );
+    });
+
+    it("runs the game's weidu.exe to uninstall component 999, without copying", () => {
+      writeConfig({ bg1: bg1Dir, bg2: bg2Dir });
+      fakeInstall(bg2Dir);
+      fs.writeFileSync(modPath(bg2Dir, TP2_FILE), "older tp2");
+      const exec = vi.spyOn(childProcess, "execFileSync").mockReturnValue(Buffer.from(""));
+
+      copyService.uninstall({ bg1: false, bg2: true });
+
+      expect(exec).toHaveBeenCalledTimes(1);
+      const [command, args, options] = exec.mock.calls[0];
+      expect(command).toBe(path.join(bg2Dir, "weidu.exe"));
+      expect(args).toEqual(
+        expect.arrayContaining([
+          `${MOD_SUBFOLDER}/${TP2_FILE}`,
+          "--force-uninstall",
+          "999",
+          "--no-exit-pause",
+        ]),
+      );
+      expect(options).toEqual(expect.objectContaining({ cwd: bg2Dir }));
+      expect(fs.readFileSync(modPath(bg2Dir, TP2_FILE), "utf-8")).toBe("older tp2");
+    });
+
+    it("explains an unconfigured game", () => {
+      writeConfig({ bg1: bg1Dir });
+
+      expect(() => copyService.uninstall({ bg1: false, bg2: true })).toThrow(
+        "BG2 path is not configured",
+      );
+    });
+
+    it("explains a game without the copied tp2", () => {
+      writeConfig({ bg1: bg1Dir });
+
+      expect(() => copyService.uninstall({ bg1: true, bg2: false })).toThrow(
+        "nothing to uninstall",
+      );
+    });
+
+    it("explains a missing weidu.exe", () => {
+      writeConfig({ bg1: bg1Dir });
+      fakeInstall(bg1Dir);
+      fs.rmSync(path.join(bg1Dir, "weidu.exe"));
+
+      expect(() => copyService.uninstall({ bg1: true, bg2: false })).toThrow(
+        "weidu.exe not found, cannot uninstall",
+      );
+    });
+
+    it("reports a failed WeiDU run with its log", () => {
+      writeConfig({ bg1: bg1Dir });
+      fakeInstall(bg1Dir);
+      vi.spyOn(childProcess, "execFileSync").mockImplementation(() => {
+        throw new Error("exit 1");
+      });
+
+      expect(() => copyService.uninstall({ bg1: true, bg2: false })).toThrow(
+        /WeiDU uninstall failed, see .*SETUP-ENHANCED_CREATURES\.DEBUG/,
+      );
+    });
+  });
+
   describe("start", () => {
     beforeEach(() => {
       writeConfig({ bg1: bg1Dir });

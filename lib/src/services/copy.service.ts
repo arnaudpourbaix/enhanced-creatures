@@ -43,9 +43,9 @@ const PNP_FOLDER = path.join("lib", "pnp-monster");
 const INDEX_REL = path.join(PNP_FOLDER, "index.tpa");
 const INDEX_JSON_REL = path.join(PNP_FOLDER, "index.json");
 const TP2_FILE = "enhanced_creatures.tp2";
-// The component `copy --install` installs (DESIGNATED in the tp2).
+// The component `copy --install` installs and `uninstall` removes (DESIGNATED in the tp2).
 const INSTALL_COMPONENT = "999";
-// WeiDU's own default log name for this tp2, so --install overwrites the usual one.
+// WeiDU's own default log name for this tp2, so install/uninstall overwrite the usual one.
 const INSTALL_LOG = "SETUP-ENHANCED_CREATURES.DEBUG";
 
 // What --start runs: the EE launcher, which also loads EEex.
@@ -108,14 +108,39 @@ class CopyService {
 
   /** Runs the game's own weidu.exe on the copied tp2, (re)installing component 999 unattended. */
   install(label: string, gameRoot: string): void {
+    this.runWeidu(label, gameRoot, "install");
+  }
+
+  /**
+   * Uninstalls component 999 from one game with its weidu.exe, using the tp2 a previous copy left
+   * there (WeiDU needs it to restore its backups). Nothing is copied.
+   */
+  uninstall(targets: CopyTargets): void {
+    if (targets.bg1 === targets.bg2) {
+      throw new Error("uninstall needs exactly one game: pass --bg1 or --bg2");
+    }
+    const config = this.loadConfig();
+    const [label, gameRoot] = targets.bg1 ? ["BG1", config.bg1] : ["BG2", config.bg2];
+    if (!gameRoot) {
+      throw new Error(`${label} path is not configured in paths.local.json`);
+    }
+    const tp2 = path.join(gameRoot, MOD_SUBFOLDER, TP2_FILE);
+    if (!fs.existsSync(tp2)) {
+      throw new Error(`${label}: ${tp2} not found, nothing to uninstall`);
+    }
+    this.runWeidu(label, gameRoot, "uninstall");
+  }
+
+  private runWeidu(label: string, gameRoot: string, action: "install" | "uninstall"): void {
     const weidu = path.join(gameRoot, "weidu.exe");
     if (!fs.existsSync(weidu)) {
-      throw new Error(`${label}: ${weidu} not found, cannot install`);
+      throw new Error(`${label}: ${weidu} not found, cannot ${action}`);
     }
-    logService.header(`Installing component ${INSTALL_COMPONENT} in ${label}`);
+    const verb = action === "install" ? "Installing" : "Uninstalling";
+    logService.header(`${verb} component ${INSTALL_COMPONENT} in ${label}`);
     const args = [
       `${MOD_SUBFOLDER}/${TP2_FILE}`,
-      "--force-install",
+      `--force-${action}`,
       INSTALL_COMPONENT,
       "--language",
       "0",
@@ -129,11 +154,12 @@ class CopyService {
       // inherit: WeiDU's progress shows live in the terminal.
       childProcess.execFileSync(weidu, args, { cwd: gameRoot, stdio: "inherit" });
     } catch (e: unknown) {
-      throw new Error(`${label}: WeiDU install failed, see ${path.join(gameRoot, INSTALL_LOG)}`, {
+      throw new Error(`${label}: WeiDU ${action} failed, see ${path.join(gameRoot, INSTALL_LOG)}`, {
         cause: e,
       });
     }
-    logService.log(`Installed component ${INSTALL_COMPONENT} in ${label}`);
+    const done = action === "install" ? "Installed" : "Uninstalled";
+    logService.log(`${done} component ${INSTALL_COMPONENT} in ${label}`);
   }
 
   /**
