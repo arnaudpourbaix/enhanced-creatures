@@ -85,6 +85,11 @@ export function shadow(entry: CreatureEntry<Creature>): Creature {
       files: ["BDSHAD02", "L#GNOAL", "L#GNOEN"],
       data: { level1: 5, strength: 18 },
     },
+    {
+      // SoD's Shadowed Soul: an ordinary shadow at the game's 7 HD, keeping its THAC0 13.
+      files: ["BDSHSOUL"],
+      data: { level1: 7 },
+    },
   ]);
   shadow.setBehavior({
     restHeal: true,

@@ -62,6 +62,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Shadow-fiend: quasi-real demishadow fiends; shade images as a base power
 - Copy: uninstall command for component 999
 - Shade: quasi-real damage by belief; shadow images open the fight
+- Map more undead to their PnP templates
 
 ### Changed
 

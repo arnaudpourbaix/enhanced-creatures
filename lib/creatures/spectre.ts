@@ -65,7 +65,8 @@ export function spectre(entry: CreatureEntry<Creature>): Creature {
         remove: ["RING95", "immune1", "SPECTR", "bdspirit", "GHOST"],
       },
       script: {
-        remove: ["DAO01"],
+        // MAGE20C: CtB's crown-made spectre (CBMALR6B) carries the vanilla level 20 mage script
+        remove: ["DAO01", "MAGE20C"],
       },
     },
   });
@@ -81,8 +82,10 @@ export function spectre(entry: CreatureEntry<Creature>): Creature {
     },
   });
   spectre.setAdjustments([
-    { files: ["SARSPIR", "L0MERCH", "L0SUMM5", "SPECTR01"], data: { level1: 10 } },
-    { files: ["SAHSPC01"], data: { level1: 10 } },
+    {
+      files: ["SARSPIR", "SAHSPC01", "L0MERCH", "L0SUMM5", "SPECTR01", "CBMALR6B"],
+      data: { level1: 10 },
+    },
   ]);
   return spectre;
 }

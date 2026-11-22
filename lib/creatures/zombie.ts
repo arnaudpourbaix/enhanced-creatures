@@ -668,6 +668,8 @@ export function jujuZombie(entry: CreatureEntry<Creature>): Creature {
     },
     { files: ["ESXSERM"], data: { level1: 15, apr: 3, ac: -2 } },
     { files: ["AC#W80BR"], data: { level1: 6 } },
+    { files: ["L#RVZOMB"], data: { level1: 7 } },
+    { files: ["LESTER"], data: { level1: 20 } },
   ]);
   juju.turnAs = "spectre";
   return juju;
