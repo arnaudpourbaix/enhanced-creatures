@@ -24,6 +24,12 @@ import {
 import logService from "../log.service";
 import { StringRefUtils } from "../utils/string-ref.utils";
 
+/** A SPELL_PROTECTIONS row on a stat's value (not a union of two rows). */
+type ValueProtection = Exclude<
+  SpellProtection,
+  SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2
+>;
+
 class WeiduFunctionService extends AbstractWeiduService {
   generateSpellResources(): void {
     const lines = this.initLines();
@@ -91,11 +97,13 @@ class WeiduFunctionService extends AbstractWeiduService {
     this.add(lines, ``, 0);
   }
 
-  generateValueProtectionSpells(
-    lines: CodeLine[],
-    sp: Exclude<SpellProtection, SpellProtectionRow1AndRow2 | SpellProtectionNotRow1AndNotRow2>,
-    file: string,
-  ) {
+  generateValueProtectionSpells(lines: CodeLine[], sp: ValueProtection, file: string) {
+    this.addProtectionRow(lines, sp, file);
+    this.nameProtection(lines, sp);
+  }
+
+  /** Adds the row (`index` is then its number + 1), unnamed: a union's rows only need their number. */
+  private addProtectionRow(lines: CodeLine[], sp: ValueProtection, file: string) {
     // quoted: a bare negative (-1, the effect's own value) breaks the parse
     let value = `value="${sp.value ?? -1}"`;
     if (typeof sp.value === "string" && !/\d+/.test(sp.value) && file) {
@@ -112,14 +120,20 @@ class WeiduFunctionService extends AbstractWeiduService {
       `LAF ADD_SPLPROT_ENTRY INT_VAR ${stat} STR_VAR ${value} relation="${sp.relation}" RET index END`,
       1,
     );
-    // name is optional on BaseSpellProtection generally, but every SPELL_PROTECTIONS entry sets it
-    // (it's the whole point of the entry - the macro variable index gets assigned to).
-    if (!sp.name) logService.warn(`SPELL_PROTECTIONS entry has no name: ${JSON.stringify(sp)}`);
-    else {
-      this.add(lines, `ACTION_IF (index >= 0) BEGIN`, 1);
-      this.add(lines, `OUTER_SET ${sp.name}=index - 1`, 2);
-      this.add(lines, `END`, 1);
+  }
+
+  /**
+   * Names the row just added: the macro variable its number goes in, the whole point of a
+   * SPELL_PROTECTIONS entry (name is optional on BaseSpellProtection, for a union's rows).
+   */
+  private nameProtection(lines: CodeLine[], sp: SpellProtection) {
+    if (!sp.name) {
+      logService.warn(`SPELL_PROTECTIONS entry has no name: ${JSON.stringify(sp)}`);
+      return;
     }
+    this.add(lines, `ACTION_IF (index >= 0) BEGIN`, 1);
+    this.add(lines, `OUTER_SET ${sp.name}=index - 1`, 2);
+    this.add(lines, `END`, 1);
   }
 
   generateUnionProtectionSpells(
@@ -133,7 +147,7 @@ class WeiduFunctionService extends AbstractWeiduService {
       row1 = sp.row1;
     } else {
       const file1 = utils.getIdsFileFromSpellProtectionStat(sp.row1.stat as SpellProtectionStat);
-      this.generateValueProtectionSpells(lines, sp.row1, file1);
+      this.addProtectionRow(lines, sp.row1, file1);
       // the row itself: ADD_SPLPROT_ENTRY returns it + 1
       this.add(lines, `OUTER_SET row1=index - 1`, 1);
     }
@@ -141,7 +155,7 @@ class WeiduFunctionService extends AbstractWeiduService {
       row2 = sp.row2;
     } else {
       const file2 = utils.getIdsFileFromSpellProtectionStat(sp.row2.stat as SpellProtectionStat);
-      this.generateValueProtectionSpells(lines, sp.row2, file2);
+      this.addProtectionRow(lines, sp.row2, file2);
       // the row itself: ADD_SPLPROT_ENTRY returns it + 1
       this.add(lines, `OUTER_SET row2=index - 1`, 1);
     }
@@ -150,14 +164,7 @@ class WeiduFunctionService extends AbstractWeiduService {
       `LAF ADD_SPLPROT_ENTRY INT_VAR stat=${sp.stat} STR_VAR value=EVALUATE_BUFFER "%${row1}%" relation=EVALUATE_BUFFER "%${row2}%" RET index END`,
       1,
     );
-    // name is optional on BaseSpellProtection generally, but every SPELL_PROTECTIONS entry sets it
-    // (it's the whole point of the entry - the macro variable index gets assigned to).
-    if (!sp.name) logService.warn(`SPELL_PROTECTIONS entry has no name: ${JSON.stringify(sp)}`);
-    else {
-      this.add(lines, `ACTION_IF (index >= 0) BEGIN`, 1);
-      this.add(lines, `OUTER_SET ${sp.name}=index - 1`, 2);
-      this.add(lines, `END`, 1);
-    }
+    this.nameProtection(lines, sp);
   }
 
   private generateSpellFunction(lines: CodeLine[], spell: Spell, tab: number): void {

@@ -683,9 +683,12 @@ describe("pickCombos", () => {
 
     it("leaves out, for a specialist, a combo whose fallback is opposed under that mod", () => {
       vi.spyOn(logService, "warn").mockImplementation(() => undefined);
-      // Sound Burst falls back to Deafness, an illusion, without spell mods
-      const burst = { ...minorSequencer([w.SoundBurst, w.SoundBurst]), key: "TestBurst" };
-      addBook({ specialization: ItemAbilityPrimaryTypeEnum.Necromancer, minorSequencers: [burst] });
+      // Mordenkainen's Force Missiles falls back to Confusion, an enchantment, without spell mods
+      const burst = {
+        ...spellSequencer([w.MordenkainenForceMissiles, w.IceStorm, w.IceStorm]),
+        key: "TestForceMissiles",
+      };
+      addBook({ specialization: ItemAbilityPrimaryTypeEnum.Necromancer, spellSequencers: [burst] });
       const variants = spellService.createSpellbooks({
         name: "TestMage" as never,
         casterLevel: 16,

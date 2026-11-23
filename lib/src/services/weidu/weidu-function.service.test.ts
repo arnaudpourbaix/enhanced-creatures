@@ -6,6 +6,7 @@ import { PortraitIconEnum } from "../../model/spell-item/effect.enums";
 import { SpellGroup } from "../../model/spell-item/spell-group";
 import { SpellProtection, SpellProtectionRelation } from "../../model/spell-item/spell-protection";
 import { State } from "../../state";
+import logService from "../log.service";
 import utils from "../utils/utils.service";
 import weiduFunctionService from "./weidu-function.service";
 
@@ -96,6 +97,32 @@ describe("generateProtectionSpells", () => {
     } finally {
       SPELL_PROTECTIONS.pop();
     }
+  });
+
+  it("names a union's entry but not its rows, without warning", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    const lines: CodeLine[] = [];
+    weiduFunctionService.generateProtectionSpells(lines);
+    expect(warn).not.toHaveBeenCalled();
+    expect(lines.filter((l) => l.code.includes("OUTER_SET UNDEAD_OR_GOLEM="))).toHaveLength(1);
+    expect(
+      lines.filter((l) => l.code.startsWith("OUTER_SET row1=index - 1")).length,
+    ).toBeGreaterThan(0);
+  });
+
+  it("still warns about a top-level entry without a name", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    SPELL_PROTECTIONS.push({
+      stat: "0x0",
+      value: 1,
+      relation: SpellProtectionRelation.Equal,
+    } as unknown as SpellProtection);
+    try {
+      weiduFunctionService.generateProtectionSpells([]);
+    } finally {
+      SPELL_PROTECTIONS.pop();
+    }
+    expect(warn).toHaveBeenCalledOnce();
   });
 });
 

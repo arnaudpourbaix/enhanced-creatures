@@ -12,7 +12,7 @@ import { COMBOS, SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
 import { Spellbooks } from "../../config/spellbooks/spellbook";
 import { SpellBook, spellBookVariants } from "../model/spell-item/spellbook";
-import { minorSequencer } from "../model/spell-item/spell-combo";
+import { spellSequencer } from "../model/spell-item/spell-combo";
 import { Creature } from "../model/creature/creature";
 import { ItemAbilityPrimaryTypeEnum, SpellTypeEnum } from "../model/spell-item/effect.enums";
 import { SpellReference } from "../model/spell-item/spell-reference";
@@ -133,11 +133,11 @@ describe("checkSpellbooks", () => {
 
   it("leaves out a level spell whose fallback is opposed, with a warning", () => {
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
-    // Sound Burst falls back to Deafness (illusion) without spell mods
+    // Mordenkainen's Force Missiles falls back to Confusion (enchantment) without spell mods
     const book: SpellBook = {
       name: "TestBook" as never,
       specialization: ItemAbilityPrimaryTypeEnum.Necromancer,
-      values: [level(2, [w.SoundBurst, w.GhoulTouch])],
+      values: [level(4, [w.MordenkainenForceMissiles, w.IceStorm])],
     };
     onlyBook(book);
     expect(() => mainService.checkSpellbooks()).not.toThrow();
@@ -145,10 +145,10 @@ describe("checkSpellbooks", () => {
       spellBookVariants(book)
         .find((v) => v.mod === mod)
         ?.values[0].base.map((s) => s.file);
-    expect(files("AllSpellMods")).toEqual([w.SoundBurst.file, w.GhoulTouch.file]);
-    expect(files("Vanilla")).toEqual([w.GhoulTouch.file]);
+    expect(files("AllSpellMods")).toEqual([w.MordenkainenForceMissiles.file, w.IceStorm.file]);
+    expect(files("Vanilla")).toEqual([w.IceStorm.file]);
     expect(warn).toHaveBeenCalledWith(
-      `Spellbook "TestBook" (Necromancer): SoundBurst (${w.SoundBurst.file}) falls back to Deafness (${w.Deafness.file}) under Vanilla, of the opposed school Illusionist: left out of its spells.`,
+      `Spellbook "TestBook" (Necromancer): MordenkainenForceMissiles (${w.MordenkainenForceMissiles.file}) falls back to Confusion (${w.Confusion.file}) under Vanilla, of the opposed school Enchanter: left out of its spells.`,
     );
   });
 
@@ -156,11 +156,16 @@ describe("checkSpellbooks", () => {
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => {});
     onlyBook({
       specialization: ItemAbilityPrimaryTypeEnum.Necromancer,
-      minorSequencers: [{ ...minorSequencer([w.SoundBurst, w.SoundBurst]), key: "TestSoundBurst" }],
+      spellSequencers: [
+        {
+          ...spellSequencer([w.MordenkainenForceMissiles, w.IceStorm, w.IceStorm]),
+          key: "TestForceMissiles",
+        },
+      ],
     });
     expect(() => mainService.checkSpellbooks()).not.toThrow();
     expect(warn).toHaveBeenCalledWith(
-      `Spellbook "TestBook" (Necromancer): SoundBurst (${w.SoundBurst.file}) falls back to Deafness (${w.Deafness.file}) under Vanilla, of the opposed school Illusionist: its minorSequencer TestSoundBurst is left out.`,
+      `Spellbook "TestBook" (Necromancer): MordenkainenForceMissiles (${w.MordenkainenForceMissiles.file}) falls back to Confusion (${w.Confusion.file}) under Vanilla, of the opposed school Enchanter: its spellSequencer TestForceMissiles is left out.`,
     );
   });
 

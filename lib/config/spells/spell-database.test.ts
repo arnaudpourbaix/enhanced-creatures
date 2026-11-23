@@ -10,8 +10,10 @@ describe("spellsByKeyword", () => {
 });
 
 describe("resolveForMod (real data)", () => {
-  it("resolves the real SoundBurst/Deafness fallback pair end to end", () => {
+  it("resolves the real SoundBurst/AgannazarScorcher fallback pair end to end", () => {
     expect(resolveForMod(SPELLS.Wizard.SoundBurst, "AllSpellMods")).toBe(SPELLS.Wizard.SoundBurst);
-    expect(resolveForMod(SPELLS.Wizard.SoundBurst, "Vanilla")).toBe(SPELLS.Wizard.Deafness);
+    expect(resolveForMod(SPELLS.Wizard.SoundBurst, "Vanilla")).toBe(
+      SPELLS.Wizard.AgannazarScorcher,
+    );
   });
 });
