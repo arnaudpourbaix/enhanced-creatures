@@ -105,7 +105,7 @@ COPY_EXISTING ~jasm4003.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10500)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10499)
 	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=5 range=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasm4003~)) + 1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jasm4002" END
 	
@@ -194,7 +194,7 @@ COPY_EXISTING ~jasm4006.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter2=HELD duration=1 probability1=100 STR_VAR resource="jasm4006" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~state~ ~STATE_DEAD~) parameter2=138 duration=1 probability1=100 STR_VAR resource="jasm4006" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~JA_GRAPPLED~) parameter2=76 duration=1 probability1=100 STR_VAR resource="jasm4006" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10486) probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10485) probability1=100 END
 	
 // Claws
 CREATE ITM "jaim4000"

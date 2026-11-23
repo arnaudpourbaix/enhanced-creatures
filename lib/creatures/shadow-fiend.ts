@@ -9,6 +9,7 @@ import { ScriptTarget } from "../src/model/constants";
 import { Creature } from "../src/model/creature/creature";
 import type { CreatureEntry } from "../src/model/creature/entry";
 import { JEWEL_SLOTS } from "../src/model/creature/item";
+import { CreatureKin, kinOf } from "../src/model/creature/kin";
 import { SimpleEntry } from "../src/model/creature/simple-entry";
 import { Durations } from "../src/model/game-data/durations";
 import { PartialCustomCode } from "../src/model/script/script";
@@ -28,9 +29,11 @@ import {
 } from "../src/model/spell-item/effect.enums";
 import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
 import { EntryEnum } from "./entry";
+import { KinEnum } from "./kin";
 import { addLeap, leapAttackEffects } from "./leap";
 import { MonsterEnum } from "./monster";
 import { addQuasiRealDamage } from "./quasi-real";
+import { ShadeKin, shadePowers } from "./shade/kin";
 import { createClaws } from "./types/undead";
 
 enum Ids {
@@ -47,7 +50,7 @@ enum Ids {
  * cold and electricity whatever the light. Turned as "special" undead, though fiends of the Lower
  * Planes and not undead.
  */
-export function shadowFiend(entry: CreatureEntry<Creature>): Creature {
+export function shadowFiend(entry: CreatureEntry<Creature>, shadeKin: ShadeKin): Creature {
   const fiend = entry.create({
     monster: MonsterEnum.ShadowFiend,
     name: "monster.shadowFiend.name",
@@ -123,6 +126,7 @@ export function shadowFiend(entry: CreatureEntry<Creature>): Creature {
   fiend.turnAs = "special";
   fiend.setAdjustments([{ files: ["SDSHADFI"], data: { level1: 12 } }]);
   shadowCreatureVariant(fiend);
+  saarixalVariant(fiend, shadeKin);
   demishadowVariant(fiend, { magicJar: jar.file, leap: fiendLeap });
   return fiend;
 }
@@ -252,6 +256,53 @@ function shadowCreatureVariant(fiend: Creature) {
     },
     files: ["OHRSHAD1", "OHRSHAD2", "OHRSHAD3"],
     behavior: { customCodes: [APPEAR_FROM_SHADOWS] },
+  });
+}
+
+/**
+ * Godcall's Saarixal: a shadow fiend, half shade. Its file is a shade's spellbook
+ * on a fiend (the Chaos Shadow's, with five Mirror Images), so it wields the shade's shadow images
+ * and Shadow Door once a turn in place of its Mirror Image and Shadow Door, and keeps the rest of
+ * its book but Dimension Door (its leap does the job). As a boss, never below its file: 67 HP and immune to acid. AC#WSHAF is the neutral one
+ * met in dialog; the Night Hag's script creates the hostile AC#WSHA2.
+ */
+function saarixalVariant(fiend: Creature, shadeKin: ShadeKin) {
+  const book: [string, number][] = [
+    [SPELLS.Wizard.MagicMissiles.file, 5],
+    [SPELLS.Wizard.Fireball.file, 2],
+    [SPELLS.Wizard.HoldPerson.file, 1],
+    [SPELLS.Wizard.LightningBolt.file, 2],
+    [SPELLS.Wizard.PolymorphOther.file, 2],
+    [SPELLS.Wizard.SummonShadow.file, 1],
+    [SPELLS.Wizard.Cloudkill.file, 1],
+    [SPELLS.Wizard.MonsterSummoning5.file, 1],
+    [SPELLS.Wizard.WavesOfFatigue.file, 1],
+    [SPELLS.Wizard.InvisibleStalker.file, 1],
+    [SPELLS.Wizard.GlobeOfInvulnerability.file, 1],
+    [SPELLS.Wizard.FleshToStone.file, 1],
+  ];
+  const powers = shadePowers(shadeKin);
+  return fiend.variant("Saarixal", {
+    data: {
+      level1: 8, // 67 HP: its file's
+      resistAcid: 100,
+      spells: {
+        memorized: [
+          ...(powers.spells?.memorized ?? []),
+          ...book.map(([file, memorizedCount]) => ({ file, memorizedCount })),
+        ],
+      },
+    },
+    files: ["AC#WSHA2", "AC#WSHAF"],
+    behavior: {
+      abilities: {
+        // its openers, as the shade's, before its book: the spell scores would put them late
+        entries: [
+          { power: shadeKin.shadowImages, insertAfter: Ids.Leap },
+          { power: shadeKin.shadowDoor, insertAfter: shadeKin.shadowImages.file },
+        ],
+      },
+    },
   });
 }
 
@@ -395,4 +446,7 @@ function magicJar(fiend: Creature) {
   });
 }
 
-export const createShadowFiendEntry = () => new SimpleEntry(EntryEnum.ShadowFiend, [shadowFiend]);
+export const createShadowFiendEntry = (kins: Map<KinEnum, CreatureKin>) => {
+  const kin = kinOf(kins, KinEnum.Shade, ShadeKin);
+  return new SimpleEntry(EntryEnum.ShadowFiend, [(entry) => shadowFiend(entry, kin)], kin);
+};

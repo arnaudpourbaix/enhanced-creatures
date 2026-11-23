@@ -8,6 +8,7 @@ import { createGolemKin } from "./golem/kin";
 import { createOgreKin } from "./ogre/kin";
 import { createOozeKin } from "./ooze/kin";
 import { createRevenantKin } from "./revenant/kin";
+import { createShadeKin } from "./shade/kin";
 import { createSkeletonKin } from "./skeleton/kin";
 import { createSpiderKin } from "./spider/kin";
 import { createWolfKin } from "./wolf/kin";
@@ -23,6 +24,7 @@ export const kinFactories: (() => CreatureKin)[] = [
   createOgreKin,
   createOozeKin,
   createRevenantKin,
+  createShadeKin,
   createSkeletonKin,
   createSpiderKin,
   createWolfKin,

@@ -1,3 +1,5 @@
+// Shadow Fiend (Demishadow)
+
 // Rise from the shadows
 IF
 	OnCreation()
@@ -7,12 +9,16 @@ THEN
 		CreateVisualEffectObject("OHRSHFIE",Myself)
 END
 
-// Summons are destroyed on death
+// Init
 IF
-	Die()
+	Global("JA_INIT","LOCALS",0)
 THEN
 	RESPONSE #100
-		DestroySelf()
+		SetGlobal("JA_COMBAT","LOCALS",0)
+		SetGlobal("JA_PRECAST_LONG","LOCALS",0)
+		SetGlobal("JA_PRECAST_MID","LOCALS",0)
+		SetGlobalTimer("JA_REST","LOCALS",2400)
+		SetGlobal("JA_INIT","LOCALS",1)
 END
 
 // Disable spellcasting in some areas
@@ -24,6 +30,31 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobal("JA_DISABLE_SPELLCASTING","LOCALS",1)
+END
+
+// Rest (reset everything and heal if applicable)
+IF
+	Global("JA_INIT","LOCALS",1)
+	GlobalTimerExpired("JA_REST","LOCALS")
+	!See([GOODCUTOFF])
+THEN
+	RESPONSE #100
+		SetGlobal("JA_INIT","LOCALS",0)
+		Rest()
+		ApplySpell(Myself,RESTORE_FULL_HEALTH)
+END
+
+// Turn hostile if attacked
+IF
+	Allegiance(Myself,NEUTRAL)
+	OR(4)
+		AttackedBy([GOODCUTOFF],DEFAULT)
+		SpellCastOnMe([GOODCUTOFF],0)
+		TookDamage()
+		Heard([EVILCUTOFF.0.SHADOW],99)
+THEN
+	RESPONSE #100
+		Enemy()
 END
 
 // Detect combat
@@ -65,7 +96,7 @@ IF
 	!GlobalTimerNotExpired("JA_SHOUT","LOCALS")
 THEN
 	RESPONSE #100
-		Shout(98)
+		Shout(99)
 		SetGlobalTimer("JA_SHOUT","LOCALS",18)
 END
 
@@ -73,8 +104,8 @@ END
 IF
 	Global("JA_COMBAT","LOCALS",0)
 	Allegiance(Myself,ENEMY)
-	Heard(LastSummonerOf(Myself),98)
-	InMyArea(LastSummonerOf(Myself))
+	Heard([EVILCUTOFF.0.SHADOW],99)
+	InMyArea([EVILCUTOFF.0.SHADOW])
 THEN
 	RESPONSE #100
 		SetGlobal("JA_COMBAT","LOCALS",1)
@@ -84,8 +115,8 @@ END
 IF
 	Global("JA_COMBAT","LOCALS",1)
 	Allegiance(Myself,ENEMY)
-	Heard(LastSummonerOf(Myself),98)
-	InMyArea(LastSummonerOf(Myself))
+	Heard([EVILCUTOFF.0.SHADOW],99)
+	InMyArea([EVILCUTOFF.0.SHADOW])
 	!See(NearestEnemyOf(Myself))
 THEN
 	RESPONSE #100
@@ -127,25 +158,11 @@ THEN
 		MoveToObject(LastHelp(Myself))
 END
 
-// Summon follow summoner
-IF
-	Global("JA_COMBAT","LOCALS",0)
-	!StateCheck(Myself,STATE_BLIND)
-	ActionListEmpty()
-	!See(NearestEnemyOf(Myself))
-	!See(LastSummonerOf(Myself))
-	HPGT(LastSummonerOf(Myself),0)
-	Range(LastSummonerOf(Myself),150)
-THEN
-	RESPONSE #100
-		MoveToObject(LastSummonerOf(Myself))
-END
-
 // Do nothing if...
 IF
-	ActionListEmpty()
-	OR(3)
+	OR(4)
 		Global("JA_COMBAT","LOCALS",0)
+		!Allegiance(Myself,EVILCUTOFF)
 		StateCheck(Myself,STATE_IMMOBILE)
 		StateCheck(Myself,STATE_REALLY_DEAD)
 THEN
@@ -154,7 +171,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	!InActiveArea(Myself)
 	!Range(NearestEnemyOf(Myself),30)
 THEN
@@ -395,7 +411,6 @@ END
 
 // Leap
 IF
-	ActionListEmpty()
 	HaveSpellRES("jasm4204")
 	StateCheck(Myself,STATE_INVISIBLE)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -417,7 +432,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	HaveSpellRES("jasm4204")
 	StateCheck(Myself,STATE_INVISIBLE)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -439,7 +453,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	HaveSpellRES("jasm4204")
 	StateCheck(Myself,STATE_INVISIBLE)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -461,7 +474,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	HaveSpellRES("jasm4204")
 	StateCheck(Myself,STATE_INVISIBLE)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -484,7 +496,6 @@ END
 
 // Leap
 IF
-	ActionListEmpty()
 	HaveSpellRES("jasm4200")
 	StateCheck(Myself,STATE_INVISIBLE)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -506,7 +517,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	HaveSpellRES("jasm4200")
 	StateCheck(Myself,STATE_INVISIBLE)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -528,7 +538,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	HaveSpellRES("jasm4200")
 	StateCheck(Myself,STATE_INVISIBLE)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -550,7 +559,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	HaveSpellRES("jasm4200")
 	StateCheck(Myself,STATE_INVISIBLE)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -574,7 +582,6 @@ END
 // Magic Jar
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -615,7 +622,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -656,7 +662,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -697,7 +702,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -738,7 +742,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -779,7 +782,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -820,7 +822,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -861,7 +862,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -902,7 +902,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -944,7 +943,6 @@ END
 // Magic Jar
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -984,7 +982,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1024,7 +1021,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1064,7 +1060,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1104,7 +1099,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1144,7 +1138,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1184,7 +1177,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1224,7 +1216,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1264,7 +1255,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1305,7 +1295,6 @@ END
 // Magic Jar
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1346,7 +1335,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1387,7 +1375,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1428,7 +1415,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1469,7 +1455,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1510,7 +1495,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1551,7 +1535,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1592,7 +1575,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1633,7 +1615,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1674,7 +1655,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1716,7 +1696,6 @@ END
 // Magic Jar
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1756,7 +1735,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1796,7 +1774,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1836,7 +1813,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1876,7 +1852,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1916,7 +1891,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1956,7 +1930,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -1996,7 +1969,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2036,7 +2008,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2076,7 +2047,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2119,7 +2089,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2153,7 +2122,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2187,7 +2155,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2221,7 +2188,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2255,7 +2221,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2289,7 +2254,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2323,7 +2287,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2357,7 +2320,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2391,7 +2353,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2425,7 +2386,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2460,7 +2420,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2490,7 +2449,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2520,7 +2478,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2550,7 +2507,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2580,7 +2536,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2610,7 +2565,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2640,7 +2594,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2670,7 +2623,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2700,7 +2652,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2730,7 +2681,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2761,7 +2711,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2794,7 +2743,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2827,7 +2775,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2860,7 +2807,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2893,7 +2839,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2926,7 +2871,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2959,7 +2903,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -2992,7 +2935,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3025,7 +2967,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3058,7 +2999,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3092,7 +3032,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3121,7 +3060,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3150,7 +3088,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3179,7 +3116,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3208,7 +3144,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3237,7 +3172,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3266,7 +3200,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3295,7 +3228,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3324,7 +3256,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3353,7 +3284,6 @@ IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
 	!StateCheck(Myself,STATE_SILENCED)
 	!GlobalTimerNotExpired("RECAST_Darkness15Radius","LOCALS")
-	ActionListEmpty()
 	HaveSpell(WIZARD_DARKNESS_15_FOOT)
 	RandomNumGT(709,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3381,7 +3311,6 @@ END
 // Magic Jar
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3422,7 +3351,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3463,7 +3391,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3504,7 +3431,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3545,7 +3471,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3586,7 +3511,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3627,7 +3551,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3668,7 +3591,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3709,7 +3631,6 @@ END
 
 IF
 	Global("JA_DISABLE_SPELLCASTING","LOCALS",0)
-	ActionListEmpty()
 	HaveSpellRES("jasm4202")
 	RandomNumGT(708,71)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
@@ -3750,7 +3671,6 @@ END
 
 // Attack HeldNearby enemy
 IF
-	ActionListEmpty()
 	OR(8)
 		!Range(NearestEnemyOf(Myself),4)
 		CheckStatGT(NearestEnemyOf(Myself),0,HELD)
@@ -3874,7 +3794,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	OR(8)
 		!Range(NearestEnemyOf(Myself),4)
 		CheckStatGT(NearestEnemyOf(Myself),0,HELD)
@@ -3933,7 +3852,6 @@ END
 
 // Attack StunnedNearby enemy
 IF
-	ActionListEmpty()
 	OR(8)
 		!Range(NearestEnemyOf(Myself),4)
 		CheckStatGT(NearestEnemyOf(Myself),0,HELD)
@@ -4057,7 +3975,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	OR(8)
 		!Range(NearestEnemyOf(Myself),4)
 		CheckStatGT(NearestEnemyOf(Myself),0,HELD)
@@ -4116,7 +4033,6 @@ END
 
 // Attack Wounded enemy
 IF
-	ActionListEmpty()
 	OR(15)
 		CheckStatGT(NearestEnemyOf(Myself),0,HELD)
 		StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
@@ -4283,7 +4199,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -4322,7 +4237,6 @@ END
 
 // Attack Slowed enemy
 IF
-	ActionListEmpty()
 	OR(8)
 		!StateCheck(NearestEnemyOf(Myself),STATE_SLOWED)
 		General(NearestEnemyOf(Myself),WEAPON)
@@ -4419,7 +4333,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	StateCheck(LastSeenBy(Myself),STATE_SLOWED)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -4451,7 +4364,6 @@ END
 
 // Attack Unprotected enemy
 IF
-	ActionListEmpty()
 	OR(16)
 		CheckStatGT(NearestEnemyOf(Myself),0,HELD)
 		StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
@@ -4628,7 +4540,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -4668,7 +4579,6 @@ END
 
 // Attack Able enemy
 IF
-	ActionListEmpty()
 	OR(13)
 		CheckStatGT(NearestEnemyOf(Myself),0,HELD)
 		StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
@@ -4815,7 +4725,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	!CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!StateCheck(LastSeenBy(Myself),STATE_PANIC)
@@ -4852,7 +4761,6 @@ END
 
 // Attack Held enemy
 IF
-	ActionListEmpty()
 	OR(7)
 		!CheckStatGT(NearestEnemyOf(Myself),0,HELD)
 		General(NearestEnemyOf(Myself),WEAPON)
@@ -4939,7 +4847,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	CheckStatGT(LastSeenBy(Myself),0,HELD)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -4970,7 +4877,6 @@ END
 
 // Attack Stunned enemy
 IF
-	ActionListEmpty()
 	OR(7)
 		!StateCheck(NearestEnemyOf(Myself),STATE_STUNNED)
 		General(NearestEnemyOf(Myself),WEAPON)
@@ -5057,7 +4963,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	StateCheck(LastSeenBy(Myself),STATE_STUNNED)
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -5088,7 +4993,6 @@ END
 
 // Attack NoCheck enemy
 IF
-	ActionListEmpty()
 	OR(6)
 		General(NearestEnemyOf(Myself),WEAPON)
 		CheckStatGT(NearestEnemyOf(Myself),0,SANCTUARY)
@@ -5165,7 +5069,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	!General(LastSeenBy(Myself),WEAPON)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
 	!StateCheck(LastSeenBy(Myself),STATE_REALLY_DEAD)
@@ -5195,7 +5098,6 @@ END
 
 // Attack Sleep enemy
 IF
-	ActionListEmpty()
 	Allegiance(Myself,ENEMY)
 	OR(6)
 		!StateCheck(Player1,STATE_SLEEPING)
@@ -5245,7 +5147,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	Allegiance(Myself,ENEMY)
 	StateCheck(LastSeenBy(Myself),STATE_SLEEPING)
 	!CheckStatGT(LastSeenBy(Myself),0,SANCTUARY)
@@ -5276,7 +5177,6 @@ END
 
 // Attack CharmedAlly ally
 IF
-	ActionListEmpty()
 	Allegiance(Myself,ENEMY)
 	OR(8)
 		!StateCheck(NearestAllyOf(Myself),STATE_CHARMED)
@@ -5338,7 +5238,6 @@ THEN
 END
 
 IF
-	ActionListEmpty()
 	Allegiance(Myself,ENEMY)
 	StateCheck(LastSeenBy(Myself),STATE_CHARMED)
 	Allegiance(LastSeenBy(Myself),GOODCUTOFF)
@@ -5356,7 +5255,6 @@ END
 // Track players if allegiance is not GOODCUTOFF
 IF
 	!Allegiance(Myself,GOODCUTOFF)
-	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player1)
 	Range(Player1,150)
@@ -5372,7 +5270,6 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
-	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player2)
 	Range(Player2,150)
@@ -5388,7 +5285,6 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
-	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player3)
 	Range(Player3,150)
@@ -5404,7 +5300,6 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
-	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player4)
 	Range(Player4,150)
@@ -5420,7 +5315,6 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
-	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player5)
 	Range(Player5,150)
@@ -5436,7 +5330,6 @@ END
 
 IF
 	!Allegiance(Myself,GOODCUTOFF)
-	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(Player6)
 	Range(Player6,150)
@@ -5453,7 +5346,6 @@ END
 // Track last seen enemy if allegiance is GOODCUTOFF
 IF
 	Allegiance(Myself,GOODCUTOFF)
-	ActionListEmpty()
 	!StateCheck(Myself,STATE_BLIND)
 	InMyArea(LastSeenBy(Myself))
 	Range(LastSeenBy(Myself),150)
@@ -5480,5 +5372,16 @@ THEN
 	RESPONSE #100
 		MoveToObject(NearestDoor)
 		OpenDoor(NearestDoor)
+END
+
+// Random walking (in combat) 
+IF
+	Global("JA_COMBAT","LOCALS",1)
+	ActionListEmpty()
+	!See([GOODCUTOFF])
+THEN
+	RESPONSE #100
+		RandomWalk()
+		Wait(2)
 END
 

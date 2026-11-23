@@ -1,0 +1,30 @@
+LAM load_secondary_types
+// Shadow Images
+CREATE SPL "jask0d00"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask0d00.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10468)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI212C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10469)
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 speed=1 STR_VAR icon="SPWI212B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=159 target=1 power=1 parameter1=4 duration=180 probability1=24 probability2=0 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=159 target=1 power=1 parameter1=5 duration=180 probability1=49 probability2=25 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=159 target=1 power=1 parameter1=6 duration=180 probability1=74 probability2=50 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=159 target=1 power=1 parameter1=7 duration=180 probability1=99 probability2=75 END
+	LPF CHANGE_SPELL INT_VAR    renew=10 END
+	
+// Shadow Door
+CREATE SPL "jask0d01"
+	WRITE_LONG 0x64 0x72
+COPY_EXISTING ~jask0d01.SPL~  ~override~
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10584)
+	WRITE_SHORT 0x1c 4
+	WRITE_LONG 0x34 1
+	WRITE_ASCII 0x3a ~SPWI505C~ #8
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11071)
+	LPF ADD_SPELL_HEADER INT_VAR type=3 location=4 target=5 speed=1 STR_VAR icon="SPWI505B" END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=1 power=1 parameter2=1 timing=1 probability1=100 STR_VAR resource="SPWI505" END
+	LPF CHANGE_SPELL INT_VAR    renew=10 END
+	

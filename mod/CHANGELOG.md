@@ -63,6 +63,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Copy: uninstall command for component 999
 - Shade: quasi-real damage by belief; shadow images open the fight
 - Map more undead to their PnP templates
+- Shade kin, Saarixal variant, more undead mappings, ISNF spectre
 
 ### Changed
 

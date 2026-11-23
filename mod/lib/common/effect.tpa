@@ -265,11 +265,35 @@ DEFINE_PATCH_FUNCTION REMOVE_MOST_CRE_EFFECTS BEGIN
         296  // Immunity to Specific Animation
         297  // Spell Effect: Immunity to Turn Undead
         317  // State: Haste 2
-        326  // Apply Effects List
     BEGIN
         LPF DELETE_EFFECT
             INT_VAR
                 match_opcode = opcode
+        END
+    END
+    // 326 Apply Effects List, except Artisan's Kitpack class/proficiency flags (C0PR#CL, EEex stats only)
+    CLEAR_ARRAY ja_apply_effects_list
+    READ_LONG 0x2c4 fx_off
+    READ_LONG 0x2c8 fx_num
+    READ_BYTE 0x33 fx_v2
+    fx_size = fx_v2 ? 0x108 : 0x30
+    res_off = fx_v2 ? 0x28 : 0x14
+    op_off = fx_v2 ? 0x8 : 0x0
+    FOR (i = 0; i < fx_num; ++i) BEGIN
+        READ_SHORT (fx_off + i * fx_size + op_off) fx_opcode
+        PATCH_IF fx_opcode = 326 BEGIN
+            READ_ASCII (fx_off + i * fx_size + res_off) fx_res (8) NULL
+            PATCH_IF "%fx_res%" STRING_COMPARE_CASE "C0PR#CL" BEGIN
+                SET $ja_apply_effects_list("%fx_res%") = 1
+            END
+        END
+    END
+    PHP_EACH ja_apply_effects_list AS fx_res => keep BEGIN
+        LPF DELETE_EFFECT
+            INT_VAR
+                match_opcode = 326
+            STR_VAR
+                match_resource = EVAL "%fx_res%"
         END
     END
 END

@@ -815,7 +815,6 @@ Those bitten must save vs. poison or be charmed for 1 turn, at a -1 penalty for 
         name: "Shadow Images",
         description: `Once a turn, the shade creates shadow images of itself, as a mirror image spell cast at its level, except that 1d4+3 images appear.`,
       },
-      invisibility: "Invisibility",
       blink: "Shadow Blink",
       quasiRealImages: {
         name: "Quasi-Real Images",

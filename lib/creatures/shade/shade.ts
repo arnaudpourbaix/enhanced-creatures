@@ -1,45 +1,44 @@
-import { NEW_CREATURES } from "../config/creatures";
-import { SPELLS } from "../config/spells/spell-database";
-import effectFactory from "../src/factories/effect.factory";
-import { ScriptTarget } from "../src/model/constants";
-import { Creature } from "../src/model/creature/creature";
-import type { CreatureEntry } from "../src/model/creature/entry";
-import { SimpleEntry } from "../src/model/creature/simple-entry";
-import { Durations } from "../src/model/game-data/durations";
-import type { Effect } from "../src/model/spell-item/effect";
+import { NEW_CREATURES } from "../../config/creatures";
+import { SPELLS } from "../../config/spells/spell-database";
+import effectFactory from "../../src/factories/effect.factory";
+import { ScriptTarget } from "../../src/model/constants";
+import { Creature } from "../../src/model/creature/creature";
+import type { CreatureEntry } from "../../src/model/creature/entry";
+import { CreatureKin, kinOf } from "../../src/model/creature/kin";
+import { SimpleEntry } from "../../src/model/creature/simple-entry";
+import { Durations } from "../../src/model/game-data/durations";
+import type { Effect } from "../../src/model/spell-item/effect";
 import {
   EffectBonusToEnum,
   EffectStatisticModifierEnum,
   EffectTargetEnum,
   EffectTeleportTypeEnum,
   EffectTimingEnum,
-  InvisibilityTypeEnum,
   ItemAbilityTargetEnum,
   ItemAbilityTypeEnum,
   SummonCreatureModeEnum,
-} from "../src/model/spell-item/effect.enums";
-import { EffectTypeEnum } from "../src/model/spell-item/effect.type";
-import type { Spell } from "../src/model/spell-item/spell-item";
-import { EntryEnum } from "./entry";
-import { MonsterEnum } from "./monster";
-import { addQuasiRealDamage } from "./quasi-real";
+} from "../../src/model/spell-item/effect.enums";
+import { EffectTypeEnum } from "../../src/model/spell-item/effect.type";
+import type { Spell } from "../../src/model/spell-item/spell-item";
+import { EntryEnum } from "../entry";
+import { KinEnum } from "../kin";
+import { MonsterEnum } from "../monster";
+import { addQuasiRealDamage } from "../quasi-real";
+import { SHADE_LEVEL, ShadeKin, shadePowers } from "./kin";
 
 enum Ids {
-  ShadowImages,
-  Invisibility,
   Blink,
   QuasiRealImages,
   SlaughterQuasiRealImages,
 }
 
-/** Shade level: magic resistance 3% per level, its mirror image lasts 3 rounds per level */
-const SHADE_LEVEL = 10;
-
 /**
  * Shades: humans or demihumans who traded their life force to the Plane of Shadow. Undead, as in
- * 5e (2e sources disagree): General UNDEAD, race/class SHADOW.
+ * 5e (2e sources disagree): General UNDEAD, race/class SHADOW. Its shadow images and Shadow Door
+ * are its kin's, shared with other shadow creatures.
  */
-export function shade(entry: CreatureEntry<Creature>): Creature {
+export function shade(entry: CreatureEntry<Creature>, kin: ShadeKin): Creature {
+  const powers = shadePowers(kin);
   const shade = entry.create({
     monster: MonsterEnum.Shade,
     name: "monster.shade.name",
@@ -68,6 +67,7 @@ export function shade(entry: CreatureEntry<Creature>): Creature {
       items: {
         remove: ["immune1", "ring95", "s1-8"],
       },
+      ...powers,
     },
   });
   shade.addTrait({
@@ -82,8 +82,6 @@ export function shade(entry: CreatureEntry<Creature>): Creature {
       ...effectFactory.physicalResistance(30),
     ],
   });
-  shadowImages(shade);
-  invisibility(shade);
   blink(shade);
   // summoning copies of itself: the base power makes the Chaos Shadow's, the Slaughter Shade
   // specializes it to make its own
@@ -91,8 +89,8 @@ export function shade(entry: CreatureEntry<Creature>): Creature {
   shade.setBehavior({
     abilities: {
       entries: [
-        { power: entry.spell(Ids.ShadowImages) },
-        { power: entry.spell(Ids.Invisibility) },
+        { power: kin.shadowImages },
+        { power: kin.shadowDoor },
         { power: entry.spell(Ids.Blink) },
         { power: images },
       ],
@@ -258,75 +256,6 @@ function darknessBonuses(value: number): Effect[] {
   ];
 }
 
-/** Shadow images, once a turn: mirror image at the shade's level, 1d4+3 images. */
-function shadowImages(shade: Creature) {
-  return shade.addSpell({
-    id: Ids.ShadowImages,
-    name: "monster.shade.ability.shadowImages.name",
-    description: "monster.shade.ability.shadowImages.description",
-    icon: SPELLS.Wizard.MirrorImages.file,
-    worthLevel: 2,
-    role: "protection",
-    // as Mirror Image, with more images: an opener
-    tier: "great",
-    memorizedCount: 1,
-    options: { renew: Durations.turn / Durations.round },
-    headers: [
-      {
-        type: ItemAbilityTypeEnum.Magical,
-        target: ItemAbilityTargetEnum.Caster,
-        speed: 1,
-        effects: effectFactory.diceOutcomes(1, 4, (total) => [
-          {
-            opcode: EffectTypeEnum.MirrorImageEffect,
-            amount: total + 3,
-            target: EffectTargetEnum.Self,
-            timing: EffectTimingEnum.InstantLimited,
-            duration: 3 * SHADE_LEVEL * Durations.round,
-          },
-        ]),
-      },
-    ],
-    ability: {
-      spell: { type: "force", castOnSelf: true, excludeStateChecks: ["STATE_MIRRORIMAGE"] },
-      requireVocal: false,
-    },
-  });
-}
-
-/** Invisibility once a turn, up to an hour per use. */
-function invisibility(shade: Creature) {
-  return shade.addSpell({
-    id: Ids.Invisibility,
-    name: "monster.shade.ability.invisibility",
-    icon: SPELLS.Wizard.Invisibility.file,
-    role: "protection",
-    tier: "great",
-    memorizedCount: 1,
-    options: { renew: Durations.turn / Durations.round },
-    headers: [
-      {
-        type: ItemAbilityTypeEnum.Magical,
-        target: ItemAbilityTargetEnum.Caster,
-        speed: 1,
-        effects: [
-          {
-            opcode: EffectTypeEnum.Invisibility,
-            type: InvisibilityTypeEnum.Normal,
-            target: EffectTargetEnum.Self,
-            timing: EffectTimingEnum.InstantLimited,
-            duration: Durations.hour,
-          },
-        ],
-      },
-    ],
-    ability: {
-      spell: { type: "force", castOnSelf: true, excludeStateChecks: ["STATE_INVISIBLE"] },
-      requireVocal: false,
-    },
-  });
-}
-
 /**
  * Controlled blink once every two rounds: it appears by an enemy (any very shadowy spot within
  * 100 yards, and it's always dark) and attacks.
@@ -362,4 +291,7 @@ function blink(shade: Creature) {
   });
 }
 
-export const createShadeEntry = () => new SimpleEntry(EntryEnum.Shade, [shade]);
+export const createShadeEntry = (kins: Map<KinEnum, CreatureKin>) => {
+  const kin = kinOf(kins, KinEnum.Shade, ShadeKin);
+  return new SimpleEntry(EntryEnum.Shade, [(entry) => shade(entry, kin)], kin);
+};

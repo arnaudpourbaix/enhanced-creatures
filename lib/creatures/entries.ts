@@ -109,7 +109,7 @@ import { createVampireEntry } from "./vampire";
 import { createVampyreEntry } from "./vampyre";
 import { createRevenantEntry } from "./revenant/revenant";
 import { createShadowFiendEntry } from "./shadow-fiend";
-import { createShadeEntry } from "./shade";
+import { createShadeEntry } from "./shade/shade";
 
 /**
  * Entry factories, in install order. Each receives the built kins, to hand its own kin to the

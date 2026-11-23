@@ -66,7 +66,7 @@ COPY_EXISTING ~jasm0l01.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=0 target=2 power=1 parameter1="-4" duration=6 probability1=100 savingthrow=4 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=39 target=2 power=1 duration=6 probability1=100 savingthrow=4 special=14 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=142 target=2 power=1 parameter2=14 duration=6 probability1=100 savingthrow=4 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10502) probability1=100 savingthrow=4 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10501) probability1=100 savingthrow=4 END
 	LPF CHANGE_SPELL INT_VAR     END
 	
 // Grab
@@ -208,7 +208,7 @@ COPY_EXISTING ~jasm0l04.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10500)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10499)
 	LPF ADD_SPELL_HEADER INT_VAR type=2 location=4 target=5 range=1 projectile=(IDS_OF_SYMBOL (~projectl~ ~jasm0l04~)) + 1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jasm0l03" END
 	
@@ -297,7 +297,7 @@ COPY_EXISTING ~jasm0l07.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter2=HELD duration=1 probability1=100 STR_VAR resource="jasm0l07" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~state~ ~STATE_DEAD~) parameter2=138 duration=1 probability1=100 STR_VAR resource="jasm0l07" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~JA_GRAPPLED~) parameter2=76 duration=1 probability1=100 STR_VAR resource="jasm0l07" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10486) probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10485) probability1=100 END
 	
 // Grab
 CREATE SPL "jasm0l08"
@@ -311,7 +311,7 @@ COPY_EXISTING ~jasm0l08.SPL~  ~override~
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 probability1=100 STR_VAR resource="jasm0l03" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=10 parameter2=1048576 timing=9 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=17 target=9 power=1 parameter1=10 timing=1 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10493) probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10492) probability1=100 END
 	
 // Grab
 CREATE SPL "jasm0l09"
@@ -322,7 +322,7 @@ COPY_EXISTING ~jasm0l09.SPL~  ~override~
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@11200)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10492) probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10491) probability1=100 END
 	
 // Jaws
 CREATE ITM "jaim0l00"

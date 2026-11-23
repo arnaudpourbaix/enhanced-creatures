@@ -185,4 +185,5 @@ export enum MonsterEnum {
   GiantTroll = 183,
   IceTroll = 184,
   SpectralHarpist = 185,
+  ShadowMastiff = 186,
 }

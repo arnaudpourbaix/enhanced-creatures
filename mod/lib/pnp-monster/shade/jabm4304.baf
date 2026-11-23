@@ -334,41 +334,42 @@ THEN
 		NoAction()
 END
 
-// Shadow Images
+// Shadow Door
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	HaveSpellRES("jasm4300")
-	!StateCheck(Myself,STATE_MIRRORIMAGE)
+	HaveSpellRES("jask0d01")
+	!StateCheck(Myself,STATE_INVISIBLE)
+	!StateCheck(Myself,STATE_IMPROVEDINVISIBILITY)
 	RandomNumGT(800,320)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4300",Myself)
+		ForceSpellRES("jask0d01",Myself)
 END
 
-// Invisibility
+// Shadow Images
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
-	HaveSpellRES("jasm4301")
-	!StateCheck(Myself,STATE_INVISIBLE)
+	HaveSpellRES("jask0d00")
+	!StateCheck(Myself,STATE_MIRRORIMAGE)
 	RandomNumGT(801,320)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4301",Myself)
+		ForceSpellRES("jask0d00",Myself)
 END
 
 // Quasi-Real Images
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("SUMMON_WAIT","LOCALS")
-	HaveSpellRES("jasm4303")
+	HaveSpellRES("jasm4301")
 	RandomNumGT(802,201)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4303",Myself)
-		RemoveSpellRES("jasm4303")
+		ForceSpellRES("jasm4301",Myself)
+		RemoveSpellRES("jasm4301")
 		SetGlobalTimer("SUMMON_WAIT","LOCALS",12)
 END
 
@@ -376,19 +377,19 @@ END
 IF
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	!GlobalTimerNotExpired("SUMMON_WAIT","LOCALS")
-	HaveSpellRES("jasm4304")
+	HaveSpellRES("jasm4302")
 	RandomNumGT(803,201)
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4304",Myself)
-		RemoveSpellRES("jasm4304")
+		ForceSpellRES("jasm4302",Myself)
+		RemoveSpellRES("jasm4302")
 		SetGlobalTimer("SUMMON_WAIT","LOCALS",12)
 END
 
 // Shadow Blink
 IF
-	HaveSpellRES("jasm4302")
+	HaveSpellRES("jasm4300")
 	RandomNumGT(702,70)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FarthestEnemyOf(Myself))
@@ -399,12 +400,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4302",LastSeenBy(Myself))
+		ForceSpellRES("jasm4300",LastSeenBy(Myself))
 		AttackOneRound(LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasm4302")
+	HaveSpellRES("jasm4300")
 	RandomNumGT(702,70)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(SecondFarthestEnemyOf(Myself))
@@ -415,12 +416,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4302",LastSeenBy(Myself))
+		ForceSpellRES("jasm4300",LastSeenBy(Myself))
 		AttackOneRound(LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasm4302")
+	HaveSpellRES("jasm4300")
 	RandomNumGT(702,70)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(ThirdFarthestEnemyOf(Myself))
@@ -431,12 +432,12 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4302",LastSeenBy(Myself))
+		ForceSpellRES("jasm4300",LastSeenBy(Myself))
 		AttackOneRound(LastSeenBy(Myself))
 END
 
 IF
-	HaveSpellRES("jasm4302")
+	HaveSpellRES("jasm4300")
 	RandomNumGT(702,70)
 	!GlobalTimerNotExpired("JA_ROUND","LOCALS")
 	See(FourthFarthestEnemyOf(Myself))
@@ -447,7 +448,7 @@ IF
 THEN
 	RESPONSE #100
 		SetGlobalTimer("JA_ROUND","LOCALS",6)
-		ForceSpellRES("jasm4302",LastSeenBy(Myself))
+		ForceSpellRES("jasm4300",LastSeenBy(Myself))
 		AttackOneRound(LastSeenBy(Myself))
 END
 

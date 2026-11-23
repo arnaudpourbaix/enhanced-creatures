@@ -15,6 +15,7 @@ export enum KinEnum {
   Wolf,
   Skeleton,
   Revenant,
+  Shade,
 }
 
 const kinIds = Object.values(KinEnum).filter((v): v is KinEnum => typeof v === "number");

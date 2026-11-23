@@ -5,34 +5,35 @@ COMPILE ~%MOD_FOLDER%/lib/pnp-monster/shadow-fiend/jabm4200.baf~
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/shadow-fiend/jabm4202.baf~
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/shadow-fiend/jabm4203.baf~
 COMPILE ~%MOD_FOLDER%/lib/pnp-monster/shadow-fiend/jabm4204.baf~
+COMPILE ~%MOD_FOLDER%/lib/pnp-monster/shadow-fiend/jabm4205.baf~
 
 // Leap
 CREATE SPL "jasm4200"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasm4200.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10475)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10474)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI402C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10476)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10475)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 STR_VAR icon="SPWI402B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=235 target=1 power=1 parameter1=150 parameter2=3 duration=2 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=1 target=1 power=1 parameter1=1 parameter2=1 duration=6 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=6 probability1=100 STR_VAR resource="jaim4203" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10477) probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10476) probability1=100 END
 	LPF CHANGE_SPELL INT_VAR    renew=2 END
 	
 // Magic Jar
 CREATE SPL "jasm4201"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasm4201.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10478)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10477)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@11449)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=165 target=9 power=1 duration=6 probability1=100 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=9 power=1 parameter1=RESOLVE_STR_REF(@10480) timing=1 probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=9 power=1 parameter1=RESOLVE_STR_REF(@10479) timing=1 probability1=100 END
 	
 // Magic Jar
 CREATE EFF "jasm4202"
@@ -45,13 +46,13 @@ CREATE EFF "jasm4202"
 CREATE SPL "jasm4202"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasm4202.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10478)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10477)
 	WRITE_SHORT 0x1c 1
 	WRITE_BYTE 0x25 7
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 5
 	WRITE_ASCII 0x3a ~SPWI506C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10479)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10478)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 speed=1 STR_VAR icon="SPWI506B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~ELF~) parameter2=4 duration=1 probability1=90 STR_VAR resource="jasm4202" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=177 target=2 power=5 parameter1=IDS_OF_SYMBOL (~RACE~ ~HALF_ELF~) parameter2=4 duration=1 probability1=30 STR_VAR resource="jasm4202" END
@@ -66,11 +67,11 @@ COPY_EXISTING ~jasm4202.SPL~  ~override~
 CREATE SPL "jasm4203"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasm4203.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10481)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10480)
 	WRITE_SHORT 0x1c 4
 	WRITE_BYTE 0x27 11
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10482)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10481)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=216 target=2 power=1 parameter1=1 timing=1 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=ja_strref_one_level_drained timing=1 probability1=100 END
@@ -81,16 +82,16 @@ COPY_EXISTING ~jasm4203.SPL~  ~override~
 CREATE SPL "jasm4204"
 	WRITE_LONG 0x64 0x72
 COPY_EXISTING ~jasm4204.SPL~  ~override~
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@10475)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@10474)
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
 	WRITE_ASCII 0x3a ~SPWI402C~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@10476)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@10475)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=30 STR_VAR icon="SPWI402B" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=235 target=1 power=1 parameter1=150 parameter2=3 duration=2 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=1 target=1 power=1 parameter1=1 parameter2=1 duration=6 probability1=100 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=111 target=1 power=1 parameter1=1 duration=6 probability1=100 STR_VAR resource="jaim4206" END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10477) probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10476) probability1=100 END
 	LPF CHANGE_SPELL INT_VAR    renew=2 END
 	
 // Quasi-Real
@@ -102,7 +103,7 @@ COPY_EXISTING ~jasm4205.SPL~  ~override~
 	WRITE_LONG 0x34 1
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@11450)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10505) probability1=100 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10504) probability1=100 END
 	
 // Quasi-Real
 CREATE SPL "jasm4206"
@@ -125,7 +126,7 @@ COPY_EXISTING ~jasm4207.SPL~  ~override~
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@11446)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=328 target=2 power=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_BELIEVESHADOW~)) duration=66 probability1=100 savingthrow=1 special=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10504) probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10503) probability1=100 savingthrow=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=326 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~JA_BELIEVESHADOW~) parameter2=111 probability1=100 STR_VAR resource="jasm4205" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=326 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~JA_BELIEVESHADOW~) parameter2=76 probability1=100 STR_VAR resource="jasm4206" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=66 probability1=100 STR_VAR resource="jasm4207" END
@@ -153,7 +154,7 @@ COPY_EXISTING ~jasm4209.SPL~  ~override~
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@11447)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=328 target=2 power=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_BELIEVESHADOW~)) duration=66 probability1=100 savingthrow=1 special=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10504) probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10503) probability1=100 savingthrow=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=326 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~JA_BELIEVESHADOW~) parameter2=111 probability1=100 STR_VAR resource="jasm4205" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=326 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~JA_BELIEVESHADOW~) parameter2=76 probability1=100 STR_VAR resource="jasm4208" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=66 probability1=100 STR_VAR resource="jasm4207" END
@@ -181,7 +182,7 @@ COPY_EXISTING ~jasm420b.SPL~  ~override~
 	WRITE_LONG 0x50 RESOLVE_STR_REF(@11448)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=328 target=2 power=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_BELIEVESHADOW~)) duration=66 probability1=100 savingthrow=1 special=1 END
-	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10504) probability1=100 savingthrow=1 END
+	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10503) probability1=100 savingthrow=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=326 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~JA_BELIEVESHADOW~) parameter2=111 probability1=100 STR_VAR resource="jasm4205" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=326 target=2 power=1 parameter1=IDS_OF_SYMBOL (~splstate~ ~JA_BELIEVESHADOW~) parameter2=76 probability1=100 STR_VAR resource="jasm420a" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=206 target=2 power=1 duration=66 probability1=100 STR_VAR resource="jasm4207" END
@@ -438,7 +439,7 @@ BEGIN
 	ACTION_IF FILE_EXISTS_IN_GAME ~%file%.cre~ BEGIN
 		COPY_EXISTING ~%file%.cre~ ~override~
 			LPF FJ_CRE_VALIDITY END
-			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~O#LLSHA1~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~O#LLSHA2~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~O#LLSHA3~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~O#LLSHA4~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~O#LLSHA5~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~O#LLSHA6~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHHSHFI1~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHRSHFIE~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~SDSHADFI~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~SEWSHA01~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~SEWSHA02~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~SHADFI01~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHRSHAD1~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHRSHAD2~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHRSHAD3~ BEGIN
+			PATCH_IF "%SOURCE_RES%" STRING_EQUAL_CASE ~O#LLSHA1~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~O#LLSHA2~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~O#LLSHA3~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~O#LLSHA4~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~O#LLSHA5~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~O#LLSHA6~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHHSHFI1~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHRSHFIE~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~SDSHADFI~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~SEWSHA01~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~SEWSHA02~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~SHADFI01~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHRSHAD1~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHRSHAD2~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~OHRSHAD3~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~AC#WSHA2~ OR "%SOURCE_RES%" STRING_EQUAL_CASE ~AC#WSHAF~ BEGIN
 				LPF REMOVE_MOST_CRE_EFFECTS END
 			END
 			REMOVE_KNOWN_SPELLS
@@ -495,7 +496,7 @@ BEGIN
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN ohrshad1 O#LLEnem BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
-			PATCH_DEFINE_ARRAY skipFiles BEGIN OHRSHAD1 OHRSHAD2 OHRSHAD3 OHRSHFIE END
+			PATCH_DEFINE_ARRAY skipFiles BEGIN OHRSHAD1 OHRSHAD2 OHRSHAD3 AC#WSHA2 AC#WSHAF OHRSHFIE END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR removeScripts skipFiles removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4200 END
 			// Assigning jabm4202
 			CLEAR_ARRAY skipFiles
@@ -504,13 +505,20 @@ BEGIN
 			PATCH_DEFINE_ARRAY removeScripts BEGIN ohrshad1 O#LLEnem BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
 			PATCH_DEFINE_ARRAY files BEGIN OHRSHAD1 OHRSHAD2 OHRSHAD3 END
 			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4202 END
-			// Assigning jabm4204
+			// Assigning jabm4203
+			CLEAR_ARRAY skipFiles
+			CLEAR_ARRAY removeScripts
+			CLEAR_ARRAY files
+			PATCH_DEFINE_ARRAY removeScripts BEGIN ohrshad1 O#LLEnem BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
+			PATCH_DEFINE_ARRAY files BEGIN AC#WSHA2 AC#WSHAF END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4203 END
+			// Assigning jabm4205
 			CLEAR_ARRAY skipFiles
 			CLEAR_ARRAY removeScripts
 			CLEAR_ARRAY files
 			PATCH_DEFINE_ARRAY removeScripts BEGIN ohrshad1 O#LLEnem BDANIMN BDARCHNI BDENRAGE BDENSHTV BDFIG00 BDFIGH01 BDFIGH42 BDFIGH43 BDFMAG01 BDFMAG23 BDGRSHTV BDMAGE01 BDNONIN BDSHM00 BDSUM00 BPASIGHT BPSIGHT BPWDASGT BPWDRSGT BPWTRSGT BPWTSIGT DVMELEE GENSHT01 SHOUT WDASIGHT WDRUNSGT WTASIGHT wtrunsgt END
 			PATCH_DEFINE_ARRAY files BEGIN OHRSHFIE END
-			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4204 END
+			LPF patchCreatureScript INT_VAR logging=0 STR_VAR files removeScripts removeScriptsRegexp="^DW#GP.+\|DW#MG.+\|DW#PR.+\|DW1.+\|DW2.+\|DW3.+$" script=jabm4205 END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~SDSHADFI~) BEGIN 
 				WRITE_SHORT 0x24 99 // hp
 				WRITE_SHORT 0x26 99 // hp
@@ -542,6 +550,32 @@ BEGIN
 				REPLACE_CRE_ITEM ~jaim4204~ #0 #0 #0 ~UNDROPPABLE~ ~WEAPON1~ EQUIP
 				ADD_CRE_ITEM ~jaim4205~ #0 #0 #0 ~UNDROPPABLE~ ~LRING RRING AMULET BELT GLOVES CLOAK~ 
 				ADD_MEMORIZED_SPELL ~OHRDEMI~ #0 ~innate~ (1) 
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~AC#WSHA2~) OR ("%SOURCE_RES%" STRING_EQUAL_CASE ~AC#WSHAF~) BEGIN 
+				WRITE_SHORT 0x24 67 // hp
+				WRITE_SHORT 0x26 67 // hp
+				WRITE_BYTE 0x52 13 // thac0
+				WRITE_BYTE 0x54 10 // saveDeath
+				WRITE_BYTE 0x55 12 // saveWand
+				WRITE_BYTE 0x56 11 // savePolymorph
+				WRITE_BYTE 0x57 12 // saveBreath
+				WRITE_BYTE 0x58 13 // saveSpell
+				WRITE_BYTE 0x5c 100 // resistAcid
+				WRITE_BYTE 0x234 12 // level1
+				ADD_MEMORIZED_SPELL ~jask0d00~ #0 ~innate~ (1) // Shadow Images
+				ADD_MEMORIZED_SPELL ~jask0d01~ #0 ~innate~ (1) // Shadow Door
+				ADD_MEMORIZED_SPELL ~SPWI112~ #0 ~wizard~ (5) 
+				ADD_MEMORIZED_SPELL ~SPWI304~ #2 ~wizard~ (2) 
+				ADD_MEMORIZED_SPELL ~SPWI306~ #2 ~wizard~ (1) 
+				ADD_MEMORIZED_SPELL ~SPWI308~ #2 ~wizard~ (2) 
+				ADD_MEMORIZED_SPELL ~SPWI415~ #3 ~wizard~ (2) 
+				ADD_MEMORIZED_SPELL ~SPWI501~ #4 ~wizard~ (1) 
+				ADD_MEMORIZED_SPELL ~SPWI502~ #4 ~wizard~ (1) 
+				ADD_MEMORIZED_SPELL ~SPWI504~ #4 ~wizard~ (1) 
+				ADD_MEMORIZED_SPELL ~SPWI508~ #4 ~wizard~ (1) 
+				ADD_MEMORIZED_SPELL ~SPWI601~ #5 ~wizard~ (1) 
+				ADD_MEMORIZED_SPELL ~SPWI602~ #5 ~wizard~ (1) 
+				ADD_MEMORIZED_SPELL ~SPWI604~ #5 ~wizard~ (1) 
 			END
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHRSHFIE~) BEGIN 
 				WRITE_LONG 0x14 0 // xpv
@@ -593,6 +627,12 @@ BEGIN
 			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~OHRSHAD3~) BEGIN 
 				WRITE_LONG 0x14 18000 // xpv
 			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~AC#WSHA2~) BEGIN 
+				WRITE_LONG 0x14 9000 // xpv
+			END
+			PATCH_IF ("%SOURCE_RES%" STRING_EQUAL_CASE ~AC#WSHAF~) BEGIN 
+				WRITE_LONG 0x14 9000 // xpv
+			END
 		BUT_ONLY_IF_IT_CHANGES
 	END
 END
@@ -614,6 +654,8 @@ ACTION_IF GAME_IS ~bg2ee~ BEGIN
 		"OHRSHAD1"
 		"OHRSHAD2"
 		"OHRSHAD3"
+		"AC#WSHA2"
+		"AC#WSHAF"
 	BEGIN
 		LAF jam42_patch STR_VAR file END
 	END
