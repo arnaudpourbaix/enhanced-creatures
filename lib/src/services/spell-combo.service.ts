@@ -1,4 +1,6 @@
 import { isAvailableInMod, MOD_LAYER_ORDER } from "../../config/mods";
+import { WARNING_CONFIG } from "../../config/warning-config";
+import { TargetList } from "../model/script/target";
 import { SPELL_COMBOS } from "../../config/spells/spell-combos";
 import { SpellbookModName } from "../../config/spells/spellbook-mod-name";
 import { Effect } from "../model/spell-item/effect";
@@ -25,7 +27,7 @@ import { StringReference } from "../model/final/stringref";
 import { AbilityPreset } from "../model/misc";
 import logService from "./log.service";
 import translationService from "./translation.service";
-import { getResourceName } from "./utils/misc.func";
+import { getResourceName, stableStringify } from "./utils/misc.func";
 
 /** Owner code of the combo SPLs in the common scope (`jasc01xx`). */
 const COMBO_OWNER = 1;
@@ -216,21 +218,23 @@ class SpellComboService {
       this.checkContingencyTarget(combo, selves);
       return;
     }
-    if (selves.some(Boolean)) return;
-    const lists = new Set(
-      combo.spells.map((spell) =>
-        (this.presetOf(combo, spell).ability.targets ?? []).map((t) => t.name).join(),
-      ),
-    );
-    if (lists.size > 1) {
+    if (selves.some(Boolean) || combo.targetsOf) return;
+    const lists = combo.spells
+      .filter((spell) => !spell.anySide)
+      .map((spell) => this.presetOf(combo, spell).ability.targets ?? []);
+    if (lists.length > 1 && !commonTargets(lists).length) {
       logService.warn(
-        `Spell combo ${combo.key}: its spells have different preset target lists, the first one's are used`,
+        `Spell combo ${combo.key}: its spells have no preset target list in common, the first one's are used (declare its targetsOf)`,
       );
     }
   }
 
-  /** One warning per fallback dropOtherSide leaves out, naming the mods it does so for. */
+  /**
+   * One warning per fallback dropOtherSide leaves out, naming the mods it does so for: only when
+   * WARNING_CONFIG.comboFallbacks asks for them, leaving them out being the rule.
+   */
   private warnDroppedFallbacks(combo: SpellCombo): void {
+    if (!WARNING_CONFIG.comboFallbacks) return;
     const mods = new Map<string, SpellbookModName[]>();
     for (const mod of MOD_LAYER_ORDER) {
       for (const message of this.resolution(combo, mod)?.dropped ?? []) {
@@ -476,6 +480,16 @@ class SpellComboService {
       file,
     );
   }
+}
+
+/**
+ * The target lists every one of an enemy combo's spells has in its preset, in the first one's
+ * order: the strictest aim suiting them all (Confusion lacking the others' unfiltered last list).
+ */
+export function commonTargets(lists: TargetList[][]): TargetList[] {
+  const [first = [], ...others] = lists;
+  const keys = others.map((list) => new Set(list.map((t) => stableStringify(t))));
+  return first.filter((t) => keys.every((k) => k.has(stableStringify(t))));
 }
 
 /** The range of an enemy combo (SPL header and preset): the smallest of its spells' ranges. */

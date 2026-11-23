@@ -1,13 +1,15 @@
 import deepmerge from "deepmerge";
 import { DEFAULT_SPELL_PROBABILITY } from "../../config/common";
 import { SpellKeyword } from "../../config/spells/keyword";
-import { CreatureAbilitySpell, RawCreatureAbility } from "../model/creature/ability";
+import { AlliesCheck, CreatureAbilitySpell, RawCreatureAbility } from "../model/creature/ability";
 import { AbilityPreset } from "../model/misc";
+import { TargetList } from "../model/script/target";
 import { Triggers } from "../model/script/triggers";
 import { SpellCombo } from "../model/spell-item/spell-combo";
 import { mergeSaves, SpellReference, spellFiles } from "../model/spell-item/spell-reference";
 import spellComboService, {
   comboRange,
+  commonTargets,
   isContingency,
   KIND_NAMES,
 } from "../services/spell-combo.service";
@@ -95,7 +97,7 @@ class PresetFactory {
         };
         const contained = this.containedAbilities(combo, spells, presets);
         if (self) ability.spell = { ...ability.spell, castOnSelf: true };
-        else this.addComboChecks(ability, spells, contained);
+        else this.addComboChecks(ability, combo, spells, contained, presets);
         this.addContainedChecks(ability, combo, contained);
         return { preset: file, ability };
       });
@@ -160,13 +162,20 @@ class PresetFactory {
     ability.triggers = [...(ability.triggers ?? []), ...triggers.values()];
   }
 
-  /** The first spell's targets and the SPL's range, with every spell's checks (see createCombos). */
+  /**
+   * The targets every spell shares (or its targetsOf spell's, else the first spell's), the SPL's
+   * range and the widest of its spells' allies checks, with every spell's checks (see createCombos).
+   */
   private addComboChecks(
     ability: RawCreatureAbility,
+    combo: SpellCombo,
     spells: SpellReference[],
     abilities: ContainedAbility[],
+    presets: AbilityPreset[],
   ): void {
-    ability.targets = structuredClone(abilities[0].ability.targets);
+    ability.targets = structuredClone(this.comboTargets(combo, abilities, presets));
+    const alliesCheck = this.widestAlliesCheck(abilities);
+    if (alliesCheck) ability.alliesCheck = alliesCheck;
     // the generated SPL's range, see SpellComboService
     ability.range = comboRange(spells);
     const keywords = new Set<SpellKeyword>(
@@ -179,6 +188,36 @@ class PresetFactory {
     });
     if (levels.length) ability.level = Math.max(...levels);
     ability.saves = mergeSaves(abilities.flatMap((a) => a.ability.saves ?? a.spell.saves ?? []));
+  }
+
+  private comboTargets(
+    combo: SpellCombo,
+    abilities: ContainedAbility[],
+    presets: AbilityPreset[],
+  ): TargetList[] {
+    if (combo.targetsOf) {
+      const file = combo.targetsOf.file;
+      const preset = presets.find((p) => p.preset === file);
+      if (!preset) throw new Error(`Spell combo ${combo.key}: no preset for its targetsOf ${file}`);
+      return preset.ability.targets ?? [];
+    }
+    // a spell suiting either side (a summon) goes wherever the others are aimed
+    const sided = abilities.filter((a) => !a.spell.anySide);
+    const common = commonTargets(sided.map((a) => a.ability.targets ?? []));
+    return common.length ? common : ((sided[0] ?? abilities[0]).ability.targets ?? []);
+  }
+
+  /** The allies check of the combo's widest area: it keeps them all off allies. */
+  private widestAlliesCheck(abilities: ContainedAbility[]): AlliesCheck | undefined {
+    const checks = abilities.flatMap((a) => {
+      // a preset's null disables its spell's
+      const check =
+        a.ability.alliesCheck !== undefined ? a.ability.alliesCheck : a.spell.alliesCheck;
+      return check ? [check] : [];
+    });
+    if (checks.length === 0) return undefined;
+    const widest = checks.reduce((w, c) => (c.range > w.range ? c : w), checks[0]);
+    return structuredClone(widest);
   }
 
   /**

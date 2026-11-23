@@ -1,4 +1,5 @@
 import figureSet from "figures";
+import { stableStringify } from "./utils/misc.func";
 import { SPELLS } from "../../config/spells/spell-database";
 import { getAllSpells } from "../model/spell-item/spell-reference";
 import { PLAYER_CONFIG } from "../../config/player-config";
@@ -278,7 +279,7 @@ class CreatureService {
     const seen = new Set<string>();
     for (const ability of creature.behavior.abilities) {
       const resolvedFile = this.getAbilityCastFiles(ability)[0];
-      const signature = this.stableStringify({
+      const signature = stableStringify({
         resource: resolvedFile,
         triggers: ability.triggers,
         targets: ability.targets,
@@ -384,19 +385,6 @@ class CreatureService {
       d.spells?.removeMemorized === false,
     ].some(Boolean);
     /* eslint-enable @typescript-eslint/no-unnecessary-condition */
-  }
-
-  private stableStringify(value: unknown): string {
-    return JSON.stringify(value, (_key: string, val: unknown) =>
-      val && typeof val === "object" && !Array.isArray(val)
-        ? Object.keys(val)
-            .sort((a, b) => a.localeCompare(b))
-            .reduce((sorted: Record<string, unknown>, k) => {
-              sorted[k] = (val as Record<string, unknown>)[k];
-              return sorted;
-            }, {})
-        : val,
-    );
   }
 
   getAbilityCastFiles(ability: CreatureAbility): string[] {

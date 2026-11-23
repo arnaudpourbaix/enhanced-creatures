@@ -26,21 +26,31 @@ export interface SpellCombo<K extends SpellComboKind = SpellComboKind> {
   condition?: ContingencyTrigger;
   /** Chain contingencies only (a contingency casts on the caster), the caster by default. */
   target?: ContingencyTarget;
+  /**
+   * Enemy sequencers only: the spell whose preset targets the combo is cast at, when its spells
+   * have no target list in common (see SpellComboService.comboTargets).
+   */
+  targetsOf?: SpellReference;
 }
 
 type ComboEntry<K extends SpellComboKind = SpellComboKind> = Omit<SpellCombo<K>, "key">;
 
+/** A sequencer's options (see SpellCombo.targetsOf). */
+export interface SequencerOptions {
+  targetsOf?: SpellReference;
+}
+
 /** Level 4 spell: triggers 2 spells of level 1-2. */
-export const minorSequencer = (spells: SpellReference[]): ComboEntry<"minorSequencer"> => ({
-  kind: "minorSequencer",
-  spells,
-});
+export const minorSequencer = (
+  spells: SpellReference[],
+  options: SequencerOptions = {},
+): ComboEntry<"minorSequencer"> => ({ kind: "minorSequencer", spells, ...options });
 
 /** Triggers 3 spells of level 1-4. */
-export const spellSequencer = (spells: SpellReference[]): ComboEntry<"spellSequencer"> => ({
-  kind: "spellSequencer",
-  spells,
-});
+export const spellSequencer = (
+  spells: SpellReference[],
+  options: SequencerOptions = {},
+): ComboEntry<"spellSequencer"> => ({ kind: "spellSequencer", spells, ...options });
 
 /**
  * Level 6 spell: casts 1 spell when `condition` happens. The contained spell's level can't exceed

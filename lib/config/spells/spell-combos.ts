@@ -37,7 +37,10 @@ export const COMBOS = registerComboGroups(
       BatteringRam: minorSequencer([s.BatteringRam, s.BatteringRam]),
       Deafness: minorSequencer([s.Deafness, s.Deafness]),
       CharmPerson: minorSequencer([s.CharmPerson, s.CharmPerson]),
-      EnfeeblementBlindness: minorSequencer([s.RayOfEnfeeblement, s.Blindness]),
+      // the strong first, the fighters Blindness prefers being mostly among them
+      EnfeeblementBlindness: minorSequencer([s.RayOfEnfeeblement, s.Blindness], {
+        targetsOf: s.RayOfEnfeeblement,
+      }),
       Horror: minorSequencer([s.Horror, s.Horror]),
       MirrorInvisibility: minorSequencer([s.MirrorImages, s.Invisibility]),
       MirrorShield: minorSequencer([s.MirrorImages, s.Shield]),
@@ -49,7 +52,10 @@ export const COMBOS = registerComboGroups(
     },
     SpellSequencers: {
       Lifedrain: spellSequencer([s.VampiricTouch, s.LarlochMinorDrain, s.LarlochMinorDrain]),
-      BurningBloodSkulltrap: spellSequencer([s.BeltynsBurningBlood, s.SkullTrap, s.SkullTrap]),
+      // aimed like its Skull Traps: the farthest enemies, away from allies
+      BurningBloodSkulltrap: spellSequencer([s.BeltynsBurningBlood, s.SkullTrap, s.SkullTrap], {
+        targetsOf: s.SkullTrap,
+      }),
       EmotionSlow: spellSequencer([s.EmotionHopelessness, s.EmotionHopelessness, s.Slow]),
       StoneskinsGlobe: spellSequencer([s.Stoneskin, s.MinorGlobeOfInvulnerability, s.SpiritArmor]),
       DeflectionInvisibilityGlobe: spellSequencer([

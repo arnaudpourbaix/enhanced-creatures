@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ABILITY_PRESETS } from "../../config/ability-presets";
 import { COMBOS } from "../../config/spells/spell-combos";
 import { SPELLS } from "../../config/spells/spell-database";
+import { WARNING_CONFIG } from "../../config/warning-config";
 import { EffectTypeEnum } from "../model/spell-item/effect.type";
 import {
   CastSpellOnConditionTargetEnum,
@@ -154,14 +155,24 @@ describe("fallbacks", () => {
     ],
   });
 
-  it("leaves out, with a warning, a fallback cast on the other side than the combo", () => {
+  it("silently leaves out a fallback cast on the other side than the combo", () => {
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
     const combo = withFallback(w.SpiritArmor);
     const file = spellComboService.comboFile(combo, "Vanilla");
     expect(spellComboService.spellsFor(combo, "Vanilla")?.map((s) => s.file)).toEqual(["SPWI112"]);
     expect(castResources(splOf(file))).toEqual(["SPWI112"]);
-    expect(fixtureWarnings(warn)).toHaveLength(0);
     spellComboService.checkTargets(combo);
+    expect(fixtureWarnings(warn)).toHaveLength(0);
+  });
+
+  it("warns about a fallback left out when WARNING_CONFIG.comboFallbacks asks for it", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    WARNING_CONFIG.comboFallbacks = true;
+    try {
+      spellComboService.checkTargets(withFallback(w.SpiritArmor));
+    } finally {
+      WARNING_CONFIG.comboFallbacks = false;
+    }
     expect(fixtureWarnings(warn)).toHaveLength(1);
   });
 
@@ -406,12 +417,34 @@ describe("checkTargets", () => {
     );
   });
 
-  it("warns when enemy spells have different target lists", () => {
+  it("warns when enemy spells have no target list in common", () => {
     const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
-    const combo = { key: "TestLists", ...spellSequencer([w.Slow, w.Contagion, w.Horror]) };
+    const combo = { key: "TestLists", ...minorSequencer([w.RayOfEnfeeblement, w.Blindness]) };
     spellComboService.checkTargets(combo);
     expect(warn).toHaveBeenCalledOnce();
     expect(warn.mock.calls[0][0]).toContain("TestLists");
+  });
+
+  it("stays silent when the combo declares the spell it's aimed like", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    const spells = [w.RayOfEnfeeblement, w.Blindness];
+    spellComboService.checkTargets({
+      key: "TestTargetsOf",
+      ...minorSequencer(spells, { targetsOf: w.Blindness }),
+    });
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("stays silent when the spells share a target list, whatever its key order", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    spellComboService.checkTargets(COMBOS.SpellSequencers.ConfusionHopelessnessSlow);
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("leaves an anySide spell (a summon) out of the comparison", () => {
+    const warn = vi.spyOn(logService, "warn").mockImplementation(() => undefined);
+    spellComboService.checkTargets(COMBOS.SpellSequencers.WebSummon);
+    expect(warn).not.toHaveBeenCalled();
   });
 
   it("stays silent for a repeated spell", () => {

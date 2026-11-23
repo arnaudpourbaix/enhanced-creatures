@@ -53,3 +53,17 @@ function getFilename(
 ): string {
   return getResourceName(fileType, creatureType, creatureId, num);
 }
+
+/** JSON with every object's keys sorted: equal for equal values, whatever their key order. */
+export function stableStringify(value: unknown): string {
+  return JSON.stringify(value, (_key: string, val: unknown) =>
+    val && typeof val === "object" && !Array.isArray(val)
+      ? Object.keys(val)
+          .sort((a, b) => a.localeCompare(b))
+          .reduce((sorted: Record<string, unknown>, k) => {
+            sorted[k] = (val as Record<string, unknown>)[k];
+            return sorted;
+          }, {})
+      : val,
+  );
+}

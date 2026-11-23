@@ -123,6 +123,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Treants
 - Copy monster issue with spaces
 - Shadow-fiend: hiding works, magic jar backfire is a 1-round "Stunned!" pause
+- Spell combo warnings, combos keep their spells' allies check
 
 ## [0.4.0] - 2026-10-09
 

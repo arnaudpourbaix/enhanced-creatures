@@ -134,6 +134,53 @@ describe("createCombos", () => {
     expect(unranged.range).toBe(30);
   });
 
+  const targetsOfPreset = (spell: SpellReference) =>
+    ABILITY_PRESETS.find((p) => p.preset === spell.file)?.ability.targets;
+
+  it("casts an enemy combo at the target lists all its spells share", () => {
+    const ability = comboPreset({
+      key: "TestFearConfusion",
+      kind: "minorSequencer",
+      spells: [w.EmotionFear, w.Confusion],
+    });
+    // Confusion has no unfiltered last list, unlike Fear: the combo neither
+    expect(ability.targets).toEqual(targetsOfPreset(w.Confusion));
+  });
+
+  it("casts an enemy combo with a summon at its other spells' targets", () => {
+    const ability = comboPreset({
+      key: "TestWebSummon",
+      kind: "spellSequencer",
+      spells: [w.Web, w.MonsterSummoning4, w.MonsterSummoning4],
+    });
+    expect(ability.targets).toEqual(targetsOfPreset(w.Web));
+  });
+
+  it("casts an enemy combo at its targetsOf spell's targets", () => {
+    const ability = comboPreset({
+      key: "TestTargetsOf",
+      kind: "minorSequencer",
+      spells: [w.RayOfEnfeeblement, w.Blindness],
+      targetsOf: w.Blindness,
+    });
+    expect(ability.targets).toEqual(targetsOfPreset(w.Blindness));
+  });
+
+  it("keeps the widest of its spells' allies checks", () => {
+    const ability = comboPreset({
+      key: "TestSprayHands",
+      kind: "minorSequencer",
+      spells: [w.BurningHands, w.ColorSpray],
+    });
+    expect(ability.alliesCheck).toEqual(w.ColorSpray.alliesCheck);
+    const safe = comboPreset({
+      key: "TestHorrorHorror",
+      kind: "minorSequencer",
+      spells: [w.Horror, w.Horror],
+    });
+    expect(safe.alliesCheck).toBeUndefined();
+  });
+
   it("casts a self sequencer at the caster", () => {
     const ability = comboPreset({
       key: "TestSelfSequencer",
