@@ -775,10 +775,18 @@ class CreatureService {
     for (const f of creature.files) {
       for (const row of monsterFilesService.getCreatureRows(f.name, f.game)) {
         const adjustments = this.adjustmentsForFile(creature, f.name, row.game);
+        // Removed items are handled, and so are items the definition equips again itself (e.g. a
+        // creature keeping its own better weapon in place of the base one).
+        const equipped = [
+          ...creature.data.items.equipped,
+          ...adjustments.flatMap((a) => a.data.items.equipped),
+        ];
         const removed = new Set(
-          [...creature.data.items.remove, ...adjustments.flatMap((a) => a.data.items.remove)].map(
-            (r) => r.toUpperCase(),
-          ),
+          [
+            ...creature.data.items.remove,
+            ...adjustments.flatMap((a) => a.data.items.remove),
+            ...equipped.map((e) => e.file),
+          ].map((r) => r.toUpperCase()),
         );
         // A `noWeapon` adjustment - or simply no adjustment/base data equipping anything in a
         // weapon1-weapon4 / shield slot for this file - deliberately leaves the creature wielding
@@ -786,10 +794,7 @@ class CreatureService {
         // not drift - don't warn.
         const noWeapon =
           adjustments.some((a) => a.noWeapon) ||
-          ![
-            ...creature.data.items.equipped,
-            ...adjustments.flatMap((a) => a.data.items.equipped),
-          ].some((it) => itemService.isEquippedWeapon(it));
+          !equipped.some((it) => itemService.isEquippedWeapon(it));
         const persisting = row.items.filter(
           (it) =>
             !removed.has(it.file.toUpperCase()) &&

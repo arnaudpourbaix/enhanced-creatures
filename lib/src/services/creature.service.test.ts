@@ -1755,11 +1755,31 @@ describe("creatureService.findPersistingItems", () => {
     expect(creatureService.findPersistingItems(cre)).toEqual([]);
   });
 
-  it("still reports an item that is only re-equipped, never removed", () => {
-    // re-equip is modelled elsewhere; the finder only inspects `remove`
+  it("still reports an item that is neither removed nor equipped", () => {
     mockRows(csvRow({ file: "AAA", items: [{ slot: "helmet", file: "HELM01" }] }));
     const cre = creatureWith({ files: [{ name: "AAA" }], level1: 3, itemsRemove: [] });
     expect(creatureService.findPersistingItems(cre)).toHaveLength(1);
+  });
+
+  it("treats an item an adjustment equips again as handled", () => {
+    mockRows(
+      csvRow({
+        file: "AAA",
+        items: [
+          { slot: "weapon2", file: "BOW18" },
+          { slot: "amulet", file: "AMUL01" },
+        ],
+      }),
+    );
+    const cre = creatureWith({
+      files: [{ name: "AAA" }],
+      level1: 3,
+      itemsEquipped: [{ slot: "WEAPON2", file: "BOW05" }],
+      adjustments: [{ files: ["AAA"], itemsEquipped: [{ slot: "WEAPON2", file: "bow18" }] }],
+    });
+    expect(creatureService.findPersistingItems(cre)).toEqual([
+      { file: "AAA", game: undefined, check: "items", detail: "amulet=AMUL01" },
+    ]);
   });
 
   it("skips files with no csv row", () => {

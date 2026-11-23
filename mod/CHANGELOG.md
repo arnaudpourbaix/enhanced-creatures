@@ -128,6 +128,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Sound Burst falls back to Agannazar's Scorcher, not Deafness
 - No "has no name" warning for a union spell protection's rows
 - No "isn't memorized" warning for abilities without memorizedSpellCheck
+- Apply variant/adjustment script edits, re-equipped items aren't drift
 
 ## [0.4.0] - 2026-10-09
 

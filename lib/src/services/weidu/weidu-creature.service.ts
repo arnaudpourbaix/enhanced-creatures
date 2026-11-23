@@ -61,10 +61,20 @@ class WeiduCreatureService extends AbstractWeiduService {
     weiduGroupService.createOrUpdateMainFile(utils.getCreatureFolder(creature), creature);
   }
 
+  /**
+   * The base's script edits, then each adjustment's (variants expand to adjustments); an
+   * adjustment's game scope carries over to its edits that don't name their own.
+   */
   private handleScriptEdits(lines: CodeLine[], creature: Creature) {
-    if (!creature.data.script.edits) return;
-    for (const edit of creature.data.script.edits) {
+    for (const edit of creature.data.script.edits ?? []) {
       this.handleScriptEdit(lines, edit);
+    }
+    for (const adjustment of creature.adjustments) {
+      // Test fixtures built with `as unknown as CreatureAdjustment` may omit the script.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      for (const edit of adjustment.data.script?.edits ?? []) {
+        this.handleScriptEdit(lines, { ...edit, game: edit.game ?? adjustment.game });
+      }
     }
   }
 

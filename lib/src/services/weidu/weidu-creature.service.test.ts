@@ -564,6 +564,42 @@ describe("handleScriptEdits (private)", () => {
     expect(result.some((c) => c.includes("FILE2"))).toBe(true);
     expect(result.some((c) => c.includes("REPLACE_TEXTUALLY ~BAZ~ ~QUX~"))).toBe(true);
   });
+
+  it("also processes an adjustment's edits, after the base's", () => {
+    const lines: CodeLine[] = [];
+    const creature = fakeCreature({
+      data: { script: { edits: [{ files: ["BASE1"], replaces: [["FOO", "BAR"]] }] } },
+      adjustments: [
+        {
+          files: ["ADJ1"],
+          data: { script: { edits: [{ files: ["ADJ1"], removeBlocks: ["Prep"] }] } },
+        },
+      ] as unknown as Creature["adjustments"],
+    });
+    service.handleScriptEdits(lines, creature);
+    const result = codes(lines);
+    const base = result.findIndex((c) => c.includes('"BASE1"'));
+    const adj = result.findIndex((c) => c.includes('"ADJ1"'));
+    expect(base).toBeGreaterThanOrEqual(0);
+    expect(adj).toBeGreaterThan(base);
+    expect(result.some((c) => c.includes("EXACT_MATCH ~Prep~"))).toBe(true);
+  });
+
+  it("scopes an adjustment's edit to the adjustment's game when the edit names none", () => {
+    const lines: CodeLine[] = [];
+    const creature = fakeCreature({
+      data: { script: {} },
+      adjustments: [
+        {
+          files: ["ADJ1"],
+          game: "bg2",
+          data: { script: { edits: [{ files: ["ADJ1"], replaces: [["A", "B"]] }] } },
+        },
+      ] as unknown as Creature["adjustments"],
+    });
+    service.handleScriptEdits(lines, creature);
+    expect(codes(lines)[0]).toMatch(/^ACTION_IF .*bg2ee/i);
+  });
 });
 
 describe("handleScriptEdit (private)", () => {
