@@ -572,6 +572,7 @@ DEFINE_ACTION_FUNCTION get_necromancyEffects_resources RET_ARRAY resources BEGIN
 		"SPWI314"
 		"SPPR313"
 		"SPPR314"
+		"BDSHSDL1"
 		"spwi117d"
 		"spwi812d"
 	END

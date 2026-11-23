@@ -232,6 +232,30 @@ describe("createFrom (abilities)", () => {
     expect(cre.behavior.abilities).toEqual([handWritten]);
     expect(cre.behavior.coveredAbilities).toEqual([]);
   });
+
+  it("leaves out what the source's scripted variants added to its behavior", () => {
+    const group = fakeGroup();
+    const own = { name: "own" };
+    const ownEntry = { abilityId: 1 };
+    const from = {
+      name: CREATURE_NAME_KEY,
+      data: { movement: {} },
+      attack: { dualWielding: false },
+      handWrittenAbilities: [own, { name: "variant" }],
+      behavior: { abilities: [own, { name: "variant" }], coveredAbilities: [] },
+      pendingAbilityEntries: [ownEntry, { abilityId: 2 }],
+      ownBehavior: {
+        behavior: { abilities: [own], coveredAbilities: [] },
+        entries: [ownEntry],
+      },
+    } as unknown as Creature;
+
+    const cre = group.createFrom({ name: CREATURE_NAME_KEY, monster: MonsterEnum.Ankheg, from });
+
+    expect(cre.behavior.abilities).toEqual([own]);
+    expect(cre.pendingAbilityEntries).toEqual([ownEntry]);
+    expect(cre.ownBehavior).toBeUndefined();
+  });
 });
 
 describe("create (game collapse)", () => {

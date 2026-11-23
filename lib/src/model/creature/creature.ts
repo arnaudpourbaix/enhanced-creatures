@@ -53,6 +53,7 @@ import { ItemSlot } from "./item";
 import { AbilityEntry, CreatureAbility } from "./ability";
 import { State } from "../../state";
 import type { CreatureScript } from "../../services/baf/script-plan.service";
+import type { HandWrittenBehavior } from "../../services/baf/script-view.service";
 
 export interface NaturalWeaponOptions {
   /** Default: the kind's shared name (NATURAL_WEAPONS). */
@@ -159,6 +160,11 @@ export class Creature extends AbstractCreature implements BaseCreature {
    * a creature copied from it resolves its entries again
    */
   handWrittenAbilities?: CreatureAbility[];
+  /**
+   * Its own behavior before its scripted variants' was added to it (see
+   * CreatureFactory.takeHandWritten): a creature copied from it has none of its variants
+   */
+  ownBehavior?: HandWrittenBehavior;
   /** Undead (or made undead by an adjustment): PnP "turned as" row, when harder to turn than its Hit Dice. */
   turnAs?: TurnUndeadType;
   /**

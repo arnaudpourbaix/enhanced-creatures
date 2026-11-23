@@ -64,6 +64,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Shade: quasi-real damage by belief; shadow images open the fight
 - Map more undead to their PnP templates
 - Shade kin, Saarixal variant, more undead mappings, ISNF spectre
+- Shadowed Soul keeps its SoD powers, ISNF Selene's Voice, zombie items
 
 ### Changed
 

@@ -10,7 +10,7 @@ COPY_EXISTING ~jasm0l01.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11192)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11194)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~MIMIC~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0l01" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SLIME~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0l01" END
@@ -76,7 +76,7 @@ COPY_EXISTING ~jasm0l02.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11195)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11197)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=326 target=2 power=1 parameter1=1 parameter2=STRENGTH_EQUAL probability1=94 probability2=0 STR_VAR resource="jasm0l08" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=326 target=2 power=1 parameter1=1 parameter2=STRENGTH_EQUAL probability1=99 probability2=95 STR_VAR resource="jasm0l09" END
@@ -125,7 +125,7 @@ COPY_EXISTING ~jasm0l03.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11193)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11195)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jasm0l03" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~MIMIC~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0l03" END
@@ -219,7 +219,7 @@ COPY_EXISTING ~jasm0l05.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11196)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11198)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=9 power=1 probability1=100 STR_VAR resource="jasm0l05" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=328 target=9 power=1 parameter2=(IDS_OF_SYMBOL (~splstate~ ~JA_GRAPPLING~)) duration=7 probability1=100 special=1 END
@@ -233,7 +233,7 @@ COPY_EXISTING ~jasm0l06.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11197)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11199)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=5 range=1 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=321 target=2 power=1 probability1=100 STR_VAR resource="jasm0l05" END
 	
@@ -244,7 +244,7 @@ COPY_EXISTING ~jasm0l07.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11198)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11200)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~MIMIC~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0l07" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=318 target=2 power=1 parameter1=IDS_OF_SYMBOL (~race~ ~SLIME~) parameter2=104 duration=1 probability1=100 STR_VAR resource="jasm0l07" END
@@ -306,7 +306,7 @@ COPY_EXISTING ~jasm0l08.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11199)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11201)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=146 target=2 power=1 parameter2=1 probability1=100 STR_VAR resource="jasm0l03" END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=12 target=2 power=1 parameter1=10 parameter2=1048576 timing=9 probability1=100 END
@@ -320,7 +320,7 @@ COPY_EXISTING ~jasm0l09.SPL~  ~override~
 	WRITE_LONG 0x8 "-1"
 	WRITE_SHORT 0x1c 4
 	WRITE_LONG 0x34 1
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11200)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11202)
 	LPF ADD_SPELL_HEADER INT_VAR type=1 location=4 target=1 range=5 END
 	LPF ADD_EFFECT INT_VAR header=1 opcode=139 target=2 power=1 parameter1=RESOLVE_STR_REF(@10491) probability1=100 END
 	
@@ -335,7 +335,7 @@ CREATE ITM "jaim0l00"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10000)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11201)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11203)
 	WRITE_LONG 0x60 2
 COPY_EXISTING ~jaim0l00.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -367,7 +367,7 @@ CREATE ITM "jaim0l01"
 	WRITE_LONG 0xc RESOLVE_STR_REF(@10000)
 	WRITE_LONG 0x18 64
 	WRITE_ASCII 0x3a ~SPPR416B~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11202)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11204)
 	WRITE_LONG 0x60 2
 COPY_EXISTING ~jaim0l01.itm~ ~override~
 	READ_SHORT 0x68 abicount
@@ -393,11 +393,11 @@ COPY_EXISTING ~jaim0l01.itm~ ~override~
 // Vampiric Wolf traits
 CREATE ITM "jaim0l02"
 	WRITE_LONG 0x64 0x72
-	WRITE_LONG 0x8 RESOLVE_STR_REF(@11194)
-	WRITE_LONG 0xc RESOLVE_STR_REF(@11194)
+	WRITE_LONG 0x8 RESOLVE_STR_REF(@11196)
+	WRITE_LONG 0xc RESOLVE_STR_REF(@11196)
 	WRITE_SHORT 0x1c 10
 	WRITE_ASCII 0x3a ~IRING15~ #8
-	WRITE_LONG 0x50 RESOLVE_STR_REF(@11203)
+	WRITE_LONG 0x50 RESOLVE_STR_REF(@11205)
 COPY_EXISTING ~jaim0l02.itm~ ~override~
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=232 target=1 global=1 parameter2=16 timing=2 probability1=100 special=2 STR_VAR resource="jasm0l04" END
 	LPF ADD_ITEM_EQEFFECT INT_VAR opcode=232 target=1 global=1 parameter2=12 timing=2 probability1=100 STR_VAR resource="jasm0l06" END

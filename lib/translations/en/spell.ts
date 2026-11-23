@@ -370,6 +370,8 @@ All creatures are afflicted with wracking pains shooting through their bodies, c
 
   // Innate
   MephitColorSpray: { name: "Mephit Color Spray" },
+  ShadowedSoulDrainLife: { name: "Drain Life" },
+  ShadowedSoulShadowPact: { name: "Shadow Pact" },
   SpiderSingleTargetWeb: { name: "Spider Single Target Web" },
   VortexWeb: { name: "Vortex Web" },
 

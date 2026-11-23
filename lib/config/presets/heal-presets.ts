@@ -64,6 +64,17 @@ export const HEAL_PRESETS: AbilityPreset[] = [
     ]),
     requireVocal: false,
   }),
+  // SoD's Shadowed Soul gives its own hit points to a wounded undead ally (never another shadow),
+  // while it has some to spare
+  ...presetFactory.createSpell(SPELLS.Innate.ShadowedSoulShadowPact, {
+    targets: targetService.combineListWithTriggers(CommonTargetLists.Allies, [
+      { name: "General", params: [ScriptTarget.lastSeen, "UNDEAD"] },
+      { name: "Race", params: [ScriptTarget.lastSeen, "SHADOW"], negation: true },
+      { name: "HPPercentLT", params: [ScriptTarget.lastSeen, 75] },
+    ]),
+    triggers: [{ name: "HPGT", params: [ScriptTarget.myself, 35] }],
+    requireVocal: false,
+  }),
 
   ...presetFactory.createSpell(SPELLS.Priest.GreaterRestoration, {
     targets: targetService.combineListWithTriggers(CommonTargetLists.MyselfOrAllies, [

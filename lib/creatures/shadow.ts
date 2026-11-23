@@ -1,3 +1,4 @@
+import { AT_WILL } from "../config/common";
 import { EXISTING_ITEMS } from "../config/item";
 import { SPELLS } from "../config/spells/spell-database";
 import { JEWEL_SLOTS } from "../src/model/creature/item";
@@ -85,16 +86,32 @@ export function shadow(entry: CreatureEntry<Creature>): Creature {
       files: ["BDSHAD02", "L#GNOAL", "L#GNOEN"],
       data: { level1: 5, strength: 18 },
     },
-    {
-      // SoD's Shadowed Soul: an ordinary shadow at the game's 7 HD, keeping its THAC0 13.
-      files: ["BDSHSOUL"],
-      data: { level1: 7 },
-    },
   ]);
+  shadowedSoul(shadow);
   shadow.setBehavior({
     restHeal: true,
   });
   return shadow;
+}
+
+/**
+ * SoD's Shadowed Soul: a shadow at the game's 7 HD (keeping its THAC0 13). Not a PnP monster, so
+ * it keeps its two SoD powers, the game's own spells, cast by our script instead of its BDSHSOUL.
+ */
+function shadowedSoul(shadow: Creature) {
+  shadow.variant("Shadowed Soul", {
+    files: ["BDSHSOUL"],
+    data: {
+      level1: 7,
+      script: { remove: ["BDSHSOUL"] },
+      spells: {
+        memorized: [
+          { file: SPELLS.Innate.ShadowedSoulDrainLife.file, memorizedCount: AT_WILL },
+          { file: SPELLS.Innate.ShadowedSoulShadowPact.file, memorizedCount: AT_WILL },
+        ],
+      },
+    },
+  });
 }
 
 export function greaterShadow(entry: CreatureEntry<Creature>): Creature {

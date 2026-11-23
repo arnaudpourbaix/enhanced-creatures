@@ -1,4 +1,5 @@
 import presetFactory from "../../src/factories/preset.factory";
+import { ScriptTarget } from "../../src/model/constants";
 import triggerFactory from "../../src/factories/trigger.factory";
 import { Durations } from "../../src/model/game-data/durations";
 import { AbilityPreset } from "../../src/model/misc";
@@ -73,5 +74,15 @@ export const DAMAGE_PRESETS: AbilityPreset[] = [
     // Self cast with no target to pick: the list only makes sure a valid enemy is around
     spell: { castOnSelf: true },
     targets: CommonTargetLists.Enemies,
+  }),
+  // nothing to drain from these: SoD's Shadowed Soul script spares them
+  ...presetFactory.createSpell(SPELLS.Innate.ShadowedSoulDrainLife, {
+    targets: targetService.combineListWithTriggers(CommonTargetLists.Enemies, [
+      { name: "General", params: [ScriptTarget.lastSeen, "UNDEAD"], negation: true },
+      { name: "Race", params: [ScriptTarget.lastSeen, "DEMONIC"], negation: true },
+      { name: "Race", params: [ScriptTarget.lastSeen, "ELEMENTAL"], negation: true },
+      { name: "Race", params: [ScriptTarget.lastSeen, "GOLEM"], negation: true },
+    ]),
+    requireVocal: false,
   }),
 ];

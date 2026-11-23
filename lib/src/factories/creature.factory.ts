@@ -182,6 +182,7 @@ class CreatureFactory {
   private takeHandWritten(creature: Creature): HandWrittenBehavior | undefined {
     if (!scriptPlanService.hasScriptedVariant(creature)) return undefined;
     const handWritten = scriptViewService.snapshot(creature);
+    creature.ownBehavior = handWritten;
     scriptViewService.addVariantBehaviors(creature);
     return handWritten;
   }

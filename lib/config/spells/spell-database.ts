@@ -5289,6 +5289,27 @@ const INNATE_SPELLS = {
     name: SHAPESHIFT_WOLF_NAME,
     keywords: ["castOnSelf"],
   },
+  // hand-picked: Siege of Dragonspear's Shadowed Soul (BDSHSOUL) spells, missing from BG2EE.
+  // Drain Life: a projectile casting BDSHSDL2 - 8d3 magic damage, no save, healing the caster
+  ShadowedSoulDrainLife: {
+    file: "BDSHSDL1",
+    level: 1,
+    worthLevel: 3, // Vampiric Touch
+    school: ItemAbilityPrimaryTypeEnum.Necromancer,
+    castingTime: 1,
+    role: "damage",
+    name: "spell.ShadowedSoulDrainLife.name",
+    keywords: ["magicDamage", "magicResistance", "necromancyEffects"],
+  },
+  // Shadow Pact: up to 8d3 of the caster's hit points go to its target
+  ShadowedSoulShadowPact: {
+    file: "BDSHPACT",
+    level: 1,
+    castingTime: 1,
+    role: "reactive",
+    name: "spell.ShadowedSoulShadowPact.name",
+    keywords: ["friendly"],
+  },
   SpiderSingleTargetWeb: {
     file: "BDSPIDGA",
     // hand-picked: a Siege of Dragonspear spell, missing from the BG2EE install it's extracted from

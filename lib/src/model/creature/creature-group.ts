@@ -142,8 +142,14 @@ export abstract class CreatureGroup<T extends Creature>
     cre.projectiles = [];
     cre.adjustments = [];
     cre.variants = [];
+    // the source's variants stay with it: so does the behavior they added to it
+    if (cre.ownBehavior) {
+      cre.behavior = structuredClone(cre.ownBehavior.behavior);
+      cre.pendingAbilityEntries = cre.ownBehavior.entries && [...cre.ownBehavior.entries];
+      cre.ownBehavior = undefined;
+    }
     // the source's resolved abilities are resolved again with the copy's own data
-    if (cre.handWrittenAbilities) cre.behavior.abilities = cre.handWrittenAbilities;
+    else if (cre.handWrittenAbilities) cre.behavior.abilities = cre.handWrittenAbilities;
     cre.behavior.coveredAbilities = [];
     if (p.removeAbilities === true) {
       cre.behavior.abilities = [];

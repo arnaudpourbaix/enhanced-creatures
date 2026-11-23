@@ -62,7 +62,17 @@ export function spectre(entry: CreatureEntry<Creature>): Creature {
       movement: 30, // 15, FI 30 (B)
       immunities: ["undead"],
       items: {
-        remove: ["RING95", "immune1", "SPECTR", "bdspirit", "GHOST", "HSPECTRE"],
+        remove: [
+          "RING95",
+          "immune1",
+          "SPECTR",
+          "bdspirit",
+          "GHOST",
+          "HSPECTRE",
+          "HELMNOAN",
+          "IMMCHS",
+          "WRAITH1",
+        ],
       },
       script: {
         // MAGE20C: CtB's crown-made spectre (CBMALR6B) carries the vanilla level 20 mage script
@@ -87,8 +97,8 @@ export function spectre(entry: CreatureEntry<Creature>): Creature {
       data: { level1: 10 },
     },
     {
-      // ISNF's Orion's Voice: two attacks, 44% MR and see invisible of its own
-      files: ["ISNFV1"],
+      // ISNF's Orion's and Selene's Voices: two attacks, 44% MR and see invisible of their own
+      files: ["ISNFV1", "ISNFV2"],
       data: { level1: 10, apr: 2, resistMagic: 44, immunities: ["seeInvisible"] },
     },
   ]);
