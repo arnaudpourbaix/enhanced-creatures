@@ -9,6 +9,12 @@ interface LogSection {
   placeholderLength: number;
 }
 
+/** `No errors`, `1 error`, `2 errors`. */
+function countText(count: number, noun: string): string {
+  if (count === 0) return `No ${noun}s`;
+  return count === 1 ? `1 ${noun}` : `${count} ${noun}s`;
+}
+
 class LogService {
   filePath = path.join(process.cwd(), "generator.log");
   enabled = false;
@@ -166,12 +172,14 @@ class LogService {
 
   summary(): void {
     this.section("Summary");
-    if (this.errorCount === 0) this.log("No errors");
-    else if (this.errorCount === 1) this.log("1 error");
-    else this.log(`${this.errorCount} errors`);
-    if (this.warningCount === 0) this.log("No warnings");
-    else if (this.warningCount === 1) this.log("1 warning");
-    else this.log(`${this.warningCount} warnings`);
+    this.log(countText(this.errorCount, "error"));
+    this.log(countText(this.warningCount, "warning"));
+  }
+
+  /** The summary as one line, for the terminal: `No errors, 2 warnings`. */
+  summaryLine(): string {
+    const warnings = countText(this.warningCount, "warning");
+    return `${countText(this.errorCount, "error")}, ${warnings.charAt(0).toLowerCase()}${warnings.slice(1)}`;
   }
 
   private write(line: string): void {

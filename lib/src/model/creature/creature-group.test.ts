@@ -1,3 +1,4 @@
+import { WARNING_CONFIG } from "../../../config/warning-config";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MonsterEnum } from "../../../creatures/monster";
 import { Item, Spell } from "../spell-item/spell-item";
@@ -407,7 +408,12 @@ describe("collapseFilesByGame", () => {
 });
 
 describe("create/createFrom (unvalidated creatures.csv guesses warning)", () => {
-  it("warns with the monster's unvalidated creatures.csv guesses", () => {
+  afterEach(() => {
+    WARNING_CONFIG.unvalidatedCreatures = false;
+  });
+
+  it("warns with the monster's unvalidated creatures.csv guesses when asked to", () => {
+    WARNING_CONFIG.unvalidatedCreatures = true;
     const group = fakeGroup();
     const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
 
@@ -418,6 +424,19 @@ describe("create/createFrom (unvalidated creatures.csv guesses warning)", () => 
     });
 
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("BDWYRML1"));
+  });
+
+  it("stays silent about them by default", () => {
+    const group = fakeGroup();
+    const logSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
+
+    group.create({
+      name: CREATURE_NAME_KEY,
+      monster: MonsterEnum.AlbinoWyrm,
+      data: {} as unknown as InputMainCreatureData,
+    });
+
+    expect(logSpy).not.toHaveBeenCalled();
   });
 
   it("does not warn when the monster has no unvalidated guesses at all", () => {

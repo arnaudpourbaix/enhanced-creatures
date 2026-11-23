@@ -473,25 +473,25 @@ class SirineEntry extends CreatureEntry<Fey> {
     // its triggers keep it for when the sirine's own spells are spent
     sirine.setBehavior({
       abilities: [
-        ...abilityFactory.polymorphSelf({
-          triggers: [
-            {
-              name: "HaveSpellRES",
-              params: [this.spell(FeyIds.CharmSong).file],
-              negation: true,
-            },
-            {
-              name: "HaveSpellRES",
-              params: [this.spell(FeyIds.FogCloud).file],
-              negation: true,
-            },
-            {
-              name: "HaveSpellRES",
-              params: [SPELLS.Wizard.ImprovedInvisibility.file],
-              negation: true,
-            },
-          ],
-        }),
+        // ...abilityFactory.polymorphSelf({
+        //   triggers: [
+        //     {
+        //       name: "HaveSpellRES",
+        //       params: [this.spell(FeyIds.CharmSong).file],
+        //       negation: true,
+        //     },
+        //     {
+        //       name: "HaveSpellRES",
+        //       params: [this.spell(FeyIds.FogCloud).file],
+        //       negation: true,
+        //     },
+        //     {
+        //       name: "HaveSpellRES",
+        //       params: [SPELLS.Wizard.ImprovedInvisibility.file],
+        //       negation: true,
+        //     },
+        //   ],
+        // }),
       ],
     });
     sirine.setAdjustments([

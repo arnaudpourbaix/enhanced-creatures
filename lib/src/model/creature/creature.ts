@@ -1,4 +1,5 @@
 import { MonsterItemIconEnum } from "../../../config/item";
+import { WARNING_CONFIG } from "../../../config/warning-config";
 import { MonsterEnum } from "../../../creatures/monster";
 import { EntryEnum } from "../../../creatures/entry";
 import { TranslationKey } from "../../../translations/i18n";
@@ -394,7 +395,8 @@ export class Creature extends AbstractCreature implements BaseCreature {
       return !!i && i.trait && !i.shared;
     });
     if (traitIndex !== -1) {
-      logService.warn(`Override existing trait: ${this.data.items.equipped[traitIndex].file}`);
+      if (WARNING_CONFIG.traitOverrides)
+        logService.warn(`Override existing trait: ${this.data.items.equipped[traitIndex].file}`);
       this.data.items.equipped.splice(traitIndex, 1);
     }
     const item = this.createTraitItem({

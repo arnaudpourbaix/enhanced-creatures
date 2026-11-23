@@ -115,6 +115,15 @@ describe("LogService", () => {
     );
   });
 
+  it("summaryLine gives errors and warnings on one line", () => {
+    logService.init();
+    expect(logService.summaryLine()).toBe("No errors, no warnings");
+    logService.error("an error");
+    logService.warn("first warning");
+    logService.warn("second warning");
+    expect(logService.summaryLine()).toBe("1 error, 2 warnings");
+  });
+
   it("init resets the warning count across runs", () => {
     logService.init();
     logService.warn("first run warning");

@@ -1,3 +1,4 @@
+import { WARNING_CONFIG } from "../../../config/warning-config";
 import { MonsterEnum } from "../../../creatures/monster";
 import { TranslationKey } from "../../../translations/i18n";
 import creatureTypeHooksService from "../../services/creature-type-hooks.service";
@@ -206,6 +207,7 @@ export abstract class CreatureGroup<T extends Creature>
   }
 
   private warnUnvalidatedFiles(monster: MonsterEnum): void {
+    if (!WARNING_CONFIG.unvalidatedCreatures) return;
     const files = monsterFilesService.getUnvalidatedFiles(monster);
     if (files.length) {
       const labels = files.map((f) => (f.game ? `${f.name} (${f.game})` : f.name));
@@ -236,8 +238,11 @@ export abstract class CreatureGroup<T extends Creature>
         items: [...this.items, ...this.creatures.flatMap((c) => c.items), ...this.kinItems()],
       });
       experienceService.apply(creature);
+      // unvalidated guesses are only something to act on when their warning is on
       const hasNothingToActOn =
-        !creature.files.length && !monsterFilesService.getUnvalidatedFiles(creature.id).length;
+        !creature.files.length &&
+        (!WARNING_CONFIG.unvalidatedCreatures ||
+          !monsterFilesService.getUnvalidatedFiles(creature.id).length);
       if (hasNothingToActOn) logService.discardCapture();
       else logService.commitCapture(creature);
     } catch (e: unknown) {

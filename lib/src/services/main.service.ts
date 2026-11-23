@@ -445,7 +445,9 @@ class MainService {
     this.generateTranslations();
     logService.summary();
     if (logService.hasErrors()) {
-      throw new Error("Generator finished with errors, see generator.log");
+      throw new Error(
+        `Generator finished with errors (${logService.summaryLine()}), see generator.log`,
+      );
     }
   }
 }

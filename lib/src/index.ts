@@ -97,6 +97,7 @@ program.parseAsync(process.argv).catch((e: unknown) => handleError(e));
 
 async function runGenerate(): Promise<void> {
   await mainService.generateAll();
+  console.log(chalk.yellow(`\n${logService.summaryLine()}`));
   logService.log("Finished!");
   console.log(chalk.green(`\nFinished!`));
 }
@@ -140,13 +141,16 @@ async function runCopy(opts: CopyOptions): Promise<void> {
   });
   logService.summary();
   if (logService.hasErrors()) {
-    console.error(chalk.red(`\nCopy finished with errors, see copy.log`));
+    console.error(
+      chalk.red(`\nCopy finished with errors (${logService.summaryLine()}), see copy.log`),
+    );
     process.exit(1);
   }
   if (copiedCount === 0) {
     console.error(chalk.yellow(`\nNo targets were copied, see copy.log`));
     process.exit(1);
   }
+  console.log(chalk.yellow(`\n${logService.summaryLine()}`));
   logService.log("Finished!");
   console.log(chalk.green(`\nFinished!`));
 }
