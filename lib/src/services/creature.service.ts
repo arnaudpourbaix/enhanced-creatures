@@ -45,6 +45,9 @@ import { SpellCombo } from "../model/spell-item/spell-combo";
 import { KITS } from "../../config/kit-ability";
 import { WithRequired } from "../model/utility-types";
 
+/** The triggers an ability checks its spell is memorized with (see AbilityService) */
+const MEMORIZED_CHECKS = new Set(["HaveSpell", "HaveSpellRES"]);
+
 const ID_CAST_ACTION_NAMES = new Set(["Spell", "SpellNoDec", "ForceSpell", "ReallyForceSpell"]);
 type IdCastActionName = "Spell" | "SpellNoDec" | "ForceSpell" | "ReallyForceSpell";
 type IdCastAction = Extract<Actions.Action, { name: IdCastActionName }>;
@@ -265,7 +268,12 @@ class CreatureService {
         );
       }
     }
-    for (const resource of abilityResources) {
+    // an ability with memorizedSpellCheck false casts a spell it's never given on purpose (e.g. the
+    // sirine's Touch of Tranquility, scripted on charmed allies but never castable by a player)
+    const memorizedResources = new Set(
+      allAbilities.filter((a) => this.checksMemorized(a)).flatMap((a) => this.getAbilityCastFiles(a)),
+    );
+    for (const resource of memorizedResources) {
       if (memorizedFiles.has(resource)) continue;
       const spellName = spellService.getSpellName(resource);
       const spellText = spellName ? ` (${spellName})` : "";
@@ -385,6 +393,11 @@ class CreatureService {
       d.spells?.removeMemorized === false,
     ].some(Boolean);
     /* eslint-enable @typescript-eslint/no-unnecessary-condition */
+  }
+
+  /** Whether the ability only casts a memorized spell (memorizedSpellCheck, see AbilityService) */
+  checksMemorized(ability: CreatureAbility): boolean {
+    return ability.triggers.some((t) => "name" in t && MEMORIZED_CHECKS.has(t.name));
   }
 
   getAbilityCastFiles(ability: CreatureAbility): string[] {

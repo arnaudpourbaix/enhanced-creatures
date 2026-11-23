@@ -126,6 +126,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Spell combo warnings, combos keep their spells' allies check
 - Sound Burst falls back to Agannazar's Scorcher, not Deafness
 - No "has no name" warning for a union spell protection's rows
+- No "isn't memorized" warning for abilities without memorizedSpellCheck
 
 ## [0.4.0] - 2026-10-09
 

@@ -11,9 +11,6 @@ import { SPELLS } from "../../../config/spells/spell-database";
 import { COVER_SPELLS } from "../../../config/spells/cover-spells";
 import { spellFiles } from "../../model/spell-item/spell-reference";
 
-/** The triggers an ability checks its spell is memorized with (see AbilityService) */
-const MEMORIZED_CHECKS = new Set(["HaveSpell", "HaveSpellRES"]);
-
 /** A creature's hand-written behavior, before its spells' abilities are resolved. */
 export interface HandWrittenBehavior {
   behavior: CreatureBehavior;
@@ -142,7 +139,7 @@ class ScriptViewService {
     const others = upper(creatureService.memorizedSpellFiles(creature));
     const castable = (ability: CreatureAbility) => {
       // without memorizedSpellCheck, no HaveSpell trigger: it casts what it isn't given
-      if (!ability.triggers.some((t) => "name" in t && MEMORIZED_CHECKS.has(t.name))) return true;
+      if (!creatureService.checksMemorized(ability)) return true;
       const files = creatureService.getAbilityCastFiles(ability).map((f) => f.toUpperCase());
       return !files.some((f) => others.has(f)) || files.some((f) => own.has(f));
     };

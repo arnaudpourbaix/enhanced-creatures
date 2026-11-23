@@ -957,14 +957,16 @@ describe("convertMovement", () => {
   });
 });
 
-function fakeAbility(resource: string | undefined): CreatureAbility {
-  return { resource, actions: [] } as unknown as CreatureAbility;
+function fakeAbility(resource: string | undefined, memorizedSpellCheck = true): CreatureAbility {
+  const triggers = memorizedSpellCheck ? [{ name: "HaveSpellRES", params: [resource] }] : [];
+  return { resource, actions: [], triggers } as unknown as CreatureAbility;
 }
 
 function fakeIdCastAbility(id: string): CreatureAbility {
   return {
     resource: undefined,
     actions: [{ name: "Spell", params: ["Myself", id] }],
+    triggers: [{ name: "HaveSpell", params: [id] }],
   } as unknown as CreatureAbility;
 }
 
@@ -1151,6 +1153,17 @@ describe("checkSpellAbilities", () => {
     expect(warnSpy).toHaveBeenCalledTimes(1);
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("sppr999"));
     errorSpy.mockRestore();
+    warnSpy.mockRestore();
+  });
+
+  it("does not warn about an ability that casts without checking its spell is memorized", () => {
+    const creature = fakeSpellCreature({
+      memorized: [],
+      abilities: [fakeAbility("sppr999", false)],
+    });
+    const warnSpy = vi.spyOn(logService, "warn").mockImplementation(() => {});
+    creatureService.checkSpellAbilities(creature);
+    expect(warnSpy).not.toHaveBeenCalled();
     warnSpy.mockRestore();
   });
 
