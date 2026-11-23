@@ -600,7 +600,18 @@ export function zombie(entry: CreatureEntry<Creature>): Creature {
       movement: 6,
       immunities: ["undead"],
       items: {
-        remove: ["ring94", "ring95", "b1-8", "immune1", "b3-12", "ghast1", "S1-8", "B2-16"],
+        remove: [
+          "ring94",
+          "ring95",
+          "b1-8",
+          "immune1",
+          "b3-12",
+          "ghast1",
+          "S1-8",
+          "B2-16",
+          "HELMNOAN",
+          "CBB1-8",
+        ],
       },
     },
   });

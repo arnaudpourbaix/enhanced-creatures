@@ -66,6 +66,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Shade kin, Saarixal variant, more undead mappings, ISNF spectre
 - Shadowed Soul keeps its SoD powers, ISNF Selene's Voice, zombie items
 - Toggle unvalidated-creature and trait-override warnings, summary line in terminal
+- Lady of the Bones as a ghost sirine, Ixjan as a ghoul lord
 
 ### Changed
 

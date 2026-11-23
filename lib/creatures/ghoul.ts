@@ -1,3 +1,4 @@
+import { SPELLS } from "../config/spells/spell-database";
 import { CommonProjectileFiles } from "../spells/projectiles";
 import effectFactory from "../src/factories/effect.factory";
 import { Durations } from "../src/model/game-data/durations";
@@ -276,6 +277,33 @@ export function ghoul(entry: CreatureEntry<Creature>): Creature {
   return ghoul;
 }
 
+/**
+ * Ixjan, the Collector (sotsc, BGEE): a unique ghoul lord boss (99 HP, THAC0 2, 4 attacks in
+ * game), hence the high level. He keeps his lich look and the spells his script used to force
+ * (Stoneskin, Mirror Image, Magic Missile, Waves of Fatigue), now cast by our AI; his own script
+ * only keeps its dialog start.
+ */
+function ixjanVariant(lord: Creature) {
+  lord.variant("Ixjan, the Collector", {
+    files: ["L#BHACO"],
+    data: {
+      level1: 15,
+      animation: "LICH",
+      spells: {
+        memorized: [
+          { file: SPELLS.Wizard.Stoneskin.file, memorizedCount: 1 },
+          { file: SPELLS.Wizard.MirrorImages.file, memorizedCount: 2 },
+          { file: SPELLS.Wizard.MagicMissiles.file, memorizedCount: 1 },
+          { file: SPELLS.Wizard.WavesOfFatigue.file, memorizedCount: 1 },
+        ],
+      },
+      script: {
+        edits: [{ files: ["L#BHACO"], removeBlocks: ['Global("Prep","LOCALS"'] }],
+      },
+    },
+  });
+}
+
 export function ghoulLord(entry: CreatureEntry<Creature>): Creature {
   const lord = entry.create({
     monster: MonsterEnum.GhoulLord,
@@ -335,6 +363,7 @@ export function ghoulLord(entry: CreatureEntry<Creature>): Creature {
     abilities: { entries: [{ power: entry.spell(Ids.AuraOfEvil) }] },
   });
   lord.setAdjustments([]);
+  ixjanVariant(lord);
   lord.turnAs = "mummy"; // PHB: turned as a 7 HD monster (the mummy row)
   return lord;
 }

@@ -516,6 +516,20 @@ class SirineEntry extends CreatureEntry<Fey> {
           },
         },
       },
+      {
+        // Bloodied Stings of Barovia's Lady of the Bones Buried in Mud: a sirine ghost, so undead
+        // (Turn Undead) and incorporeal (the mod's 50% elemental and acid resistances), keeping
+        // its own +2 short bow.
+        files: ["L#RVLADY"],
+        data: {
+          level1: 8,
+          general: "UNDEAD",
+          immunities: ["undead", "incorporeal"],
+          items: {
+            equipped: [{ file: "BOW18", slot: "WEAPON2", undroppable: false }],
+          },
+        },
+      },
     ]);
     sirine.variant("Mage Sirine", {
       files: ["AC#DT30S"],
