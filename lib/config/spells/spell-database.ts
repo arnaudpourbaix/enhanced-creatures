@@ -5822,7 +5822,7 @@ export const SPELLS = {
 // fallback is itself another SPELLS entry and can't reference a sibling from within the same object
 // literal. Only the "same slot, different era" pairs have an obvious fallback; the rest of the
 // requiresMod-only entries (new spells with no vanilla predecessor) still need one chosen.
-setFallback(WIZARD_SPELLS.SoundBurst, WIZARD_SPELLS.Deafness);
+setFallback(WIZARD_SPELLS.SoundBurst, WIZARD_SPELLS.AgannazarScorcher);
 setFallback(WIZARD_SPELLS.ObscuringMist, WIZARD_SPELLS.Blindness);
 setFallback(WIZARD_SPELLS.Combust, WIZARD_SPELLS.AgannazarScorcher);
 setFallback(WIZARD_SPELLS.ShadowMonsters, WIZARD_SPELLS.MonsterSummoning4);
